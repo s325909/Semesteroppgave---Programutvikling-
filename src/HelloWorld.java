@@ -10,5 +10,7 @@ public class HelloWorld {
         System.out.println(result);
 
         System.out.println("Hei");
+
+        System.out.println("Testing: Hello");
     }
 }
