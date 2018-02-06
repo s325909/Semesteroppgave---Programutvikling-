@@ -8,5 +8,7 @@ public class HelloWorld {
         boolean result = (a <= b && b == c) || c >= b;
 
         System.out.println(result);
+
+        System.out.println("Hei");
     }
 }
