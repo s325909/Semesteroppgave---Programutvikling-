@@ -13,7 +13,8 @@
 <?import java.net.*?>
 <?import javafx.scene.shape.Box?>
 <GridPane fx:controller="sample.Controller"
-          xmlns:fx="http://javafx.com/fxml">
+          xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@styling.css">
     <VBox prefWidth="1280" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" GridPane.rowSpan="1">
         <MenuBar fx:id="menuBar" useSystemMenuBar="true">
             <menus>
@@ -34,19 +35,22 @@
             </menus>
         </MenuBar>
     </VBox>
-    <stylesheets><URL value="@styling.css" /></stylesheets>
-    <VBox fx:id="startButtons" spacing="25" prefHeight="720" alignment="top_center" style="-fx-background-color: linear-gradient(#e66465, #9198e5)" GridPane.rowIndex="1" GridPane.columnIndex="1">
+
+    <VBox id="start-buttons" spacing="25" alignment="top_center" GridPane.rowIndex="1" GridPane.columnIndex="1">
 
         <padding>
-            <Insets top="100"/>
+            <Insets top="50"/>
         </padding>
 
-        <Button fx:id="test" text="New Game" prefWidth="450" prefHeight="50"/>
-        <Button text="Load Game" prefWidth="450" prefHeight="50"/>
-        <Button text="Editor" prefWidth="450" prefHeight="50"/>
-        <Button text="Options" prefWidth="450" prefHeight="50"/>
-        <Button text="Credits" prefWidth="450" prefHeight="50"/>
-        <Button text="Exit game" prefWidth="450" prefHeight="50"/>
+        <Button text="New Game"/>
+        <Button text="Load Game"/>
+        <Button text="Custom Game"/>
+
+        <Button text="Editor" id="button-editor"/>
+
+        <Button text="Options"/>
+        <Button text="Credits"/>
+        <Button text="Exit game"/>
 
     </VBox>
 </GridPane>
