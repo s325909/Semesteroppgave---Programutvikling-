@@ -14,4 +14,8 @@ public class Player extends Movable {
     public Player(Node node, int x, int y) {
         super(node, x, y);
     }
+
+    public Player(String filename, int x, int y) {
+        super(filename, x, y);
+    }
 }

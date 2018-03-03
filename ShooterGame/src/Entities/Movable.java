@@ -2,6 +2,9 @@ package Entities;
 
 import javafx.scene.Node;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Movable extends Entity {
 
     private double velocityX;
@@ -30,15 +33,28 @@ public class Movable extends Entity {
         super(node, x, y);
     }
 
+    public Movable(String filename, int x, int y) {
+        super(filename, x, y);
+    }
+
     public Movable(int x, int y, int health, double velocityX, double velocityY) {
         super(x, y, health, velocityX, velocityY);
     }
 
-    public void update() {
+    public void update(List<Enemy> entityList) {
+        for(Entity entity : entityList) {
+            if(this.isColliding(entity)) {
+                stopX();
+                stopY();
+                return;
+            }
+        }
+
         setPositionX(getPositionX() + (int)getVelocityX());
         setPositionX(getPositionY() + (int)getVelocityY());
         this.getNode().setTranslateX(this.getNode().getTranslateX() + velocityX);
         this.getNode().setTranslateY(this.getNode().getTranslateY() + velocityY);
+
     }
 
     public void goLeft() {

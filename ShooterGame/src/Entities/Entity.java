@@ -1,6 +1,8 @@
 package Entities;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.canvas.GraphicsContext;
 
 public class Entity {
 
@@ -49,6 +51,15 @@ W
     private int positionY;
 
     private Node node;
+    private Sprite sprite;
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
 
     public Node getNode() {
         return node;
@@ -56,6 +67,13 @@ W
 
     public void setNode(Node node) {
         this.node = node;
+    }
+
+    public Entity(String filename, int x, int y) {
+        this.sprite = new Sprite();
+        this.sprite.setSprite(filename);
+        this.positionX = x;
+        this.positionY = y;
     }
 
     public Entity(Node node, int x, int y) {
@@ -102,6 +120,8 @@ W
         this.positionY = y;
         this.health = health;
     }
+
+
 
     public boolean isColliding(Entity otherEntity) {
         return this.node.getBoundsInParent().intersects(otherEntity.getNode().getBoundsInParent());
