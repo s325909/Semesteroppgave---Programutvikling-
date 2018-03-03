@@ -113,7 +113,7 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 1280, 720));
 
-//        primaryStage.setScene(new Scene(createContent()));
+        //primaryStage.setScene(new Scene(createContent()));
 
         primaryStage.getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.LEFT) {
