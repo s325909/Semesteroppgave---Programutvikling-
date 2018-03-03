@@ -1,5 +1,7 @@
 package Entities;
 
+import javafx.scene.Node;
+
 public class Entity {
 
     /*private class Position {
@@ -45,23 +47,23 @@ W
     private int health;
     private int positionX;
     private int positionY;
-    private double velocityX;
-    private double velocityY;
 
-    public double getVelocityX() {
-        return velocityX;
+    private Node node;
+
+    public Node getNode() {
+        return node;
     }
 
-    public void setVelocityX(double velocityX) {
-        this.velocityX = velocityX;
+    public void setNode(Node node) {
+        this.node = node;
     }
 
-    public double getVelocityY() {
-        return velocityY;
-    }
-
-    public void setVelocityY(double velocityY) {
-        this.velocityY = velocityY;
+    public Entity(Node node, int x, int y) {
+        this.node = node;
+        this.positionX = x;
+        this.positionY = y;
+        this.node.setTranslateX(x);
+        this.node.setTranslateY(y);
     }
 
     public int getPositionX() {
@@ -88,20 +90,10 @@ W
         this.health = health;
     }
 
-    public double getVelocity() {
-        return velocityX;
-    }
-
-    public void setVelocity(double velocity) {
-        this.velocityX = velocity;
-    }
-
     public Entity(){
         this.positionX = 0;
         this.positionY = 0;
         this.health = 100;
-        this.velocityX = 0.1;
-        this.velocityY = 0.1;
     }
 
     public Entity(int x, int y, int health, double velocityX, double velocityY){
@@ -109,7 +101,9 @@ W
         this.positionX = x;
         this.positionY = y;
         this.health = health;
-        this.velocityX = velocityX;
-        this.velocityY = velocityY;
+    }
+
+    public boolean isColliding(Entity otherEntity) {
+        return this.node.getBoundsInParent().intersects(otherEntity.getNode().getBoundsInParent());
     }
 }
