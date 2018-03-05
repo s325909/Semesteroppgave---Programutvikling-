@@ -58,11 +58,11 @@ public class Movable extends Entity {
     }
 
     public void goLeft() {
-        setVelocityX(-1.0);
+        setVelocityX(-5.0);
     }
 
     public void goRight() {
-        setVelocityX(1.0);
+        setVelocityX(5.0);
     }
 
     public void stopX() {
@@ -70,11 +70,11 @@ public class Movable extends Entity {
     }
 
     public void goUp() {
-        setVelocityY(-1.0);
+        setVelocityY(-5.0);
     }
 
     public void goDown() {
-        setVelocityY(1.0);
+        setVelocityY(5.0);
     }
 
     public void stopY() {

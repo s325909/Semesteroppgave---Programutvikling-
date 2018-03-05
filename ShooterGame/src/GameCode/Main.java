@@ -14,10 +14,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -36,37 +40,52 @@ public class Main extends Application {
     List<Enemy> enemyList = new ArrayList<Enemy>();
 
     private void onUpdate() {
-        /*player.update(enemyList);
+        player.update(enemyList);
 
         for (Enemy enemy : enemyList)
             if (player.isColliding(enemy))
-                System.out.println("Collision!");*/
+                System.out.println("Collision!");
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //player = new Player(new Rectangle(100,100, Color.BLUE), 500, 500);
-        player = new Player(getClass().getResource("/resources/test_sprites.png").toURI().toString(), 500, 500);
+        player = new Player(new Rectangle(100,100, Color.BLUE), 500, 500);
+        //player = new Player(getClass().getResource("/resources/test_sprites.png").toURI().toString(), 500, 500);
         enemyList.add(new Enemy(new Circle(25,25,50,Color.RED), (int)(Math.random() * 500), (int)(Math.random() * 500)));
         enemyList.add(new Enemy(new Circle(25,25,50,Color.RED), (int)(Math.random() * 500), (int)(Math.random() * 500)));
         enemyList.add(new Enemy(new Circle(25,25,50,Color.RED), (int)(Math.random() * 500), (int)(Math.random() * 500)));
 
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Topdown Shooter");
+
+
+        Pane root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
         Pane pane = new Pane();
         pane.setPrefSize(1280, 720);
 
-        ImageView iv = new ImageView();
-        iv.setImage(player.getSprite().getSprite());
-        iv.relocate(640, 360);
 
-        pane.getChildren().add(iv);
+
+        pane.getChildren().add(player.getNode());
+//        ImageView iv = new ImageView();
+//        iv.setImage(player.getSprite().getSprite());
+//        iv.relocate(640, 360);
+
+//        pane.getChildren().add(iv);
         for (Enemy enemy : enemyList)
             pane.getChildren().add(enemy.getNode());
 
+
+        /** Merk: Her ligger menybaren over spillvinduet, dvs at spillet blir renderet
+         * også litt under selve menybaren. Dette med tanke på level layout
+         */
+        pane.getChildren().add(root);
+
         primaryStage.setScene(new Scene(pane));
 
+
+        /** Spillers input for kontroll
+         *
+         */
         primaryStage.getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.LEFT) {
                 player.goLeft();
@@ -76,6 +95,13 @@ public class Main extends Application {
                 player.goUp();
             } else if (e.getCode() == KeyCode.DOWN) {
                 player.goDown();
+            } else if (e.getCode() == KeyCode.F12) {
+                if (primaryStage.isFullScreen())
+                    primaryStage.setFullScreen(false);
+                else
+                    primaryStage.setFullScreen(true);
+            } else if (e.getCode() == KeyCode.ESCAPE) {
+                System.exit(0);
             }
         });
 

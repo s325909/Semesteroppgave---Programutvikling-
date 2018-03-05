@@ -3,48 +3,9 @@ package Entities;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
 public class Entity {
-
-    /*private class Position {
-
-        private int positionX;
-        private int positionY;
-
-        public int getPositionX() {
-            return positionX;
-        }
-
-        public void setPositionX(int positionX) {
-            this.positionX = positionX;
-        }
-
-        public int getPositionY() {
-            return positionY;
-        }
-
-        public void setPositionY(int positionY) {
-            this.positionY = positionY;
-        }
-
-        public Position(int x, int y) {
-            this.positionX = x;
-            this.positionY = y;
-        }
-    }
-
-    private Position position;
-W
-    public  Position getPosition() { //int[]
-        //int[] ret = {this.position.getPositionX(), this.position.getPositionY()};
-        //return ret;
-        return position;
-    }
-
-    public void setPosition(int x, int y) {
-        this.position.setPositionX(x);
-        this.position.setPositionY(y);
-    }*/
 
     private int health;
     private int positionX;
@@ -84,6 +45,14 @@ W
         this.node.setTranslateY(y);
     }
 
+    public Entity(int health, int positionX, int positionY, Node node, Sprite sprite) {
+        this.health = health;
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.node = node;
+        this.sprite = sprite;
+    }
+
     public int getPositionX() {
         return positionX;
     }
@@ -121,9 +90,48 @@ W
         this.health = health;
     }
 
-
-
     public boolean isColliding(Entity otherEntity) {
         return this.node.getBoundsInParent().intersects(otherEntity.getNode().getBoundsInParent());
     }
+
+
+        /*private class Position {
+
+        private int positionX;
+        private int positionY;
+
+        public int getPositionX() {
+            return positionX;
+        }
+
+        public void setPositionX(int positionX) {
+            this.positionX = positionX;
+        }
+
+        public int getPositionY() {
+            return positionY;
+        }
+
+        public void setPositionY(int positionY) {
+            this.positionY = positionY;
+        }
+
+        public Position(int x, int y) {
+            this.positionX = x;
+            this.positionY = y;
+        }
+    }
+
+    private Position position;
+W
+    public  Position getPosition() { //int[]
+        //int[] ret = {this.position.getPositionX(), this.position.getPositionY()};
+        //return ret;
+        return position;
+    }
+
+    public void setPosition(int x, int y) {
+        this.position.setPositionX(x);
+        this.position.setPositionY(y);
+    }*/
 }
