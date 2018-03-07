@@ -1,8 +1,12 @@
 package Entities;
 
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 
 public class Player extends Movable {
+
+    Image image = new Image("/resources/test_sprites.png");
+    Sprite playerSprite = new Sprite(50,50,image);
 
     public Player() {
     }
