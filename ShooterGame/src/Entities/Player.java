@@ -2,6 +2,8 @@ package Entities;
 
 import javafx.scene.Node;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 
 public class Player extends Movable {
 
@@ -21,5 +23,11 @@ public class Player extends Movable {
 
     public Player(String filename, int x, int y) {
         super(filename, x, y);
+    }
+
+    public Player(int x, int y) {
+        this.setPositionX(x);
+        this.setPositionY(y);
+
     }
 }
