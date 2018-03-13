@@ -2,7 +2,6 @@ package GameCode;
 
 import Entities.Enemy;
 import Entities.Player;
-import Entities.Sprite;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -57,31 +56,32 @@ public class Main extends Application {
 
         primaryStage.setTitle("Topdown Shooter");
 
+        Group root = new Group();
 
-        Pane root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Pane topMenu = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
-        Pane pane = new Pane();
-        pane.setPrefSize(1280, 720);
+        Pane gameWindow = new Pane();
 
-
-
-        pane.getChildren().add(player.getNode());
+        gameWindow.getChildren().add(player.getNode());
 //        ImageView iv = new ImageView();
 //        iv.setImage(player.getSprite().getSprite());
 //        iv.relocate(640, 360);
 
-//        pane.getChildren().add(iv);
+//        gameWindow.getChildren().add(iv);
         for (Enemy enemy : enemyList)
-            pane.getChildren().add(enemy.getNode());
+            gameWindow.getChildren().add(enemy.getNode());
 
 
         /** Merk: Her ligger menybaren over spillvinduet, dvs at spillet blir renderet
          * også litt under selve menybaren. Dette med tanke på level layout
          */
-        pane.getChildren().add(root);
 
-        primaryStage.setScene(new Scene(pane));
+        root.getChildren().add(gameWindow);
+        root.getChildren().add(topMenu);
 
+        Scene scene = new Scene(root, 1280, 720);
+
+        primaryStage.setScene(scene);
 
         /** Spillers input for kontroll
          *
