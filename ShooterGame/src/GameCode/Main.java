@@ -54,6 +54,8 @@ public class Main extends Application {
         enemyList.add(new Enemy(new Circle(25,25,50,Color.RED), (int)(Math.random() * 500), (int)(Math.random() * 500)));
         enemyList.add(new Enemy(new Circle(25,25,50,Color.RED), (int)(Math.random() * 500), (int)(Math.random() * 500)));
 
+        Player player2 = new Player(50,50);
+
         primaryStage.setTitle("Topdown Shooter");
 
         Group root = new Group();
@@ -61,6 +63,8 @@ public class Main extends Application {
         Pane topMenu = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
         Pane gameWindow = new Pane();
+
+        //gameWindow.getChildren().add(player2.getNode());
 
         gameWindow.getChildren().add(player.getNode());
 //        ImageView iv = new ImageView();

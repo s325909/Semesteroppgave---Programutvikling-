@@ -28,6 +28,7 @@ public class Player extends Movable {
     public Player(int x, int y) {
         this.setPositionX(x);
         this.setPositionY(y);
-
+        ImageView iv = new ImageView(image);
+        iv.relocate(50,50);
     }
 }

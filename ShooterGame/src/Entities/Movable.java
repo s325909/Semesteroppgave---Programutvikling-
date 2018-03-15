@@ -44,9 +44,11 @@ public class Movable extends Entity {
     public void update(List<Enemy> entityList) {
         for(Entity entity : entityList) {
             if(this.isColliding(entity)) {
-                stopX();
-                stopY();
-                return;
+
+                setPositionX(getPositionX()+50);
+
+                setPositionY(getPositionY()+50);
+
             }
         }
 
