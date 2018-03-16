@@ -1,9 +1,10 @@
 package Entities;
 
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 public class Entity {
 
@@ -31,10 +32,21 @@ public class Entity {
     }
 
     public Entity(String filename, int x, int y) {
-        this.sprite = new Sprite();
-        this.sprite.setSprite(filename);
+        this.sprite = new Sprite(filename, x, y);
+        this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, this.sprite.getHeight()/2, Color.RED);
         this.positionX = x;
         this.positionY = y;
+        this.node.setTranslateX(x);
+        this.node.setTranslateY(y);
+    }
+
+    public Entity(String filename, String extension, int n, int x, int y) {
+        this.sprite = new Sprite(filename, extension, n, x, y);
+        this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/4, 2*this.sprite.getHeight()/5, Color.RED);
+        this.positionX = x;
+        this.positionY = y;
+        this.node.setTranslateX(x);
+        this.node.setTranslateY(y);
     }
 
     public Entity(Node node, int x, int y) {

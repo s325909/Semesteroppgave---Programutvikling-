@@ -37,28 +37,63 @@ public class Movable extends Entity {
         super(filename, x, y);
     }
 
+    public Movable(String filename, String extension, int n, int x, int y) {
+        super(filename, extension, n, x, y);
+    }
+
     public Movable(int x, int y, int health, double velocityX, double velocityY) {
         super(x, y, health, velocityX, velocityY);
     }
 
-    public void update(List<Enemy> entityList) {
+    public void update(List<Enemy> entityList, double time) {
+        this.getSprite().getFrame(time);
         for(Entity entity : entityList) {
             if(this.isColliding(entity)) {
 
-                setPositionX(getPositionX()+50);
-
-                setPositionY(getPositionY()+50);
+                setVelocityX(-1*getVelocityX());
+                setVelocityY(-1*getVelocityY());
 
             }
         }
 
+        // Update new position by getting current position and adding current velocity
         setPositionX(getPositionX() + (int)getVelocityX());
         setPositionX(getPositionY() + (int)getVelocityY());
         this.getNode().setTranslateX(this.getNode().getTranslateX() + velocityX);
         this.getNode().setTranslateY(this.getNode().getTranslateY() + velocityY);
+        this.getSprite().getImageView().setTranslateX(this.getNode().getTranslateX() + velocityX);
+        this.getSprite().getImageView().setTranslateY(this.getNode().getTranslateY() + velocityY);
 
+
+
+        // Change sprite direction upon entity direction change
+        if (getVelocityX() > 0) {
+            if (getVelocityY() < 0) {
+                this.getSprite().getImageView().setRotate(315);
+                this.getNode().setRotate(315);
+            }
+            else if (getVelocityY() > 0) {
+                this.getSprite().getImageView().setRotate(45);
+                this.getNode().setRotate(45);
+            }
+            else
+                this.getSprite().getImageView().setRotate(0);
+        } else if(getVelocityX() < 0) {
+            if (getVelocityY() < 0)
+                this.getSprite().getImageView().setRotate(225);
+            else if (getVelocityY() > 0)
+                this.getSprite().getImageView().setRotate(135);
+            else
+                this.getSprite().getImageView().setRotate(180);
+        } else {
+            if (getVelocityY() < 0)
+                this.getSprite().getImageView().setRotate(270);
+            else if (getVelocityY() > 0)
+                this.getSprite().getImageView().setRotate(90);
+        }
     }
 
+    // Functions for changing entity velocity
     public void goLeft() {
         setVelocityX(-5.0);
     }

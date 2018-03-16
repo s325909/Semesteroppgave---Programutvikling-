@@ -4,32 +4,16 @@ import Entities.Enemy;
 import Entities.Player;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.ToolBar;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,23 +22,33 @@ public class Main extends Application {
     Player player;
     List<Enemy> enemyList = new ArrayList<Enemy>();
 
-    private void onUpdate() {
-        player.update(enemyList);
+    private void onUpdate(double time) {
+        player.update(enemyList, time);
 
         for (Enemy enemy : enemyList)
             if (player.isColliding(enemy))
                 System.out.println("Collision!");
     }
 
+    private void initializeEntity() {
+        //player = new Player(new Rectangle(100,100, Color.BLUE), 500, 500);
+        try {
+            //player = new Player(getClass().getResource("/resources/test_sprites.png").toURI().toString(), 500, 500);
+            player = new Player("/resources/Top_Down_Survivor/rifle/move/survivor-move_rifle_", ".png", 20, 500, 500);
+        } catch (Exception e) {
+
+        }
+
+
+        for (int i = 0; i < 5; i++) {
+            //enemyList.add(new Enemy(new Circle(25,25,50,Color.RED), (int)(Math.random() * 1280), (int)(Math.random() * 720)));
+        }
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        player = new Player(new Rectangle(100,100, Color.BLUE), 500, 500);
-        //player = new Player(getClass().getResource("/resources/test_sprites.png").toURI().toString(), 500, 500);
-        enemyList.add(new Enemy(new Circle(25,25,50,Color.RED), (int)(Math.random() * 500), (int)(Math.random() * 500)));
-        enemyList.add(new Enemy(new Circle(25,25,50,Color.RED), (int)(Math.random() * 500), (int)(Math.random() * 500)));
-        enemyList.add(new Enemy(new Circle(25,25,50,Color.RED), (int)(Math.random() * 500), (int)(Math.random() * 500)));
 
-        Player player2 = new Player(50,50);
+        initializeEntity();
 
         primaryStage.setTitle("Topdown Shooter");
 
@@ -64,14 +58,12 @@ public class Main extends Application {
 
         Pane gameWindow = new Pane();
 
-        //gameWindow.getChildren().add(player2.getNode());
-
         gameWindow.getChildren().add(player.getNode());
-//        ImageView iv = new ImageView();
-//        iv.setImage(player.getSprite().getSprite());
-//        iv.relocate(640, 360);
+        //ImageView iv = new ImageView();
+        //iv.setImage(player.getSprite().getImage());
+       //iv.relocate(640, 360);
 
-//        gameWindow.getChildren().add(iv);
+        gameWindow.getChildren().add(player.getSprite().getImageView());
         for (Enemy enemy : enemyList)
             gameWindow.getChildren().add(enemy.getNode());
 
@@ -117,10 +109,12 @@ public class Main extends Application {
             }
         });
 
+        final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                onUpdate();
+                double t = (now - startNanoTime);
+                onUpdate(t);
             }
         };
 

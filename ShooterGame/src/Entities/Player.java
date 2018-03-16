@@ -7,9 +7,6 @@ import javafx.scene.shape.Rectangle;
 
 public class Player extends Movable {
 
-    Image image = new Image("/resources/test_sprites.png");
-    Sprite playerSprite = new Sprite(50,50,image);
-
     public Player() {
     }
 
@@ -25,10 +22,7 @@ public class Player extends Movable {
         super(filename, x, y);
     }
 
-    public Player(int x, int y) {
-        this.setPositionX(x);
-        this.setPositionY(y);
-        ImageView iv = new ImageView(image);
-        iv.relocate(50,50);
+    public Player(String filename, String extension, int n, int x, int y) {
+        super(filename, extension, n, x, y);
     }
 }
