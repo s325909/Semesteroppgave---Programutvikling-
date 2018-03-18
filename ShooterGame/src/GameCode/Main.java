@@ -67,11 +67,6 @@ public class Main extends Application {
         for (Enemy enemy : enemyList)
             gameWindow.getChildren().add(enemy.getNode());
 
-
-        /** Merk: Her ligger menybaren over spillvinduet, dvs at spillet blir renderet
-         * også litt under selve menybaren. Dette med tanke på level layout
-         */
-
         root.getChildren().add(gameWindow);
         root.getChildren().add(topMenu);
 
@@ -79,35 +74,7 @@ public class Main extends Application {
 
         primaryStage.setScene(scene);
 
-        /** Spillers input for kontroll
-         *
-         */
-        primaryStage.getScene().setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.LEFT) {
-                player.goLeft();
-            } else if (e.getCode() == KeyCode.RIGHT) {
-                player.goRight();
-            } else if (e.getCode() == KeyCode.UP) {
-                player.goUp();
-            } else if (e.getCode() == KeyCode.DOWN) {
-                player.goDown();
-            } else if (e.getCode() == KeyCode.F12) {
-                if (primaryStage.isFullScreen())
-                    primaryStage.setFullScreen(false);
-                else
-                    primaryStage.setFullScreen(true);
-            } else if (e.getCode() == KeyCode.ESCAPE) {
-                System.exit(0);
-            }
-        });
-
-        primaryStage.getScene().setOnKeyReleased(e -> {
-            if (e.getCode() == KeyCode.LEFT || e.getCode() == KeyCode.RIGHT) {
-                player.stopX();
-            } else if (e.getCode() == KeyCode.UP || e.getCode() == KeyCode.DOWN) {
-                player.stopY();
-            }
-        });
+        PlayerInput playerInput = new PlayerInput(primaryStage, player);
 
         final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
