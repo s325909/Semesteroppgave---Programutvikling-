@@ -8,7 +8,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Entity {
 
-    private int health;
+    private int healthpoints;
     private int positionX;
     private int positionY;
 
@@ -40,13 +40,14 @@ public class Entity {
         this.node.setTranslateY(y);
     }
 
-    public Entity(String filename, String extension, int n, int x, int y) {
-        this.sprite = new Sprite(filename, extension, n, x, y);
-        this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/4, 2*this.sprite.getHeight()/5, Color.RED);
-        this.positionX = x;
-        this.positionY = y;
-        this.node.setTranslateX(x);
-        this.node.setTranslateY(y);
+    public Entity(String filename, String extension, int numberImages, double durationBetween, int positionX, int positionY, int healthpoints) {
+        this.sprite = new Sprite(filename, extension, numberImages, durationBetween);
+        this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.RED);
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.node.setTranslateX(positionX);
+        this.node.setTranslateY(positionY);
+        this.healthpoints = healthpoints;
     }
 
     public Entity(Node node, int x, int y) {
@@ -58,7 +59,7 @@ public class Entity {
     }
 
     public Entity(int health, int positionX, int positionY, Node node, Sprite sprite) {
-        this.health = health;
+        this.healthpoints = health;
         this.positionX = positionX;
         this.positionY = positionY;
         this.node = node;
@@ -81,69 +82,28 @@ public class Entity {
         this.positionY = positionY;
     }
 
-    public int getHealth() {
-        return health;
+    public int getHealthpoints() {
+        return healthpoints;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public void setHealthpoints(int healthpoints) {
+        this.healthpoints = healthpoints;
     }
 
     public Entity(){
         this.positionX = 0;
         this.positionY = 0;
-        this.health = 100;
+        this.healthpoints = 100;
     }
 
-    public Entity(int x, int y, int health, double velocityX, double velocityY){
+    public Entity(int x, int y, int healthpoints, double velocityX, double velocityY){
         //this.positon = new Position(x,y);
         this.positionX = x;
         this.positionY = y;
-        this.health = health;
+        this.healthpoints = healthpoints;
     }
 
     public boolean isColliding(Entity otherEntity) {
         return this.node.getBoundsInParent().intersects(otherEntity.getNode().getBoundsInParent());
     }
-
-
-        /*private class Position {
-
-        private int positionX;
-        private int positionY;
-
-        public int getPositionX() {
-            return positionX;
-        }
-
-        public void setPositionX(int positionX) {
-            this.positionX = positionX;
-        }
-
-        public int getPositionY() {
-            return positionY;
-        }
-
-        public void setPositionY(int positionY) {
-            this.positionY = positionY;
-        }
-
-        public Position(int x, int y) {
-            this.positionX = x;
-            this.positionY = y;
-        }
-    }
-
-    private Position position;
-W
-    public  Position getPosition() { //int[]
-        //int[] ret = {this.position.getPositionX(), this.position.getPositionY()};
-        //return ret;
-        return position;
-    }
-
-    public void setPosition(int x, int y) {
-        this.position.setPositionX(x);
-        this.position.setPositionY(y);
-    }*/
 }

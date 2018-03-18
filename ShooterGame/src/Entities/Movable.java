@@ -37,8 +37,8 @@ public class Movable extends Entity {
         super(filename, x, y);
     }
 
-    public Movable(String filename, String extension, int n, int x, int y) {
-        super(filename, extension, n, x, y);
+    public Movable(String filename, String extension, int numberImages, double durationBetween, int positionX, int positionY, int healthpoints) {
+        super(filename, extension, numberImages, durationBetween, positionX, positionY, healthpoints);
     }
 
     public Movable(int x, int y, int health, double velocityX, double velocityY) {
@@ -52,6 +52,8 @@ public class Movable extends Entity {
 
                 setVelocityX(-1*getVelocityX());
                 setVelocityY(-1*getVelocityY());
+
+                setHealthpoints(getHealthpoints() - 10);
 
             }
         }

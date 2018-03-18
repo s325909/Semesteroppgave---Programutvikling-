@@ -22,20 +22,20 @@ public class Sprite {
         iv.relocate(x, y);
     }
 
-    public Sprite(String spriteFileName, String extension, int n, int x, int y) {
-        this.frames = new Image[n];
-        for (int i = 0; i < n; ++i) {
+    public Sprite(String spriteFileName, String extension, int numberImages, double duration) {
+        this.frames = new Image[numberImages];
+        for (int i = 0; i < numberImages; ++i) {
             try{
                 String filename = spriteFileName + Integer.toString(i) + extension;
                 String resource = getClass().getResource(filename).toURI().toString();
-                frames[i] = new Image(resource);
+                frames[i] = new Image(resource, 100, 100, true, true);
             }catch (Exception e) {
 
             }
         }
         this.width = this.frames[0].getWidth();
         this.height = this.frames[0].getHeight();
-        this.duration = 0.07;
+        this.duration = duration;
         this.iv = new ImageView();
         iv.setImage(this.frames[0]);
     }

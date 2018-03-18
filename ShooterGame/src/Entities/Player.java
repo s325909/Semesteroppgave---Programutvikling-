@@ -10,8 +10,8 @@ public class Player extends Movable {
     public Player() {
     }
 
-    public Player(int x, int y, int health, double velocityX, double velocityY) {
-        super(x, y, health, velocityX, velocityY);
+    public Player(int x, int y, int healthpoints, double velocityX, double velocityY) {
+        super(x, y, healthpoints, velocityX, velocityY);
     }
 
     public Player(Node node, int x, int y) {
@@ -22,7 +22,7 @@ public class Player extends Movable {
         super(filename, x, y);
     }
 
-    public Player(String filename, String extension, int n, int x, int y) {
-        super(filename, extension, n, x, y);
+    public Player(String filename, String extension, int numberImages, double durationBetween, int positionX, int positionY, int healthpoints) {
+        super(filename, extension, numberImages, durationBetween, positionX, positionY, healthpoints);
     }
 }

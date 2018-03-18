@@ -33,7 +33,7 @@
                         <MenuItem text="Quickload F9"/>
                     </items>
                 </Menu>
-                <Menu text="Fullscreen F12" onAction="#fullScreen"/>
+                <Menu text="Fullscreen F12"/>
             </menus>
         </MenuBar>
     </VBox>

@@ -7,8 +7,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -26,22 +24,22 @@ public class Main extends Application {
         player.update(enemyList, time);
 
         for (Enemy enemy : enemyList)
-            if (player.isColliding(enemy))
+            if (player.isColliding(enemy)) {
                 System.out.println("Collision!");
+                System.out.println("Current health is: " + player.getHealthpoints());
+            }
     }
 
     private void initializeEntity() {
-        //player = new Player(new Rectangle(100,100, Color.BLUE), 500, 500);
         try {
-            //player = new Player(getClass().getResource("/resources/test_sprites.png").toURI().toString(), 500, 500);
-            player = new Player("/resources/Top_Down_Survivor/rifle/move/survivor-move_rifle_", ".png", 20, 500, 500);
+            player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 0.000005, 500, 500, 100);
         } catch (Exception e) {
 
         }
 
 
         for (int i = 0; i < 5; i++) {
-            //enemyList.add(new Enemy(new Circle(25,25,50,Color.RED), (int)(Math.random() * 1280), (int)(Math.random() * 720)));
+            enemyList.add(new Enemy(new Circle(25,25,50, Color.RED), (int)(Math.random() * 1280), (int)(Math.random() * 720)));
         }
     }
 
@@ -54,16 +52,14 @@ public class Main extends Application {
 
         Group root = new Group();
 
-        Pane topMenu = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Pane topMenu = FXMLLoader.load(getClass().getResource("GameUI.fxml"));
 
         Pane gameWindow = new Pane();
 
         gameWindow.getChildren().add(player.getNode());
-        //ImageView iv = new ImageView();
-        //iv.setImage(player.getSprite().getImage());
-       //iv.relocate(640, 360);
 
         gameWindow.getChildren().add(player.getSprite().getImageView());
+
         for (Enemy enemy : enemyList)
             gameWindow.getChildren().add(enemy.getNode());
 
