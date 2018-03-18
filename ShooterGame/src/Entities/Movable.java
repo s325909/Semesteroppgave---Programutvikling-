@@ -1,8 +1,6 @@
 package Entities;
 
 import javafx.scene.Node;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Movable extends Entity {

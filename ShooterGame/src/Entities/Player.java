@@ -1,10 +1,5 @@
 package Entities;
 
-import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.shape.Rectangle;
-
 public class Player extends Movable {
 
     public Player() { }

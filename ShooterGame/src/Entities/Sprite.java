@@ -35,7 +35,7 @@ public class Sprite {
         }
         this.width = this.frames[0].getWidth();
         this.height = this.frames[0].getHeight();
-        this.duration = 0.0000000000001;
+        this.duration = 0.016;
         this.iv = new ImageView();
         iv.setImage(this.frames[0]);
     }

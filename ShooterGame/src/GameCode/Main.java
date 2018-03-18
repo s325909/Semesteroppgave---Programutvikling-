@@ -76,7 +76,7 @@ public class Main extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                double t = (now - startNanoTime);
+                double t = (now - startNanoTime) / 1000000000.0;
                 onUpdate(t);
             }
         };
