@@ -26,13 +26,13 @@ public class Main extends Application {
         for (Enemy enemy : enemyList)
             if (player.isColliding(enemy)) {
                 System.out.println("Collision!");
-                System.out.println("Current health is: " + player.getHealthpoints());
+                System.out.println("Player hit for " + player.getHealthPoints());
             }
     }
 
     private void initializeEntity() {
         try {
-            player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 0.000005, 500, 500, 100);
+            player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);
         } catch (Exception e) {
 
         }

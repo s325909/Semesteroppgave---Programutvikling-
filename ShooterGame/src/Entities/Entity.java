@@ -8,27 +8,21 @@ import javafx.scene.shape.Rectangle;
 
 public class Entity {
 
-    private int healthpoints;
+    private int healthPoints;
     private int positionX;
     private int positionY;
 
     private Node node;
     private Sprite sprite;
 
-    public Sprite getSprite() {
-        return sprite;
-    }
+    public Entity() {}
 
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
-    }
-
-    public Node getNode() {
-        return node;
-    }
-
-    public void setNode(Node node) {
+    public Entity(Node node, int x, int y) {
         this.node = node;
+        this.positionX = x;
+        this.positionY = y;
+        this.node.setTranslateX(x);
+        this.node.setTranslateY(y);
     }
 
     public Entity(String filename, int x, int y) {
@@ -40,30 +34,26 @@ public class Entity {
         this.node.setTranslateY(y);
     }
 
-    public Entity(String filename, String extension, int numberImages, double durationBetween, int positionX, int positionY, int healthpoints) {
-        this.sprite = new Sprite(filename, extension, numberImages, durationBetween);
+    public Entity(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
+        this.sprite = new Sprite(filename, extension, numberImages);
         this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.RED);
         this.positionX = positionX;
         this.positionY = positionY;
         this.node.setTranslateX(positionX);
         this.node.setTranslateY(positionY);
-        this.healthpoints = healthpoints;
+        this.healthPoints = healthPoints;
     }
 
-    public Entity(Node node, int x, int y) {
-        this.node = node;
-        this.positionX = x;
-        this.positionY = y;
-        this.node.setTranslateX(x);
-        this.node.setTranslateY(y);
+    public boolean isColliding(Entity otherEntity) {
+        return this.node.getBoundsInParent().intersects(otherEntity.getNode().getBoundsInParent());
     }
 
-    public Entity(int health, int positionX, int positionY, Node node, Sprite sprite) {
-        this.healthpoints = health;
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.node = node;
-        this.sprite = sprite;
+    public int getHealthPoints() {
+        return healthPoints;
+    }
+
+    public void setHealthPoints(int health) {
+        this.healthPoints = health;
     }
 
     public int getPositionX() {
@@ -82,28 +72,21 @@ public class Entity {
         this.positionY = positionY;
     }
 
-    public int getHealthpoints() {
-        return healthpoints;
+    public Sprite getSprite() {
+        return sprite;
     }
 
-    public void setHealthpoints(int healthpoints) {
-        this.healthpoints = healthpoints;
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
     }
 
-    public Entity(){
-        this.positionX = 0;
-        this.positionY = 0;
-        this.healthpoints = 100;
+    public Node getNode() {
+        return node;
     }
 
-    public Entity(int x, int y, int healthpoints, double velocityX, double velocityY){
-        //this.positon = new Position(x,y);
-        this.positionX = x;
-        this.positionY = y;
-        this.healthpoints = healthpoints;
+    public void setNode(Node node) {
+        this.node = node;
     }
 
-    public boolean isColliding(Entity otherEntity) {
-        return this.node.getBoundsInParent().intersects(otherEntity.getNode().getBoundsInParent());
-    }
+
 }

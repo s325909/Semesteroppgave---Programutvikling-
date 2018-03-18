@@ -10,51 +10,23 @@ public class Movable extends Entity {
     private double velocityX;
     private double velocityY;
 
-    public double getVelocityX() {
-        return velocityX;
-    }
-
-    public void setVelocityX(double velocityX) {
-        this.velocityX = velocityX;
-    }
-
-    public double getVelocityY() {
-        return velocityY;
-    }
-
-    public void setVelocityY(double velocityY) {
-        this.velocityY = velocityY;
-    }
-
-    public Movable() {
-    }
+    public Movable() { }
 
     public Movable(Node node, int x, int y) {
         super(node, x, y);
     }
 
-    public Movable(String filename, int x, int y) {
-        super(filename, x, y);
-    }
-
-    public Movable(String filename, String extension, int numberImages, double durationBetween, int positionX, int positionY, int healthpoints) {
-        super(filename, extension, numberImages, durationBetween, positionX, positionY, healthpoints);
-    }
-
-    public Movable(int x, int y, int health, double velocityX, double velocityY) {
-        super(x, y, health, velocityX, velocityY);
+    public Movable(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
+        super(filename, extension, numberImages, positionX, positionY, healthPoints);
     }
 
     public void update(List<Enemy> entityList, double time) {
-        this.getSprite().getFrame(time);
+        this.getSprite().setFrame(time);
         for(Entity entity : entityList) {
             if(this.isColliding(entity)) {
-
                 setVelocityX(-1*getVelocityX());
                 setVelocityY(-1*getVelocityY());
-
-                setHealthpoints(getHealthpoints() - 10);
-
+                setHealthPoints(getHealthPoints() - 10);
             }
         }
 
@@ -65,8 +37,6 @@ public class Movable extends Entity {
         this.getNode().setTranslateY(this.getNode().getTranslateY() + velocityY);
         this.getSprite().getImageView().setTranslateX(this.getNode().getTranslateX() + velocityX);
         this.getSprite().getImageView().setTranslateY(this.getNode().getTranslateY() + velocityY);
-
-
 
         // Change sprite direction upon entity direction change
         if (getVelocityX() > 0) {
@@ -119,4 +89,21 @@ public class Movable extends Entity {
     public void stopY() {
         setVelocityY(0.0);
     }
+
+    public double getVelocityX() {
+        return velocityX;
+    }
+
+    public void setVelocityX(double velocityX) {
+        this.velocityX = velocityX;
+    }
+
+    public double getVelocityY() {
+        return velocityY;
+    }
+
+    public void setVelocityY(double velocityY) {
+        this.velocityY = velocityY;
+    }
 }
+

@@ -22,7 +22,7 @@ public class Sprite {
         iv.relocate(x, y);
     }
 
-    public Sprite(String spriteFileName, String extension, int numberImages, double duration) {
+    public Sprite(String spriteFileName, String extension, int numberImages) {
         this.frames = new Image[numberImages];
         for (int i = 0; i < numberImages; ++i) {
             try{
@@ -35,12 +35,12 @@ public class Sprite {
         }
         this.width = this.frames[0].getWidth();
         this.height = this.frames[0].getHeight();
-        this.duration = duration;
+        this.duration = 0.0000000000001;
         this.iv = new ImageView();
         iv.setImage(this.frames[0]);
     }
 
-    public void getFrame(double time) {
+    public void setFrame(double time) {
         int index = (int)((time % (frames.length * duration)) / duration);
         this.iv.setImage(frames[index]);
     }
