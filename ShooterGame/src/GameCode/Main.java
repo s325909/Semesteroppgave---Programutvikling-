@@ -70,7 +70,7 @@ public class Main extends Application {
 
         primaryStage.setScene(scene);
 
-        PlayerInput playerInput = new PlayerInput(primaryStage, player);
+        PlayerInput playerInput = new PlayerInput(scene, primaryStage, player);
 
         final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {

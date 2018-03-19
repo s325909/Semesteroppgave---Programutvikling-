@@ -1,13 +1,14 @@
 package GameCode;
 
 import Entities.Player;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 public class PlayerInput {
 
-    public PlayerInput(Stage stage, Player player) {
-        stage.getScene().setOnKeyPressed(e -> {
+    public PlayerInput(Scene scene, Stage stage, Player player) {
+        scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.LEFT) {
                 player.goLeft();
             } else if (e.getCode() == KeyCode.RIGHT) {
@@ -26,7 +27,7 @@ public class PlayerInput {
             }
         });
 
-        stage.getScene().setOnKeyReleased(e -> {
+        scene.setOnKeyReleased(e -> {
             if (e.getCode() == KeyCode.LEFT || e.getCode() == KeyCode.RIGHT) {
                 player.stopX();
             } else if (e.getCode() == KeyCode.UP || e.getCode() == KeyCode.DOWN) {
