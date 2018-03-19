@@ -1,0 +1,41 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.HBox?>
+<GridPane fx:id="TopMenu" fx:controller="GameCode.UIControls"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+    <VBox prefWidth="1280" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" GridPane.rowSpan="1">
+        <MenuBar fx:id="menubar" useSystemMenuBar="true">
+            <menus>
+                <Menu text="File">
+                    <items>
+                        <MenuItem text="New Game"/>
+                        <MenuItem text="Load Game"/>
+                        <MenuItem text="Custom Game"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Credits"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Reset Game"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Exit Game" onAction="#exitGame"/>
+                    </items>
+                </Menu>
+                <Menu text="Quicksaving">
+                    <items>
+                        <MenuItem text="Quicksave F5"/>
+                        <MenuItem text="Quickload F9"/>
+                    </items>
+                </Menu>
+                <Menu text="Fullscreen F12"/>
+            </menus>
+        </MenuBar>
+    </VBox>
+</GridPane>
+

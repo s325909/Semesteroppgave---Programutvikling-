@@ -34,7 +34,7 @@ public class Entity {
 
     public Entity(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
         this.sprite = new Sprite(filename, extension, numberImages);
-        this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.RED);
+        this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.BLUE);
         this.positionX = positionX;
         this.positionY = positionY;
         this.node.setTranslateX(positionX);
