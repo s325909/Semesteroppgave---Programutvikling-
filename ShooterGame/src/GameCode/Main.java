@@ -56,9 +56,7 @@ public class Main extends Application {
 
         Pane gameWindow = new Pane();
 
-        gameWindow.getChildren().add(player.getNode());
-
-        gameWindow.getChildren().add(player.getSprite().getImageView());
+        gameWindow.getChildren().addAll(player.getNode(), player.getSprite().getImageView());
 
         for (Enemy enemy : enemyList)
             gameWindow.getChildren().add(enemy.getNode());
