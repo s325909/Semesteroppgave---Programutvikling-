@@ -57,8 +57,6 @@ public class InitializeGame implements Initializable{
 
     }
 
-
-
     public void getKeyPressed(){
 
         pane.getScene().setOnKeyPressed(e -> {
@@ -77,4 +75,16 @@ public class InitializeGame implements Initializable{
             player.releasedPlayer(e);
         });
     }
+
+//    public void changeFullscreen() {
+//        Stage stage = (Stage) pane.getScene().getWindow();
+//        if (stage.isFullScreen())
+//            stage.setFullScreen(false);
+//        else
+//            System.out.println("hei"); //stage.setFullScreen(true);
+//    }
+//
+//    public void exitGame() {
+//        System.exit(0);
+//    }
 }
