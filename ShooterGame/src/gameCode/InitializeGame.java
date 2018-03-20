@@ -1,14 +1,11 @@
-package newGame;
+package gameCode;
 
-import Entities.Enemy;
-import Entities.Player;
-import GameCode.Game;
+import entities.Enemy;
+import entities.Player;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -19,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class GameController implements Initializable{
+public class InitializeGame implements Initializable{
 
     @FXML
     Pane pane;

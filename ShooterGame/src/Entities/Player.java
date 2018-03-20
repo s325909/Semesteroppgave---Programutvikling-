@@ -1,4 +1,4 @@
-package Entities;
+package entities;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

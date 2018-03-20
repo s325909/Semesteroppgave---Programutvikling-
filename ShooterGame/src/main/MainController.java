@@ -1,4 +1,4 @@
-package sample;
+package main;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,10 +10,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable{
+public class MainController implements Initializable{
 
     @FXML
     Button enterGame;
@@ -30,12 +29,13 @@ public class Controller implements Initializable{
     public void goToGame(){
         try{
             Stage stage=(Stage) enterGame.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../newGame/sample.fxml"));/* Exception */
+            Parent root = FXMLLoader.load(getClass().getResource("../gameCode/TopMenu.fxml"));/* Exception */
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         }catch (IOException io){
-io.printStackTrace();        }
+            io.printStackTrace();
+        }
 
     }
 }

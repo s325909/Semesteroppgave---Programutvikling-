@@ -1,18 +1,9 @@
-package GameCode;
+package gameCode;
 
-import Entities.Enemy;
-import Entities.Player;
+import entities.Enemy;
+import entities.Player;
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
