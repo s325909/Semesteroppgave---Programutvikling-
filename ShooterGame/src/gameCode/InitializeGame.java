@@ -5,11 +5,15 @@ import entities.Player;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.MenuBar;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import main.MainController;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,8 +22,10 @@ import java.util.ResourceBundle;
 
 public class InitializeGame implements Initializable{
 
-    @FXML
-    Pane pane;
+    @FXML Pane gameWindow;
+    @FXML MenuBar topbar;
+
+    Stage stage = new Stage();
 
     private Player player;
     private List<Enemy> enemyList = new ArrayList<Enemy>();
@@ -44,47 +50,53 @@ public class InitializeGame implements Initializable{
         player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);
 
 
-        pane.getChildren().add(player.getNode());
+        gameWindow.getChildren().add(player.getNode());
 
-        pane.getChildren().add(player.getSprite().getImageView());
+        gameWindow.getChildren().add(player.getSprite().getImageView());
 
         for (Enemy enemy : enemyList)
-            pane.getChildren().add(enemy.getNode());
+            gameWindow.getChildren().add(enemy.getNode());
 
         Game game = new Game(player, enemyList);
 
         Platform.runLater(this::getKeyPressed);
 
+        SceneSizeChangeListener sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
+
     }
 
     public void getKeyPressed(){
 
-        pane.getScene().setOnKeyPressed(e -> {
+        gameWindow.getScene().setOnKeyPressed(e -> {
             player.movePlayer(e);
-            Stage stage = (Stage) pane.getScene().getWindow();
+            Stage stage = (Stage) gameWindow.getScene().getWindow();
             if (e.getCode() == KeyCode.F12) {
-                if (stage.isFullScreen())
+                if (stage.isFullScreen()) {
                     stage.setFullScreen(false);
-                else
+                    topbar.setVisible(true);
+                }
+                else {
                     stage.setFullScreen(true);
+                    topbar.setVisible(false);
+                }
             } else if (e.getCode() == KeyCode.ESCAPE) {
                 System.exit(0);
             }
         });
-        pane.getScene().setOnKeyReleased(e -> {
+        gameWindow.getScene().setOnKeyReleased(e -> {
             player.releasedPlayer(e);
         });
     }
 
-//    public void changeFullscreen() {
-//        Stage stage = (Stage) pane.getScene().getWindow();
-//        if (stage.isFullScreen())
-//            stage.setFullScreen(false);
-//        else
-//            System.out.println("hei"); //stage.setFullScreen(true);
-//    }
-//
-//    public void exitGame() {
-//        System.exit(0);
-//    }
+    public void changeFullscreen() {
+        Stage stage = (Stage) gameWindow.getScene().getWindow();
+        if (stage.isFullScreen())
+            stage.setFullScreen(false);
+        else
+            stage.setFullScreen(true);
+    }
+
+    public void exitGame() {
+        System.exit(0);
+    }
 }

@@ -12,12 +12,12 @@
 
 <GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameCode.InitializeGame">
    <children>
-      <BorderPane prefHeight="600.0" prefWidth="900.0">
+      <BorderPane  prefWidth="1280" prefHeight="720">
          <center>
-            <Pane fx:id="pane" prefHeight="500.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+            <Pane fx:id="gameWindow" prefHeight="720" prefWidth="1280" BorderPane.alignment="CENTER" />
          </center>
          <top>
-            <MenuBar BorderPane.alignment="CENTER">
+            <MenuBar fx:id="topbar" BorderPane.alignment="CENTER">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
