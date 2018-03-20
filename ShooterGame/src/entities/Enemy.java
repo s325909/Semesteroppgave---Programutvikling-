@@ -1,4 +1,4 @@
-package entitiesa;
+package entities;
 
 import javafx.scene.Node;
 

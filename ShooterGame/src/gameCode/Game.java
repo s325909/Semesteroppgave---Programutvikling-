@@ -1,7 +1,7 @@
-package gameCodea;
+package gameCode;
 
-import entitiesa.Enemy;
-import entitiesa.Player;
+import entities.Enemy;
+import entities.Player;
 import javafx.animation.AnimationTimer;
 
 import java.util.List;

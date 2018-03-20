@@ -1,7 +1,7 @@
-package gameCodea;
+package gameCode;
 
-import entitiesa.Enemy;
-import entitiesa.Player;
+import entities.Enemy;
+import entities.Player;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
