@@ -1,7 +1,6 @@
 package gameCode;
 
-import entities.Enemy;
-import entities.Player;
+import entities.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import main.MainController;
 
@@ -29,6 +29,7 @@ public class InitializeGame implements Initializable{
 
     private Player player;
     private List<Enemy> enemyList = new ArrayList<Enemy>();
+    private List<Door> mapObjects = new ArrayList<Door>();
 
     public void exit(){
         System.out.println("hello");
@@ -47,6 +48,10 @@ public class InitializeGame implements Initializable{
             enemyList.add(new Enemy(new Circle(25,25,50, Color.RED), (int)(Math.random() * 1280), (int)(Math.random() * 720)));
         }
 
+        for (int i = 0; i < 3; i++) {
+            mapObjects.add(new Door(new Rectangle(30, 30, Color.GREEN), 0, 350));
+        }
+
         player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);
 
 
@@ -57,7 +62,10 @@ public class InitializeGame implements Initializable{
         for (Enemy enemy : enemyList)
             gameWindow.getChildren().add(enemy.getNode());
 
-        Game game = new Game(player, enemyList);
+        for (Door door : mapObjects)
+            gameWindow.getChildren().add(door.getNode());
+
+        Game game = new Game(player, enemyList, mapObjects);
 
         Platform.runLater(this::getKeyPressed);
 

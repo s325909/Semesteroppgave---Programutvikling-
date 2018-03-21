@@ -18,13 +18,19 @@ public class Movable extends Entity {
         super(filename, extension, numberImages, positionX, positionY, healthPoints);
     }
 
-    public void update(List<Enemy> entityList, double time) {
+    public void update(List<Enemy> entityList, List<Door> doorList, double time) {
         this.getSprite().setFrame(time);
         for(Entity entity : entityList) {
             if(this.isColliding(entity)) {
                 setVelocityX(-1*getVelocityX());
                 setVelocityY(-1*getVelocityY());
                 setHealthPoints(getHealthPoints() - 10);
+            }
+        }
+
+        for(Entity entity : doorList) {
+            if(this.isColliding(entity)) {
+
             }
         }
 

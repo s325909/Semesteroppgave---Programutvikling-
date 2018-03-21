@@ -1,5 +1,6 @@
 package gameCode;
 
+import entities.Door;
 import entities.Enemy;
 import entities.Player;
 import javafx.animation.AnimationTimer;
@@ -10,10 +11,12 @@ public class Game {
 
     Player player;
     List<Enemy> enemyList;
+    List<Door> door;
 
-    public Game(Player player, List <Enemy> enemy){
+    public Game(Player player, List <Enemy> enemy, List <Door> door){
         this.player = player;
         this.enemyList = enemy;
+        this.door = door;
 
         final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
@@ -28,7 +31,7 @@ public class Game {
     }
 
     private void onUpdate(double time) {
-        player.update(enemyList, time);
+        player.update(enemyList, door, time);
 
         for (Enemy enemy : enemyList)
             if (player.isColliding(enemy)) {
