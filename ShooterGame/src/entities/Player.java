@@ -3,7 +3,7 @@ package entities;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class Player extends Movable {
+public class Player extends entities.Movable {
 
     public Player() { }
 
