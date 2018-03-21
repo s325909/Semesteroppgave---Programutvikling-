@@ -1,5 +1,6 @@
 package main;
 
+import gameCode.SceneSizeChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -33,6 +34,7 @@ public class MainController implements Initializable{
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+
         }catch (IOException io){
             io.printStackTrace();
         }
