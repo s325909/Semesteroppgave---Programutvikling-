@@ -4,6 +4,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -12,7 +13,7 @@
 
 <GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameCode.InitializeGame">
    <children>
-      <BorderPane  prefWidth="1280" prefHeight="720">
+      <BorderPane prefHeight="720" prefWidth="1280">
          <center>
             <Pane fx:id="gameWindow" prefHeight="720" prefWidth="1280" BorderPane.alignment="CENTER" />
          </center>
@@ -43,6 +44,11 @@
               </menus>
             </MenuBar>
          </top></BorderPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <AnchorPane layoutY="65.0" prefHeight="79.0" prefWidth="1280.0" />
+         </children>
+      </AnchorPane>
    </children>
    <columnConstraints>
       <ColumnConstraints />
