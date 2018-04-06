@@ -6,9 +6,8 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
-import javafx.animation.Transition;
 
-public class Prizes extends Transition {
+public class Prizes extends Movable {
 
         private final ImageView imageView;
         private final int count;
