@@ -26,6 +26,7 @@ public class Game {
 
     private ArrayList<Rectangle> bonuses=new ArrayList<>();
     private ArrayList<Circle> bonuses2=new ArrayList<>();
+    private int score = 0;
 
     public Game(Player player, List <Enemy> enemy, Pane gameWindow){
         this.gameWindow = gameWindow;
@@ -80,14 +81,19 @@ public class Game {
             if (isColliding(player.getNode(), shape)) {
                 bonuses.remove(shape);
                 gameWindow.getChildren().remove(shape);
+                score += 1;
+                System.out.println("You got 1 point! New score equals: " + score);
+
+
             }
         }
-
 
         for (Shape shape : this.bonuses2) {
             if (isColliding(player.getNode(), shape)) {
                 bonuses2.remove(shape);
                 gameWindow.getChildren().remove(shape);
+                score += 2;
+                System.out.println("You got 2 points! New score equals: " + score);
             }
         }
 

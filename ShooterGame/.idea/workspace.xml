@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e345907a-5210-4d30-bf1d-845544a224f2" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/Entities/Entity.class" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/Entities/Entity.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/Entities/Movable.class" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/Entities/Movable.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/GameCode/Game$1.class" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/GameCode/Game$1.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/GameCode/Game.class" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/GameCode/Game.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/entities/Player.class" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/entities/Player.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/gameCode/InitializeGame$1.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/gameCode/InitializeGame.class" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/gameCode/InitializeGame.class" />
-      <change beforePath="$PROJECT_DIR$/src/entities/Entity.java" afterPath="$PROJECT_DIR$/src/entities/Entity.java" />
-      <change beforePath="$PROJECT_DIR$/src/entities/Movable.java" afterPath="$PROJECT_DIR$/src/entities/Movable.java" />
-      <change beforePath="$PROJECT_DIR$/src/entities/Player.java" afterPath="$PROJECT_DIR$/src/entities/Player.java" />
       <change beforePath="$PROJECT_DIR$/src/gameCode/Game.java" afterPath="$PROJECT_DIR$/src/gameCode/Game.java" />
-      <change beforePath="$PROJECT_DIR$/src/gameCode/InitializeGame.java" afterPath="$PROJECT_DIR$/src/gameCode/InitializeGame.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,8 +30,8 @@
       <file leaf-file-name="Game.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/gameCode/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="63" column="33" lean-forward="true" selection-start-line="63" selection-start-column="33" selection-end-line="63" selection-end-column="33" />
+            <state relative-caret-position="-582">
+              <caret line="51" column="13" lean-forward="true" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -434,7 +422,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13389000" />
+    <option name="totallyTimeSpent" value="14023000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -498,7 +486,17 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/gameCode/Game.java</url>
+          <line>76</line>
+          <properties class="gameCode.Game" method="onUpdate">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1044,8 +1042,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gameCode/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="63" column="33" lean-forward="true" selection-start-line="63" selection-start-column="33" selection-end-line="63" selection-end-column="33" />
+        <state relative-caret-position="-582">
+          <caret line="51" column="13" lean-forward="true" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
