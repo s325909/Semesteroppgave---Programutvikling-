@@ -48,7 +48,7 @@ public class Game {
             }
     }
 
-    public void bonus(){
+    /*public void bonus(){
         int random = (int)Math.floor(Math.random()*100);
         int x = (int)Math.floor(Math.random()*600);
         int y = (int)Math.floor(Math.random()*600);
@@ -68,5 +68,5 @@ public class Game {
             bonuses2.add(circle);
             root.getChildren().addAll(circle);
         }
-    }
+    }*/
 }
