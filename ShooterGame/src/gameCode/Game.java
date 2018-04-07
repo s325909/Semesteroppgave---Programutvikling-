@@ -12,7 +12,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import main.Main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,7 +86,7 @@ public class Game {
                 score += 1;
                 System.out.println("You got 1 point! New score equals: " + score);
 
-
+                Main.SetTitle("The Game... Score: " + score);
             }
         }
 
@@ -94,6 +96,8 @@ public class Game {
                 gameWindow.getChildren().remove(shape);
                 score += 2;
                 System.out.println("You got 2 points! New score equals: " + score);
+
+                Main.SetTitle("The Game... Score: " + score);
             }
         }
 

@@ -16,8 +16,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main extends Application {
+
+    public static void setTitle(String title) {
+        Main.stage.setTitle(title);
+    }
+
+    private static Stage stage;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
+        Main.stage = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("GameMenu.fxml"));
         primaryStage.setTitle("The Game");
         primaryStage.setScene(new Scene(root, 1280, 720));
