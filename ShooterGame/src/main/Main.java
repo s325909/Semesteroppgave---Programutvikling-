@@ -17,6 +17,7 @@ import java.util.HashMap;
 
 public class Main extends Application {
 
+    //puts title on top of window
     public static void setTitle(String title) {
         Main.stage.setTitle(title);
     }

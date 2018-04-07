@@ -7,8 +7,8 @@ public class Player extends Movable {
 
     public Player() { }
 
-    public Player(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints, int bonus) {
-        super(filename, extension, numberImages, positionX, positionY, healthPoints, bonus);
+    public Player(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
+        super(filename, extension, numberImages, positionX, positionY, healthPoints);
     }
 
     public void movePlayer(KeyEvent keyEvent){

@@ -9,10 +9,8 @@ import javafx.scene.shape.Rectangle;
 public class Entity{
 
     private int healthPoints;
-    private int bonus;
     private int positionX;
     private int positionY;
-    private int score = 0;
 
     private Node node;
     private Sprite sprite;
@@ -38,7 +36,7 @@ public class Entity{
         this.node.setTranslateY(y);
     }
 
-    public Entity(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints, int bonus) {
+    public Entity(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
         this.sprite = new Sprite(filename, extension, numberImages);
         this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.BLUE);
         this.positionX = positionX;
@@ -46,8 +44,6 @@ public class Entity{
         this.node.setTranslateX(positionX);
         this.node.setTranslateY(positionY);
         this.healthPoints = healthPoints;
-        this.bonus = bonus;
-
     }
 
     public boolean isColliding(Entity otherEntity) {

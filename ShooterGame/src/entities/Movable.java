@@ -14,8 +14,8 @@ public class Movable extends Entity {
         super(node, x, y);
     }
 
-    public Movable(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints, int bonus) {
-        super(filename, extension, numberImages, positionX, positionY, healthPoints, bonus);
+    public Movable(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
+        super(filename, extension, numberImages, positionX, positionY, healthPoints);
     }
 
     public void update(List<Enemy> entityList, double time) {

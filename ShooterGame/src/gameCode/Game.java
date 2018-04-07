@@ -48,13 +48,14 @@ public class Game {
         timer.start();
     }
 
+    //adds random circles and rectangles
     public void bonus(){
         int random = (int)Math.floor(Math.random()*100);
         int x = (int)Math.floor(Math.random()*600);
         int y = (int)Math.floor(Math.random()*600);
 
         if(random==5){
-            Rectangle rect = new Rectangle (70, 70, Color.RED);
+            Rectangle rect = new Rectangle (20, 30, Color.PINK);
             rect.setX(x);
             rect.setY(y);
             bonuses.add(rect);
@@ -62,20 +63,21 @@ public class Game {
         }
 
         if(random == 4){
-            Circle circle = new Circle (50, Color.BLUE);
+            Circle circle = new Circle (50, Color.GRAY);
             circle.setCenterX(x);
             circle.setCenterY(y);
-            circle.setRadius(50);
+            circle.setRadius(30);
             bonuses2.add(circle);
             gameWindow.getChildren().addAll(circle);
         }
     }
 
-
+    //when player goes over objects....
     public boolean isColliding(Node player, Node otherShape) {
         return player.getBoundsInParent().intersects(otherShape.getBoundsInParent());
     }
 
+    //player gets points and objects disappear
     private void onUpdate(double time) {
         player.update(enemyList, time);
 
@@ -86,7 +88,7 @@ public class Game {
                 score += 1;
                 System.out.println("You got 1 point! New score equals: " + score);
 
-                Main.SetTitle("The Game... Score: " + score);
+                Main.setTitle("The Game... Score: " + score);
             }
         }
 
@@ -97,7 +99,7 @@ public class Game {
                 score += 2;
                 System.out.println("You got 2 points! New score equals: " + score);
 
-                Main.SetTitle("The Game... Score: " + score);
+                Main.setTitle("The Game... Score: " + score);
             }
         }
 
