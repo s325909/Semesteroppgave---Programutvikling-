@@ -55,7 +55,7 @@ public class Game {
         int y = (int)Math.floor(Math.random()*600);
 
         if(random==5){
-            Rectangle rect = new Rectangle (20, 30, Color.PINK);
+            Rectangle rect = new Rectangle (40, 30, Color.PINK);
             rect.setX(x);
             rect.setY(y);
             bonuses.add(rect);

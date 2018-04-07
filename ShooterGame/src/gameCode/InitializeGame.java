@@ -40,7 +40,7 @@ public class InitializeGame implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-            player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100, 100);
+            player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);
         } catch (Exception e) {
             System.out.println("Feilmelding");
         }
@@ -49,7 +49,7 @@ public class InitializeGame implements Initializable{
             enemyList.add(new Enemy(new Circle(25,25,50, Color.RED), (int)(Math.random() * 1280), (int)(Math.random() * 720)));
         }
 
-        player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100, 100);
+        player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);
 
 
         gameWindow.getChildren().add(player.getNode());
