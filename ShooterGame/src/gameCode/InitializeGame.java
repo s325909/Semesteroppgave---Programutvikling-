@@ -32,32 +32,6 @@ public class InitializeGame implements Initializable{
     private Player player;
     private List<Enemy> enemyList = new ArrayList<Enemy>();
 
-    public static ArrayList<Rectangle> bonuses=new ArrayList<>();
-    public static ArrayList<Circle>bonuses2=new ArrayList<>();
-
-    public void bonus(){
-        int random = (int)Math.floor(Math.random()*100);
-        int x = (int)Math.floor(Math.random()*600);
-        int y = (int)Math.floor(Math.random()*600);
-        System.out.println("Bonus!" + random);
-        if(random==5){
-            Rectangle rect = new Rectangle (70, 70, Color.RED);
-            rect.setX(x);
-            rect.setY(y);
-            bonuses.add(rect);
-            gameWindow.getChildren().addAll(rect);
-        }
-
-        if(random == 4){
-            Circle circle = new Circle (50, Color.BLUE);
-            circle.setCenterX(200);
-            circle.setCenterY(200);
-            circle.setRadius(50);
-            bonuses2.add(circle);
-            gameWindow.getChildren().addAll(circle);
-        }
-    }
-
     public void exit(){
         System.out.println("hello");
     }
@@ -66,7 +40,7 @@ public class InitializeGame implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-            player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);
+            player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100, 100);
         } catch (Exception e) {
             System.out.println("Feilmelding");
         }
@@ -75,7 +49,7 @@ public class InitializeGame implements Initializable{
             enemyList.add(new Enemy(new Circle(25,25,50, Color.RED), (int)(Math.random() * 1280), (int)(Math.random() * 720)));
         }
 
-        player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);
+        player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100, 100);
 
 
         gameWindow.getChildren().add(player.getNode());
@@ -85,21 +59,12 @@ public class InitializeGame implements Initializable{
         for (Enemy enemy : enemyList)
             gameWindow.getChildren().add(enemy.getNode());
 
-        Game game = new Game(player, enemyList);
+        Game game = new Game(player, enemyList, gameWindow);
 
         Platform.runLater(this::getKeyPressed);
 
         SceneSizeChangeListener sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
 
-
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                bonus();
-            }
-
-        };
-        timer.start();
     }
 
     public void getKeyPressed(){

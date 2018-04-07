@@ -14,19 +14,21 @@ public class Movable extends Entity {
         super(node, x, y);
     }
 
-    public Movable(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
-        super(filename, extension, numberImages, positionX, positionY, healthPoints);
+    public Movable(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints, int bonus) {
+        super(filename, extension, numberImages, positionX, positionY, healthPoints, bonus);
     }
 
     public void update(List<Enemy> entityList, double time) {
         this.getSprite().setFrame(time);
         for(Entity entity : entityList) {
             if(this.isColliding(entity)) {
-                setVelocityX(-1*getVelocityX());
-                setVelocityY(-1*getVelocityY());
+                setVelocityX(-1 * getVelocityX());
+                setVelocityY(-1 * getVelocityY());
                 setHealthPoints(getHealthPoints() - 10);
             }
         }
+
+
 
         // Update new position by getting current position and adding current velocity
         setPositionX(getPositionX() + (int)getVelocityX());

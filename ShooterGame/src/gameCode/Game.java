@@ -2,12 +2,17 @@ package gameCode;
 
 import entities.Enemy;
 import entities.Player;
+import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
+import javafx.animation.Interpolator;
+import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,14 +20,15 @@ import java.util.List;
 
 public class Game {
 
+    Pane gameWindow;
     Player player;
     List<Enemy> enemyList;
-    private HashMap<KeyCode, Boolean> keys = new HashMap<>();
-    public static ArrayList<Rectangle> bonuses=new ArrayList<>();
-    public static ArrayList<Circle>bonuses2=new ArrayList<>();
-    static Pane root = new Pane();
 
-    public Game(Player player, List <Enemy> enemy){
+    private ArrayList<Rectangle> bonuses=new ArrayList<>();
+    private ArrayList<Circle> bonuses2=new ArrayList<>();
+
+    public Game(Player player, List <Enemy> enemy, Pane gameWindow){
+        this.gameWindow = gameWindow;
         this.player = player;
         this.enemyList = enemy;
 
@@ -30,16 +36,60 @@ public class Game {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                double t = (now - startNanoTime) / 1000000000.0;
-                onUpdate(t);
+            double time = (now - startNanoTime) / 1000000000.0;
+            onUpdate(time);
+            bonus();
             }
         };
 
         timer.start();
     }
 
+    public void bonus(){
+        int random = (int)Math.floor(Math.random()*100);
+        int x = (int)Math.floor(Math.random()*600);
+        int y = (int)Math.floor(Math.random()*600);
+
+        if(random==5){
+            Rectangle rect = new Rectangle (70, 70, Color.RED);
+            rect.setX(x);
+            rect.setY(y);
+            bonuses.add(rect);
+            gameWindow.getChildren().addAll(rect);
+        }
+
+        if(random == 4){
+            Circle circle = new Circle (50, Color.BLUE);
+            circle.setCenterX(x);
+            circle.setCenterY(y);
+            circle.setRadius(50);
+            bonuses2.add(circle);
+            gameWindow.getChildren().addAll(circle);
+        }
+    }
+
+
+    public boolean isColliding(Node player, Node otherShape) {
+        return player.getBoundsInParent().intersects(otherShape.getBoundsInParent());
+    }
+
     private void onUpdate(double time) {
         player.update(enemyList, time);
+
+        for (Shape shape : this.bonuses) {
+            if (isColliding(player.getNode(), shape)) {
+                bonuses.remove(shape);
+                gameWindow.getChildren().remove(shape);
+            }
+        }
+
+
+        for (Shape shape : this.bonuses2) {
+            if (isColliding(player.getNode(), shape)) {
+                bonuses2.remove(shape);
+                gameWindow.getChildren().remove(shape);
+            }
+        }
 
         for (Enemy enemy : enemyList)
             if (player.isColliding(enemy)) {
@@ -48,25 +98,4 @@ public class Game {
             }
     }
 
-    /*public void bonus(){
-        int random = (int)Math.floor(Math.random()*100);
-        int x = (int)Math.floor(Math.random()*600);
-        int y = (int)Math.floor(Math.random()*600);
-        if(random==5){
-            Rectangle rect = new Rectangle (70, 70, Color.RED);
-            rect.setX(x);
-            rect.setY(y);
-            bonuses.add(rect);
-            root.getChildren().addAll(rect);
-        }
-
-        if(random == 4){
-            Circle circle = new Circle (50, Color.BLUE);
-            circle.setCenterX(200);
-            circle.setCenterY(200);
-            circle.setRadius(50);
-            bonuses2.add(circle);
-            root.getChildren().addAll(circle);
-        }
-    }*/
 }
