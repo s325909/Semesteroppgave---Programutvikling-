@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable{
 
     @FXML
-    Button enterGame;
+    Button newGame;
 
     public void exit(){
         System.out.println("hello");
@@ -27,9 +27,9 @@ public class MainController implements Initializable{
 
     }
 
-    public void goToGame(){
+    public void launchGame(){
         try{
-            Stage stage=(Stage) enterGame.getScene().getWindow();
+            Stage stage=(Stage) newGame.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../gameCode/TopMenu.fxml"));/* Exception */
             Scene scene = new Scene(root);
             stage.setScene(scene);

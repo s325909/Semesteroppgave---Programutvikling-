@@ -16,7 +16,7 @@
             <VBox prefHeight="600.0" prefWidth="500.0" BorderPane.alignment="CENTER">
                <children>
                   <Label text="Tittle" />
-                  <Button fx:id="enterGame" minHeight="50.0" mnemonicParsing="false" onAction="#goToGame" prefWidth="150.0" text="New Game" />
+                  <Button fx:id="newGame" minHeight="50.0" mnemonicParsing="false" onAction="#launchGame" prefWidth="150.0" text="New Game" />
                   <Button minHeight="50.0" mnemonicParsing="false" prefWidth="150.0" text="Load Game" />
                   <Button minHeight="50.0" mnemonicParsing="false" prefWidth="150.0" text="Options" />
                   <Button minHeight="50.0" mnemonicParsing="false" prefWidth="150.0" text="Help" />
