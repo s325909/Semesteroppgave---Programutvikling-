@@ -16,11 +16,8 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable{
 
     @FXML
-    Button newGame;
+    Button newGame, loadGame, options, help, exit;
 
-    public void exit(){
-        System.out.println("hello");
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -39,5 +36,21 @@ public class MainController implements Initializable{
             io.printStackTrace();
         }
 
+    }
+
+    public void openLoadMenu(){
+        System.out.println("load menu");
+    }
+
+    public void openOptionsMenu(){
+        System.out.println("settings");
+    }
+
+    public void openHelpMenu(){
+        System.out.println("help me plz");
+    }
+
+    public void exitGame(){
+        System.out.println("exit game");
     }
 }

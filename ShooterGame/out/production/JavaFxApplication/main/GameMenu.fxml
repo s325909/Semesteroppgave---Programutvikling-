@@ -17,10 +17,10 @@
                <children>
                   <Label text="Tittle" />
                   <Button fx:id="newGame" minHeight="50.0" mnemonicParsing="false" onAction="#launchGame" prefWidth="150.0" text="New Game" />
-                  <Button minHeight="50.0" mnemonicParsing="false" prefWidth="150.0" text="Load Game" />
-                  <Button minHeight="50.0" mnemonicParsing="false" prefWidth="150.0" text="Options" />
-                  <Button minHeight="50.0" mnemonicParsing="false" prefWidth="150.0" text="Help" />
-                  <Button minHeight="50.0" mnemonicParsing="false" onAction="#exit" prefWidth="150.0" text="Exit">
+                  <Button fx:id="loadGame" minHeight="50.0" mnemonicParsing="false" onAction="#openLoadMenu" prefWidth="150.0" text="Load Game" />
+                  <Button fx:id="options" minHeight="50.0" mnemonicParsing="false" onAction="#openOptionsMenu" prefWidth="150.0" text="Options" />
+                  <Button fx:id="help" minHeight="50.0" mnemonicParsing="false" onAction="#openHelpMenu" prefWidth="150.0" text="Help" />
+                  <Button fx:id="exit" minHeight="50.0" mnemonicParsing="false" onAction="#exitGame" prefWidth="150.0" text="Exit">
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>
