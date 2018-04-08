@@ -18,21 +18,19 @@ public class Movable extends Entity {
         super(filename, extension, numberImages, positionX, positionY, healthPoints);
     }
 
+    /***
+     * Method for updating entity's position based on user input and interaction with other objects
+     * @param entityList
+     * @param time
+     */
     public void update(List<Enemy> entityList, double time) {
         this.getSprite().setFrame(time);
-        for(Entity entity : entityList) {
-            if(this.isColliding(entity)) {
-                setVelocityX(-1 * getVelocityX());
-                setVelocityY(-1 * getVelocityY());
-                setHealthPoints(getHealthPoints() - 10);
-            }
-        }
 
-
-
-        // Update new position by getting current position and adding current velocity
+        // Update actual position of object
         setPositionX(getPositionX() + (int)getVelocityX());
-        setPositionX(getPositionY() + (int)getVelocityY());
+        setPositionY(getPositionY() + (int)getVelocityY());
+
+        // Update position of the visible representation of the object (Node and Sprite)
         this.getNode().setTranslateX(this.getNode().getTranslateX() + velocityX);
         this.getNode().setTranslateY(this.getNode().getTranslateY() + velocityY);
         this.getSprite().getImageView().setTranslateX(this.getNode().getTranslateX() + velocityX);
@@ -63,6 +61,15 @@ public class Movable extends Entity {
             else if (getVelocityY() > 0)
                 this.getSprite().getImageView().setRotate(90);
         }
+
+        // Check for collision between entities and update position and/or velocity
+        for(Entity entity : entityList) {
+            if(this.isColliding(entity)) {
+                setVelocityX(-1 * getVelocityX());
+                setVelocityY(-1 * getVelocityY());
+                setHealthPoints(getHealthPoints() - 10);
+            }
+        }
     }
 
     // Functions for changing entity velocity
@@ -90,6 +97,8 @@ public class Movable extends Entity {
         setVelocityY(0.0);
     }
 
+
+
     public double getVelocityX() {
         return velocityX;
     }
@@ -106,4 +115,5 @@ public class Movable extends Entity {
         this.velocityY = velocityY;
     }
 }
+
 

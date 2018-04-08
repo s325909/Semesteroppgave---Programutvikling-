@@ -12,6 +12,7 @@ public class Player extends Movable {
     }
 
     public void movePlayer(KeyEvent keyEvent){
+        //setMoving();
         if (keyEvent.getCode() == KeyCode.LEFT) {
             goLeft();
         } else if (keyEvent.getCode() == KeyCode.RIGHT) {
@@ -24,6 +25,7 @@ public class Player extends Movable {
     }
 
     public void releasedPlayer(KeyEvent keyEvent){
+        //setIdle();
         if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.RIGHT) {
             stopX();
         } else if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.DOWN) {

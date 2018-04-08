@@ -14,8 +14,8 @@ public class Entity{
 
     private Node node;
     private Sprite sprite;
-
-    Rectangle removeRect = null;
+    private Sprite spriteIdle;
+    private Sprite spriteMoving;
 
     public Entity() {}
 
@@ -90,5 +90,19 @@ public class Entity{
         this.node = node;
     }
 
+    public void setSpriteIdle(String spriteFileName, String extension, int numberImages) {
+        this.spriteIdle = new Sprite(spriteFileName, extension, numberImages);
+    }
 
+    public void setSpriteMoving(String spriteFileName, String extension, int numberImages) {
+        this.spriteMoving = new Sprite(spriteFileName, extension, numberImages);
+    }
+
+    public void setIdle() {
+        this.sprite = this.spriteIdle;
+    }
+
+    public void setMoving() {
+        this.sprite = this.spriteMoving;
+    }
 }
