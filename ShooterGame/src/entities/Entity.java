@@ -1,6 +1,7 @@
 package entities;
 
 import gameCode.InitializeGame;
+import javafx.scene.image.ImageView;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -13,9 +14,15 @@ public class Entity{
     private int positionY;
 
     private Node node;
+    private ImageView iv;
     private Sprite sprite;
+    private Sprite spriteDefault;
+    boolean idleSet = false;
     private Sprite spriteIdle;
+    boolean moveSet = false;
     private Sprite spriteMoving;
+    boolean attackSet = false;
+    private Sprite spriteAttack;
 
     public Entity() {}
 
@@ -27,17 +34,20 @@ public class Entity{
         this.node.setTranslateY(y);
     }
 
-    public Entity(String filename, int x, int y) {
-        this.sprite = new Sprite(filename, x, y);
-        this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, this.sprite.getHeight()/2, Color.RED);
+    /*public Entity(String filename, int x, int y) {
+        this.iv = new ImageView();
+        //this.sprite = new Sprite(filename, x, y);
+        //this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, this.sprite.getHeight()/2, Color.RED);
         this.positionX = x;
         this.positionY = y;
         this.node.setTranslateX(x);
         this.node.setTranslateY(y);
-    }
+    }*/
 
     public Entity(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
-        this.sprite = new Sprite(filename, extension, numberImages);
+        this.iv = new ImageView();
+        this.spriteDefault = new Sprite(this.iv, filename, extension, numberImages);
+        this.sprite = this.spriteDefault;
         this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.BLUE);
         this.positionX = positionX;
         this.positionY = positionY;
@@ -91,18 +101,32 @@ public class Entity{
     }
 
     public void setSpriteIdle(String spriteFileName, String extension, int numberImages) {
-        this.spriteIdle = new Sprite(spriteFileName, extension, numberImages);
+        this.idleSet = true;
+        this.spriteIdle = new Sprite(this.iv, spriteFileName, extension, numberImages);
     }
 
     public void setSpriteMoving(String spriteFileName, String extension, int numberImages) {
-        this.spriteMoving = new Sprite(spriteFileName, extension, numberImages);
+        this.moveSet = true;
+        this.spriteMoving = new Sprite(this.iv, spriteFileName, extension, numberImages);
+    }
+
+    public void setSpriteAttack(String spriteFileName, String extension, int numberImages) {
+        this.attackSet = true;
+        this.spriteAttack = new Sprite(this.iv, spriteFileName, extension, numberImages);
     }
 
     public void setIdle() {
-        this.sprite = this.spriteIdle;
+        if (this.idleSet)
+            this.sprite = this.spriteIdle;
     }
 
     public void setMoving() {
-        this.sprite = this.spriteMoving;
+        if (this.moveSet)
+            this.sprite = this.spriteMoving;
+    }
+
+    public void setAttack() {
+        if (this.attackSet)
+            this.sprite = this.spriteAttack;
     }
 }
