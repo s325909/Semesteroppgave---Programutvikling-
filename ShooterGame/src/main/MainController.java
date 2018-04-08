@@ -26,7 +26,8 @@ public class MainController implements Initializable{
 
     public void launchGame(){
         try{
-            Stage stage=(Stage) newGame.getScene().getWindow();
+            Stage stage = (Stage)
+                    newGame.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../gameCode/TopMenu.fxml"));/* Exception */
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -51,6 +52,8 @@ public class MainController implements Initializable{
     }
 
     public void exitGame(){
-        System.out.println("exit game");
+        Stage stage = (Stage)
+                exit.getScene().getWindow();
+        stage.close();
     }
 }
