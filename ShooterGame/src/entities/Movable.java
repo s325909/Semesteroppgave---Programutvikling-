@@ -8,14 +8,16 @@ public class Movable extends Entity {
     private double velocityX;
     private double velocityY;
 
-    private ImageView iv;
-    private Sprite sprite;
     boolean idleSet = false;
     private Sprite spriteIdle;
     boolean moveSet = false;
     private Sprite spriteMoving;
-    boolean attackSet = false;
-    private Sprite spriteAttack;
+    boolean meleeSet = false;
+    private Sprite spriteMelee;
+    boolean shootingSet = false;
+    private Sprite spriteShooting;
+    boolean reloadSet = false;
+    private Sprite spriteReloading;
 
     public Movable() { }
 
@@ -32,7 +34,7 @@ public class Movable extends Entity {
      * @param entityList
      * @param time
      */
-    public void update(List<Enemy> entityList, double time) {
+    public void update(List<Entity> entityList, double time) {
         this.getSprite().setFrame(time);
 
         // Update actual position of object
@@ -108,32 +110,52 @@ public class Movable extends Entity {
 
     public void setSpriteIdle(String spriteFileName, String extension, int numberImages) {
         this.idleSet = true;
-        this.spriteIdle = new Sprite(this.iv, spriteFileName, extension, numberImages);
+        this.spriteIdle = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
     }
 
     public void setSpriteMoving(String spriteFileName, String extension, int numberImages) {
         this.moveSet = true;
-        this.spriteMoving = new Sprite(this.iv, spriteFileName, extension, numberImages);
+        this.spriteMoving = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
     }
 
-    public void setSpriteAttack(String spriteFileName, String extension, int numberImages) {
-        this.attackSet = true;
-        this.spriteAttack = new Sprite(this.iv, spriteFileName, extension, numberImages);
+    public void setSpriteMelee(String spriteFileName, String extension, int numberImages) {
+        this.meleeSet = true;
+        this.spriteMelee = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
+    }
+
+    public void setSpriteShooting(String spriteFileName, String extension, int numberImages) {
+        this.shootingSet = true;
+        this.spriteShooting = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
+    }
+
+    public void setSpriteReloading(String spriteFileName, String extension, int numberImages) {
+        this.reloadSet = true;
+        this.spriteReloading = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
     }
 
     public void setIdle() {
         if (this.idleSet)
-            this.sprite = this.spriteIdle;
+            super.setSprite(this.spriteIdle);
     }
 
     public void setMoving() {
         if (this.moveSet)
-            this.sprite = this.spriteMoving;
+            super.setSprite(this.spriteMoving);
     }
 
-    public void setAttack() {
-        if (this.attackSet)
-            this.sprite = this.spriteAttack;
+    public void setMelee() {
+        if (this.meleeSet)
+            super.setSprite(this.spriteMelee);
+    }
+
+    public void setShooting() {
+        if (this.shootingSet)
+            super.setSprite(this.spriteShooting);
+    }
+
+    public void setReloading() {
+        if (this.reloadSet)
+            super.setSprite(this.spriteReloading);
     }
 
     public double getVelocityX() {

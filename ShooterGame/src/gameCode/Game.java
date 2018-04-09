@@ -1,6 +1,8 @@
 package gameCode;
 
 import entities.Enemy;
+import entities.Entity;
+import entities.Movable;
 import entities.Player;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
@@ -79,7 +81,20 @@ public class Game {
 
     //player gets points and objects disappear
     private void onUpdate(double time) {
-        player.update(enemyList, time);
+        ArrayList<Entity> playerList = new ArrayList<Entity>();
+        playerList.addAll(enemyList);
+
+        player.update(playerList, time);
+
+        ArrayList<Entity> entityList = new ArrayList<Entity>();
+        entityList.add(player);
+        entityList.addAll(enemyList);
+
+        for(Enemy enemy : enemyList)
+            enemy.movement(time);
+
+        for(Enemy enemy : enemyList)
+            enemy.update(entityList, time);
 
         for (Shape shape : this.bonuses) {
             if (isColliding(player.getNode(), shape)) {

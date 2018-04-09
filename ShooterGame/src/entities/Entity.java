@@ -96,4 +96,12 @@ public class Entity{
     public void setNode(Node node) {
         this.node = node;
     }
+
+    public ImageView getIv() {
+        return this.iv;
+    }
+
+    public void setIv(ImageView iv) {
+        this.iv = iv;
+    }
 }

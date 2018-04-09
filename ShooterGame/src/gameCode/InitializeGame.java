@@ -31,8 +31,8 @@ public class InitializeGame implements Initializable{
     Stage stage = new Stage();
 
     private Player player;
-    private Zombie zombie;
     private List<Enemy> enemyList = new ArrayList<Enemy>();
+    final private boolean DEBUG = false;
 
     public void exit(){
         System.out.println("hello");
@@ -43,25 +43,29 @@ public class InitializeGame implements Initializable{
 
         try {
             player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);
-            //zombie = new Zombie("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, (int)(Math.random()*1280), (int)(Math.random()*720), 100);
             player.setSpriteIdle("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20);
-            player.setSpriteMoving("/resources/Top_Down_Survivor/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 20);
-            player.setSpriteAttack("/resources/Top_Down_Survivor/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15);
-
+            player.setSpriteMoving("/resources/Top_Down_Survivor/handgun/move/survivor-move_handgun_", ".png", 20);
+            player.setSpriteMelee("/resources/Top_Down_Survivor/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15);
+            player.setSpriteShooting("/resources/Top_Down_Survivor/handgun/shoot/survivor-shoot_handgun_", ".png", 3);
+            player.setSpriteReloading("/resources/Top_Down_Survivor/handgun/reload/survivor-reload_handgun_", ".png", 15);
         } catch (Exception e) {
             System.out.println("Error: Entities did not load correctly");
         }
 
         for (int i = 0; i < 5; i++) {
             enemyList.add(new Zombie("/resources/Zombie/skeleton-idle_", ".png", 17, (int)(Math.random()*1280), (int)(Math.random()*720), 100));
+            enemyList.get(i).setSpriteIdle("/resources/Zombie/skeleton-idle_", ".png", 17);
+            enemyList.get(i).setSpriteMoving("/resources/Zombie/skeleton-move_", ".png", 17);
         }
 
-        gameWindow.getChildren().add(player.getNode());
+        if(DEBUG)
+            gameWindow.getChildren().add(player.getNode());
 
         gameWindow.getChildren().add(player.getSprite().getImageView());
 
         for (Enemy enemy : enemyList) {
-            gameWindow.getChildren().add(enemy.getNode());
+            if(DEBUG)
+                gameWindow.getChildren().add(enemy.getNode());
             gameWindow.getChildren().add(enemy.getSprite().getImageView());
         }
 
