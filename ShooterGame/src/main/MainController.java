@@ -41,30 +41,13 @@ public class MainController implements Initializable{
 
     public void openLoadMenu(){
 
-
-        // loadGame.getChildren().setAll(FXMLLoader.load("loadFiles.fxml"));
-
         Parent root;
 
         try {
-
-            // Stage stage = (Stage) loadGame.getScene().getWindow();
-            // Parent parent = FXMLLoader.load(LoadController.class.getResource("loadFiles.fxml"));
-
             root = FXMLLoader.load(getClass().getResource("loadFiles.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(root, 450, 450));
             stage.show();
-
-            /*
-           FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("loadFiles.fxml"));
-            Parent loadMenu = (Parent) fxmlLoader.load();
-            Stage stage2 = new Stage();
-            stage2.setTitle("Load Menu");
-            stage2.setScene(new Scene(loadMenu));
-            stage2.show();
-            */
-
         } catch (Exception e) {
             System.out.println("Error");
             System.out.println(e.getMessage());
