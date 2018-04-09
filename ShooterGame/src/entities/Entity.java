@@ -18,24 +18,6 @@ public class Entity{
 
     public Entity() {}
 
-//    public Entity(Node node, int x, int y) {
-//        this.node = node;
-//        this.positionX = x;
-//        this.positionY = y;
-//        this.node.setTranslateX(x);
-//        this.node.setTranslateY(y);
-//    }
-
-    /*public Entity(String filename, int x, int y) {
-        this.iv = new ImageView();
-        //this.sprite = new Sprite(filename, x, y);
-        //this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, this.sprite.getHeight()/2, Color.RED);
-        this.positionX = x;
-        this.positionY = y;
-        this.node.setTranslateX(x);
-        this.node.setTranslateY(y);
-    }*/
-
     public Entity(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
         this.iv = new ImageView();
         this.spriteDefault = new Sprite(this.iv, filename, extension, numberImages);
