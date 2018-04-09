@@ -20,13 +20,24 @@ public class LoadController implements Initializable {
     }
 
     @FXML
-    Button saveFile1;
-
+    Button saveFile1, saveFile2, saveFile3;
 
 
     public void loadFile1() {
 
         System.out.println("loading file 1");
+
+    }
+
+    public void loadFile2() {
+
+        System.out.println("loading file 3");
+
+    }
+
+    public void loadFile3() {
+
+        System.out.println("loading file 3");
 
     }
 

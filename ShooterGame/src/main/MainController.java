@@ -45,9 +45,9 @@ public class MainController implements Initializable{
 
         try {
             root = FXMLLoader.load(getClass().getResource("loadFiles.fxml"));
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root, 450, 450));
-            stage.show();
+            Stage loadMenu = new Stage();
+            loadMenu.setScene(new Scene(root, 450, 450));
+            loadMenu.show();
         } catch (Exception e) {
             System.out.println("Error");
             System.out.println(e.getMessage());
