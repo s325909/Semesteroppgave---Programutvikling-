@@ -1,12 +1,21 @@
 package entities;
 
-import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import java.util.List;
 
 public class Movable extends Entity {
 
     private double velocityX;
     private double velocityY;
+
+    private ImageView iv;
+    private Sprite sprite;
+    boolean idleSet = false;
+    private Sprite spriteIdle;
+    boolean moveSet = false;
+    private Sprite spriteMoving;
+    boolean attackSet = false;
+    private Sprite spriteAttack;
 
     public Movable() { }
 
@@ -36,14 +45,14 @@ public class Movable extends Entity {
         this.getSprite().getImageView().setTranslateX(this.getNode().getTranslateX() + velocityX);
         this.getSprite().getImageView().setTranslateY(this.getNode().getTranslateY() + velocityY);
 
-        // Change sprite direction upon entity direction change
+        // Change sprite direction upon entity direction change based on user input
         if (getVelocityX() > 0) {
             if (getVelocityY() < 0) {
                 this.getSprite().getImageView().setRotate(315);
                 this.getNode().setRotate(315);
             }
             else if (getVelocityY() > 0) {
-                this.getSprite().getImageView().setRotate(45);
+                this.getSprite().getImageView().setRotate(4+5);
                 this.getNode().setRotate(45);
             }
             else
@@ -97,7 +106,35 @@ public class Movable extends Entity {
         setVelocityY(0.0);
     }
 
+    public void setSpriteIdle(String spriteFileName, String extension, int numberImages) {
+        this.idleSet = true;
+        this.spriteIdle = new Sprite(this.iv, spriteFileName, extension, numberImages);
+    }
 
+    public void setSpriteMoving(String spriteFileName, String extension, int numberImages) {
+        this.moveSet = true;
+        this.spriteMoving = new Sprite(this.iv, spriteFileName, extension, numberImages);
+    }
+
+    public void setSpriteAttack(String spriteFileName, String extension, int numberImages) {
+        this.attackSet = true;
+        this.spriteAttack = new Sprite(this.iv, spriteFileName, extension, numberImages);
+    }
+
+    public void setIdle() {
+        if (this.idleSet)
+            this.sprite = this.spriteIdle;
+    }
+
+    public void setMoving() {
+        if (this.moveSet)
+            this.sprite = this.spriteMoving;
+    }
+
+    public void setAttack() {
+        if (this.attackSet)
+            this.sprite = this.spriteAttack;
+    }
 
     public double getVelocityX() {
         return velocityX;

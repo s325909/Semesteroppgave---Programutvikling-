@@ -1,11 +1,9 @@
 package entities;
 
-import gameCode.InitializeGame;
 import javafx.scene.image.ImageView;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 public class Entity{
 
@@ -17,12 +15,6 @@ public class Entity{
     private ImageView iv;
     private Sprite sprite;
     private Sprite spriteDefault;
-    boolean idleSet = false;
-    private Sprite spriteIdle;
-    boolean moveSet = false;
-    private Sprite spriteMoving;
-    boolean attackSet = false;
-    private Sprite spriteAttack;
 
     public Entity() {}
 
@@ -103,35 +95,5 @@ public class Entity{
 
     public void setNode(Node node) {
         this.node = node;
-    }
-
-    public void setSpriteIdle(String spriteFileName, String extension, int numberImages) {
-        this.idleSet = true;
-        this.spriteIdle = new Sprite(this.iv, spriteFileName, extension, numberImages);
-    }
-
-    public void setSpriteMoving(String spriteFileName, String extension, int numberImages) {
-        this.moveSet = true;
-        this.spriteMoving = new Sprite(this.iv, spriteFileName, extension, numberImages);
-    }
-
-    public void setSpriteAttack(String spriteFileName, String extension, int numberImages) {
-        this.attackSet = true;
-        this.spriteAttack = new Sprite(this.iv, spriteFileName, extension, numberImages);
-    }
-
-    public void setIdle() {
-        if (this.idleSet)
-            this.sprite = this.spriteIdle;
-    }
-
-    public void setMoving() {
-        if (this.moveSet)
-            this.sprite = this.spriteMoving;
-    }
-
-    public void setAttack() {
-        if (this.attackSet)
-            this.sprite = this.spriteAttack;
     }
 }

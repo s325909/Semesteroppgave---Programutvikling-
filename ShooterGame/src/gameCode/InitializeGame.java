@@ -31,6 +31,7 @@ public class InitializeGame implements Initializable{
     Stage stage = new Stage();
 
     private Player player;
+    private Zombie zombie;
     private List<Enemy> enemyList = new ArrayList<Enemy>();
 
     public void exit(){
@@ -42,9 +43,11 @@ public class InitializeGame implements Initializable{
 
         try {
             player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);
+            zombie = new Zombie("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, (int)(Math.random()*1280), (int)(Math.random()*720), 100);
             player.setSpriteIdle("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20);
-            player.setSpriteMoving("/resources/Top_Down_Survivor/handgun/move/survivor-move_handgun_", ".png", 20);
+            player.setSpriteMoving("/resources/Top_Down_Survivor/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 20);
             player.setSpriteAttack("/resources/Top_Down_Survivor/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15);
+
         } catch (Exception e) {
             System.out.println("Feilmelding");
         }
@@ -52,9 +55,6 @@ public class InitializeGame implements Initializable{
         for (int i = 0; i < 5; i++) {
             enemyList.add(new Zombie("/resources/Zombie/skeleton-idle_", ".png", 17, (int)(Math.random()*1280), (int)(Math.random()*720), 100));
         }
-
-        //player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);
-
 
         gameWindow.getChildren().add(player.getNode());
 
@@ -71,6 +71,9 @@ public class InitializeGame implements Initializable{
 
     }
 
+    /***
+     * Method for handling player input via keyboard
+     */
     public void getKeyPressed(){
 
         gameWindow.getScene().setOnKeyPressed(e -> {
