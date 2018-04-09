@@ -16,6 +16,7 @@ public class Player extends Movable {
      * @param keyEvent
      */
     public void movePlayer(KeyEvent keyEvent){
+<<<<<<< HEAD
         if (keyEvent.getCode() == KeyCode.LEFT) {
             setMoving();
             goLeft();
@@ -43,6 +44,23 @@ public class Player extends Movable {
         if (keyEvent.getCode() == KeyCode.R) {
             setReloading();
             System.out.println("Reload!");
+=======
+        setMoving();
+        if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
+            goLeft();
+        } else if (keyEvent.getCode() == KeyCode.RIGHT || keyEvent.getCode() == KeyCode.D) {
+            goRight();
+        } else if (keyEvent.getCode() == KeyCode.UP && keyEvent.getCode() != KeyCode.DOWN
+                || keyEvent.getCode() == KeyCode.W && keyEvent.getCode() != KeyCode.S) {
+            goUp();
+        } else if (keyEvent.getCode() == KeyCode.DOWN && keyEvent.getCode() != KeyCode.UP
+                || keyEvent.getCode() == KeyCode.S && keyEvent.getCode() != KeyCode.W) {
+            goDown();
+        }
+
+        if (keyEvent.getCode() == KeyCode.Q) {
+            setAttack();
+>>>>>>> master
         }
     }
 
@@ -52,9 +70,11 @@ public class Player extends Movable {
      */
     public void releasedPlayer(KeyEvent keyEvent){
         setIdle();
-        if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.RIGHT) {
+        if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.RIGHT
+                || keyEvent.getCode() == KeyCode.A || keyEvent.getCode() == KeyCode.D) {
             stopX();
-        } else if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.DOWN) {
+        } else if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.DOWN
+                || keyEvent.getCode() == KeyCode.W || keyEvent.getCode() == KeyCode.S) {
             stopY();
         }
     }
