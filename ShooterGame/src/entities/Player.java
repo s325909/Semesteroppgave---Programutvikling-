@@ -27,7 +27,7 @@ public class Player extends Movable {
             goDown();
         }
 
-        if (keyEvent.getCode() == KeyCode.A) {
+        if (keyEvent.getCode() == KeyCode.SPACE) {
             setAttack();
             System.out.println("Melee!");
         }
