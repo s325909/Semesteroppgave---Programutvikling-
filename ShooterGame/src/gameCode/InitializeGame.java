@@ -43,13 +43,13 @@ public class InitializeGame implements Initializable{
 
         try {
             player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);
-            zombie = new Zombie("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, (int)(Math.random()*1280), (int)(Math.random()*720), 100);
+            //zombie = new Zombie("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, (int)(Math.random()*1280), (int)(Math.random()*720), 100);
             player.setSpriteIdle("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20);
             player.setSpriteMoving("/resources/Top_Down_Survivor/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 20);
             player.setSpriteAttack("/resources/Top_Down_Survivor/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15);
 
         } catch (Exception e) {
-            System.out.println("Feilmelding");
+            System.out.println("Error: Entities did not load correctly");
         }
 
         for (int i = 0; i < 5; i++) {
@@ -60,8 +60,10 @@ public class InitializeGame implements Initializable{
 
         gameWindow.getChildren().add(player.getSprite().getImageView());
 
-        for (Enemy enemy : enemyList)
+        for (Enemy enemy : enemyList) {
             gameWindow.getChildren().add(enemy.getNode());
+            gameWindow.getChildren().add(enemy.getSprite().getImageView());
+        }
 
         Game game = new Game(player, enemyList, gameWindow);
 
