@@ -1,6 +1,7 @@
 package main;
 
 import gameCode.SceneSizeChangeListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,19 +39,22 @@ public class MainController implements Initializable{
         }
 
     }
-
+    @FXML
     public void openLoadMenu(){
-        System.out.println("load menu");
-    }
 
-    public void openOptionsMenu(){
-        System.out.println("settings");
     }
-
+    @FXML
+    public void openOptionsMenu(ActionEvent a){
+        if (a.getSource().equals(options)){
+            System.out.println("options");
+        }
+    }
+    @FXML
     public void openHelpMenu(){
+
         System.out.println("help me plz");
     }
-
+    @FXML
     public void exitGame(){
         Stage stage = (Stage)
                 exit.getScene().getWindow();
