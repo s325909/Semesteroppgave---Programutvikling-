@@ -65,8 +65,8 @@ public class Movable extends Entity {
         // Check for collision between entities and update position and/or velocity
         for(Entity entity : entityList) {
             if(this.isColliding(entity)) {
-                setVelocityX(-1 * getVelocityX());
-                setVelocityY(-1 * getVelocityY());
+                setVelocityX(-2 * getVelocityX());
+                setVelocityY(-2 * getVelocityY());
                 setHealthPoints(getHealthPoints() - 10);
             }
         }
