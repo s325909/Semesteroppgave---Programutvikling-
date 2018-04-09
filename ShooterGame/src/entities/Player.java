@@ -16,17 +16,16 @@ public class Player extends Movable {
      * @param keyEvent
      */
     public void movePlayer(KeyEvent keyEvent){
-<<<<<<< HEAD
-        if (keyEvent.getCode() == KeyCode.LEFT) {
+        if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
             setMoving();
             goLeft();
-        } else if (keyEvent.getCode() == KeyCode.RIGHT) {
+        } else if (keyEvent.getCode() == KeyCode.RIGHT || keyEvent.getCode() == KeyCode.D) {
             setMoving();
             goRight();
-        } else if (keyEvent.getCode() == KeyCode.UP && keyEvent.getCode() != KeyCode.DOWN) {
+        } else if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W) {
             setMoving();
             goUp();
-        } else if (keyEvent.getCode() == KeyCode.DOWN && keyEvent.getCode() != KeyCode.UP) {
+        } else if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
             setMoving();
             goDown();
         }
@@ -44,23 +43,6 @@ public class Player extends Movable {
         if (keyEvent.getCode() == KeyCode.R) {
             setReloading();
             System.out.println("Reload!");
-=======
-        setMoving();
-        if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
-            goLeft();
-        } else if (keyEvent.getCode() == KeyCode.RIGHT || keyEvent.getCode() == KeyCode.D) {
-            goRight();
-        } else if (keyEvent.getCode() == KeyCode.UP && keyEvent.getCode() != KeyCode.DOWN
-                || keyEvent.getCode() == KeyCode.W && keyEvent.getCode() != KeyCode.S) {
-            goUp();
-        } else if (keyEvent.getCode() == KeyCode.DOWN && keyEvent.getCode() != KeyCode.UP
-                || keyEvent.getCode() == KeyCode.S && keyEvent.getCode() != KeyCode.W) {
-            goDown();
-        }
-
-        if (keyEvent.getCode() == KeyCode.Q) {
-            setAttack();
->>>>>>> master
         }
     }
 
