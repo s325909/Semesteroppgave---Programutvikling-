@@ -10,9 +10,9 @@ public class Movable extends Entity {
 
     public Movable() { }
 
-    public Movable(Node node, int x, int y) {
-        super(node, x, y);
-    }
+//    public Movable(Node node, int x, int y) {
+//        super(node, x, y);
+//    }
 
     public Movable(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
         super(filename, extension, numberImages, positionX, positionY, healthPoints);

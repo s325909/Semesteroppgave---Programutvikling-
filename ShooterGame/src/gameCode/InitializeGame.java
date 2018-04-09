@@ -2,6 +2,7 @@ package gameCode;
 
 import entities.Enemy;
 import entities.Player;
+import entities.Zombie;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -49,7 +50,7 @@ public class InitializeGame implements Initializable{
         }
 
         for (int i = 0; i < 5; i++) {
-            enemyList.add(new Enemy(new Circle(25,25,50, Color.RED), (int)(Math.random() * 1280), (int)(Math.random() * 720)));
+            enemyList.add(new Zombie("/resources/Zombie/skeleton-idle_", ".png", 17, (int)(Math.random()*1280), (int)(Math.random()*720), 100));
         }
 
         //player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);

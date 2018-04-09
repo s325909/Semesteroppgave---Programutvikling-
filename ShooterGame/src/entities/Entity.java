@@ -26,13 +26,13 @@ public class Entity{
 
     public Entity() {}
 
-    public Entity(Node node, int x, int y) {
-        this.node = node;
-        this.positionX = x;
-        this.positionY = y;
-        this.node.setTranslateX(x);
-        this.node.setTranslateY(y);
-    }
+//    public Entity(Node node, int x, int y) {
+//        this.node = node;
+//        this.positionX = x;
+//        this.positionY = y;
+//        this.node.setTranslateX(x);
+//        this.node.setTranslateY(y);
+//    }
 
     /*public Entity(String filename, int x, int y) {
         this.iv = new ImageView();
@@ -56,6 +56,11 @@ public class Entity{
         this.healthPoints = healthPoints;
     }
 
+    /***
+     * Method for checking for collision between two objects of type Node
+     * @param otherEntity
+     * @return
+     */
     public boolean isColliding(Entity otherEntity) {
         return this.node.getBoundsInParent().intersects(otherEntity.getNode().getBoundsInParent());
     }
