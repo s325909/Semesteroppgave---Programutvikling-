@@ -7,7 +7,6 @@ public class Sprite {
 
     private double width;
     private double height;
-    private Image image;
     private ImageView iv;
 
     private Image[] frames;

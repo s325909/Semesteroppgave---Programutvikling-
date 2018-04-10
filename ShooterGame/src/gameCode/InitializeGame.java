@@ -32,6 +32,7 @@ public class InitializeGame implements Initializable{
 
     private Player player;
     private List<Enemy> enemyList = new ArrayList<Enemy>();
+    private Game game;
     final private boolean DEBUG = false;
 
     public void exit(){
@@ -41,6 +42,7 @@ public class InitializeGame implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // Create all Entity objects
         try {
             player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);
             player.setSpriteIdle("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20);
@@ -49,15 +51,21 @@ public class InitializeGame implements Initializable{
             player.setSpriteShooting("/resources/Top_Down_Survivor/handgun/shoot/survivor-shoot_handgun_", ".png", 3);
             player.setSpriteReloading("/resources/Top_Down_Survivor/handgun/reload/survivor-reload_handgun_", ".png", 15);
         } catch (Exception e) {
-            System.out.println("Error: Entities did not load correctly");
+            System.out.println("Error: Player did not load correctly");
         }
 
-        for (int i = 0; i < 5; i++) {
-            enemyList.add(new Zombie("/resources/Zombie/skeleton-idle_", ".png", 17, (int)(Math.random()*1280), (int)(Math.random()*720), 100));
-            enemyList.get(i).setSpriteIdle("/resources/Zombie/skeleton-idle_", ".png", 17);
-            enemyList.get(i).setSpriteMoving("/resources/Zombie/skeleton-move_", ".png", 17);
+        try {
+            for (int i = 0; i < 5; i++) {
+                enemyList.add(new Zombie("/resources/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+                enemyList.get(i).setSpriteIdle("/resources/Zombie/skeleton-idle_", ".png", 17);
+                enemyList.get(i).setSpriteMoving("/resources/Zombie/skeleton-move_", ".png", 17);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: Enemies did not load correctly");
         }
 
+        // Add player and enemies to the gameWindow
+        // Enable DEBUG in order to view the Entities represented as Nodes
         if(DEBUG)
             gameWindow.getChildren().add(player.getNode());
 
@@ -66,10 +74,12 @@ public class InitializeGame implements Initializable{
         for (Enemy enemy : enemyList) {
             if(DEBUG)
                 gameWindow.getChildren().add(enemy.getNode());
+
             gameWindow.getChildren().add(enemy.getSprite().getImageView());
         }
 
-        Game game = new Game(player, enemyList, gameWindow);
+        // Initialize the game
+        game = new Game(player, enemyList, gameWindow);
 
         Platform.runLater(this::getKeyPressed);
 
