@@ -117,8 +117,12 @@ public class Game {
                     bonuses.remove(shape);
                     gameWindow.getChildren().remove(shape);
                     score += 1;
-                    System.out.println("You got 1 point! New score equals: " + score);
 
+                    player.setHealthPoints(player.getHealthPoints() + 25);
+                    player.handgunAnimation();
+
+                    System.out.println("Current healthpoints: " + player.getHealthPoints());
+                    System.out.println("You got 1 point! New score equals: " + score);
                     Main.setTitle("The Game... Score: " + score);
                 }
             }
@@ -128,11 +132,12 @@ public class Game {
                     bonuses2.remove(shape);
                     gameWindow.getChildren().remove(shape);
                     score += 2;
+
+                    player.setHealthPoints(player.getHealthPoints() + 50);
+                    player.rifleAnimation();
+
+                    System.out.println("Current healthpoints: " + player.getHealthPoints());
                     System.out.println("You got 2 points! New score equals: " + score);
-
-                    player.setHealthPoints(player.getHealthPoints() + 10);
-                    player.setVelocityX(player.getVelocityX() + 10);
-
                     Main.setTitle("The Game... Score: " + score);
                 }
             }
@@ -140,7 +145,7 @@ public class Game {
             for (Enemy enemy : enemyList)
                 if (player.isColliding(enemy)) {
                     System.out.println("Collision!");
-                    System.out.println("Player hit for " + player.getHealthPoints());
+                    System.out.println("Health remaining: " + player.getHealthPoints());
                 }
         }
     }
