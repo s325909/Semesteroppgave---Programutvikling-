@@ -1,7 +1,10 @@
 package main;
 
+<<<<<<< HEAD
 import gameCode.SceneSizeChangeListener;
 import javafx.event.ActionEvent;
+=======
+>>>>>>> master
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,8 +30,7 @@ public class MainController implements Initializable{
 
     public void launchGame(){
         try{
-            Stage stage = (Stage)
-                    newGame.getScene().getWindow();
+            Stage stage = (Stage) newGame.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../gameCode/TopMenu.fxml"));/* Exception */
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -39,8 +41,28 @@ public class MainController implements Initializable{
         }
 
     }
+<<<<<<< HEAD
     @FXML
     public void openLoadMenu(){
+=======
+
+
+
+    public void openLoadMenu(){
+
+        Parent root;
+
+        try {
+            root = FXMLLoader.load(getClass().getResource("loadFiles.fxml"));
+            Stage loadMenu = new Stage();
+            loadMenu.setScene(new Scene(root, 450, 450));
+            loadMenu.show();
+        } catch (Exception e) {
+            System.out.println("Error");
+            System.out.println(e.getMessage());
+        }
+    }
+>>>>>>> master
 
     }
     @FXML
