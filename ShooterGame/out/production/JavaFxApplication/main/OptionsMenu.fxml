@@ -6,9 +6,31 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="main.MainController"
-            prefHeight="400.0" prefWidth="600.0">
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="main.MainController"
+          alignment="center" hgap="10" vgap="10">
 
-</AnchorPane>
+    <Button GridPane.rowIndex="0" GridPane.columnSpan="0" onAction="#openGameOptions" text="Game Options">
+
+    </Button>
+
+    <Button GridPane.rowIndex="1" GridPane.columnSpan="0" onAction="#openVideoOptions" text="Video Options">
+
+    </Button>
+
+    <Button GridPane.rowIndex="2" GridPane.columnSpan="0" onAction="#openSoundOptions" text="Sound Options">
+
+    </Button>
+
+    <Button GridPane.rowIndex="3" GridPane.columnSpan="0" onAction="#openControls" text="Controls">
+
+    </Button>
+
+    <Button GridPane.rowIndex="4" GridPane.columnSpan="0" onAction="#backToMain" text="Exit to Main Menu">
+
+    </Button>
+
+
+
+</GridPane>

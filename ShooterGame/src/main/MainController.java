@@ -1,10 +1,8 @@
 package main;
 
-<<<<<<< HEAD
 import gameCode.SceneSizeChangeListener;
 import javafx.event.ActionEvent;
-=======
->>>>>>> master
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
