@@ -86,20 +86,6 @@ public class InitializeGame implements Initializable{
                 }
             } else if (e.getCode() == KeyCode.ESCAPE) {
                 System.exit(0);
-<<<<<<< HEAD
-=======
-            } else if (e.getCode() == KeyCode.P) {
-                if(!paused) {
-                    game.pauseGame();
-                    game.stopDrops();
-                    paused = true;
-                }
-                else {
-                    game.resumeGame();
-                    game.startDrops();
-                    paused = false;
-                }
->>>>>>> master
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {
