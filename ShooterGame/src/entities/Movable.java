@@ -8,15 +8,15 @@ public class Movable extends Entity {
     private double velocityX;
     private double velocityY;
 
-    boolean idleSet = false;
+    private boolean idleSet = false;
     private Sprite spriteIdle;
-    boolean moveSet = false;
+    private boolean moveSet = false;
     private Sprite spriteMoving;
-    boolean meleeSet = false;
+    private boolean meleeSet = false;
     private Sprite spriteMelee;
-    boolean shootingSet = false;
+    private boolean shootingSet = false;
     private Sprite spriteShooting;
-    boolean reloadSet = false;
+    private boolean reloadSet = false;
     private Sprite spriteReloading;
 
     public Movable() { }

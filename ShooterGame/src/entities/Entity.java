@@ -11,6 +11,8 @@ public class Entity{
     private int positionX;
     private int positionY;
 
+    private boolean isAlive = true;
+
     private Node node;
     private ImageView iv;
     private Sprite sprite;
@@ -42,6 +44,13 @@ public class Entity{
     public void setSpriteSize(int width, int height) {
         this.sprite.setWidth(width);
         this.sprite.setHeight(height);
+    }
+
+    public boolean checkAlive() {
+        if (this.healthPoints <= 0)
+            return isAlive = false;
+        else
+            return isAlive;
     }
 
     public int getHealthPoints() {

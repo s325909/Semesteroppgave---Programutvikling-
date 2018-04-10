@@ -101,6 +101,8 @@ public class Game {
             entityList.add(player);
             entityList.addAll(enemyList);
 
+            if(player.checkAlive() == false)
+                pauseGame();
 
             for (Enemy enemy : enemyList)
                 enemy.movement(time);
@@ -126,6 +128,8 @@ public class Game {
                     gameWindow.getChildren().remove(shape);
                     score += 2;
                     System.out.println("You got 2 points! New score equals: " + score);
+
+                    player.setHealthPoints(player.getHealthPoints() + 10);
 
                     Main.setTitle("The Game... Score: " + score);
                 }
