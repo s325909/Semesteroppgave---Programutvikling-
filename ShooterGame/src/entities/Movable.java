@@ -1,6 +1,6 @@
 package entities;
 
-import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import java.util.List;
 
 public class Movable extends Entity {
@@ -8,11 +8,22 @@ public class Movable extends Entity {
     private double velocityX;
     private double velocityY;
 
+    boolean idleSet = false;
+    private Sprite spriteIdle;
+    boolean moveSet = false;
+    private Sprite spriteMoving;
+    boolean meleeSet = false;
+    private Sprite spriteMelee;
+    boolean shootingSet = false;
+    private Sprite spriteShooting;
+    boolean reloadSet = false;
+    private Sprite spriteReloading;
+
     public Movable() { }
 
-    public Movable(Node node, int x, int y) {
-        super(node, x, y);
-    }
+//    public Movable(Node node, int x, int y) {
+//        super(node, x, y);
+//    }
 
     public Movable(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
         super(filename, extension, numberImages, positionX, positionY, healthPoints);
@@ -23,7 +34,7 @@ public class Movable extends Entity {
      * @param entityList
      * @param time
      */
-    public void update(List<Enemy> entityList, double time) {
+    public void update(List<Entity> entityList, double time) {
         this.getSprite().setFrame(time);
 
         // Update actual position of object
@@ -36,14 +47,14 @@ public class Movable extends Entity {
         this.getSprite().getImageView().setTranslateX(this.getNode().getTranslateX() + velocityX);
         this.getSprite().getImageView().setTranslateY(this.getNode().getTranslateY() + velocityY);
 
-        // Change sprite direction upon entity direction change
+        // Change sprite direction upon entity direction change based on user input
         if (getVelocityX() > 0) {
             if (getVelocityY() < 0) {
                 this.getSprite().getImageView().setRotate(315);
                 this.getNode().setRotate(315);
             }
             else if (getVelocityY() > 0) {
-                this.getSprite().getImageView().setRotate(45);
+                this.getSprite().getImageView().setRotate(4+5);
                 this.getNode().setRotate(45);
             }
             else
@@ -65,8 +76,8 @@ public class Movable extends Entity {
         // Check for collision between entities and update position and/or velocity
         for(Entity entity : entityList) {
             if(this.isColliding(entity)) {
-                setVelocityX(-1 * getVelocityX());
-                setVelocityY(-1 * getVelocityY());
+                setVelocityX(-2 * getVelocityX());
+                setVelocityY(-2 * getVelocityY());
                 setHealthPoints(getHealthPoints() - 10);
             }
         }
@@ -97,7 +108,55 @@ public class Movable extends Entity {
         setVelocityY(0.0);
     }
 
+    public void setSpriteIdle(String spriteFileName, String extension, int numberImages) {
+        this.idleSet = true;
+        this.spriteIdle = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
+    }
 
+    public void setSpriteMoving(String spriteFileName, String extension, int numberImages) {
+        this.moveSet = true;
+        this.spriteMoving = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
+    }
+
+    public void setSpriteMelee(String spriteFileName, String extension, int numberImages) {
+        this.meleeSet = true;
+        this.spriteMelee = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
+    }
+
+    public void setSpriteShooting(String spriteFileName, String extension, int numberImages) {
+        this.shootingSet = true;
+        this.spriteShooting = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
+    }
+
+    public void setSpriteReloading(String spriteFileName, String extension, int numberImages) {
+        this.reloadSet = true;
+        this.spriteReloading = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
+    }
+
+    public void setIdle() {
+        if (this.idleSet)
+            super.setSprite(this.spriteIdle);
+    }
+
+    public void setMoving() {
+        if (this.moveSet)
+            super.setSprite(this.spriteMoving);
+    }
+
+    public void setMelee() {
+        if (this.meleeSet)
+            super.setSprite(this.spriteMelee);
+    }
+
+    public void setShooting() {
+        if (this.shootingSet)
+            super.setSprite(this.spriteShooting);
+    }
+
+    public void setReloading() {
+        if (this.reloadSet)
+            super.setSprite(this.spriteReloading);
+    }
 
     public double getVelocityX() {
         return velocityX;

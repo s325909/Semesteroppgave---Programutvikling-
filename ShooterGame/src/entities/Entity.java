@@ -1,11 +1,9 @@
 package entities;
 
-import gameCode.InitializeGame;
 import javafx.scene.image.ImageView;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 public class Entity{
 
@@ -17,32 +15,8 @@ public class Entity{
     private ImageView iv;
     private Sprite sprite;
     private Sprite spriteDefault;
-    boolean idleSet = false;
-    private Sprite spriteIdle;
-    boolean moveSet = false;
-    private Sprite spriteMoving;
-    boolean attackSet = false;
-    private Sprite spriteAttack;
 
     public Entity() {}
-
-    public Entity(Node node, int x, int y) {
-        this.node = node;
-        this.positionX = x;
-        this.positionY = y;
-        this.node.setTranslateX(x);
-        this.node.setTranslateY(y);
-    }
-
-    /*public Entity(String filename, int x, int y) {
-        this.iv = new ImageView();
-        //this.sprite = new Sprite(filename, x, y);
-        //this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, this.sprite.getHeight()/2, Color.RED);
-        this.positionX = x;
-        this.positionY = y;
-        this.node.setTranslateX(x);
-        this.node.setTranslateY(y);
-    }*/
 
     public Entity(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
         this.iv = new ImageView();
@@ -56,8 +30,18 @@ public class Entity{
         this.healthPoints = healthPoints;
     }
 
+    /***
+     * Method for checking for collision between two objects of type Node
+     * @param otherEntity
+     * @return
+     */
     public boolean isColliding(Entity otherEntity) {
         return this.node.getBoundsInParent().intersects(otherEntity.getNode().getBoundsInParent());
+    }
+
+    public void setSpriteSize(int width, int height) {
+        this.sprite.setWidth(width);
+        this.sprite.setHeight(height);
     }
 
     public int getHealthPoints() {
@@ -100,33 +84,11 @@ public class Entity{
         this.node = node;
     }
 
-    public void setSpriteIdle(String spriteFileName, String extension, int numberImages) {
-        this.idleSet = true;
-        this.spriteIdle = new Sprite(this.iv, spriteFileName, extension, numberImages);
+    public ImageView getIv() {
+        return this.iv;
     }
 
-    public void setSpriteMoving(String spriteFileName, String extension, int numberImages) {
-        this.moveSet = true;
-        this.spriteMoving = new Sprite(this.iv, spriteFileName, extension, numberImages);
-    }
-
-    public void setSpriteAttack(String spriteFileName, String extension, int numberImages) {
-        this.attackSet = true;
-        this.spriteAttack = new Sprite(this.iv, spriteFileName, extension, numberImages);
-    }
-
-    public void setIdle() {
-        if (this.idleSet)
-            this.sprite = this.spriteIdle;
-    }
-
-    public void setMoving() {
-        if (this.moveSet)
-            this.sprite = this.spriteMoving;
-    }
-
-    public void setAttack() {
-        if (this.attackSet)
-            this.sprite = this.spriteAttack;
+    public void setIv(ImageView iv) {
+        this.iv = iv;
     }
 }
