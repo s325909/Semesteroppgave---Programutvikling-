@@ -33,6 +33,9 @@ public class InitializeGame implements Initializable{
     private Player player;
     private List<Enemy> enemyList = new ArrayList<Enemy>();
     private Game game;
+    private boolean paused = false;
+    private SceneSizeChangeListener sceneChange;
+
     final private boolean DEBUG = false;
 
     public void exit(){
@@ -50,6 +53,7 @@ public class InitializeGame implements Initializable{
             player.setSpriteMelee("/resources/Top_Down_Survivor/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15);
             player.setSpriteShooting("/resources/Top_Down_Survivor/handgun/shoot/survivor-shoot_handgun_", ".png", 3);
             player.setSpriteReloading("/resources/Top_Down_Survivor/handgun/reload/survivor-reload_handgun_", ".png", 15);
+            player.setSpriteSize(250,250);
         } catch (Exception e) {
             System.out.println("Error: Player did not load correctly");
         }
@@ -64,8 +68,8 @@ public class InitializeGame implements Initializable{
             System.out.println("Error: Enemies did not load correctly");
         }
 
-        // Add player and enemies to the gameWindow
-        // Enable DEBUG in order to view the Entities represented as Nodes
+        // Add Entities to the gameWindow
+        // Enable DEBUG in order to view the Entities represented as Nodes (E.g. if Sprites fail to load correctly)
         if(DEBUG)
             gameWindow.getChildren().add(player.getNode());
 
@@ -83,7 +87,7 @@ public class InitializeGame implements Initializable{
 
         Platform.runLater(this::getKeyPressed);
 
-        SceneSizeChangeListener sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
+        sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
 
     }
 
@@ -106,6 +110,15 @@ public class InitializeGame implements Initializable{
                 }
             } else if (e.getCode() == KeyCode.ESCAPE) {
                 System.exit(0);
+            } else if (e.getCode() == KeyCode.P) {
+                if(!paused) {
+                    game.pauseGame();
+                    paused = true;
+                }
+                else {
+                    game.resumeGame();
+                    paused = false;
+                }
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {

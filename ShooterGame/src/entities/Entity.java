@@ -39,6 +39,11 @@ public class Entity{
         return this.node.getBoundsInParent().intersects(otherEntity.getNode().getBoundsInParent());
     }
 
+    public void setSpriteSize(int width, int height) {
+        this.sprite.setWidth(width);
+        this.sprite.setHeight(height);
+    }
+
     public int getHealthPoints() {
         return healthPoints;
     }
