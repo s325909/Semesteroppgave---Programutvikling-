@@ -24,9 +24,9 @@ import java.util.List;
 
 public class Game {
 
-    Pane gameWindow;
-    Player player;
-    List<Enemy> enemyList;
+    private Pane gameWindow;
+    private Player player;
+    private List<Enemy> enemyList;
 
     private boolean running = true;
 
@@ -52,6 +52,7 @@ public class Game {
         timer.start();
     }
 
+    // Methods for pausing and resuming the game via the onUpdate method
     public void pauseGame() {
         this.running = false;
     }
@@ -101,8 +102,8 @@ public class Game {
             entityList.add(player);
             entityList.addAll(enemyList);
 
-            if(player.checkAlive() == false)
-                pauseGame();
+            //if(player.checkAlive() == false)
+              //  pauseGame();
 
             for (Enemy enemy : enemyList)
                 enemy.movement(time);
@@ -130,6 +131,7 @@ public class Game {
                     System.out.println("You got 2 points! New score equals: " + score);
 
                     player.setHealthPoints(player.getHealthPoints() + 10);
+                    player.setVelocityX(player.getVelocityX() + 10);
 
                     Main.setTitle("The Game... Score: " + score);
                 }
