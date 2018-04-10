@@ -113,10 +113,12 @@ public class InitializeGame implements Initializable{
             } else if (e.getCode() == KeyCode.P) {
                 if(!paused) {
                     game.pauseGame();
+                    game.stopDrops();
                     paused = true;
                 }
                 else {
                     game.resumeGame();
+                    game.startDrops();
                     paused = false;
                 }
             }
