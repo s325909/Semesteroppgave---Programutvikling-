@@ -7,6 +7,7 @@ public class Sprite {
 
     private double width;
     private double height;
+    private Image image;
     private ImageView iv;
 
     private Image[] frames;
@@ -40,10 +41,6 @@ public class Sprite {
         //this.iv.setImage(this.frames[0]);
     }
 
-    /***
-     * Method for determining how quickly the array of Sprites should cycle
-     * @param time
-     */
     public void setFrame(double time) {
         int index = (int)((time % (frames.length * duration)) / duration);
         this.iv.setImage(frames[index]);
@@ -55,14 +52,6 @@ public class Sprite {
 
     public double getHeight() {
         return this.height;
-    }
-
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
     }
 
     public Image getImage() {
