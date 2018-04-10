@@ -8,15 +8,15 @@ public class Movable extends Entity {
     private double velocityX;
     private double velocityY;
 
-    boolean idleSet = false;
+    private boolean idleSet = false;
     private Sprite spriteIdle;
-    boolean moveSet = false;
+    private boolean moveSet = false;
     private Sprite spriteMoving;
-    boolean meleeSet = false;
+    private boolean meleeSet = false;
     private Sprite spriteMelee;
-    boolean shootingSet = false;
+    private boolean shootingSet = false;
     private Sprite spriteShooting;
-    boolean reloadSet = false;
+    private boolean reloadSet = false;
     private Sprite spriteReloading;
 
     public Movable() { }
@@ -76,8 +76,10 @@ public class Movable extends Entity {
         // Check for collision between entities and update position and/or velocity
         for(Entity entity : entityList) {
             if(this.isColliding(entity)) {
-                setVelocityX(-2 * getVelocityX());
-                setVelocityY(-2 * getVelocityY());
+                //setVelocityX(-2 * getVelocityX());
+                //setVelocityY(-2 * getVelocityY());
+                setPositionX(-50);
+                setPositionY(-50);
                 setHealthPoints(getHealthPoints() - 10);
             }
         }
