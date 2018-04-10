@@ -48,28 +48,61 @@ public class Game {
         timer.start();
     }
 
+<<<<<<< HEAD
+=======
+    public void pauseGame() {
+        this.running = false;
+    }
+
+    public void resumeGame() {
+        this.running = true;
+    }
+
+    boolean makeDrops = true;
+
+    public void stopDrops(){
+        this.makeDrops = false;
+    }
+
+    public void startDrops(){
+        this.makeDrops = true;
+    }
+
+
+
+>>>>>>> master
     //adds random circles and rectangles
     public void bonus(){
-        int random = (int)Math.floor(Math.random()*100);
-        int x = (int)Math.floor(Math.random()*600);
-        int y = (int)Math.floor(Math.random()*600);
 
-        if(random==5){
-            Rectangle rect = new Rectangle (40, 30, Color.PINK);
-            rect.setX(x);
-            rect.setY(y);
-            bonuses.add(rect);
-            gameWindow.getChildren().addAll(rect);
+        if (makeDrops) {
+
+            int random = (int) Math.floor(Math.random() * 100);
+            int x = (int) Math.floor(Math.random() * 600);
+            int y = (int) Math.floor(Math.random() * 600);
+
+
+            if (random == 5) {
+                Rectangle rect = new Rectangle(40, 30, Color.PINK);
+                rect.setX(x);
+                rect.setY(y);
+                bonuses.add(rect);
+                gameWindow.getChildren().addAll(rect);
+            }
+
+            if (random == 4) {
+                Circle circle = new Circle(50, Color.GRAY);
+                circle.setCenterX(x);
+                circle.setCenterY(y);
+                circle.setRadius(30);
+                bonuses2.add(circle);
+                gameWindow.getChildren().addAll(circle);
+            }
+
+        }{
+            System.out.println("no drops");
         }
 
-        if(random == 4){
-            Circle circle = new Circle (50, Color.GRAY);
-            circle.setCenterX(x);
-            circle.setCenterY(y);
-            circle.setRadius(30);
-            bonuses2.add(circle);
-            gameWindow.getChildren().addAll(circle);
-        }
+
     }
 
     //when player goes over objects....
