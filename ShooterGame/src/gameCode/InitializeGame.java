@@ -47,7 +47,7 @@ public class InitializeGame implements Initializable{
 
         // Create all Entity objects
         try {
-            player = new Player("/resources/Top_Down_Survivor/knife/idle/survivor-idle_knife_", ".png", 20, 500, 500, 100);
+            player = new Player("/resources/Art/Survivor/knife/idle/survivor-idle_knife_", ".png", 20, 500, 500, 100);
             player.knifeAnimation();
             player.setSpriteSize(250,250);
         } catch (Exception e) {
@@ -56,10 +56,10 @@ public class InitializeGame implements Initializable{
 
         try {
             for (int i = 0; i < 10; i++) {
-                enemyList.add(new Zombie("/resources/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
-                enemyList.get(i).setSpriteIdle("/resources/Zombie/skeleton-idle_", ".png", 17);
-                enemyList.get(i).setSpriteMoving("/resources/Zombie/skeleton-move_", ".png", 17);
-                enemyList.get(i).setSpriteMelee("/resources/Zombie/skeleton-attack_", ".png", 9);
+                enemyList.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+                enemyList.get(i).setSpriteIdle("/resources/Art/Zombie/skeleton-idle_", ".png", 17);
+                enemyList.get(i).setSpriteMoving("/resources/Art/Zombie/skeleton-move_", ".png", 17);
+                enemyList.get(i).setSpriteMelee("/resources/Art/Zombie/skeleton-attack_", ".png", 9);
             }
         } catch (Exception e) {
             System.out.println("Error: Enemies did not load correctly");
@@ -118,8 +118,6 @@ public class InitializeGame implements Initializable{
                     game.startDrops();
                     paused = false;
                 }
-            } else if (e.getCode() == KeyCode.F) {
-                player.knifeAnimation();
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {

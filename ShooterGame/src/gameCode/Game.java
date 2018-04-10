@@ -10,6 +10,8 @@ import javafx.animation.Interpolator;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -18,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.Main;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -141,7 +144,7 @@ public class Game {
                     score += 1;
 
                     player.setHealthPoints(player.getHealthPoints() + 25);
-                    player.handgunAnimation();
+                    player.playerAnimation("handgun");
 
                     System.out.println("Current healthpoints: " + player.getHealthPoints());
                     System.out.println("You got 1 point! New score equals: " + score);
@@ -156,7 +159,7 @@ public class Game {
                     score += 2;
 
                     player.setHealthPoints(player.getHealthPoints() + 50);
-                    player.rifleAnimation();
+                    player.playerAnimation("rifle");
 
                     System.out.println("Current healthpoints: " + player.getHealthPoints());
                     System.out.println("You got 2 points! New score equals: " + score);
