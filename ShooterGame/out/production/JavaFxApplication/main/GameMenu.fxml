@@ -40,7 +40,7 @@
                </VBox.margin>
                <font>
                   <Font name="Copperplate Gothic Bold" size="24.0" />
-                </font>
+               </font>
             </Button>
             <Button fx:id="help" mnemonicParsing="false" onAction="#openHelpMenu" prefHeight="75.0" prefWidth="250.0" text="Help">
                <VBox.margin>
