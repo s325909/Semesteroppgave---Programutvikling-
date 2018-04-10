@@ -101,7 +101,7 @@ public class Game {
             }
 
         }{
-            System.out.println("no drops");
+            
         }
 
 
