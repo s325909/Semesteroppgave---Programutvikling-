@@ -2,6 +2,7 @@ package gameCode;
 
 import entities.Enemy;
 import entities.Player;
+import entities.Zombie;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -31,6 +32,11 @@ public class InitializeGame implements Initializable{
 
     private Player player;
     private List<Enemy> enemyList = new ArrayList<Enemy>();
+    private Game game;
+    private boolean paused = false;
+    private SceneSizeChangeListener sceneChange;
+
+    final private boolean DEBUG = false;
 
     public void exit(){
         System.out.println("hello");
@@ -39,37 +45,55 @@ public class InitializeGame implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // Create all Entity objects
         try {
             player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);
             player.setSpriteIdle("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20);
             player.setSpriteMoving("/resources/Top_Down_Survivor/handgun/move/survivor-move_handgun_", ".png", 20);
-            player.setSpriteAttack("/resources/Top_Down_Survivor/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15);
+            player.setSpriteMelee("/resources/Top_Down_Survivor/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15);
+            player.setSpriteShooting("/resources/Top_Down_Survivor/handgun/shoot/survivor-shoot_handgun_", ".png", 3);
+            player.setSpriteReloading("/resources/Top_Down_Survivor/handgun/reload/survivor-reload_handgun_", ".png", 15);
+            player.setSpriteSize(250,250);
         } catch (Exception e) {
-            System.out.println("Feilmelding");
+            System.out.println("Error: Player did not load correctly");
         }
 
-        for (int i = 0; i < 5; i++) {
-            enemyList.add(new Enemy(new Circle(25,25,50, Color.RED), (int)(Math.random() * 1280), (int)(Math.random() * 720)));
+        try {
+            for (int i = 0; i < 175; i++) {
+                enemyList.add(new Zombie("/resources/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+                enemyList.get(i).setSpriteIdle("/resources/Zombie/skeleton-idle_", ".png", 17);
+                enemyList.get(i).setSpriteMoving("/resources/Zombie/skeleton-move_", ".png", 17);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: Enemies did not load correctly");
         }
 
-        //player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);
-
-
-        gameWindow.getChildren().add(player.getNode());
+        // Add Entities to the gameWindow
+        // Enable DEBUG in order to view the Entities represented as Nodes (E.g. if Sprites fail to load correctly)
+        if(DEBUG)
+            gameWindow.getChildren().add(player.getNode());
 
         gameWindow.getChildren().add(player.getSprite().getImageView());
 
-        for (Enemy enemy : enemyList)
-            gameWindow.getChildren().add(enemy.getNode());
+        for (Enemy enemy : enemyList) {
+            if(DEBUG)
+                gameWindow.getChildren().add(enemy.getNode());
 
-        Game game = new Game(player, enemyList, gameWindow);
+            gameWindow.getChildren().add(enemy.getSprite().getImageView());
+        }
+
+        // Initialize the game
+        game = new Game(player, enemyList, gameWindow);
 
         Platform.runLater(this::getKeyPressed);
 
-        SceneSizeChangeListener sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
+        sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
 
     }
 
+    /***
+     * Method for handling player input via keyboard
+     */
     public void getKeyPressed(){
 
         gameWindow.getScene().setOnKeyPressed(e -> {
@@ -86,6 +110,17 @@ public class InitializeGame implements Initializable{
                 }
             } else if (e.getCode() == KeyCode.ESCAPE) {
                 System.exit(0);
+            } else if (e.getCode() == KeyCode.P) {
+                if(!paused) {
+                    game.pauseGame();
+                    game.stopDrops();
+                    paused = true;
+                }
+                else {
+                    game.resumeGame();
+                    game.startDrops();
+                    paused = false;
+                }
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {

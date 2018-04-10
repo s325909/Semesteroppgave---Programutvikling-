@@ -1,6 +1,8 @@
 package gameCode;
 
 import entities.Enemy;
+import entities.Entity;
+import entities.Movable;
 import entities.Player;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
@@ -22,9 +24,11 @@ import java.util.List;
 
 public class Game {
 
-    Pane gameWindow;
-    Player player;
-    List<Enemy> enemyList;
+    private Pane gameWindow;
+    private Player player;
+    private List<Enemy> enemyList;
+
+    private boolean running = true;
 
     private ArrayList<Rectangle> bonuses=new ArrayList<>();
     private ArrayList<Circle> bonuses2=new ArrayList<>();
@@ -39,17 +43,40 @@ public class Game {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-            double time = (now - startNanoTime) / 1000000000.0;
-            onUpdate(time);
-            bonus();
+                double time = (now - startNanoTime) / 1000000000.0;
+                onUpdate(time);
+                bonus();
             }
         };
 
         timer.start();
     }
 
+    // Methods for pausing and resuming the game via the onUpdate method
+    public void pauseGame() {
+        this.running = false;
+    }
+
+    public void resumeGame() {
+        this.running = true;
+    }
+
+    boolean makeDrops = true;
+
+    public void stopDrops(){
+        this.makeDrops = false;
+    }
+
+    public void startDrops(){
+        this.makeDrops = true;
+    }
+
+
+
     //adds random circles and rectangles
     public void bonus(){
+
+        if (makeDrops) {
 
             int random = (int) Math.floor(Math.random() * 100);
             int x = (int) Math.floor(Math.random() * 600);
@@ -77,6 +104,9 @@ public class Game {
 
         }
 
+
+    }
+
     //when player goes over objects....
     public boolean isColliding(Node player, Node otherShape) {
         return player.getBoundsInParent().intersects(otherShape.getBoundsInParent());
@@ -84,35 +114,56 @@ public class Game {
 
     //player gets points and objects disappear
     private void onUpdate(double time) {
-        player.update(enemyList, time);
+        if (running) {
+            ArrayList<Entity> playerList = new ArrayList<Entity>();
+            playerList.addAll(enemyList);
 
-        for (Shape shape : this.bonuses) {
-            if (isColliding(player.getNode(), shape)) {
-                bonuses.remove(shape);
-                gameWindow.getChildren().remove(shape);
-                score += 1;
-                System.out.println("You got 1 point! New score equals: " + score);
+            player.update(playerList, time);
 
-                Main.setTitle("The Game... Score: " + score);
+            ArrayList<Entity> entityList = new ArrayList<Entity>();
+            entityList.add(player);
+            entityList.addAll(enemyList);
+
+            //if(player.checkAlive() == false)
+            //  pauseGame();
+
+            for (Enemy enemy : enemyList)
+                enemy.movement(time);
+
+            for (Enemy enemy : enemyList)
+                enemy.update(entityList, time);
+
+
+            for (Shape shape : this.bonuses) {
+                if (isColliding(player.getNode(), shape)) {
+                    bonuses.remove(shape);
+                    gameWindow.getChildren().remove(shape);
+                    score += 1;
+                    System.out.println("You got 1 point! New score equals: " + score);
+
+                    Main.setTitle("The Game... Score: " + score);
+                }
             }
+
+            for (Shape shape : this.bonuses2) {
+                if (isColliding(player.getNode(), shape)) {
+                    bonuses2.remove(shape);
+                    gameWindow.getChildren().remove(shape);
+                    score += 2;
+                    System.out.println("You got 2 points! New score equals: " + score);
+
+                    player.setHealthPoints(player.getHealthPoints() + 10);
+                    player.setVelocityX(player.getVelocityX() + 10);
+
+                    Main.setTitle("The Game... Score: " + score);
+                }
+            }
+
+            for (Enemy enemy : enemyList)
+                if (player.isColliding(enemy)) {
+                    System.out.println("Collision!");
+                    System.out.println("Player hit for " + player.getHealthPoints());
+                }
         }
-
-        for (Shape shape : this.bonuses2) {
-            if (isColliding(player.getNode(), shape)) {
-                bonuses2.remove(shape);
-                gameWindow.getChildren().remove(shape);
-                score += 2;
-                System.out.println("You got 2 points! New score equals: " + score);
-
-                Main.setTitle("The Game... Score: " + score);
-            }
-        }
-
-        for (Enemy enemy : enemyList)
-            if (player.isColliding(enemy)) {
-                System.out.println("Collision!");
-                System.out.println("Player hit for " + player.getHealthPoints());
-            }
     }
-
 }

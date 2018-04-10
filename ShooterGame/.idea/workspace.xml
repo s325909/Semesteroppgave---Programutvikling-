@@ -34,6 +34,7 @@
         </entry>
       </file>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -46,11 +47,19 @@
             <state relative-caret-position="54">
               <caret line="2" column="15" lean-forward="false" selection-start-line="2" selection-start-column="15" selection-end-line="2" selection-end-column="15" />
 >>>>>>> master
+=======
+      <file leaf-file-name="Enemy.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/entities/Enemy.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="15" column="19" lean-forward="false" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
+>>>>>>> master
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
 <<<<<<< HEAD
       <file leaf-file-name="MainController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/MainController.java">
@@ -69,10 +78,19 @@
                 <marker date="1523350524033" expanded="false" signature="1854:1860" ph=" }" />
 >>>>>>> master
               </folding>
+=======
+      <file leaf-file-name="Zombie.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/entities/Zombie.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="54">
+              <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+              <folding />
+>>>>>>> master
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
 <<<<<<< HEAD
       <file leaf-file-name="InitializeGame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gameCode/InitializeGame.java">
@@ -122,6 +140,14 @@
                 <marker date="1523354456353" expanded="false" signature="5601:5607" ph=" }" />
 >>>>>>> master
               </folding>
+=======
+      <file leaf-file-name="Sprite.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/entities/Sprite.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1190">
+              <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+              <folding />
+>>>>>>> master
             </state>
           </provider>
         </entry>
@@ -137,8 +163,9 @@
       <file leaf-file-name="Entity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/entities/Entity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
+            <state relative-caret-position="-56">
               <caret line="67" column="0" lean-forward="false" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+<<<<<<< HEAD
               <folding>
                 <marker date="1523354456341" expanded="true" signature="1622:1629" ph="{...}" />
                 <marker date="1523354456341" expanded="true" signature="1663:1674" ph=" { " />
@@ -161,6 +188,9 @@
                 <marker date="1523354456341" expanded="false" signature="2289:2295" ph=" }" />
               </folding>
 >>>>>>> master
+=======
+              <folding />
+>>>>>>> master
             </state>
           </provider>
           <provider editor-type-id="JavaFX-Scene-Builder">
@@ -168,9 +198,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Enemy.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/entities/Enemy.java">
+      <file leaf-file-name="LoadController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/LoadController.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
             <state relative-caret-position="742">
               <caret line="49" column="20" lean-forward="true" selection-start-line="49" selection-start-column="20" selection-end-line="49" selection-end-column="20" />
@@ -179,14 +210,23 @@
               <caret line="21" column="20" lean-forward="true" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
 >>>>>>> master
               <folding />
+=======
+            <state relative-caret-position="189">
+              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+              <folding>
+                <marker date="1523355298332" expanded="true" signature="412:420" ph="{}" />
+                <marker date="1523355298332" expanded="true" signature="506:561" ph="{...}" />
+                <marker date="1523355298332" expanded="true" signature="591:646" ph="{...}" />
+              </folding>
+>>>>>>> master
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Game.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gameCode/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
+            <state relative-caret-position="174">
               <caret line="103" column="12" lean-forward="false" selection-start-line="103" selection-start-column="12" selection-end-line="103" selection-end-column="12" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -207,6 +247,7 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="Movable.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/entities/Movable.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -218,12 +259,24 @@
 =======
             <state relative-caret-position="66">
               <caret line="114" column="0" lean-forward="false" selection-start-line="114" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
+=======
+      <file leaf-file-name="InitializeGame.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/gameCode/InitializeGame.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="268">
+              <caret line="61" column="35" lean-forward="false" selection-start-line="61" selection-start-column="35" selection-end-line="61" selection-end-column="35" />
+>>>>>>> master
               <folding>
                 <element signature="e#877#884#0" expanded="true" />
                 <element signature="e#1061#1062#0" expanded="true" />
                 <element signature="e#1104#1105#0" expanded="true" />
+<<<<<<< HEAD
                 <marker date="1523353608864" expanded="false" signature="4876:4887" ph=" { " />
                 <marker date="1523353608864" expanded="false" signature="4902:4908" ph=" }" />
+>>>>>>> master
+=======
+                <marker date="1523356304267" expanded="false" signature="4878:4889" ph=" { " />
+                <marker date="1523356304267" expanded="false" signature="4904:4910" ph=" }" />
 >>>>>>> master
               </folding>
             </state>
@@ -294,7 +347,6 @@
         <option value="$PROJECT_DIR$/src/GameCode/Main.java" />
         <option value="$PROJECT_DIR$/src/entities/Prize.java" />
         <option value="$PROJECT_DIR$/src/entities/Prices.java" />
-        <option value="$PROJECT_DIR$/src/entities/Enemy.java" />
         <option value="$PROJECT_DIR$/src/entities/Prizes.java" />
         <option value="$PROJECT_DIR$/src/entities/Bonus.java" />
         <option value="$PROJECT_DIR$/src/entities/Entity.java" />
@@ -308,8 +360,12 @@
 <<<<<<< HEAD
 =======
         <option value="$PROJECT_DIR$/src/gameCode/TopMenu.fxml" />
-        <option value="$PROJECT_DIR$/src/gameCode/InitializeGame.java" />
         <option value="$PROJECT_DIR$/src/gameCode/Game.java" />
+<<<<<<< HEAD
+>>>>>>> master
+=======
+        <option value="$PROJECT_DIR$/src/entities/Enemy.java" />
+        <option value="$PROJECT_DIR$/src/gameCode/InitializeGame.java" />
 >>>>>>> master
       </list>
     </option>
@@ -373,6 +429,26 @@
               <item name="ShooterGame" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ShooterGame" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ShooterGame" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ShooterGame" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ShooterGame" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="Top_Down_Survivor" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ShooterGame" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ShooterGame" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="Zombie" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -529,9 +605,13 @@
   </component>
   <component name="TimeTrackingManager">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="24138000" />
 =======
     <option name="totallyTimeSpent" value="35512000" />
+>>>>>>> master
+=======
+    <option name="totallyTimeSpent" value="36449000" />
 >>>>>>> master
   </component>
   <component name="ToolWindowManager">
@@ -664,6 +744,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/GameCode/PlayerInput.java" />
     <entry file="file://$PROJECT_DIR$/src/entities/Movable.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -684,6 +765,8 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> master
     <entry file="file://$PROJECT_DIR$/src/entities/Sprite.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="972">
@@ -729,27 +812,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <marker date="1523354456341" expanded="true" signature="1622:1629" ph="{...}" />
-            <marker date="1523354456341" expanded="true" signature="1663:1674" ph=" { " />
-            <marker date="1523354456341" expanded="true" signature="1694:1700" ph=" }" />
-            <marker date="1523354456341" expanded="true" signature="1745:1756" ph=" { " />
-            <marker date="1523354456341" expanded="true" signature="1783:1789" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="1820:1831" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="1848:1854" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="1899:1910" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="1937:1943" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="1974:1985" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2002:2008" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2053:2064" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2091:2097" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2128:2139" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2153:2159" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2201:2212" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2233:2239" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2266:2277" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2289:2295" ph=" }" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -757,6 +820,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+<<<<<<< HEAD
           <folding>
 <<<<<<< HEAD
             <element signature="imports" expanded="true" />
@@ -792,6 +856,9 @@
             <marker date="1523354456353" expanded="false" signature="5601:5607" ph=" }" />
 >>>>>>> master
           </folding>
+=======
+          <folding />
+>>>>>>> master
         </state>
       </provider>
     </entry>
@@ -800,6 +867,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+<<<<<<< HEAD
           <folding>
 <<<<<<< HEAD
             <element signature="imports" expanded="true" />
@@ -835,6 +903,9 @@
             <marker date="1523354456353" expanded="false" signature="5601:5607" ph=" }" />
 >>>>>>> master
           </folding>
+=======
+          <folding />
+>>>>>>> master
         </state>
       </provider>
     </entry>
@@ -866,27 +937,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="243">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding>
-            <marker date="1523354456341" expanded="true" signature="1622:1629" ph="{...}" />
-            <marker date="1523354456341" expanded="true" signature="1663:1674" ph=" { " />
-            <marker date="1523354456341" expanded="true" signature="1694:1700" ph=" }" />
-            <marker date="1523354456341" expanded="true" signature="1745:1756" ph=" { " />
-            <marker date="1523354456341" expanded="true" signature="1783:1789" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="1820:1831" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="1848:1854" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="1899:1910" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="1937:1943" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="1974:1985" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2002:2008" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2053:2064" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2091:2097" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2128:2139" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2153:2159" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2201:2212" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2233:2239" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2266:2277" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2289:2295" ph=" }" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -896,6 +947,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+<<<<<<< HEAD
           <folding>
 <<<<<<< HEAD
             <element signature="imports" expanded="true" />
@@ -931,6 +983,9 @@
             <marker date="1523354456353" expanded="false" signature="5601:5607" ph=" }" />
 >>>>>>> master
           </folding>
+=======
+          <folding />
+>>>>>>> master
         </state>
       </provider>
     </entry>
@@ -962,27 +1017,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="243">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding>
-            <marker date="1523354456341" expanded="true" signature="1622:1629" ph="{...}" />
-            <marker date="1523354456341" expanded="true" signature="1663:1674" ph=" { " />
-            <marker date="1523354456341" expanded="true" signature="1694:1700" ph=" }" />
-            <marker date="1523354456341" expanded="true" signature="1745:1756" ph=" { " />
-            <marker date="1523354456341" expanded="true" signature="1783:1789" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="1820:1831" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="1848:1854" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="1899:1910" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="1937:1943" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="1974:1985" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2002:2008" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2053:2064" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2091:2097" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2128:2139" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2153:2159" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2201:2212" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2233:2239" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2266:2277" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2289:2295" ph=" }" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1044,6 +1079,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/entities/Sprite.java">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
@@ -1060,6 +1096,8 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> master
     <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/javafx.graphics/javafx/scene/shape/Rectangle.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
@@ -1089,8 +1127,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gameCode/Game.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="294">
           <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+=======
+        <state relative-caret-position="189">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding>
+            <marker date="1523355298332" expanded="true" signature="412:420" ph="{}" />
+            <marker date="1523355298332" expanded="true" signature="506:561" ph="{...}" />
+            <marker date="1523355298332" expanded="true" signature="591:646" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/GameMenu.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="28" column="84" lean-forward="false" selection-start-line="28" selection-start-column="84" selection-end-line="28" selection-end-column="84" />
+>>>>>>> master
           <folding />
         </state>
       </provider>
@@ -1134,6 +1189,7 @@
 =======
         <state relative-caret-position="-2121">
           <caret line="67" column="31" lean-forward="false" selection-start-line="67" selection-start-column="31" selection-end-line="67" selection-end-column="31" />
+<<<<<<< HEAD
           <folding>
             <marker date="1523354456353" expanded="true" signature="3177:3266" ph="{...}" />
             <marker date="1523354456353" expanded="true" signature="3338:3349" ph=" { " />
@@ -1178,6 +1234,16 @@
         <state relative-caret-position="459">
           <caret line="21" column="20" lean-forward="true" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
 >>>>>>> master
+=======
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/entities/Zombie.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+>>>>>>> master
           <folding />
         </state>
       </provider>
@@ -1187,6 +1253,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gameCode/TopMenu.fxml">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
         <state relative-caret-position="742">
           <caret line="49" column="20" lean-forward="true" selection-start-line="49" selection-start-column="20" selection-end-line="49" selection-end-column="20" />
@@ -1205,48 +1272,25 @@
             <element signature="imports" expanded="true" />
 =======
         <state relative-caret-position="248">
+=======
+        <state relative-caret-position="-56">
+>>>>>>> master
           <caret line="67" column="0" lean-forward="false" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
-          <folding>
-            <marker date="1523354456341" expanded="true" signature="1622:1629" ph="{...}" />
-            <marker date="1523354456341" expanded="true" signature="1663:1674" ph=" { " />
-            <marker date="1523354456341" expanded="true" signature="1694:1700" ph=" }" />
-            <marker date="1523354456341" expanded="true" signature="1745:1756" ph=" { " />
-            <marker date="1523354456341" expanded="true" signature="1783:1789" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="1820:1831" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="1848:1854" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="1899:1910" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="1937:1943" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="1974:1985" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2002:2008" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2053:2064" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2091:2097" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2128:2139" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2153:2159" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2201:2212" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2233:2239" ph=" }" />
-            <marker date="1523354456341" expanded="false" signature="2266:2277" ph=" { " />
-            <marker date="1523354456341" expanded="false" signature="2289:2295" ph=" }" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gameCode/InitializeGame.java">
+    <entry file="file://$PROJECT_DIR$/src/entities/Enemy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="114" column="0" lean-forward="false" selection-start-line="114" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
-          <folding>
-            <element signature="e#877#884#0" expanded="true" />
-            <element signature="e#1061#1062#0" expanded="true" />
-            <element signature="e#1104#1105#0" expanded="true" />
-            <marker date="1523353608864" expanded="false" signature="4876:4887" ph=" { " />
-            <marker date="1523353608864" expanded="false" signature="4902:4908" ph=" }" />
-          </folding>
+        <state relative-caret-position="216">
+          <caret line="15" column="19" lean-forward="false" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gameCode/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
+        <state relative-caret-position="174">
           <caret line="103" column="12" lean-forward="false" selection-start-line="103" selection-start-column="12" selection-end-line="103" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1263,6 +1307,28 @@
             <element signature="e#3058#3066#0" expanded="true" />
             <element signature="e#3215#3223#0" expanded="true" />
 >>>>>>> master
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/entities/Sprite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1190">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameCode/InitializeGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="61" column="35" lean-forward="false" selection-start-line="61" selection-start-column="35" selection-end-line="61" selection-end-column="35" />
+          <folding>
+            <element signature="e#877#884#0" expanded="true" />
+            <element signature="e#1061#1062#0" expanded="true" />
+            <element signature="e#1104#1105#0" expanded="true" />
+            <marker date="1523356304267" expanded="false" signature="4878:4889" ph=" { " />
+            <marker date="1523356304267" expanded="false" signature="4904:4910" ph=" }" />
           </folding>
         </state>
       </provider>
