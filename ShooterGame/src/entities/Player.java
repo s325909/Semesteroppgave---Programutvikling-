@@ -41,8 +41,9 @@ public class Player extends Movable {
         }
     }
 
-    AudioClip audioClip = new AudioClip(this.getClass().getResource("/resources/Sound/Sound Effects/pistol_shot.wav").toExternalForm());
+    AudioClip audioClipFire = new AudioClip(this.getClass().getResource("/resources/Sound/Sound Effects/pistol_shot.wav").toExternalForm());
     AudioClip audioClipReload = new AudioClip(this.getClass().getResource("/resources/Sound/Sound Effects/pistol_reload.mp3").toExternalForm());
+    AudioClip audioClipWalking = new AudioClip(this.getClass().getResource("/resources/Sound/Sound Effects/footsteps_single.wav").toExternalForm());
 
     /***
      * Method for turning player keyboard input into movement on the screen
@@ -52,15 +53,19 @@ public class Player extends Movable {
         if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
             setMoving();
             goLeft();
+            audioClipWalking.play();
         } else if (keyEvent.getCode() == KeyCode.RIGHT || keyEvent.getCode() == KeyCode.D) {
             setMoving();
             goRight();
+            audioClipWalking.play();
         } else if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W) {
             setMoving();
             goUp();
+            audioClipWalking.play();
         } else if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
             setMoving();
             goDown();
+            audioClipWalking.play();
         }
 
         if (keyEvent.getCode() == KeyCode.E) {
@@ -69,8 +74,8 @@ public class Player extends Movable {
         } else if (keyEvent.getCode() == KeyCode.SPACE) {
             if(!knifeEquipped) {
                 setShooting();
-                audioClip.setVolume(0.25);
-                audioClip.play();
+                audioClipFire.setVolume(0.25);
+                audioClipFire.play();
                 System.out.println("Fire!");
             } else {
                 setMelee();
@@ -96,9 +101,11 @@ public class Player extends Movable {
         if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.RIGHT
                 || keyEvent.getCode() == KeyCode.A || keyEvent.getCode() == KeyCode.D) {
             stopX();
+            audioClipWalking.stop();
         } else if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.DOWN
                 || keyEvent.getCode() == KeyCode.W || keyEvent.getCode() == KeyCode.S) {
             stopY();
+            audioClipWalking.stop();
         }
     }
 }

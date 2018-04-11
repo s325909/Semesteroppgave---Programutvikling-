@@ -22,7 +22,7 @@ public class Game {
     private List<Enemy> enemyList;
 
     private boolean running = true;
-    private boolean createPowerUps = true;
+    private boolean createDrops = true;
 
     private ArrayList<Rectangle> bonuses=new ArrayList<>();
     private ArrayList<Circle> bonuses2=new ArrayList<>();
@@ -56,10 +56,10 @@ public class Game {
     }
 
     public void pauseDrops() {
-        if (createPowerUps) {
-            this.createPowerUps = false;
+        if (createDrops) {
+            this.createDrops = false;
         } else {
-            this.createPowerUps = true;
+            this.createDrops = true;
         }
     }
 
@@ -68,7 +68,7 @@ public class Game {
     //adds random circles and rectangles
     public void bonus(){
 
-        if (createPowerUps) {
+        if (createDrops) {
 
             int random = (int) Math.floor(Math.random() * 100);
             int x = (int) Math.floor(Math.random() * 600);
@@ -119,11 +119,12 @@ public class Game {
             //if(player.checkAlive() == false)
               //  pauseGame();
 
-            for (Enemy enemy : enemyList)
-                enemy.movement(time);
-
-            for (Enemy enemy : enemyList)
+            for (Enemy enemy : enemyList) {
                 enemy.update(entityList, time);
+                enemy.movement(time);
+                enemy.idleSound(time, "/resources/Sound/Sound Effects/zombie_grunt1.wav");
+            }
+
 
 
             for (Shape shape : this.bonuses) {
