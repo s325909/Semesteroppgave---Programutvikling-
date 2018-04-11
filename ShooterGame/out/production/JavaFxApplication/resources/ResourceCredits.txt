@@ -1,0 +1,18 @@
+Art:
+Animated Top Down Survivor
+Animated Top Down Zombie 
+by Riley Gombart
+https://opengameart.org/users/rileygombart
+
+Sounds:
+freesound.org
+
+Pistol Shot by LeMudCrab
+https://freesound.org/people/LeMudCrab/sounds/163456/
+
+Pistol Reload by GFL7
+https://freesound.org/people/GFL7/sounds/276959/
+
+Soundtrack:
+Doom (1993) by id Software
+https://en.wikipedia.org/wiki/Doom_(1993_video_game)

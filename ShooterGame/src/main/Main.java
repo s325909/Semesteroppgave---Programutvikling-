@@ -28,11 +28,8 @@ public class Main extends Application {
 
     private static Stage stage;
 
-    MusicPlayer musicPlayer;
-
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //musicPlayer = new MusicPlayer("D:/Doom.mp3");
 
         Main.stage = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("GameMenu.fxml"));

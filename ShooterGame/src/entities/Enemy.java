@@ -10,29 +10,31 @@ public class Enemy extends Movable {
     }
 
     public void movement(double time) {
-        int i = (int)(time % 30);
+        int i = (int)(time % 10);
 
-        if (i < 5) {
+        setMoving();
+
+        if (i < 1) {
             goUp();
-            stopX();
-            setMoving();
-        }
-        else if (i < 10) {
-            goDown();
-            stopX();
-            setMoving();
-        }
-        else if (i < 15) {
-            goLeft();
-            stopY();
-            setMoving();
-        }
-        else if (i < 20){
+        } else if (i < 2) {
+            goUp();
             goRight();
-            stopY();
-            setMoving();
-        }
-        else {
+        } else if (i < 3) {
+            goRight();
+        } else if (i < 4) {
+            goRight();
+            goDown();
+        } else if (i < 5){
+            goDown();
+        } else if (i < 6) {
+            goDown();
+            goLeft();
+        } else if (i < 7) {
+            goLeft();
+        } else if (i < 8) {
+            goLeft();
+            goUp();
+        } else {
             stopX();
             stopY();
             setIdle();

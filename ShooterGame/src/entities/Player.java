@@ -2,6 +2,7 @@ package entities;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.AudioClip;
 
 public class Player extends Movable {
 
@@ -39,17 +40,9 @@ public class Player extends Movable {
             knifeEquipped = false;
         }
     }
-    public void knifeAnimation() {
 
-    }
-
-    public void handgunAnimation() {
-
-    }
-
-    public void rifleAnimation() {
-
-    }
+    AudioClip audioClip = new AudioClip(this.getClass().getResource("/resources/Sound/Sound Effects/pistol_shot.wav").toExternalForm());
+    AudioClip audioClipReload = new AudioClip(this.getClass().getResource("/resources/Sound/Sound Effects/pistol_reload.mp3").toExternalForm());
 
     /***
      * Method for turning player keyboard input into movement on the screen
@@ -76,6 +69,8 @@ public class Player extends Movable {
         } else if (keyEvent.getCode() == KeyCode.SPACE) {
             if(!knifeEquipped) {
                 setShooting();
+                audioClip.setVolume(0.25);
+                audioClip.play();
                 System.out.println("Fire!");
             } else {
                 setMelee();
@@ -83,9 +78,11 @@ public class Player extends Movable {
             }
         } else if (keyEvent.getCode() == KeyCode.R && !knifeEquipped) {
             setReloading();
+            audioClipReload.setVolume(0.25);
+            audioClipReload.play();
             System.out.println("Reload!");
         } else if (keyEvent.getCode() == KeyCode.F) {
-            knifeAnimation();
+            playerAnimation("knife");
             System.out.println("Switched to knife");
         }
     }

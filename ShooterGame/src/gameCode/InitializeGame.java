@@ -41,7 +41,7 @@ public class InitializeGame implements Initializable{
 
         // Play soundtrack
         try {
-            musicPlayer = new MusicPlayer("D:/Doom2.mp3");
+            musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
         } catch (Exception e) {
             System.out.println("Error: Could not find sound file");
         }
@@ -49,7 +49,7 @@ public class InitializeGame implements Initializable{
         // Create all Entity objects
         try {
             player = new Player("/resources/Art/Survivor/knife/idle/survivor-idle_knife_", ".png", 20, 500, 500, 100);
-            player.knifeAnimation();
+            player.playerAnimation("knife");
             player.setSpriteSize(250, 250);
         } catch (Exception e) {
             System.out.println("Error: Player did not load correctly");
