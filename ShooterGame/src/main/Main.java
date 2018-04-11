@@ -1,5 +1,6 @@
 package main;
 
+import gameCode.MusicPlayer;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,8 +28,12 @@ public class Main extends Application {
 
     private static Stage stage;
 
+    MusicPlayer musicPlayer;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
+        //musicPlayer = new MusicPlayer("D:/Doom.mp3");
+
         Main.stage = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("GameMenu.fxml"));
         primaryStage.setTitle("The Game");
