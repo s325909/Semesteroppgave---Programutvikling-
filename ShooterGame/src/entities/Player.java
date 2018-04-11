@@ -6,7 +6,7 @@ import javafx.scene.media.AudioClip;
 
 public class Player extends Movable {
 
-    private boolean knifeEquipped;
+    private String equippedWeapon;
 
     public Player(){}
 
@@ -23,27 +23,32 @@ public class Player extends Movable {
             setSpriteIdle("/resources/Art/Survivor/knife/idle/survivor-idle_knife_", ".png", 20);
             setSpriteMoving("/resources/Art/Survivor/knife/move/survivor-move_knife_", ".png", 20);
             setSpriteMelee("/resources/Art/Survivor/knife/meleeattack/survivor-meleeattack_knife_", ".png", 15);
-            knifeEquipped = true;
+            equippedWeapon = "knife";
         } else if (animationWanted == "handgun") {
             setSpriteIdle("/resources/Art/Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20);
             setSpriteMoving("/resources/Art/Survivor/handgun/move/survivor-move_handgun_", ".png", 20);
             setSpriteMelee("/resources/Art/Survivor/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15);
             setSpriteShooting("/resources/Art/Survivor/handgun/shoot/survivor-shoot_handgun_", ".png", 3);
             setSpriteReloading("/resources/Art/Survivor/handgun/reload/survivor-reload_handgun_", ".png", 15);
-            knifeEquipped = false;
+            equippedWeapon = "handgun";
         } else if (animationWanted == "rifle") {
             setSpriteIdle("/resources/Art/Survivor/rifle/idle/survivor-idle_rifle_", ".png", 20);
             setSpriteMoving("/resources/Art/Survivor/rifle/move/survivor-move_rifle_", ".png", 20);
             setSpriteMelee("/resources/Art/Survivor/rifle/meleeattack/survivor-meleeattack_rifle_", ".png", 15);
             setSpriteShooting("/resources/Art/Survivor/rifle/shoot/survivor-shoot_rifle_", ".png", 3);
             setSpriteReloading("/resources/Art/Survivor/rifle/reload/survivor-reload_rifle_", ".png", 20);
-            knifeEquipped = false;
+            equippedWeapon = "rifle";
         }
     }
 
     AudioClip audioClipFire = new AudioClip(this.getClass().getResource("/resources/Sound/Sound Effects/pistol_shot.wav").toExternalForm());
     AudioClip audioClipReload = new AudioClip(this.getClass().getResource("/resources/Sound/Sound Effects/pistol_reload.mp3").toExternalForm());
     AudioClip audioClipWalking = new AudioClip(this.getClass().getResource("/resources/Sound/Sound Effects/footsteps_single.wav").toExternalForm());
+
+    AudioClip audioClipRifleFire = new AudioClip(this.getClass().getResource("/resources/Sound/Sound Effects/rifle_shot.wav").toExternalForm());
+    AudioClip audioClipRifleReload = new AudioClip(this.getClass().getResource("/resources/Sound/Sound Effects/rifle_reload.mp3").toExternalForm());
+
+    AudioClip audioClipKnifeSwish = new AudioClip(this.getClass().getResource("/resources/Sound/Sound Effects/knife_swish.mp3").toExternalForm());
 
     /***
      * Method for turning player keyboard input into movement on the screen
@@ -71,21 +76,39 @@ public class Player extends Movable {
         if (keyEvent.getCode() == KeyCode.E) {
             setMelee();
             System.out.println("Melee!");
+            if (equippedWeapon == "knife") {
+                audioClipKnifeSwish.setVolume(0.25);
+                audioClipKnifeSwish.play();
+            }
         } else if (keyEvent.getCode() == KeyCode.SPACE) {
-            if(!knifeEquipped) {
+            if(equippedWeapon != "knife") {
                 setShooting();
-                audioClipFire.setVolume(0.25);
-                audioClipFire.play();
                 System.out.println("Fire!");
+
+                if (equippedWeapon == "handgun") {
+                    audioClipFire.setVolume(0.25);
+                    audioClipFire.play();
+                } else if (equippedWeapon == "rifle") {
+                    audioClipRifleFire.setVolume(0.25);
+                    audioClipRifleFire.play();
+                }
             } else {
                 setMelee();
+                audioClipKnifeSwish.setVolume(0.25);
+                audioClipKnifeSwish.play();
                 System.out.println("Melee by space!");
             }
-        } else if (keyEvent.getCode() == KeyCode.R && !knifeEquipped) {
+        } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != "knife") {
             setReloading();
-            audioClipReload.setVolume(0.25);
-            audioClipReload.play();
             System.out.println("Reload!");
+
+            if (equippedWeapon == "handgun") {
+                audioClipReload.setVolume(0.25);
+                audioClipReload.play();
+            } else if (equippedWeapon == "rifle") {
+                audioClipRifleReload.setVolume(0.25);
+                audioClipRifleReload.play();
+            }
         } else if (keyEvent.getCode() == KeyCode.F) {
             playerAnimation("knife");
             System.out.println("Switched to knife");

@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.MenuBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -20,6 +21,7 @@ public class InitializeGame implements Initializable{
 
     @FXML Pane gameWindow;
     @FXML MenuBar topbar;
+    @FXML Text hpCounter;
 
     Stage stage = new Stage();
 

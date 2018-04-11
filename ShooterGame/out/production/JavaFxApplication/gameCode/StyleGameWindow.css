@@ -1,0 +1,4 @@
+.gameWindow {
+    -fx-background-image: url("../resources/Art/tileset_stone.jpg");
+    -fx-background-repeat: repeat;
+}
