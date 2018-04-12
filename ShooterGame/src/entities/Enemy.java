@@ -1,6 +1,7 @@
 package entities;
 
 import javafx.scene.Node;
+import javafx.scene.media.AudioClip;
 
 import javafx.scene.Node;
 
@@ -12,32 +13,38 @@ public class Enemy extends Movable {
     }
 
     public void movement(double time) {
-        int i = (int)(time % 30);
+        int i = (int)(time % 10);
 
-        if (i < 5) {
+        setMoving();
+
+        if (i < 2) {
             goUp();
-            stopX();
-            setMoving();
-        }
-        else if (i < 10) {
-            goDown();
-            stopX();
-            setMoving();
-        }
-        else if (i < 15) {
-            goLeft();
-            stopY();
-            setMoving();
-        }
-        else if (i < 20){
             goRight();
-            stopY();
-            setMoving();
-        }
-        else {
+        } else if (i < 4) {
+            goRight();
+            goDown();
+        } else if (i < 6) {
+            goDown();
+            goLeft();
+        } else if (i < 8){
+            goLeft();
+            goUp();
+        } else {
             stopX();
             stopY();
             setIdle();
         }
     }
+
+    public void idleSound(double time, String filename) {
+        int i = (int)(time % 15);
+
+        AudioClip audioClip = new AudioClip(getClass().getResource(filename).toExternalForm());
+        audioClip.setVolume(0.15);
+
+        if (i < 1) {
+            audioClip.play();
+        }
+    }
 }
+

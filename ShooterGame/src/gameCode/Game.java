@@ -2,27 +2,17 @@ package gameCode;
 
 import entities.Enemy;
 import entities.Entity;
-import entities.Movable;
 import entities.Player;
-import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
-import javafx.animation.Interpolator;
 import javafx.scene.Node;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 import main.Main;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Game {
@@ -32,6 +22,7 @@ public class Game {
     private List<Enemy> enemyList;
 
     private boolean running = true;
+    private boolean createDrops = true;
 
     private ArrayList<Rectangle> bonuses=new ArrayList<>();
     private ArrayList<Circle> bonuses2=new ArrayList<>();
@@ -57,21 +48,19 @@ public class Game {
 
     // Methods for pausing and resuming the game via the onUpdate method
     public void pauseGame() {
-        this.running = false;
+        if (running) {
+            this.running = false;
+        } else {
+            this.running = true;
+        }
     }
 
-    public void resumeGame() {
-        this.running = true;
-    }
-
-    boolean makeDrops = true;
-
-    public void stopDrops(){
-        this.makeDrops = false;
-    }
-
-    public void startDrops(){
-        this.makeDrops = true;
+    public void pauseDrops() {
+        if (createDrops) {
+            this.createDrops = false;
+        } else {
+            this.createDrops = true;
+        }
     }
 
 
@@ -79,7 +68,7 @@ public class Game {
     //adds random circles and rectangles
     public void bonus(){
 
-        if (makeDrops) {
+        if (createDrops) {
 
             int random = (int) Math.floor(Math.random() * 100);
             int x = (int) Math.floor(Math.random() * 600);
@@ -130,11 +119,12 @@ public class Game {
             //if(player.checkAlive() == false)
             //  pauseGame();
 
-            for (Enemy enemy : enemyList)
-                enemy.movement(time);
-
-            for (Enemy enemy : enemyList)
+            for (Enemy enemy : enemyList) {
                 enemy.update(entityList, time);
+                enemy.movement(time);
+                enemy.idleSound(time, "/resources/Sound/Sound Effects/zombie_grunt1.wav");
+            }
+
 
 
             for (Shape shape : this.bonuses) {

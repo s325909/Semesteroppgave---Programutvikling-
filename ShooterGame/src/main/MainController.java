@@ -26,8 +26,9 @@ public class MainController implements Initializable{
     public void launchGame(){
         try{
             Stage stage = (Stage) newGame.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../gameCode/TopMenu.fxml"));/* Exception */
+            Parent root = FXMLLoader.load(getClass().getResource("../gameCode/GameWindow.fxml"));/* Exception */
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("../gameCode/StyleGameWindow.css").toExternalForm());
             stage.setScene(scene);
             stage.show();
 

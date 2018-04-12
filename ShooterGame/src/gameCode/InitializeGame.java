@@ -3,20 +3,14 @@ package gameCode;
 import entities.Enemy;
 import entities.Player;
 import entities.Zombie;
-import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import main.MainController;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,14 +21,16 @@ public class InitializeGame implements Initializable{
 
     @FXML Pane gameWindow;
     @FXML MenuBar topbar;
+    @FXML Text hpCounter;
 
     Stage stage = new Stage();
 
     private Player player;
     private List<Enemy> enemyList = new ArrayList<Enemy>();
     private Game game;
-    private boolean paused = false;
     private SceneSizeChangeListener sceneChange;
+
+    MusicPlayer musicPlayer;
 
     final private boolean DEBUG = false;
 
@@ -45,11 +41,18 @@ public class InitializeGame implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // Play soundtrack
+        try {
+            musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
+        } catch (Exception e) {
+            System.out.println("Error: Could not find sound file");
+        }
+
         // Create all Entity objects
         try {
             player = new Player("/resources/Art/Survivor/knife/idle/survivor-idle_knife_", ".png", 20, 500, 500, 100);
-            player.knifeAnimation();
-            player.setSpriteSize(250,250);
+            player.playerAnimation("knife");
+            player.setSpriteSize(250, 250);
         } catch (Exception e) {
             System.out.println("Error: Player did not load correctly");
         }
@@ -67,13 +70,13 @@ public class InitializeGame implements Initializable{
 
         // Add Entities to the gameWindow
         // Enable DEBUG in order to view the Entities represented as Nodes (E.g. if Sprites fail to load correctly)
-        if(DEBUG)
+        if (DEBUG)
             gameWindow.getChildren().add(player.getNode());
 
         gameWindow.getChildren().add(player.getSprite().getImageView());
 
         for (Enemy enemy : enemyList) {
-            if(DEBUG)
+            if (DEBUG)
                 gameWindow.getChildren().add(enemy.getNode());
 
             gameWindow.getChildren().add(enemy.getSprite().getImageView());
@@ -95,29 +98,15 @@ public class InitializeGame implements Initializable{
 
         gameWindow.getScene().setOnKeyPressed(e -> {
             player.movePlayer(e);
-            Stage stage = (Stage) gameWindow.getScene().getWindow();
             if (e.getCode() == KeyCode.F12) {
-                if (stage.isFullScreen()) {
-                    stage.setFullScreen(false);
-                    topbar.setVisible(true);
-                }
-                else {
-                    stage.setFullScreen(true);
-                    topbar.setVisible(false);
-                }
+                changeFullScreen();
             } else if (e.getCode() == KeyCode.ESCAPE) {
                 System.exit(0);
             } else if (e.getCode() == KeyCode.P) {
-                if(!paused) {
-                    game.pauseGame();
-                    game.stopDrops();
-                    paused = true;
-                }
-                else {
-                    game.resumeGame();
-                    game.startDrops();
-                    paused = false;
-                }
+                game.pauseGame();
+                game.pauseDrops();
+            } else if (e.getCode() == KeyCode.M) {
+                musicPlayer.muteVolume();
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {
@@ -125,12 +114,15 @@ public class InitializeGame implements Initializable{
         });
     }
 
-    public void changeFullscreen() {
+    public void changeFullScreen() {
         Stage stage = (Stage) gameWindow.getScene().getWindow();
-        if (stage.isFullScreen())
+        if(stage.isFullScreen()) {
             stage.setFullScreen(false);
-        else
+            topbar.setVisible(true);
+        } else {
             stage.setFullScreen(true);
+            topbar.setVisible(false);
+        }
     }
 
     public void exitGame() {

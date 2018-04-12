@@ -4,31 +4,60 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
+import java.io.File;
+
 public class MusicPlayer {
 
-    MediaPlayer mediaPlayer;
-    Media media;
+    private File file;
+    private Media media;
+    private MediaPlayer mediaPlayer;
+
+    private boolean paused = false;
+    private boolean muted = false;
 
     public MusicPlayer (String filename) {
-        this.media = new Media(getClass().getResource(filename).toExternalForm());
+        this.file = new File(filename);
+        this.media = new Media(this.file.toURI().toString());
         this.mediaPlayer = new MediaPlayer(this.media);
-        mediaPlayer.setAutoPlay(true);
+        this.mediaPlayer.setVolume(0.05);
+        this.mediaPlayer.setAutoPlay(true);
+    }
+
+    public void changeSong(String filename) {
+        this.file = new File(filename);
+        this.media = new Media(this.file.toURI().toString());
+        this.mediaPlayer = new MediaPlayer(this.media);
+        this.mediaPlayer.setVolume(0.05);
+        this.mediaPlayer.setAutoPlay(true);
     }
 
     public void pauseMusic() {
-        this.mediaPlayer.pause();
-    }
+        if (!paused) {
+            this.mediaPlayer.pause();
+            paused = true;
+        } else {
+            this.mediaPlayer.play();
+            paused = false;
+        }
 
-    public void playMusic() {
-        this.mediaPlayer.play();
     }
 
     public void changeVolume(double volume) {
-        this.mediaPlayer.setVolume(volume);
+        if (volume > 1 || volume < 0) {
+            System.out.println("Volume needs to be a double between 1 and 0");
+        } else {
+            this.mediaPlayer.setVolume(volume);
+        }
     }
 
     public void muteVolume() {
-        this.mediaPlayer.muteProperty();
+        if (!muted) {
+            this.mediaPlayer.setMute(true);
+            muted = true;
+        } else {
+            this.mediaPlayer.setMute(false);
+            muted = false;
+        }
     }
 
     public void repeatMusic() {
