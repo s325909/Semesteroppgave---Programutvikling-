@@ -10,6 +10,8 @@ import javafx.animation.Interpolator;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -18,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.Main;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -139,8 +142,12 @@ public class Game {
                     bonuses.remove(shape);
                     gameWindow.getChildren().remove(shape);
                     score += 1;
-                    System.out.println("You got 1 point! New score equals: " + score);
 
+                    player.setHealthPoints(player.getHealthPoints() + 25);
+                    player.playerAnimation("handgun");
+
+                    System.out.println("Current healthpoints: " + player.getHealthPoints());
+                    System.out.println("You got 1 point! New score equals: " + score);
                     Main.setTitle("The Game... Score: " + score);
                 }
             }
@@ -150,11 +157,12 @@ public class Game {
                     bonuses2.remove(shape);
                     gameWindow.getChildren().remove(shape);
                     score += 2;
+
+                    player.setHealthPoints(player.getHealthPoints() + 50);
+                    player.playerAnimation("rifle");
+
+                    System.out.println("Current healthpoints: " + player.getHealthPoints());
                     System.out.println("You got 2 points! New score equals: " + score);
-
-                    player.setHealthPoints(player.getHealthPoints() + 10);
-                    player.setVelocityX(player.getVelocityX() + 10);
-
                     Main.setTitle("The Game... Score: " + score);
                 }
             }
@@ -162,7 +170,7 @@ public class Game {
             for (Enemy enemy : enemyList)
                 if (player.isColliding(enemy)) {
                     System.out.println("Collision!");
-                    System.out.println("Player hit for " + player.getHealthPoints());
+                    System.out.println("Health remaining: " + player.getHealthPoints());
                 }
         }
     }

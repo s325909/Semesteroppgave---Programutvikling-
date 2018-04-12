@@ -47,22 +47,19 @@ public class InitializeGame implements Initializable{
 
         // Create all Entity objects
         try {
-            player = new Player("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20, 500, 500, 100);
-            player.setSpriteIdle("/resources/Top_Down_Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20);
-            player.setSpriteMoving("/resources/Top_Down_Survivor/handgun/move/survivor-move_handgun_", ".png", 20);
-            player.setSpriteMelee("/resources/Top_Down_Survivor/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15);
-            player.setSpriteShooting("/resources/Top_Down_Survivor/handgun/shoot/survivor-shoot_handgun_", ".png", 3);
-            player.setSpriteReloading("/resources/Top_Down_Survivor/handgun/reload/survivor-reload_handgun_", ".png", 15);
+            player = new Player("/resources/Art/Survivor/knife/idle/survivor-idle_knife_", ".png", 20, 500, 500, 100);
+            player.knifeAnimation();
             player.setSpriteSize(250,250);
         } catch (Exception e) {
             System.out.println("Error: Player did not load correctly");
         }
 
         try {
-            for (int i = 0; i < 175; i++) {
-                enemyList.add(new Zombie("/resources/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
-                enemyList.get(i).setSpriteIdle("/resources/Zombie/skeleton-idle_", ".png", 17);
-                enemyList.get(i).setSpriteMoving("/resources/Zombie/skeleton-move_", ".png", 17);
+            for (int i = 0; i < 10; i++) {
+                enemyList.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+                enemyList.get(i).setSpriteIdle("/resources/Art/Zombie/skeleton-idle_", ".png", 17);
+                enemyList.get(i).setSpriteMoving("/resources/Art/Zombie/skeleton-move_", ".png", 17);
+                enemyList.get(i).setSpriteMelee("/resources/Art/Zombie/skeleton-attack_", ".png", 9);
             }
         } catch (Exception e) {
             System.out.println("Error: Enemies did not load correctly");

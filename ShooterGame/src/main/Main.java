@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -31,8 +33,6 @@ public class Main extends Application {
         primaryStage.setTitle("The Game");
         primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();
-
-
     }
 
 
