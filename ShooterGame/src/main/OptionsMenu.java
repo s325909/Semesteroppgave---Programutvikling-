@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 public class OptionsMenu implements Initializable{
 
+    @FXML
     Button GameOptions, VideoOptions, SoundOptions, Controls, BackToMenu;
 
     @FXML
@@ -16,7 +17,25 @@ public class OptionsMenu implements Initializable{
 
     }
 
-    
+   public void GameOptions(){
+
+    }
+
+    public void VideoOptions(){
+
+    }
+
+    public void SoundOptions(){
+
+    }
+
+    public void Controls(){
+
+    }
+
+    public void BackToMenu(){
+
+    }
 
 
 }
