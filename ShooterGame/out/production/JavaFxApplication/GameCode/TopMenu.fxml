@@ -37,9 +37,9 @@
                                 <MenuItem mnemonicParsing="false" text="Quicksave F9" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" onAction="#changeFullscreen" text="Fullscreen (F12)">
+                        <Menu mnemonicParsing="false" onAction="#changeFullScreen" text="Fullscreen (F12)">
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#changeFullscreen" text="Fullscreen" />
+                                <MenuItem mnemonicParsing="false" onAction="#changeFullScreen" text="Fullscreen" />
                             </items></Menu>
                     </menus>
                 </MenuBar>

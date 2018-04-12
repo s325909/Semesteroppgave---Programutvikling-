@@ -1,26 +1,34 @@
 package gameCode;
 
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.io.File;
 
-public class MusicPlayer {
+public class SoundPlayer {
 
     private File file;
     private Media media;
     private MediaPlayer mediaPlayer;
+    private AudioClip audioClip;
 
     private boolean paused = false;
     private boolean muted = false;
+    private boolean playing = true;
 
-    public MusicPlayer (String filename) {
-        this.file = new File(filename);
-        this.media = new Media(this.file.toURI().toString());
-        this.mediaPlayer = new MediaPlayer(this.media);
-        this.mediaPlayer.setVolume(0.05);
-        this.mediaPlayer.setAutoPlay(true);
+    public SoundPlayer(String filename, String type) {
+        if (type == "track") {
+            this.file = new File(filename);
+            this.media = new Media(this.file.toURI().toString());
+            this.mediaPlayer = new MediaPlayer(this.media);
+            this.mediaPlayer.setVolume(0.1);
+            this.mediaPlayer.setAutoPlay(true);
+        } else if (type == "clip") {
+            this.audioClip = new AudioClip(this.getClass().getResource(filename).toExternalForm());
+            this.audioClip.setVolume(0.2);
+        }
     }
 
     public void changeSong(String filename) {
@@ -31,6 +39,14 @@ public class MusicPlayer {
         this.mediaPlayer.setAutoPlay(true);
     }
 
+    public void playSound() {
+        this.audioClip.play();
+    }
+
+    public void playMusic() {
+        this.mediaPlayer.play();
+    }
+
     public void pauseMusic() {
         if (!paused) {
             this.mediaPlayer.pause();
@@ -39,14 +55,19 @@ public class MusicPlayer {
             this.mediaPlayer.play();
             paused = false;
         }
-
     }
 
-    public void changeVolume(double volume) {
-        if (volume > 1 || volume < 0) {
-            System.out.println("Volume needs to be a double between 1 and 0");
+    public void stopSound() {
+        this.audioClip.stop();
+    }
+
+    public void stopMusic() {
+        if (playing) {
+            this.mediaPlayer.stop();
+            playing = false;
         } else {
-            this.mediaPlayer.setVolume(volume);
+            this.mediaPlayer.play();
+            playing = true;
         }
     }
 
@@ -57,6 +78,14 @@ public class MusicPlayer {
         } else {
             this.mediaPlayer.setMute(false);
             muted = false;
+        }
+    }
+
+    public void changeVolume(double volume) {
+        if (volume > 1 || volume < 0) {
+            System.out.println("Volume needs to be a double between 1 and 0");
+        } else {
+            this.mediaPlayer.setVolume(volume);
         }
     }
 
