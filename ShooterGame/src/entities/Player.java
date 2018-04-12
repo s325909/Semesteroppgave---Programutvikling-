@@ -1,5 +1,6 @@
 package entities;
 
+import gameCode.SoundPlayer;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
@@ -86,7 +87,7 @@ public class Player extends Movable {
                 System.out.println("Fire!");
 
                 if (equippedWeapon == "handgun") {
-                    audioClipFire.setVolume(0.25);
+                    audioClipFire.setVolume(0.2);
                     audioClipFire.play();
                 } else if (equippedWeapon == "rifle") {
                     audioClipRifleFire.setVolume(0.25);
