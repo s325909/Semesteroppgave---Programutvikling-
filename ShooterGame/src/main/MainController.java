@@ -61,9 +61,9 @@ public class MainController implements Initializable{
 
         try {
             root = FXMLLoader.load(getClass().getResource("optionsMenu.fxml"));
-            Stage loadMenu = new Stage();
-            loadMenu.setScene(new Scene(root, 500, 500));
-            loadMenu.show();
+            Stage optionsMenu = new Stage();
+            optionsMenu.setScene(new Scene(root, 500, 500));
+            optionsMenu.show();
         } catch (Exception e) {
             System.out.println("Error");
             System.out.println(e.getMessage());

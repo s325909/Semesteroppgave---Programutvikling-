@@ -19,7 +19,7 @@
             </font>
         </Label>
 
-        <Button fx:id="GameOptions" prefHeight="75.0" prefWidth="250.0" text="Game Options">
+        <Button fx:id="GameOptions" prefHeight="75.0" prefWidth="250.0" onAction="#GameOptions" text="Game Options">
             <font>
                 <Font name="Copperplate Gothic Light" size="24.0" />
             </font>
@@ -28,7 +28,7 @@
             </VBox.margin>
         </Button>
 
-        <Button fx:id="VideoOptions" prefHeight="75.0" prefWidth="250.0" text="Video Options">
+        <Button fx:id="VideoOptions" prefHeight="75.0" prefWidth="250.0" onAction="#VideoOptions" text="Video Options">
             <font>
                 <Font name="Copperplate Gothic Light" size="24.0" />
             </font>
@@ -37,7 +37,7 @@
             </VBox.margin>
         </Button>
 
-        <Button fx:id="SoundOptions" prefHeight="75.0" prefWidth="250.0" text="Sound Options">
+        <Button fx:id="SoundOptions" prefHeight="75.0" prefWidth="250.0" onAction="#SoundOptions" text="Sound Options">
             <font>
                 <Font name="Copperplate Gothic Light" size="24.0" />
             </font>
@@ -46,7 +46,7 @@
             </VBox.margin>
         </Button>
 
-        <Button fx:id="Controls" prefHeight="75.0" prefWidth="250.0" text="Controls">
+        <Button fx:id="Controls" prefHeight="75.0" prefWidth="250.0" onAction="#Controls" text="Controls">
             <font>
                 <Font name="Copperplate Gothic Light" size="24.0" />
             </font>

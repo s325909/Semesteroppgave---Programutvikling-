@@ -27,56 +27,60 @@ public class OptionsMenu implements Initializable{
 
     }
 
+    @FXML
    public void GameOptions(){
        Parent root;
 
        try {
            root = FXMLLoader.load(getClass().getResource("gameOptions.fxml"));
-           Stage loadMenu = new Stage();
-           loadMenu.setScene(new Scene(root, 500, 500));
-           loadMenu.show();
+           Stage gameOptions = new Stage();
+           gameOptions.setScene(new Scene(root, 500, 500));
+           gameOptions.show();
        } catch (Exception e) {
            System.out.println("Error");
            System.out.println(e.getMessage());
        }
    }
 
+   @FXML
     public void VideoOptions(){
         Parent root;
 
         try {
             root = FXMLLoader.load(getClass().getResource("videoOptions.fxml"));
-            Stage loadMenu = new Stage();
-            loadMenu.setScene(new Scene(root, 500, 500));
-            loadMenu.show();
+            Stage videoOptions = new Stage();
+            videoOptions.setScene(new Scene(root, 500, 500));
+            videoOptions.show();
         } catch (Exception e) {
             System.out.println("Error");
             System.out.println(e.getMessage());
         }
     }
 
+    @FXML
     public void SoundOptions(){
         Parent root;
 
         try {
             root = FXMLLoader.load(getClass().getResource("soundOptions.fxml"));
-            Stage loadMenu = new Stage();
-            loadMenu.setScene(new Scene(root, 500, 500));
-            loadMenu.show();
+            Stage soundOptions = new Stage();
+            soundOptions.setScene(new Scene(root, 500, 500));
+            soundOptions.show();
         } catch (Exception e) {
             System.out.println("Error");
             System.out.println(e.getMessage());
         }
     }
 
+    @FXML
     public void Controls(){
         Parent root;
 
         try {
             root = FXMLLoader.load(getClass().getResource("controls.fxml"));
-            Stage loadMenu = new Stage();
-            loadMenu.setScene(new Scene(root, 500, 500));
-            loadMenu.show();
+            Stage controls = new Stage();
+            controls.setScene(new Scene(root, 500, 500));
+            controls.show();
         } catch (Exception e) {
             System.out.println("Error");
             System.out.println(e.getMessage());
