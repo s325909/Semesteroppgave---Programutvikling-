@@ -69,34 +69,31 @@ public class Game {
     public void bonus(){
 
         if (createDrops) {
+            if (bonuses.size() < 5 || bonuses2.size() < 5) {
 
-            int random = (int) Math.floor(Math.random() * 100);
-            int x = (int) Math.floor(Math.random() * 600);
-            int y = (int) Math.floor(Math.random() * 600);
+                int random = (int) Math.floor(Math.random() * 100);
+                int x = (int) Math.floor(Math.random() * 1280);
+                int y = (int) Math.floor(Math.random() * 720);
 
 
-            if (random == 5) {
-                Rectangle rect = new Rectangle(40, 30, Color.PINK);
-                rect.setX(x);
-                rect.setY(y);
-                bonuses.add(rect);
-                gameWindow.getChildren().addAll(rect);
+                if (random == 5) {
+                    Rectangle rect = new Rectangle(40, 30, Color.PINK);
+                    rect.setX(x);
+                    rect.setY(y);
+                    bonuses.add(rect);
+                    gameWindow.getChildren().addAll(rect);
+                }
+
+                if (random == 4) {
+                    Circle circle = new Circle(50, Color.GRAY);
+                    circle.setCenterX(x);
+                    circle.setCenterY(y);
+                    circle.setRadius(30);
+                    bonuses2.add(circle);
+                    gameWindow.getChildren().addAll(circle);
+                }
             }
-
-            if (random == 4) {
-                Circle circle = new Circle(50, Color.GRAY);
-                circle.setCenterX(x);
-                circle.setCenterY(y);
-                circle.setRadius(30);
-                bonuses2.add(circle);
-                gameWindow.getChildren().addAll(circle);
-            }
-
-        }{
-            
         }
-
-
     }
 
     //when player goes over objects....

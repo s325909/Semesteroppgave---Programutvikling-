@@ -30,7 +30,7 @@ public class InitializeGame implements Initializable{
     private Game game;
     private SceneSizeChangeListener sceneChange;
 
-    MusicPlayer musicPlayer;
+    SoundPlayer soundPlayer;
 
     final private boolean DEBUG = false;
 
@@ -43,7 +43,7 @@ public class InitializeGame implements Initializable{
 
         // Play soundtrack
         try {
-            musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
+            soundPlayer = new SoundPlayer("src/resources/Sound/Soundtrack/Doom2.mp3", "track");
         } catch (Exception e) {
             System.out.println("Error: Could not find sound file");
         }
@@ -106,7 +106,7 @@ public class InitializeGame implements Initializable{
                 game.pauseGame();
                 game.pauseDrops();
             } else if (e.getCode() == KeyCode.M) {
-                musicPlayer.muteVolume();
+                soundPlayer.muteVolume();
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {
