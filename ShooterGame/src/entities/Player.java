@@ -78,8 +78,7 @@ public class Player extends Movable {
             setMelee();
             System.out.println("Melee!");
             if (equippedWeapon == "knife") {
-                audioClipKnifeSwish.setVolume(0.25);
-                audioClipKnifeSwish.play();
+                audioClipKnifeSwish.play(0.2);
             }
         } else if (keyEvent.getCode() == KeyCode.SPACE) {
             if(equippedWeapon != "knife") {
@@ -87,16 +86,13 @@ public class Player extends Movable {
                 System.out.println("Fire!");
 
                 if (equippedWeapon == "handgun") {
-                    audioClipFire.setVolume(0.2);
-                    audioClipFire.play();
+                    audioClipFire.play(0.2);
                 } else if (equippedWeapon == "rifle") {
-                    audioClipRifleFire.setVolume(0.25);
-                    audioClipRifleFire.play();
+                    audioClipRifleFire.play(0.2);
                 }
             } else {
                 setMelee();
-                audioClipKnifeSwish.setVolume(0.25);
-                audioClipKnifeSwish.play();
+                audioClipKnifeSwish.play(0.25);
                 System.out.println("Melee by space!");
             }
         } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != "knife") {
@@ -104,11 +100,9 @@ public class Player extends Movable {
             System.out.println("Reload!");
 
             if (equippedWeapon == "handgun") {
-                audioClipReload.setVolume(0.25);
-                audioClipReload.play();
+                audioClipReload.play(0.2);
             } else if (equippedWeapon == "rifle") {
-                audioClipRifleReload.setVolume(0.25);
-                audioClipRifleReload.play();
+                audioClipRifleReload.play(0.2);
             }
         } else if (keyEvent.getCode() == KeyCode.F) {
             playerAnimation("knife");
