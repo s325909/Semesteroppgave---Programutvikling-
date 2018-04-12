@@ -5,11 +5,25 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <?import javafx.scene.control.Slider?>
-<GridPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.SoundOptions">
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
+<GridPane style="-fx-background-color: BLACK" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.SoundOptions">
 
-    <Slider>
+    <VBox alignment="CENTER" prefHeight="779.0" prefWidth="900.0">
+        <Label text="Sound Options" textAlignment="CENTER" textFill="RED">
+            <font>
+                <Font name="Copperplate Gothic Light" size="24.0" />
+            </font>
+        </Label>
 
-    </Slider>
+        <Slider>
+
+
+
+        </Slider>
+
+    </VBox>
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
