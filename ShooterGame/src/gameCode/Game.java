@@ -72,11 +72,11 @@ public class Game {
             if (bonuses.size() < 5 || bonuses2.size() < 5) {
 
                 int random = (int) Math.floor(Math.random() * 100);
-                int x = (int) Math.floor(Math.random() * 1280);
-                int y = (int) Math.floor(Math.random() * 720);
+                int x = (int) Math.floor(Math.random() * gameWindow.getWidth());
+                int y = (int) Math.floor(Math.random() * gameWindow.getHeight());
 
 
-                if (random == 5) {
+                if (random == 5 && bonuses.size() < 5) {
                     Rectangle rect = new Rectangle(40, 30, Color.PINK);
                     rect.setX(x);
                     rect.setY(y);
@@ -84,7 +84,7 @@ public class Game {
                     gameWindow.getChildren().addAll(rect);
                 }
 
-                if (random == 4) {
+                if (random == 4 && bonuses2.size() < 5) {
                     Circle circle = new Circle(50, Color.GRAY);
                     circle.setCenterX(x);
                     circle.setCenterY(y);
