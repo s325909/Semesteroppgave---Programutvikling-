@@ -5,14 +5,26 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.text.Font?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <GridPane style="-fx-background-color: BLACK" alignment="center" hgap="10" prefHeight="400.0" prefWidth="600.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.OptionsMenu">
+
+        <HBox>
+            <Button fx:id="Back" prefHeight="50.0" prefWidth="70.0">
+                <graphic>
+                    <ImageView>
+                        <Image url="@/resources/Icons/toolbarButtonGraphics/navigation/Back24.gif"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
 
     <VBox alignment="CENTER" prefHeight="779.0" prefWidth="900.0">
 
         <Label text="Video Options" textAlignment="CENTER" textFill="RED">
+
             <font>
                 <Font name="Copperplate Gothic Light" size="24.0" />
             </font>

@@ -13,37 +13,38 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class OptionsMenu implements Initializable{
+public class OptionsMenu implements Initializable {
 
     @FXML
     Button GameOptions, VideoOptions, SoundOptions, Controls;
 
 
     @FXML
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
 
     @FXML
-   public void GameOptions(){
-       Parent root;
+    public void GameOptions() {
+        Parent root;
 
-       try {
-           root = FXMLLoader.load(getClass().getResource("gameOptions.fxml"));
-           Stage gameOptions = new Stage();
-           gameOptions.setScene(new Scene(root, 500, 500));
-           gameOptions.show();
-       } catch (Exception e) {
-           System.out.println("Error");
-           System.out.println(e.getMessage());
-       }
-   }
+        try {
+            root = FXMLLoader.load(getClass().getResource("gameOptions.fxml"));
+            Stage gameOptions = new Stage();
+            gameOptions.setScene(new Scene(root, 500, 500));
+            gameOptions.show();
+        } catch (Exception e) {
+            System.out.println("Error");
+            System.out.println(e.getMessage());
+        }
+    }
 
-   @FXML
-    public void VideoOptions(){
+    @FXML
+    public void VideoOptions() {
         Parent root;
 
         try {
@@ -58,7 +59,7 @@ public class OptionsMenu implements Initializable{
     }
 
     @FXML
-    public void SoundOptions(){
+    public void SoundOptions() {
         Parent root;
 
         try {
@@ -73,7 +74,7 @@ public class OptionsMenu implements Initializable{
     }
 
     @FXML
-    public void Controls(){
+    public void Controls() {
         Parent root;
 
         try {
@@ -87,4 +88,10 @@ public class OptionsMenu implements Initializable{
         }
     }
 
-}
+    @FXML
+    public void Back() {
+
+        }
+
+    }
+
