@@ -56,7 +56,18 @@ public class MainController implements Initializable{
     }
 
     public void openOptionsMenu(){
-        System.out.println("settings");
+
+        Parent root;
+
+        try {
+            root = FXMLLoader.load(getClass().getResource("optionsMenu.fxml"));
+            Stage loadMenu = new Stage();
+            loadMenu.setScene(new Scene(root, 500, 500));
+            loadMenu.show();
+        } catch (Exception e) {
+            System.out.println("Error");
+            System.out.println(e.getMessage());
+        }
     }
 
     public void openHelpMenu(){
