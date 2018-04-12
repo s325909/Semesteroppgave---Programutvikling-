@@ -13,7 +13,7 @@
 
     <VBox alignment="CENTER" prefHeight="779.0" prefWidth="900.0">
 
-        <Label text="Options" textAlignment="CENTER" textFill="WHITE">
+        <Label text="Options" textAlignment="CENTER" textFill="RED">
             <font>
                 <Font name="Copperplate Gothic Light" size="64.0" />
             </font>
