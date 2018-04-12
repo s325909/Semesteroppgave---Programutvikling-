@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
 <GridPane style="-fx-background-color: BLACK" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.SoundOptions">
 
     <VBox alignment="CENTER" prefHeight="779.0" prefWidth="900.0">
@@ -15,12 +16,15 @@
             <font>
                 <Font name="Copperplate Gothic Light" size="24.0" />
             </font>
+            <VBox.margin>
+                <Insets bottom="15.0" top="15.0" />
+            </VBox.margin>
         </Label>
 
-        <Slider>
-
-
-
+        <Slider GridPane.valignment="CENTER" min="0" max="100" minorTickCount="4" showTickMarks="true" showTickLabels="true">
+            <VBox.margin>
+                <Insets bottom="15.0" top="15.0" />
+            </VBox.margin>
         </Slider>
 
     </VBox>
