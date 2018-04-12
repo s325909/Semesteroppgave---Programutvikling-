@@ -93,12 +93,6 @@ public class Game {
                     gameWindow.getChildren().addAll(circle);
                 }
             }
-<<<<<<< HEAD
-
-        }{
-
-=======
->>>>>>> SondresBranch
         }
     }
 
