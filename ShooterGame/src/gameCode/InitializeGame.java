@@ -83,26 +83,13 @@ public class InitializeGame implements Initializable{
         }
 
         // Initialize the game
-        game = new Game(player, enemyList, gameWindow);
+        game = new Game(player, enemyList, gameWindow, playerHP);
 
         Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
 
     }
-
-
-    public void changeHP(int hp){
-
-
-
-        String hp_level = String.valueOf(hp);
-        playerHP.setText(hp_level);
-
-        //int i = 150;
-        //String.valueOf(i);
-    }
-
 
 
     /***
@@ -121,7 +108,6 @@ public class InitializeGame implements Initializable{
                 game.pauseDrops();
             } else if (e.getCode() == KeyCode.M) {
                 soundPlayer.muteVolume();
-                changeHP(player.getHealthPoints());
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {

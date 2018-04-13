@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 import main.Main;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class Game {
     private Pane gameWindow;
     private Player player;
     private List<Enemy> enemyList;
+    private Text playerHP;
 
     private boolean running = true;
     private boolean createDrops = true;
@@ -28,10 +30,11 @@ public class Game {
     private ArrayList<Circle> bonuses2=new ArrayList<>();
     private int score = 0;
 
-    public Game(Player player, List <Enemy> enemy, Pane gameWindow){
+    public Game(Player player, List <Enemy> enemy, Pane gameWindow, Text playerHP){
         this.gameWindow = gameWindow;
         this.player = player;
         this.enemyList = enemy;
+        this.playerHP = playerHP;
 
         final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
@@ -40,6 +43,7 @@ public class Game {
                 double time = (now - startNanoTime) / 1000000000.0;
                 onUpdate(time);
                 bonus();
+                updateHP();
             }
         };
 
@@ -63,7 +67,10 @@ public class Game {
         }
     }
 
-
+    public void updateHP(){
+        String hp_level = String.valueOf(player.getHealthPoints());
+        this.playerHP.setText(hp_level);
+    }
 
     //adds random circles and rectangles
     public void bonus(){
