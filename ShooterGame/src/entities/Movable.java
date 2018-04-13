@@ -1,6 +1,8 @@
 package entities;
 
 import javafx.scene.image.ImageView;
+import javafx.scene.media.AudioClip;
+
 import java.util.List;
 
 public class Movable extends Entity {
@@ -18,6 +20,8 @@ public class Movable extends Entity {
     private Sprite spriteShooting;
     private boolean reloadSet = false;
     private Sprite spriteReloading;
+
+    private AudioClip[] footsteps;
 
     public Movable() { }
 
@@ -159,6 +163,16 @@ public class Movable extends Entity {
         if (this.reloadSet)
             super.setSprite(this.spriteReloading);
     }
+
+    public void loadFootsteps(String[] audioFiles) {
+        this.footsteps = loadAudio(audioFiles);//clips;
+    }
+
+    public void playFootStep() {
+        this.footsteps[0].play();
+    }
+
+
 
     public double getVelocityX() {
         return velocityX;

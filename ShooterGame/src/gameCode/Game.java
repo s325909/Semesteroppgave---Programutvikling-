@@ -26,6 +26,9 @@ public class Game {
     private boolean running = true;
     private boolean createDrops = true;
 
+    ArrayList<Entity> playerList = new ArrayList<Entity>();
+    ArrayList<Entity> entityList = new ArrayList<Entity>();
+
     private ArrayList<Rectangle> bonuses=new ArrayList<>();
     private ArrayList<Circle> bonuses2=new ArrayList<>();
     private int score = 0;
@@ -111,12 +114,11 @@ public class Game {
     //player gets points and objects disappear
     private void onUpdate(double time) {
         if (running) {
-            ArrayList<Entity> playerList = new ArrayList<Entity>();
+
             playerList.addAll(enemyList);
 
             player.update(playerList, time);
 
-            ArrayList<Entity> entityList = new ArrayList<Entity>();
             entityList.add(player);
             entityList.addAll(enemyList);
 

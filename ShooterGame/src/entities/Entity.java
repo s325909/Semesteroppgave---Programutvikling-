@@ -2,6 +2,7 @@ package entities;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.Node;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -51,6 +52,34 @@ public class Entity{
             return isAlive = false;
         else
             return isAlive;
+    }
+
+    public AudioClip[] loadAudio(String[] audioFiles) {
+        AudioClip[] clips = new AudioClip[audioFiles.length];
+        for(int i = 0; i < clips.length; i++) {
+            clips[i] = new AudioClip(this.getClass().getResource(audioFiles[i]).toExternalForm());
+        }
+        return clips;
+    }
+
+    public class SpriteParam {
+        String filename;
+        String extension;
+        int numberImages;
+
+        public SpriteParam(String filename, String extension, int numberImages) {
+            this.filename = filename;
+            this.extension = extension;
+            this.numberImages = numberImages;
+        }
+    }
+
+    public Sprite[] loadSprites(SpriteParam[] spriteParam) {
+        Sprite[] sprites = new Sprite[spriteParam.length];
+        for(int i = 0; i < sprites.length; i++) {
+            sprites[i] = new Sprite(this.iv, spriteParam[i].filename, spriteParam[i].extension, spriteParam[i].numberImages);
+        }
+        return sprites;
     }
 
     public int getHealthPoints() {
