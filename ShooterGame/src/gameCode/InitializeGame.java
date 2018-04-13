@@ -125,6 +125,10 @@ public class InitializeGame implements Initializable{
         }
     }
 
+    public void changeHP(){
+
+    }
+
     public void exitGame() {
         System.exit(0);
     }

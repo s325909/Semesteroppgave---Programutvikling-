@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import javafx.animation.Transition;
 
-/*public class Prizes extends Transition {
+public class Prizes extends Transition {
 
     private final ImageView imageView;
     private final int count;
@@ -48,4 +48,4 @@ import javafx.animation.Transition;
         imageView.setViewport(new Rectangle2D(x, y, width, height));
     }
 
-}*/
+}

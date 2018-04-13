@@ -45,13 +45,6 @@ public class MainController implements Initializable{
     }
 
 
-    public void changeHP(){
-
-
-
-    }
-
-
 
     public void openLoadMenu(ActionEvent event) throws IOException{
 
