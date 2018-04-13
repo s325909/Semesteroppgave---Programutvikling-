@@ -1,5 +1,6 @@
 package main;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,22 +39,23 @@ public class MainController implements Initializable{
 
     }
 
+    Stage stage;
+    Parent root;
 
+    public void openLoadMenu(ActionEvent event) throws IOException{
 
-    public void openLoadMenu(){
-
-        Parent root;
-
-        try {
+        if(event.getSource() == loadGame){
+            stage = (Stage) loadGame.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("loadFiles.fxml"));
-            Stage loadMenu = new Stage();
-            loadMenu.setScene(new Scene(root, 450, 450));
-            loadMenu.show();
-        } catch (Exception e) {
-            System.out.println("Error");
-            System.out.println(e.getMessage());
+        } else {
+            System.out.println("Cannot enter load menu");
         }
+
+        Scene scene = new Scene(root, 900, 900);
+        stage.setScene(scene);
+        stage.show();
     }
+
 
     public void openOptionsMenu(){
 
