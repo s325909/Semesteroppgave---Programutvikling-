@@ -15,8 +15,13 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable{
 
+    Stage loadWindow, optionWindow, helpWindow;
+    Scene loadScene, optionsScene, helpScene;
+    Parent loadRoot, optionsRoot, helpRoot;
+
     @FXML
     Button newGame, loadGame, options, help, exit;
+
 
 
     @Override
@@ -39,44 +44,66 @@ public class MainController implements Initializable{
 
     }
 
-    Stage stage;
-    Parent root;
+
+    public void changeHP(){
+
+
+
+    }
+
+
 
     public void openLoadMenu(ActionEvent event) throws IOException{
 
-        if(event.getSource() == loadGame){
-            stage = (Stage) loadGame.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("loadFiles.fxml"));
-        } else {
-            System.out.println("Cannot enter load menu");
-        }
-
-        Scene scene = new Scene(root, 900, 900);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-
-    public void openOptionsMenu(){
-
-        Parent root;
-
         try {
-            root = FXMLLoader.load(getClass().getResource("optionsMenu.fxml"));
-            Stage optionsMenu = new Stage();
-            optionsMenu.setScene(new Scene(root, 500, 500));
-            optionsMenu.show();
-        } catch (Exception e) {
-            System.out.println("Error");
+            if(event.getSource() == loadGame) {
+                loadWindow = (Stage) loadGame.getScene().getWindow();
+                loadRoot = FXMLLoader.load(getClass().getResource("loadFiles.fxml"));
+            }
+        } catch (Exception e){
             System.out.println(e.getMessage());
         }
+
+        loadScene = new Scene(loadRoot, 900, 900);
+        loadWindow.setScene(loadScene);
+        loadWindow.show();
     }
 
-    public void openHelpMenu(){
-        System.out.println("help me plz");
+
+    public void openOptionsMenu(ActionEvent event) throws IOException{
+
+        try {
+            if (event.getSource() == options){
+                optionWindow = (Stage) options.getScene().getWindow();
+                optionsRoot = FXMLLoader.load(getClass().getResource("optionsMenu.fxml"));
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        optionsScene = new Scene(optionsRoot, 900, 900);
+        optionWindow.setScene(optionsScene);
+        optionWindow.show();
+    }
+
+    public void openHelpMenu(ActionEvent event) throws IOException{
+
+        try {
+            if (event.getSource() == help){
+                helpWindow = (Stage) help.getScene().getWindow();
+                helpRoot = FXMLLoader.load(getClass().getResource("helpMenu.fxml"));
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        helpScene = new Scene(helpRoot, 900, 900);
+        helpWindow.setScene(helpScene);
+        helpWindow.show();
     }
 
     public void exitGame(){
+
         Stage stage = (Stage)
                 exit.getScene().getWindow();
         stage.close();
