@@ -30,7 +30,7 @@ public class InitializeGame implements Initializable{
     private Game game;
     private SceneSizeChangeListener sceneChange;
 
-    SoundPlayer soundPlayer;
+    MusicPlayer musicPlayer;
 
     final private boolean DEBUG = false;
 
@@ -43,16 +43,15 @@ public class InitializeGame implements Initializable{
 
         // Play soundtrack
         try {
-            soundPlayer = new SoundPlayer("src/resources/Sound/Soundtrack/Doom2.mp3", "track");
+            musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
         } catch (Exception e) {
             System.out.println("Error: Could not find sound file");
         }
 
         // Create all Entity objects
         try {
-            player = new Player("/resources/Art/Survivor/knife/idle/survivor-idle_knife_", ".png", 20, 500, 500, 100);
+            player = new Player("/resources/Art/Survivor/knife/idle/survivor-idle_knife_", ".png", 20, (int)gameWindow.getHeight()/2, (int)gameWindow.getWidth()/2, 100);
             player.playerAnimation("knife");
-            player.setSpriteSize(250, 250);
         } catch (Exception e) {
             System.out.println("Error: Player did not load correctly");
         }
@@ -107,7 +106,7 @@ public class InitializeGame implements Initializable{
                 game.pauseGame();
                 game.pauseDrops();
             } else if (e.getCode() == KeyCode.M) {
-                soundPlayer.muteVolume();
+                musicPlayer.muteVolume();
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {

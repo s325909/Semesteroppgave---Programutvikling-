@@ -7,28 +7,22 @@ import javafx.util.Duration;
 
 import java.io.File;
 
-public class SoundPlayer {
+public class MusicPlayer {
 
     private File file;
     private Media media;
     private MediaPlayer mediaPlayer;
-    private AudioClip audioClip;
 
     private boolean paused = false;
     private boolean muted = false;
     private boolean playing = true;
 
-    public SoundPlayer(String filename, String type) {
-        if (type == "track") {
-            this.file = new File(filename);
-            this.media = new Media(this.file.toURI().toString());
-            this.mediaPlayer = new MediaPlayer(this.media);
-            this.mediaPlayer.setVolume(0.1);
-            this.mediaPlayer.setAutoPlay(true);
-        } else if (type == "clip") {
-            this.audioClip = new AudioClip(this.getClass().getResource(filename).toExternalForm());
-            this.audioClip.setVolume(0.2);
-        }
+    public MusicPlayer(String filename) {
+        this.file = new File(filename);
+        this.media = new Media(this.file.toURI().toString());
+        this.mediaPlayer = new MediaPlayer(this.media);
+        this.mediaPlayer.setVolume(0.1);
+        this.mediaPlayer.setAutoPlay(true);
     }
 
     public void changeSong(String filename) {
@@ -37,10 +31,6 @@ public class SoundPlayer {
         this.mediaPlayer = new MediaPlayer(this.media);
         this.mediaPlayer.setVolume(0.05);
         this.mediaPlayer.setAutoPlay(true);
-    }
-
-    public void playSound() {
-        this.audioClip.play();
     }
 
     public void playMusic() {
@@ -55,10 +45,6 @@ public class SoundPlayer {
             this.mediaPlayer.play();
             paused = false;
         }
-    }
-
-    public void stopSound() {
-        this.audioClip.stop();
     }
 
     public void stopMusic() {

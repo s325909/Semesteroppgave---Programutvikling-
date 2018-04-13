@@ -1,17 +1,16 @@
 package entities;
 
-import gameCode.SoundPlayer;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
 
-enum weaponTypes {
+enum WeaponTypes {
     KNIFE, PISTOL, RIFLE, SHOTGUN
 }
 
 public class Player extends Movable {
 
-    private weaponTypes equippedWeapon;
+    private WeaponTypes equippedWeapon;
 
     private AudioClip[] weapon;
 
@@ -21,28 +20,44 @@ public class Player extends Movable {
 
     public Player(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
         super(filename, extension, numberImages, positionX, positionY, healthPoints);
-        String[] foot = {"/resources/Sound/Sound Effects/footsteps_single.wav"};
-        loadFootsteps(foot);
 
-        String[] weapon = {"/resources/Sound/Sound Effects/knife_swish.mp3", "/resources/Sound/Sound Effects/pistol_shot.wav", "/resources/Sound/Sound Effects/pistol_reload.mp3", "/resources/Sound/Sound Effects/rifle_shot.wav", "/resources/Sound/Sound Effects/rifle_reload.mp3"};
-        loadWeapon(weapon);
+        String[] footsteps = {
+                "/resources/Sound/Sound Effects/footsteps_single.wav"};
+        String[] weaponSounds = {
+                "/resources/Sound/Sound Effects/knife_swish.mp3",
+                "/resources/Sound/Sound Effects/pistol_shot.wav",
+                "/resources/Sound/Sound Effects/pistol_reload.mp3",
+                "/resources/Sound/Sound Effects/rifle_shot.wav",
+                "/resources/Sound/Sound Effects/rifle_reload.mp3",
+                "/resources/Sound/Sound Effects/shotgun_shot.wav",
+                "/resources/Sound/Sound Effects/shotgun_reload.wav"};
 
+        SpriteParam[] knife = {
+                new SpriteParam("/resources/Art/Survivor/knife/idle/survivor-idle_knife_", ".png", 20),
+                new SpriteParam("/resources/Art/Survivor/knife/move/survivor-move_knife_", ".png", 20),
+                new SpriteParam("/resources/Art/Survivor/knife/meleeattack/survivor-meleeattack_knife_", ".png", 15)};
+        SpriteParam[] pistol = {
+                new SpriteParam("/resources/Art/Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20),
+                new SpriteParam("/resources/Art/Survivor/handgun/move/survivor-move_handgun_", ".png", 20),
+                new SpriteParam("/resources/Art/Survivor/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15),
+                new SpriteParam("/resources/Art/Survivor/handgun/shoot/survivor-shoot_handgun_", ".png", 3),
+                new SpriteParam("/resources/Art/Survivor/handgun/reload/survivor-reload_handgun_", ".png", 15)};
+        SpriteParam[] rifle = {
+                new SpriteParam("/resources/Art/Survivor/rifle/idle/survivor-idle_rifle_", ".png", 20),
+                new SpriteParam("/resources/Art/Survivor/rifle/move/survivor-move_rifle_", ".png", 20),
+                new SpriteParam("/resources/Art/Survivor/rifle/meleeattack/survivor-meleeattack_rifle_", ".png", 15),
+                new SpriteParam("/resources/Art/Survivor/rifle/shoot/survivor-shoot_rifle_", ".png", 3),
+                new SpriteParam("/resources/Art/Survivor/rifle/reload/survivor-reload_rifle_", ".png", 20)};
+        SpriteParam[] shotgun = {
+                new SpriteParam("/resources/Art/Survivor/shotgun/idle/survivor-idle_shotgun_", ".png", 20),
+                new SpriteParam("/resources/Art/Survivor/shotgun/move/survivor-move_shotgun_", ".png", 20),
+                new SpriteParam("/resources/Art/Survivor/shotgun/meleeattack/survivor-meleeattack_shotgun_", ".png", 15),
+                new SpriteParam("/resources/Art/Survivor/shotgun/shoot/survivor-shoot_shotgun_", ".png", 3),
+                new SpriteParam("/resources/Art/Survivor/shotgun/reload/survivor-reload_shotgun_", ".png", 20)};
+        SpriteParam[][] all = {knife, pistol, rifle, shotgun};
 
-
-        SpriteParam[] knife = {new SpriteParam("/resources/Art/Survivor/knife/idle/survivor-idle_knife_", ".png", 20),
-                               new SpriteParam("/resources/Art/Survivor/knife/move/survivor-move_knife_", ".png", 20),
-                               new SpriteParam("/resources/Art/Survivor/knife/meleeattack/survivor-meleeattack_knife_", ".png", 15)};
-        SpriteParam[] handGun = {new SpriteParam("/resources/Art/Survivor/handgun/idle/survivor-idle_handgun_", ".png", 20),
-                                 new SpriteParam("/resources/Art/Survivor/handgun/move/survivor-move_handgun_", ".png", 20),
-                                 new SpriteParam("/resources/Art/Survivor/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15),
-                                 new SpriteParam("/resources/Art/Survivor/handgun/shoot/survivor-shoot_handgun_", ".png", 3),
-                                 new SpriteParam("/resources/Art/Survivor/handgun/reload/survivor-reload_handgun_", ".png", 15)};
-        SpriteParam[] rifleGun = {new SpriteParam("/resources/Art/Survivor/rifle/idle/survivor-idle_rifle_", ".png", 20),
-                                  new SpriteParam("/resources/Art/Survivor/rifle/move/survivor-move_rifle_", ".png", 20),
-                                  new SpriteParam("/resources/Art/Survivor/rifle/meleeattack/survivor-meleeattack_rifle_", ".png", 15),
-                                  new SpriteParam("/resources/Art/Survivor/rifle/shoot/survivor-shoot_rifle_", ".png", 3),
-                                  new SpriteParam("/resources/Art/Survivor/rifle/reload/survivor-reload_rifle_", ".png", 20)};
-        SpriteParam[][] all = {knife, handGun, rifleGun};
+        loadFootsteps(footsteps);
+        loadWeaponSounds(weaponSounds);
         loadWeaponSprite(all);
 
         playerAnimation("knife");
@@ -69,6 +84,7 @@ public class Player extends Movable {
                 }
             }
         }
+
         for(int i = 0; i < this.allAnimation.length; i++) {
             for (int j = 0; j < this.allAnimation[i].length; j++) {
                 this.allAnimation[i][j].setMax(maxWidth, maxHeight);
@@ -82,19 +98,19 @@ public class Player extends Movable {
 
     public void playerAnimation(String animationWanted) {
         if (animationWanted == "knife") {
-            this.equippedWeapon = weaponTypes.KNIFE;
-        } else if (animationWanted == "handgun") {
-            this.equippedWeapon = weaponTypes.PISTOL;
+            this.equippedWeapon = WeaponTypes.KNIFE;
+        } else if (animationWanted == "pistol") {
+            this.equippedWeapon = WeaponTypes.PISTOL;
         } else if (animationWanted == "rifle") {
-            this.equippedWeapon = weaponTypes.RIFLE;
+            this.equippedWeapon = WeaponTypes.RIFLE;
         } else if (animationWanted == "shotgun") {
-            this.equippedWeapon = weaponTypes.SHOTGUN;
+            this.equippedWeapon = WeaponTypes.SHOTGUN;
         } else {
-            this.equippedWeapon = weaponTypes.KNIFE;
+            this.equippedWeapon = WeaponTypes.KNIFE;
         }
     }
 
-    public void loadWeapon(String[] audioFiles) {
+    public void loadWeaponSounds(String[] audioFiles) {
         this.weapon = loadAudio(audioFiles);
     }
 
@@ -130,9 +146,9 @@ public class Player extends Movable {
                 audioReload = 4;
                 break;
             case SHOTGUN:
-                i = 0;
-                audioAction = 0;
-                audioReload = 0;
+                i = 3;
+                audioAction = 5;
+                audioReload = 6;
                 break;
             default:
                 i = 0;
@@ -160,12 +176,12 @@ public class Player extends Movable {
             j = 0;
         }
 
-        if (keyEvent.getCode() == KeyCode.E) {
+        if (keyEvent.getCode() == KeyCode.E || (keyEvent.getCode() == KeyCode.SPACE && equippedWeapon == WeaponTypes.KNIFE)) {
             j = 2;
-        } else if (keyEvent.getCode() == KeyCode.SPACE && equippedWeapon != weaponTypes.KNIFE) {
+        } else if (keyEvent.getCode() == KeyCode.SPACE && equippedWeapon != WeaponTypes.KNIFE) {
             playWeapon(audioAction);
             j = 3;
-        } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != weaponTypes.KNIFE) {
+        } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != WeaponTypes.KNIFE) {
             playWeapon(audioReload);
             j = 4;
         }
@@ -189,7 +205,7 @@ public class Player extends Movable {
                 i = 2;
                 break;
             case SHOTGUN:
-                i = 0;
+                i = 3;
                 break;
             default:
                 i = 0;

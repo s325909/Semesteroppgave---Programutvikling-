@@ -140,7 +140,11 @@ public class Game {
                     score += 1;
 
                     player.setHealthPoints(player.getHealthPoints() + 25);
-                    player.playerAnimation("handgun");
+                    double random = Math.random();
+                    if (random < 0.5)
+                        player.playerAnimation("pistol");
+                    else if (random > 0.5)
+                        player.playerAnimation("shotgun");
 
                     System.out.println("Current healthpoints: " + player.getHealthPoints());
                     System.out.println("You got 1 point! New score equals: " + score);
