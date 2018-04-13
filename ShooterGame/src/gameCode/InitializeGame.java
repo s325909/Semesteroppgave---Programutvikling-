@@ -91,6 +91,13 @@ public class InitializeGame implements Initializable{
 
     }
 
+
+    public void changeHP(){
+
+    }
+
+    
+
     /***
      * Method for handling player input via keyboard
      */
@@ -123,10 +130,6 @@ public class InitializeGame implements Initializable{
             stage.setFullScreen(true);
             topbar.setVisible(false);
         }
-    }
-
-    public void changeHP(){
-
     }
 
     public void exitGame() {
