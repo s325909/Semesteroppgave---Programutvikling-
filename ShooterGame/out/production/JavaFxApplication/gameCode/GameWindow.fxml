@@ -67,7 +67,7 @@
                               </ImageView>
                               <HBox prefHeight="28.0" prefWidth="85.0">
                                  <children>
-                                    <Text fx:id="playerHP" onInputMethodTextChanged="#changeHP" strokeType="OUTSIDE" strokeWidth="0.0" text="100" textAlignment="CENTER" wrappingWidth="47.13671875">
+                                    <Text fx:id="playerHP" text="100" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="47.13671875">
                                        <font>
                                           <Font size="24.0" />
                                        </font>

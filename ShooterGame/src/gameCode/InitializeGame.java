@@ -21,7 +21,7 @@ public class InitializeGame implements Initializable{
 
     @FXML Pane gameWindow;
     @FXML MenuBar topbar;
-    @FXML Text hpCounter;
+    @FXML Text playerHP;
 
     Stage stage = new Stage();
 
@@ -92,11 +92,18 @@ public class InitializeGame implements Initializable{
     }
 
 
-    public void changeHP(){
+    public void changeHP(int hp){
 
+
+
+        String hp_level = String.valueOf(hp);
+        playerHP.setText(hp_level);
+
+        //int i = 150;
+        //String.valueOf(i);
     }
 
-    
+
 
     /***
      * Method for handling player input via keyboard
@@ -114,6 +121,7 @@ public class InitializeGame implements Initializable{
                 game.pauseDrops();
             } else if (e.getCode() == KeyCode.M) {
                 soundPlayer.muteVolume();
+                changeHP(player.getHealthPoints());
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {

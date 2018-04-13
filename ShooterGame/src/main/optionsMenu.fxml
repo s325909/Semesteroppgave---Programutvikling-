@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane style="-fx-background-color: BLACK" alignment="center" hgap="10" prefHeight="400.0" prefWidth="600.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.OptionsMenu">
+<GridPane alignment="center" hgap="10" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: BLACK" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.OptionsMenu">
 
     <VBox alignment="CENTER" prefHeight="779.0" prefWidth="900.0">
 
@@ -19,7 +19,7 @@
             </font>
         </Label>
 
-        <Button fx:id="GameOptions" prefHeight="75.0" prefWidth="250.0" onAction="#GameOptions" text="Game Options">
+        <Button fx:id="GameOptions" onAction="#GameOptions" prefHeight="75.0" prefWidth="250.0" text="Game Options">
             <font>
                 <Font name="Copperplate Gothic Light" size="24.0" />
             </font>
@@ -28,7 +28,7 @@
             </VBox.margin>
         </Button>
 
-        <Button fx:id="VideoOptions" prefHeight="75.0" prefWidth="250.0" onAction="#VideoOptions" text="Video Options">
+        <Button fx:id="VideoOptions" onAction="#VideoOptions" prefHeight="75.0" prefWidth="250.0" text="Video Options">
             <font>
                 <Font name="Copperplate Gothic Light" size="24.0" />
             </font>
@@ -37,7 +37,7 @@
             </VBox.margin>
         </Button>
 
-        <Button fx:id="SoundOptions" prefHeight="75.0" prefWidth="250.0" onAction="#SoundOptions" text="Sound Options">
+        <Button fx:id="SoundOptions" onAction="#SoundOptions" prefHeight="75.0" prefWidth="250.0" text="Sound Options">
             <font>
                 <Font name="Copperplate Gothic Light" size="24.0" />
             </font>
@@ -46,7 +46,7 @@
             </VBox.margin>
         </Button>
 
-        <Button fx:id="Controls" prefHeight="75.0" prefWidth="250.0" onAction="#Controls" text="Controls">
+        <Button fx:id="Controls" onAction="#Controls" prefHeight="75.0" prefWidth="250.0" text="Controls">
             <font>
                 <Font name="Copperplate Gothic Light" size="24.0" />
             </font>
@@ -54,6 +54,10 @@
                 <Insets bottom="15.0" top="15.0" />
             </VBox.margin>
         </Button>
+      <Button mnemonicParsing="false" text="Button">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
 
     </VBox>
    <columnConstraints>
