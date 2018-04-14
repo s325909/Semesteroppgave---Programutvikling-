@@ -149,7 +149,7 @@ public class Game {
             for (Enemy enemy : enemyList) {
                 enemy.update(entityList, time);
                 enemy.movement(time);
-                enemy.idleSound(time, "/resources/Sound/Sound Effects/zombie_grunt1.wav");
+                enemy.idleSound(time, "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav");
             }
 
 

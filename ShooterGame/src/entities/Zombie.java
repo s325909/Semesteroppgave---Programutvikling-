@@ -9,6 +9,8 @@ public class Zombie extends Enemy {
     }
 
     public void loadZombieAssets() {
+        String[] zombieSounds = {};
+
         SpriteParam[] animationSet = {
                 new SpriteParam("/resources/Art/Zombie/skeleton-idle_", ".png", 17),
                 new SpriteParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),

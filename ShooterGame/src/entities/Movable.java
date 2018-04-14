@@ -16,10 +16,6 @@ public class Movable extends Entity {
     private Sprite spriteMoving;
     private boolean meleeSet = false;
     private Sprite spriteMelee;
-    private boolean shootingSet = false;
-    private Sprite spriteShooting;
-    private boolean reloadSet = false;
-    private Sprite spriteReloading;
 
     private AudioClip[] footsteps;
 
