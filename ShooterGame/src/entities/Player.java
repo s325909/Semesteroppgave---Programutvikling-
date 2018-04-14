@@ -187,6 +187,7 @@ public class Player extends Movable {
 
         if (keyEvent.getCode() == KeyCode.E || (keyEvent.getCode() == KeyCode.SPACE && equippedWeapon == WeaponTypes.KNIFE)) {
             j = 2;
+            playWeapon(audioAction);
         } else if (keyEvent.getCode() == KeyCode.SPACE && equippedWeapon != WeaponTypes.KNIFE) {
             playWeapon(audioAction);
             j = 3;

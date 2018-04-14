@@ -6,6 +6,7 @@ import entities.Zombie;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -101,8 +102,6 @@ public class InitializeGame implements Initializable{
             if (e.getCode() == KeyCode.F12) {
                 changeFullScreen();
             } else if (e.getCode() == KeyCode.ESCAPE) {
-                System.exit(0);
-            } else if (e.getCode() == KeyCode.P) {
                 game.pauseGame();
                 game.pauseDrops();
             } else if (e.getCode() == KeyCode.M) {
@@ -126,6 +125,15 @@ public class InitializeGame implements Initializable{
             stage.setFullScreen(true);
             topbar.setVisible(false);
         }
+    }
+
+    public void startNewGame() {
+//        game.pauseGame();
+//        player.
+//        enemyList.removeAll();
+
+        //game = null;
+        //game = new Game(player, enemyList, gameWindow, playerHP);
     }
 
     /***
