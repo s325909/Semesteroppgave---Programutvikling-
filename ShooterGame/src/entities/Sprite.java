@@ -35,7 +35,7 @@ public class Sprite {
             try{
                 String filename = spriteFileName + Integer.toString(i) + extension;
                 String resource = getClass().getResource(filename).toURI().toString();
-                frames[i] = new Image(resource, 100, 100, true, false);
+                frames[i] = new Image(resource, 75, 75, true, false);
             }catch (Exception e) {
                 System.out.println("Error: Unable to find requested file(s) and the array Sprite.frames couldn't be created");
             }

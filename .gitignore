@@ -1,2 +1,4 @@
 *.xml
 ShooterGame/src/gameCode/Game.java
+ShooterGame/src/gameCode/InitializeGame.java
+ShooterGame/out/production/JavaFxApplication/gameCode/InitializeGame.class
