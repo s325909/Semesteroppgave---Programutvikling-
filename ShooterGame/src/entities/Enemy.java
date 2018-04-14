@@ -35,16 +35,5 @@ public class Enemy extends Movable {
             setIdle();
         }
     }
-
-    public void idleSound(double time, String filename) {
-        int i = (int)(time % 15);
-
-        AudioClip audioClip = new AudioClip(getClass().getResource(filename).toExternalForm());
-        audioClip.setVolume(0.15);
-
-        if (i < 1) {
-            audioClip.play();
-        }
-    }
 }
 

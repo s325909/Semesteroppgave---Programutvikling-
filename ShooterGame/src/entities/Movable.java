@@ -17,7 +17,7 @@ public class Movable extends Entity {
     private boolean meleeSet = false;
     private Sprite spriteMelee;
 
-    private AudioClip[] footsteps;
+    private AudioClip[] basicSounds;
 
     public Movable() { }
 
@@ -131,15 +131,21 @@ public class Movable extends Entity {
             super.setSprite(this.spriteMoving);
     }
 
-    public void loadFootsteps(String[] audioFiles) {
-        this.footsteps = loadAudio(audioFiles);
+    public void loadBasicSounds(String[] audioFiles) {
+        this.basicSounds = loadAudio(audioFiles);
     }
 
-    public void playFootStep() {
-        this.footsteps[0].play();
+    public void playBasicSounds(int index) {
+        this.basicSounds[index].play();
     }
 
-
+    public void playIdleSound(double time, int everyNthSecond) {
+        int dur = (int)(time % everyNthSecond);
+        System.out.println(dur);
+        if (dur == 0) {
+            playBasicSounds(0);
+        }
+    }
 
     public double getVelocityX() {
         return velocityX;

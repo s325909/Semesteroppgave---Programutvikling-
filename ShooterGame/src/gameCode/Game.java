@@ -3,6 +3,7 @@ package gameCode;
 import entities.Enemy;
 import entities.Entity;
 import entities.Player;
+import entities.Zombie;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -149,7 +150,6 @@ public class Game {
             for (Enemy enemy : enemyList) {
                 enemy.update(entityList, time);
                 enemy.movement(time);
-                enemy.idleSound(time, "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav");
             }
 
 

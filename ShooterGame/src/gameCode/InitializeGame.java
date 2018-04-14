@@ -59,7 +59,7 @@ public class InitializeGame implements Initializable{
 
         try {
             for (int i = 0; i < 10; i++) {
-                enemyList.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+                enemyList.add(new Enemy("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
                 enemyList.get(i).setSpriteIdle("/resources/Art/Zombie/skeleton-idle_", ".png", 17);
                 enemyList.get(i).setSpriteMoving("/resources/Art/Zombie/skeleton-move_", ".png", 17);
                 enemyList.get(i).setSpriteMelee("/resources/Art/Zombie/skeleton-attack_", ".png", 9);

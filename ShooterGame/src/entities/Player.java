@@ -4,10 +4,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
 
-enum WeaponTypes {
-    KNIFE, PISTOL, RIFLE, SHOTGUN
-}
-
 public class Player extends Movable {
 
     private WeaponTypes equippedWeapon;
@@ -21,7 +17,8 @@ public class Player extends Movable {
     public Player(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
         super(filename, extension, numberImages, positionX, positionY, healthPoints);
 
-        String[] footsteps = {
+        String[] playerSounds = {
+                "/resources/Sound/Sound Effects/Player/player_breathing_calm.wav",
                 "/resources/Sound/Sound Effects/Player/footsteps_single.wav"};
         String[] weaponSounds = {
                 "/resources/Sound/Sound Effects/Player/Knife/knife_swish.mp3",
@@ -56,7 +53,7 @@ public class Player extends Movable {
                 new SpriteParam("/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_", ".png", 20)};
         SpriteParam[][] all = {knife, pistol, rifle, shotgun};
 
-        loadFootsteps(footsteps);
+        loadBasicSounds(playerSounds);
         loadWeaponSounds(weaponSounds);
         loadWeaponSprite(all);
 
@@ -96,8 +93,8 @@ public class Player extends Movable {
         }
 
         super.getSprite().setMax(maxWidth,maxHeight);
-        System.out.println(maxWidth);
-        System.out.println(maxHeight);
+        //System.out.println(maxWidth);
+        //System.out.println(maxHeight);
     }
 
 
@@ -106,17 +103,16 @@ public class Player extends Movable {
      * @param animationWanted Takes in a String value which is later compared in order to change equippedWeapon.
      */
     public void playerAnimation(String animationWanted) {
-        if (animationWanted == "knife") {
+        if (animationWanted == "knife")
             this.equippedWeapon = WeaponTypes.KNIFE;
-        } else if (animationWanted == "pistol") {
+        else if (animationWanted == "pistol")
             this.equippedWeapon = WeaponTypes.PISTOL;
-        } else if (animationWanted == "rifle") {
+        else if (animationWanted == "rifle")
             this.equippedWeapon = WeaponTypes.RIFLE;
-        } else if (animationWanted == "shotgun") {
+        else if (animationWanted == "shotgun")
             this.equippedWeapon = WeaponTypes.SHOTGUN;
-        } else {
+        else
             this.equippedWeapon = WeaponTypes.KNIFE;
-        }
     }
 
     public void loadWeaponSounds(String[] audioFiles) {
@@ -172,19 +168,19 @@ public class Player extends Movable {
         if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
             j = 1;
             goLeft();
-            playFootStep();
+            playBasicSounds(1);
         } else if (keyEvent.getCode() == KeyCode.RIGHT || keyEvent.getCode() == KeyCode.D) {
             j = 1;
             goRight();
-            playFootStep();
+            playBasicSounds(1);
         } else if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W) {
             j = 1;
             goUp();
-            playFootStep();
+            playBasicSounds(1);
         } else if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
             j = 1;
             goDown();
-            playFootStep();
+            playBasicSounds(1);
         } else {
             j = 0;
         }
