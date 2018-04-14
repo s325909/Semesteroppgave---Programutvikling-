@@ -2,15 +2,10 @@ package gameCode;
 
 import entities.Enemy;
 import entities.Player;
-import entities.Zombie;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-<<<<<<< HEAD
 import javafx.scene.control.Label;
-=======
-import javafx.scene.control.Menu;
->>>>>>> SondresBranch
 import javafx.scene.control.MenuBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -107,13 +102,13 @@ public class InitializeGame implements Initializable{
             if (e.getCode() == KeyCode.F12) {
                 changeFullScreen();
             } else if (e.getCode() == KeyCode.ESCAPE) {
-<<<<<<< HEAD
-                System.exit(0);
+                pause.setVisible(true);
+                gameOver.setVisible(true);
+                game.pauseGame();
+                game.pauseDrops();
             } else if (e.getCode() == KeyCode.P) {
                 pause.setVisible(true);
                 gameOver.setVisible(true);
-=======
->>>>>>> SondresBranch
                 game.pauseGame();
                 game.pauseDrops();
             } else if (e.getCode() == KeyCode.M) {
