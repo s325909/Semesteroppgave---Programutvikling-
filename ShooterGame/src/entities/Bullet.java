@@ -9,8 +9,8 @@ public class Bullet extends Movable {
     private Magazine magazineRifle = new Magazine(30,90);
     private Magazine magazineShotgun = new Magazine(8,32);
 
-    public Bullet(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints, int damage, String bulletType) {
-        super(filename, extension, numberImages, positionX, positionY, healthPoints);
+    public Bullet(String filename, int positionX, int positionY, double velocityX, double velocityY, int damage, String bulletType) {
+        super(filename, positionX, positionY, velocityX, velocityY);
         this.damage = damage;
         this.bulletType = bulletType;
     }
@@ -27,16 +27,22 @@ public class Bullet extends Movable {
     public void fire() {
         switch (this.currentWeapon) {
             case PISTOL:
-                magazinePistol.changeBulletNumber(-1);
-                this.damage = 10;
+                if (!magazinePistol.isMagazineEmpty()) {
+                    magazinePistol.changeBulletNumber(-1);
+                    this.damage = 10;
+                }
                 break;
             case RIFLE:
-                magazineRifle.changeBulletNumber(-1);
-                this.damage = 15;
+                if (!magazineRifle.isMagazineEmpty()) {
+                    magazineRifle.changeBulletNumber(-1);
+                    this.damage = 15;
+                }
                 break;
             case SHOTGUN:
-                magazineShotgun.changeBulletNumber(-1);
-                this.damage = 20;
+                if (!magazineShotgun.isMagazineEmpty()) {
+                    magazineShotgun.changeBulletNumber(-1);
+                    this.damage = 20;
+                }
                 break;
         }
     }
@@ -53,6 +59,10 @@ public class Bullet extends Movable {
                 magazineShotgun.reloadMagazine();
                 break;
         }
+    }
+
+    public void outOfBullets() {
+
     }
 
     public int getDamage() {
@@ -73,8 +83,6 @@ public class Bullet extends Movable {
         private int maxPool;
         private int currentPool;
 
-        public Magazine() {}
-
         public Magazine(int magazineSize, int maxPool) {
             this.maxSize = magazineSize;
             this.numberBullets = this.maxSize;
@@ -86,28 +94,26 @@ public class Bullet extends Movable {
             if (number < 0 && !isMagazineEmpty()) {
                 this.numberBullets += number;
             } else if (number > 0 && !isPoolFull()) {
-                this.currentPool += number;
-            } else {
-                System.out.println("ChangeBulletNumber didn't do anything");
+                if ((number + getCurrentPool()) > maxPool)
+                    this.currentPool = maxPool;
+                else
+                    this.currentPool += number;
             }
         }
 
         public void reloadMagazine() {
-            if (!isMagazineFull()) {
-                if (maxPool >= maxSize) {
+            if (!isMagazineFull() && !isPoolEmpty()) {
+                if (maxPool > maxSize) {
                     setCurrentPool(getCurrentPool() - (maxSize - getNumberBullets()));
                     setNumberBullets(maxSize);
-                } else if (maxPool < maxSize) {
+                } else if (maxPool <= maxSize) {
                     setNumberBullets(getNumberBullets() + getCurrentPool());
                     if (getNumberBullets() > maxSize) {
                         setCurrentPool(getNumberBullets() - maxSize);
                         setNumberBullets(maxSize);
                     } else {
                         setCurrentPool(0);
-                        setNumberBullets(getNumberBullets());
                     }
-                } else if (isPoolEmpty()) {
-
                 }
             }
         }
