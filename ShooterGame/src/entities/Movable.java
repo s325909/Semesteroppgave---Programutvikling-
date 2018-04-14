@@ -25,10 +25,6 @@ public class Movable extends Entity {
 
     public Movable() { }
 
-//    public Movable(Node node, int x, int y) {
-//        super(node, x, y);
-//    }
-
     public Movable(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
         super(filename, extension, numberImages, positionX, positionY, healthPoints);
     }
@@ -129,16 +125,6 @@ public class Movable extends Entity {
         this.spriteMelee = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
     }
 
-    public void setSpriteShooting(String spriteFileName, String extension, int numberImages) {
-        this.shootingSet = true;
-        this.spriteShooting = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
-    }
-
-    public void setSpriteReloading(String spriteFileName, String extension, int numberImages) {
-        this.reloadSet = true;
-        this.spriteReloading = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
-    }
-
     public void setIdle() {
         if (this.idleSet)
             super.setSprite(this.spriteIdle);
@@ -149,23 +135,8 @@ public class Movable extends Entity {
             super.setSprite(this.spriteMoving);
     }
 
-    public void setMelee() {
-        if (this.meleeSet)
-            super.setSprite(this.spriteMelee);
-    }
-
-    public void setShooting() {
-        if (this.shootingSet)
-            super.setSprite(this.spriteShooting);
-    }
-
-    public void setReloading() {
-        if (this.reloadSet)
-            super.setSprite(this.spriteReloading);
-    }
-
     public void loadFootsteps(String[] audioFiles) {
-        this.footsteps = loadAudio(audioFiles);//clips;
+        this.footsteps = loadAudio(audioFiles);
     }
 
     public void playFootStep() {

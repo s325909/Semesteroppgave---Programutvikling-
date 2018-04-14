@@ -58,7 +58,9 @@ public class Entity{
         AudioClip[] clips = new AudioClip[audioFiles.length];
         for(int i = 0; i < clips.length; i++) {
             clips[i] = new AudioClip(this.getClass().getResource(audioFiles[i]).toExternalForm());
+            clips[i].setVolume(0.1);
         }
+
         return clips;
     }
 

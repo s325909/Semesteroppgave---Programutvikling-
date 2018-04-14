@@ -32,23 +32,24 @@ public class InitializeGame implements Initializable{
 
     MusicPlayer musicPlayer;
 
+    // Debug tool to view the Node representation of every entity, should images not load correctly.
     final private boolean DEBUG = false;
 
-    public void exit(){
-        System.out.println("hello");
-    }
-
+    /***
+     * Method which will create every Entity and add these to the gameWindow.
+     * Method will also initialize the first soundtrack.
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // Play soundtrack
         try {
             musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
         } catch (Exception e) {
             System.out.println("Error: Could not find sound file");
         }
 
-        // Create all Entity objects
         try {
             player = new Player("/resources/Art/Survivor/knife/idle/survivor-idle_knife_", ".png", 20, (int)gameWindow.getHeight()/2, (int)gameWindow.getWidth()/2, 100);
             player.playerAnimation("knife");
@@ -67,17 +68,15 @@ public class InitializeGame implements Initializable{
             System.out.println("Error: Enemies did not load correctly");
         }
 
-        // Add Entities to the gameWindow
-        // Enable DEBUG in order to view the Entities represented as Nodes (E.g. if Sprites fail to load correctly)
-        if (DEBUG)
+        if (DEBUG) {
             gameWindow.getChildren().add(player.getNode());
+            for (Enemy enemy : enemyList)
+                gameWindow.getChildren().add(enemy.getNode());
+        }
 
         gameWindow.getChildren().add(player.getSprite().getImageView());
 
         for (Enemy enemy : enemyList) {
-            if (DEBUG)
-                gameWindow.getChildren().add(enemy.getNode());
-
             gameWindow.getChildren().add(enemy.getSprite().getImageView());
         }
 
@@ -92,7 +91,8 @@ public class InitializeGame implements Initializable{
 
 
     /***
-     * Method for handling player input via keyboard
+     * Method which takes in user keyboard input.
+     * Some input is handled in the movePlayer() method.
      */
     public void getKeyPressed(){
 
@@ -114,6 +114,9 @@ public class InitializeGame implements Initializable{
         });
     }
 
+    /***
+     * Method which will change the FullScreen state of the application.
+     */
     public void changeFullScreen() {
         Stage stage = (Stage) gameWindow.getScene().getWindow();
         if(stage.isFullScreen()) {
@@ -125,6 +128,9 @@ public class InitializeGame implements Initializable{
         }
     }
 
+    /***
+     * Method which will exit the application.
+     */
     public void exitGame() {
         System.exit(0);
     }

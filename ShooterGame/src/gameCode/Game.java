@@ -23,7 +23,7 @@ public class Game {
     private List<Enemy> enemyList;
     private Text playerHP;
 
-    private boolean running = true;
+    private boolean isRunning = true;
     private boolean createDrops = true;
 
     ArrayList<Entity> playerList = new ArrayList<Entity>();
@@ -53,15 +53,22 @@ public class Game {
         timer.start();
     }
 
-    // Methods for pausing and resuming the game via the onUpdate method
+    /***
+     * Method for changing the boolean isRunning.
+     * Method affects the onUdate() function.
+     */
     public void pauseGame() {
-        if (running) {
-            this.running = false;
+        if (isRunning) {
+            this.isRunning = false;
         } else {
-            this.running = true;
+            this.isRunning = true;
         }
     }
 
+    /***
+     * Method for changing the boolean createDrops.
+     * Method affects the bonus() method.
+     */
     public void pauseDrops() {
         if (createDrops) {
             this.createDrops = false;
@@ -70,12 +77,19 @@ public class Game {
         }
     }
 
+    /***
+     * Method for updating the datafield PlayerHP of type Text.
+     * This value represents the value displayed on the HUD.
+     */
     public void updateHP(){
         String hp_level = String.valueOf(player.getHealthPoints());
         this.playerHP.setText(hp_level);
     }
 
-    //adds random circles and rectangles
+    /***
+     * Method for creating PowerUps which spawn randomly.
+     * Method is affected by pauseDrops() method.
+     */
     public void bonus(){
 
         if (createDrops) {
@@ -106,14 +120,24 @@ public class Game {
         }
     }
 
-    //when player goes over objects....
+    /***
+     * Method for checking for collision between two Nodes.
+     * @param player Takes in a player object, which is represented with a Node.
+     * @param otherShape Takes in a different object, which is represented with a Node.
+     * @return Returns a boolean based on whether there is any collision or not.
+     */
     public boolean isColliding(Node player, Node otherShape) {
         return player.getBoundsInParent().intersects(otherShape.getBoundsInParent());
     }
 
-    //player gets points and objects disappear
+    /***
+     * Method which continuously run as long as isRunning is set to true.
+     * Method will keep updating all Entities' positions and check for collision.
+     * Method is affected by pauseGame() method.
+     * @param time Takes in a double which is used to determine how quickly updates should occur.
+     */
     private void onUpdate(double time) {
-        if (running) {
+        if (isRunning) {
 
             playerList.addAll(enemyList);
 
@@ -121,9 +145,6 @@ public class Game {
 
             entityList.add(player);
             entityList.addAll(enemyList);
-
-            //if(player.checkAlive() == false)
-            //  pauseGame();
 
             for (Enemy enemy : enemyList) {
                 enemy.update(entityList, time);

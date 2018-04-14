@@ -64,6 +64,10 @@ public class Player extends Movable {
         setAnimation(0,0);
     }
 
+    /***
+     * Method which is used for loading all the various weapon sprites into a 2-dimensional array.
+     * @param sprites Takes in a 2-dimensional array of type Sprite
+     */
     private void loadWeaponSprite(SpriteParam[][] sprites) {
         Sprite[][] outerSprite = new Sprite[sprites.length][];
 
@@ -96,6 +100,11 @@ public class Player extends Movable {
         System.out.println(maxHeight);
     }
 
+
+    /***
+     * Method which will switch between which set of weapon animations that should be used based on a String value.
+     * @param animationWanted Takes in a String value which is later compared in order to change equippedWeapon.
+     */
     public void playerAnimation(String animationWanted) {
         if (animationWanted == "knife") {
             this.equippedWeapon = WeaponTypes.KNIFE;
@@ -123,8 +132,12 @@ public class Player extends Movable {
     }
 
     /***
-     * Method for turning player keyboard input into movement on the screen
-     * @param keyEvent
+     * Method which sets current animation set to be used, together with the required sound clips necessary.
+     * Upon WASD or Arrow Key input, the walking animation of each sprite set is selected.
+     * When pressing E, the melee animation of the set is selected.
+     * When pressing Space, the fire animation of the set is selected.
+     * Finally adds the now selected i and j int values as indexes in a 2-dimensional array.
+     * @param keyEvent Takes inn user keyboard input
      */
     public void movePlayer(KeyEvent keyEvent){
         int i,j, audioAction, audioReload;
@@ -189,7 +202,8 @@ public class Player extends Movable {
     }
 
     /***
-     * Method for stopping movement upon key released
+     * Method which stops player movement upon key release.
+     * When releasing, the animation state is also returned to the default one in the set.
      * @param keyEvent
      */
     public void releasedPlayer(KeyEvent keyEvent){
