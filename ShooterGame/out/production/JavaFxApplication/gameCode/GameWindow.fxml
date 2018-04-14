@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -67,7 +68,7 @@
                               </ImageView>
                               <HBox prefHeight="28.0" prefWidth="85.0">
                                  <children>
-                                    <Text fx:id="playerHP" text="100" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="47.13671875">
+                                    <Text fx:id="playerHP" strokeType="OUTSIDE" strokeWidth="0.0" text="100" textAlignment="CENTER" wrappingWidth="47.13671875">
                                        <font>
                                           <Font size="24.0" />
                                        </font>
@@ -81,6 +82,13 @@
                </children>
             </FlowPane>
          </bottom>
+         <center>
+            <Label fx:id="pause" text="Paused" textFill="#fffdfd" visible="false" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Copperplate Gothic Bold" size="96.0" />
+               </font>
+            </Label>
+         </center>
 
       </BorderPane>
    </children>

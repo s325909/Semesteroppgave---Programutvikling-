@@ -6,6 +6,7 @@ import entities.Zombie;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -22,6 +23,7 @@ public class InitializeGame implements Initializable{
     @FXML Pane gameWindow;
     @FXML MenuBar topbar;
     @FXML Text playerHP;
+    @FXML Label pause;
 
     Stage stage = new Stage();
 
@@ -103,6 +105,7 @@ public class InitializeGame implements Initializable{
             } else if (e.getCode() == KeyCode.ESCAPE) {
                 System.exit(0);
             } else if (e.getCode() == KeyCode.P) {
+                pause.setVisible(true);
                 game.pauseGame();
                 game.pauseDrops();
             } else if (e.getCode() == KeyCode.M) {
