@@ -9,11 +9,24 @@ public class Sprite {
     private double height;
     private ImageView iv;
 
+    private Image singleImage;
     private Image[] frames;
     private double duration;
 
     private double maxWidth;
     private double maxHeight;
+
+    public Sprite(ImageView iv, String spriteFileName) {
+        this.iv = iv;
+        try {
+            String resource = getClass().getResource(spriteFileName).toURI().toString();
+            this.singleImage = new Image(resource, 100, 100, true, true);
+        } catch (Exception e) {
+            System.out.println("Error: Unable to find requested file and SingleImage couldn't be created");
+        }
+        this.width = this.singleImage.getWidth();
+        this.height = this.singleImage.getHeight();
+    }
 
     public Sprite(ImageView iv, String spriteFileName, String extension, int numberImages) {
         this.iv = iv;
@@ -24,7 +37,7 @@ public class Sprite {
                 String resource = getClass().getResource(filename).toURI().toString();
                 frames[i] = new Image(resource, 100, 100, true, false);
             }catch (Exception e) {
-
+                System.out.println("Error: Unable to find requested file(s) and the array Sprite.frames couldn't be created");
             }
         }
         this.width = this.frames[0].getWidth();

@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 public class Entity{
 
@@ -20,6 +21,16 @@ public class Entity{
     private Sprite spriteDefault;
 
     public Entity() {}
+
+    public Entity(String filename, int positionX, int positionY) {
+        this.iv = new ImageView();
+        this.sprite = new Sprite(this.iv, filename);
+        this.node = new Rectangle(positionX, positionY, Color.GREEN);
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.node.setTranslateX(positionX);
+        this.node.setTranslateY(positionY);
+    }
 
     public Entity(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
         this.iv = new ImageView();
