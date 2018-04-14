@@ -5,14 +5,15 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+
 <?import javafx.scene.text.Font?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<GridPane style="-fx-background-color: BLACK" alignment="center" hgap="10" prefHeight="400.0" prefWidth="600.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.OptionsMenu">
+<GridPane style="-fx-background-color: BLACK" alignment="center" hgap="10" prefHeight="400.0" prefWidth="600.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menuOptions.OptionsMenu">
 
     <HBox>
-        <Button fx:id="Back" prefHeight="50.0" prefWidth="70.0" >
+        <Button fx:id="Back" prefHeight="50.0" prefWidth="70.0">
             <graphic>
                 <ImageView>
                     <Image url="@/resources/Icons/toolbarButtonGraphics/navigation/Back24.gif"/>
@@ -23,7 +24,7 @@
 
     <VBox alignment="CENTER" prefHeight="779.0" prefWidth="900.0">
 
-        <Label text="Game Options" textAlignment="CENTER" textFill="RED">
+        <Label text="Controls" textAlignment="CENTER" textFill="RED">
             <font>
                 <Font name="Copperplate Gothic Light" size="24.0" />
             </font>
@@ -31,21 +32,6 @@
                 <Insets bottom="15.0" top="15.0" />
             </VBox.margin>
         </Label>
-
-        <Label text="Level" textAlignment="CENTER" textFill="RED">
-            <font>
-                <Font name="Copperplate Gothic Light" size="18.0" />
-            </font>
-        </Label>
-            <VBox.margin>
-            <Insets bottom="15.0" top="15.0" />
-            </VBox.margin>
-
-        <Spinner GridPane.valignment="CENTER" min="1" max="10">
-            <VBox.margin>
-                <Insets bottom="15.0" top="15.0" />
-            </VBox.margin>
-        </Spinner>
     </VBox>
 
 </GridPane>

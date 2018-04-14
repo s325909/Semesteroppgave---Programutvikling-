@@ -1,4 +1,4 @@
-package main;
+package menuOptions;
 
 import javafx.fxml.Initializable;
 

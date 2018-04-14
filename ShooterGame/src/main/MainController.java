@@ -51,7 +51,7 @@ public class MainController implements Initializable{
         try {
             if(event.getSource() == loadGame) {
                 loadWindow = (Stage) loadGame.getScene().getWindow();
-                loadRoot = FXMLLoader.load(getClass().getResource("loadFiles.fxml"));
+                loadRoot = FXMLLoader.load(getClass().getResource("../menuOptions/loadFiles.fxml"));
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -68,7 +68,7 @@ public class MainController implements Initializable{
         try {
             if (event.getSource() == options){
                 optionWindow = (Stage) options.getScene().getWindow();
-                optionsRoot = FXMLLoader.load(getClass().getResource("optionsMenu.fxml"));
+                optionsRoot = FXMLLoader.load(getClass().getResource("../menuOptions/optionsMenu.fxml"));
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -84,7 +84,7 @@ public class MainController implements Initializable{
         try {
             if (event.getSource() == help){
                 helpWindow = (Stage) help.getScene().getWindow();
-                helpRoot = FXMLLoader.load(getClass().getResource("helpMenu.fxml"));
+                helpRoot = FXMLLoader.load(getClass().getResource("../menuOptions/helpMenu.fxml"));
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
