@@ -10,6 +10,8 @@ public class Player extends Movable {
 
     private AudioClip[] weapon;
 
+    private AudioClip[] basicSounds;
+
     private Sprite[][] allAnimation;
 
     public Player(){}
@@ -119,8 +121,12 @@ public class Player extends Movable {
         this.weapon = loadAudio(audioFiles);
     }
 
-    public void playWeapon(int i) {
+    public void playWeaponSounds(int i) {
         this.weapon[i].play();
+    }
+
+    public void playBasicSounds(int i) {
+        this.basicSounds[i].play();
     }
 
     public void setAnimation(int i, int j) {
@@ -130,8 +136,9 @@ public class Player extends Movable {
     /***
      * Method which sets current animation set to be used, together with the required sound clips necessary.
      * Upon WASD or Arrow Key input, the walking animation of each sprite set is selected.
-     * When pressing E, the melee animation of the set is selected.
-     * When pressing Space, the fire animation of the set is selected.
+     * When pressing E, the melee animation of the knife set is selected.
+     * When pressing Space, the fire or knife animation of the set is selected.
+     * When pressing 1-4, the user may switch between the various sets of animations.
      * Finally adds the now selected i and j int values as indexes in a 2-dimensional array.
      * @param keyEvent Takes inn user keyboard input
      */
@@ -185,16 +192,26 @@ public class Player extends Movable {
             j = 0;
         }
 
-        if (keyEvent.getCode() == KeyCode.E || (keyEvent.getCode() == KeyCode.SPACE && equippedWeapon == WeaponTypes.KNIFE)) {
+        if ((keyEvent.getCode() == KeyCode.E || keyEvent.getCode() == KeyCode.SPACE) && equippedWeapon == WeaponTypes.KNIFE) {
             j = 2;
-            playWeapon(audioAction);
+            playWeaponSounds(audioAction);
         } else if (keyEvent.getCode() == KeyCode.SPACE && equippedWeapon != WeaponTypes.KNIFE) {
-            playWeapon(audioAction);
+            playWeaponSounds(audioAction);
             j = 3;
         } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != WeaponTypes.KNIFE) {
-            playWeapon(audioReload);
+            playWeaponSounds(audioReload);
             j = 4;
         }
+
+        if (keyEvent.getCode() == KeyCode.DIGIT1)
+            this.equippedWeapon = WeaponTypes.KNIFE;
+        else if (keyEvent.getCode() == KeyCode.DIGIT2)
+            this.equippedWeapon = WeaponTypes.PISTOL;
+        else if (keyEvent.getCode() == KeyCode.DIGIT3)
+            this.equippedWeapon = WeaponTypes.RIFLE;
+        else if (keyEvent.getCode() == KeyCode.DIGIT4)
+            this.equippedWeapon = WeaponTypes.SHOTGUN;
+
         setAnimation(i, j);
     }
 
