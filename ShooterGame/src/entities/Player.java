@@ -117,6 +117,11 @@ public class Player extends Movable {
             this.equippedWeapon = WeaponTypes.KNIFE;
     }
 
+    @Override
+    public void loadBasicSounds(String[] audioFiles) {
+        this.basicSounds = loadAudio(audioFiles);
+    }
+
     public void loadWeaponSounds(String[] audioFiles) {
         this.weapon = loadAudio(audioFiles);
     }

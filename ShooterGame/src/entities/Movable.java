@@ -153,6 +153,14 @@ public class Movable extends Entity {
         }
     }
 
+    public AudioClip[] getBasicSounds() {
+        return basicSounds;
+    }
+
+    public void setBasicSounds(AudioClip[] basicSounds) {
+        this.basicSounds = basicSounds;
+    }
+
     public double getVelocityX() {
         return velocityX;
     }
