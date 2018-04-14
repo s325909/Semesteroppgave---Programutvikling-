@@ -83,11 +83,20 @@
             </FlowPane>
          </bottom>
          <center>
-            <Label fx:id="pause" text="Paused" textFill="#fffdfd" visible="false" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="Copperplate Gothic Bold" size="96.0" />
-               </font>
-            </Label>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="gameOver" text="GAME OVER" textFill="WHITE" visible="false">
+                     <font>
+                        <Font size="96.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="pause" text="Paused" textFill="#fffdfd" visible="false">
+                     <font>
+                        <Font name="Copperplate Gothic Bold" size="96.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
          </center>
 
       </BorderPane>

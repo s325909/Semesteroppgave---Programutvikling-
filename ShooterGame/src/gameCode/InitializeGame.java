@@ -23,7 +23,7 @@ public class InitializeGame implements Initializable{
     @FXML Pane gameWindow;
     @FXML MenuBar topbar;
     @FXML Text playerHP;
-    @FXML Label pause;
+    @FXML Label pause, gameOver;
 
     Stage stage = new Stage();
 
@@ -106,6 +106,7 @@ public class InitializeGame implements Initializable{
                 System.exit(0);
             } else if (e.getCode() == KeyCode.P) {
                 pause.setVisible(true);
+                gameOver.setVisible(true);
                 game.pauseGame();
                 game.pauseDrops();
             } else if (e.getCode() == KeyCode.M) {
