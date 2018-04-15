@@ -22,6 +22,8 @@ public class InitializeGame implements Initializable{
     @FXML Pane gameWindow;
     @FXML MenuBar topbar;
     @FXML Text playerHP;
+    @FXML Text magazineSize;
+    @FXML Text poolSize;
     @FXML Label pause, gameOver;
 
     Stage stage = new Stage();
@@ -82,7 +84,7 @@ public class InitializeGame implements Initializable{
         }
 
         // Initialize the game
-        game = new Game(player, enemyList, gameWindow, playerHP);
+        game = new Game(player, enemyList, gameWindow, playerHP, magazineSize, poolSize);
 
         Platform.runLater(this::getKeyPressed);
 
