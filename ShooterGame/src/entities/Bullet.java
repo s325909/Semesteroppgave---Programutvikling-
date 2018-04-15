@@ -8,7 +8,7 @@ public class Bullet extends Movable {
 
 
     public Bullet(String filename, int positionX, int positionY, double velocityX, double velocityY, int damage, String bulletType) {
-        super(filename, positionX, positionY, velocityX, velocityY);
+        super(filename, positionX, positionY, velocityX, velocityY, 10);
         this.damage = damage;
         this.bulletType = bulletType;
     }

@@ -149,7 +149,7 @@ public class Game {
 
             for (Enemy enemy : enemyList) {
                 enemy.update(entityList, time);
-                enemy.movement(time);
+                enemy.movement(player);
             }
 
 

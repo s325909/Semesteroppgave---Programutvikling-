@@ -17,18 +17,22 @@ public class Movable extends Entity {
     private boolean meleeSet = false;
     private Sprite spriteMelee;
 
+    double movementSpeed;
+
     private AudioClip[] basicSounds;
 
     public Movable() { }
 
-    public Movable(String filename, int positionX, int positionY, double velocityX, double velocityY) {
+    public Movable(String filename, int positionX, int positionY, double velocityX, double velocityY, double movementSpeed) {
         super(filename, positionX, positionY);
         this.velocityX = velocityX;
         this.velocityY = velocityY;
+        this.movementSpeed = movementSpeed;
     }
 
-    public Movable(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
+    public Movable(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints, double movementSpeed) {
         super(filename, extension, numberImages, positionX, positionY, healthPoints);
+        this.movementSpeed = movementSpeed;
     }
 
     /***
@@ -80,8 +84,8 @@ public class Movable extends Entity {
             if(this.isColliding(entity)) {
                 //setVelocityX(-2 * getVelocityX());
                 //setVelocityY(-2 * getVelocityY());
-                setPositionX(-50);
-                setPositionY(-50);
+                //setPositionX(-50);
+                //setPositionY(-50);
                 setHealthPoints(getHealthPoints() - 10);
             }
         }
@@ -89,11 +93,11 @@ public class Movable extends Entity {
 
     // Functions for changing entity velocity
     public void goLeft() {
-        setVelocityX(-5.0);
+        setVelocityX(-movementSpeed);
     }
 
     public void goRight() {
-        setVelocityX(5.0);
+        setVelocityX(movementSpeed);
     }
 
     public void stopX() {
@@ -104,11 +108,11 @@ public class Movable extends Entity {
     }
 
     public void goUp() {
-        setVelocityY(-5.0);
+        setVelocityY(-movementSpeed);
     }
 
     public void goDown() {
-        setVelocityY(5.0);
+        setVelocityY(movementSpeed);
     }
 
     public void stopY() {

@@ -21,7 +21,7 @@ public class Player extends Movable {
     public Player(){}
 
     public Player(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
-        super(filename, extension, numberImages, positionX, positionY, healthPoints);
+        super(filename, extension, numberImages, positionX, positionY, healthPoints, 5.0);
 
         String[] playerSounds = {
                 "/resources/Sound/Sound Effects/Player/player_breathing_calm.wav",

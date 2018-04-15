@@ -7,7 +7,7 @@ public class Zombie extends Movable {
     public Zombie(){}
 
     public Zombie(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
-        super(filename, extension, numberImages, positionX, positionY, healthPoints);
+        super(filename, extension, numberImages, positionX, positionY, healthPoints, 1.0);
         loadZombieAssets();
     }
 
