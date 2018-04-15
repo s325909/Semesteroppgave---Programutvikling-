@@ -276,6 +276,10 @@ public class Player extends Movable {
         }
     }
 
+    public List getPistolBullets() {
+        return pistolBullets;
+    }
+
     public void fire() {
         switch (this.equippedWeapon) {
             case PISTOL:

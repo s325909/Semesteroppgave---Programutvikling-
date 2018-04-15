@@ -1,9 +1,6 @@
 package gameCode;
 
-import entities.Enemy;
-import entities.Entity;
-import entities.Player;
-import entities.Zombie;
+import entities.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -29,8 +26,8 @@ public class Game {
     private boolean isRunning = true;
     private boolean createDrops = true;
 
-    private ArrayList<Entity> playerList = new ArrayList<Entity>();
-    private ArrayList<Entity> entityList = new ArrayList<Entity>();
+    private ArrayList<Entity> playerList = new ArrayList<>();
+    private ArrayList<Entity> entityList = new ArrayList<>();
 
     private ArrayList<Rectangle> bonuses=new ArrayList<>();
     private ArrayList<Circle> bonuses2=new ArrayList<>();
