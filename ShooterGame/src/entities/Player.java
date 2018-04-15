@@ -222,9 +222,11 @@ public class Player extends Movable {
             j = 2;
             playWeaponSounds(audioAction);
         } else if (keyEvent.getCode() == KeyCode.SPACE && equippedWeapon != WeaponTypes.KNIFE) {
-            fire(i,3, audioAction);
+            j = 3;
+            fire(i,j, audioAction);
         } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != WeaponTypes.KNIFE) {
-            reload(i,4, audioReload);
+            j = 4;
+            reload(i,j, audioReload);
         }
 
         if (keyEvent.getCode() == KeyCode.DIGIT1)
