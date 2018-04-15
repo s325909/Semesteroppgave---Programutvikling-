@@ -28,6 +28,7 @@ public class Game {
 
     private ArrayList<Entity> playerList = new ArrayList<>();
     private ArrayList<Entity> entityList = new ArrayList<>();
+    private ArrayList<Entity> bulletList = new ArrayList<>();
 
     private ArrayList<Rectangle> bonuses=new ArrayList<>();
     private ArrayList<Circle> bonuses2=new ArrayList<>();
@@ -52,8 +53,91 @@ public class Game {
                 updateAmmo();
             }
         };
-
         timer.start();
+    }
+
+    /***
+     * Method which continuously run as long as isRunning is set to true.
+     * Method will keep updating all Entities' positions and check for collision.
+     * Method is affected by pauseGame() method.
+     * @param time Takes in a double which is used to determine how quickly updates should occur.
+     */
+    private void onUpdate(double time) {
+        if (isRunning) {
+
+            playerList.addAll(enemyList);
+
+            player.update(playerList, time);
+
+            entityList.add(player);
+            entityList.addAll(enemyList);
+
+            for (Enemy enemy : enemyList) {
+                enemy.update(entityList, time);
+                enemy.movement(player);
+            }
+
+            for (Enemy enemy : enemyList) {
+                if (player.isColliding(enemy)) {
+                    player.setHealthPoints(player.getHealthPoints() - 10);
+                    enemy.setHealthPoints(enemy.getHealthPoints() - 25);
+                    enemy.checkAlive();
+                    System.out.println(enemy.getHealthPoints());
+                    System.out.println(enemy.isDead());
+//                    System.out.println("Collision!");
+//                    System.out.println("Health remaining: " + player.getHealthPoints());
+                }
+            }
+
+            entityList.removeIf(Entity::isDead);
+            //bulletList.removeIf(Entity::isDead);
+
+            //enemyList.removeIf(Entity::update);
+
+            for (Shape shape : this.bonuses) {
+                if (isColliding(player.getNode(), shape)) {
+                    bonuses.remove(shape);
+                    gameWindow.getChildren().remove(shape);
+                    score += 1;
+
+                    player.setHealthPoints(player.getHealthPoints() + 25);
+                    double random = Math.random();
+                    if (random < 0.5)
+                        player.playerAnimation("pistol");
+                    else if (random > 0.5)
+                        player.playerAnimation("shotgun");
+
+                    System.out.println("Current healthpoints: " + player.getHealthPoints());
+                    System.out.println("You got 1 point! New score equals: " + score);
+                    Main.setTitle("The Game... Score: " + score);
+                }
+            }
+
+            for (Shape shape : this.bonuses2) {
+                if (isColliding(player.getNode(), shape)) {
+                    bonuses2.remove(shape);
+                    gameWindow.getChildren().remove(shape);
+                    score += 2;
+
+                    player.setHealthPoints(player.getHealthPoints() + 50);
+                    player.playerAnimation("rifle");
+
+                    System.out.println("Current healthpoints: " + player.getHealthPoints());
+                    System.out.println("You got 2 points! New score equals: " + score);
+                    Main.setTitle("The Game... Score: " + score);
+                }
+            }
+        }
+    }
+
+    /***
+     * Method for checking for collision between two Nodes.
+     * @param player Requires a Node to represent the Player.
+     * @param otherShape Requires a Node to represent the object of collision.
+     * @return Returns a boolean based on whether there is any collision or not.
+     */
+    public boolean isColliding(Node player, Node otherShape) {
+        return player.getBoundsInParent().intersects(otherShape.getBoundsInParent());
     }
 
     /***
@@ -81,17 +165,21 @@ public class Game {
     }
 
     /***
-     * Method for updating the datafield PlayerHP of type Text.
-     * This value represents the value displayed on the HUD.
+     * Method for updating the datafield playerHP of type Text.
+     * This value is displayed on the HUD.
      */
     public void updateHP() {
         String hp_level = String.valueOf(player.getHealthPoints());
         this.playerHP.setText(hp_level);
     }
 
+    /***
+     * Method for updating the datafields magazineSize and poolSize of type Text.
+     * These values are displayed on the HUD.
+     */
     public void updateAmmo() {
-        String magazineLevel = String.valueOf(5);
-        String poolLevel = String.valueOf(5);
+        String magazineLevel = String.valueOf(player.getMagazineCount());
+        String poolLevel = String.valueOf(player.getAmmoPool());
         this.magazineSize.setText(magazineLevel);
         this.poolSize.setText(poolLevel);
     }
@@ -127,83 +215,6 @@ public class Game {
                     gameWindow.getChildren().addAll(circle);
                 }
             }
-        }
-    }
-
-
-
-    /***
-     * Method for checking for collision between two Nodes.
-     * @param player Requires a Node to represent the Player.
-     * @param otherShape Requires a Node to represent the object of collision.
-     * @return Returns a boolean based on whether there is any collision or not.
-     */
-    public boolean isColliding(Node player, Node otherShape) {
-        return player.getBoundsInParent().intersects(otherShape.getBoundsInParent());
-    }
-
-    /***
-     * Method which continuously run as long as isRunning is set to true.
-     * Method will keep updating all Entities' positions and check for collision.
-     * Method is affected by pauseGame() method.
-     * @param time Takes in a double which is used to determine how quickly updates should occur.
-     */
-    private void onUpdate(double time) {
-        if (isRunning) {
-
-            playerList.addAll(enemyList);
-
-            player.update(playerList, time);
-
-            entityList.add(player);
-            entityList.addAll(enemyList);
-
-            for (Enemy enemy : enemyList) {
-                enemy.update(entityList, time);
-                enemy.movement(player);
-            }
-
-
-
-            for (Shape shape : this.bonuses) {
-                if (isColliding(player.getNode(), shape)) {
-                    bonuses.remove(shape);
-                    gameWindow.getChildren().remove(shape);
-                    score += 1;
-
-                    player.setHealthPoints(player.getHealthPoints() + 25);
-                    double random = Math.random();
-                    if (random < 0.5)
-                        player.playerAnimation("pistol");
-                    else if (random > 0.5)
-                        player.playerAnimation("shotgun");
-
-                    System.out.println("Current healthpoints: " + player.getHealthPoints());
-                    System.out.println("You got 1 point! New score equals: " + score);
-                    Main.setTitle("The Game... Score: " + score);
-                }
-            }
-
-            for (Shape shape : this.bonuses2) {
-                if (isColliding(player.getNode(), shape)) {
-                    bonuses2.remove(shape);
-                    gameWindow.getChildren().remove(shape);
-                    score += 2;
-
-                    player.setHealthPoints(player.getHealthPoints() + 50);
-                    player.playerAnimation("rifle");
-
-                    System.out.println("Current healthpoints: " + player.getHealthPoints());
-                    System.out.println("You got 2 points! New score equals: " + score);
-                    Main.setTitle("The Game... Score: " + score);
-                }
-            }
-
-            for (Enemy enemy : enemyList)
-                if (player.isColliding(enemy)) {
-                    System.out.println("Collision!");
-                    System.out.println("Health remaining: " + player.getHealthPoints());
-                }
         }
     }
 }

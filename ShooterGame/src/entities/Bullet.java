@@ -24,19 +24,6 @@ public class Bullet extends Movable {
         this.currentWeapon = currentWeapon;
     }
 
-//    public void setBulletType(String weaponWanted) {
-//        if (this.bulletType == "pistol")
-//            this.currentWeapon = WeaponTypes.PISTOL;
-//        if (this.bulletType == "rifle")
-//            this.currentWeapon = WeaponTypes.RIFLE;
-//        if (this.bulletType == "shotgun")
-//            this.currentWeapon = WeaponTypes.SHOTGUN;
-//    }
-//
-//    public void outOfBullets() {
-//
-//    }
-
     public int getDamage() {
         return damage;
     }

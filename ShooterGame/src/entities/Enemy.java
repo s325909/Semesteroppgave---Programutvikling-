@@ -17,6 +17,11 @@ public class Enemy extends Movable {
         super(filename, extension, numberImages, positionX, positionY, healthPoints, 1.0);
     }
 
+    /***
+     * Method which controls the movement of enemies, whereas they are drawn towards the Player.
+     * @param player Requires an object of type Player in order to decide which Entity the enemies
+     *               should pursue.
+     */
     public void movement(Player player) {
         double diffx = player.getPositionX() - getPositionX();
         double diffy = player.getPositionY() - getPositionY();

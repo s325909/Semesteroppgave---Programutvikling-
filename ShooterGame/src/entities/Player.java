@@ -14,10 +14,6 @@ public class Player extends Movable {
     private AudioClip[] basicSounds;
     private Sprite[][] allAnimation;
 
-    private List<Bullet> pistolBullets = new ArrayList<Bullet>();
-    private List<Bullet> rifleBullets = new ArrayList<Bullet>();
-    private List<Bullet> shotgunBullets = new ArrayList<Bullet>();
-
     private Magazine magazinePistol;
     private Magazine magazineRifle;
     private Magazine magazineShotgun;
@@ -37,7 +33,8 @@ public class Player extends Movable {
                 "/resources/Sound/Sound Effects/Player/Rifle/rifle_shot.wav",
                 "/resources/Sound/Sound Effects/Player/Rifle/rifle_reload.mp3",
                 "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_shot.wav",
-                "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_reload.wav"};
+                "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_reload.wav",
+                "/resources/Sound/Sound Effects/Player/Pistol/pistol_empty.mp3"};
 
         SpriteParam[] knife = {
                 new SpriteParam("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20),
@@ -88,27 +85,27 @@ public class Player extends Movable {
 
         this.allAnimation = outerSprite;
 
-        double maxWidth = -1;
-        double maxHeight = -1;
-
-        for(int i = 0; i < this.allAnimation.length; i++) {
-            for (int j = 0; j < this.allAnimation[i].length; j++) {
-                if (this.allAnimation[i][j].getWidth() > maxWidth && this.allAnimation[i][j].getHeight() > maxHeight) {
-                    maxWidth = this.allAnimation[i][j].getWidth();
-                    maxHeight = this.allAnimation[i][j].getHeight();
-                }
-            }
-        }
-
-        for(int i = 0; i < this.allAnimation.length; i++) {
-            for (int j = 0; j < this.allAnimation[i].length; j++) {
-                this.allAnimation[i][j].setMax(maxWidth, maxHeight);
-            }
-        }
-
-        super.getSprite().setMax(maxWidth,maxHeight);
-        //System.out.println(maxWidth);
-        //System.out.println(maxHeight);
+//        double maxWidth = -1;
+//        double maxHeight = -1;
+//
+//        for(int i = 0; i < this.allAnimation.length; i++) {
+//            for (int j = 0; j < this.allAnimation[i].length; j++) {
+//                if (this.allAnimation[i][j].getWidth() > maxWidth && this.allAnimation[i][j].getHeight() > maxHeight) {
+//                    maxWidth = this.allAnimation[i][j].getWidth();
+//                    maxHeight = this.allAnimation[i][j].getHeight();
+//                }
+//            }
+//        }
+//
+//        for(int i = 0; i < this.allAnimation.length; i++) {
+//            for (int j = 0; j < this.allAnimation[i].length; j++) {
+//                this.allAnimation[i][j].setMax(maxWidth, maxHeight);
+//            }
+//        }
+//
+//        super.getSprite().setMax(maxWidth,maxHeight);
+//        //System.out.println(maxWidth);
+//        //System.out.println(maxHeight);
     }
 
 
@@ -225,13 +222,9 @@ public class Player extends Movable {
             j = 2;
             playWeaponSounds(audioAction);
         } else if (keyEvent.getCode() == KeyCode.SPACE && equippedWeapon != WeaponTypes.KNIFE) {
-            fire();
-            playWeaponSounds(audioAction);
-            j = 3;
+            fire(i,3, audioAction);
         } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != WeaponTypes.KNIFE) {
-            playWeaponSounds(audioReload);
-            j = 4;
-            reload();
+            reload(i,4, audioReload);
         }
 
         if (keyEvent.getCode() == KeyCode.DIGIT1)
@@ -280,53 +273,111 @@ public class Player extends Movable {
         }
     }
 
-    public List getPistolBullets() {
-        return pistolBullets;
-    }
-
-    public void fire() {
+    /***
+     * Method for running the changeBulletNumber() method in Magazine, and playing the appropriate sound.
+     * Adds a check to ensure that the magazine isn't empty. This check ensures to correctly perform the
+     * method for changing the number and playing the appropriate sound. If the magazine is empty, the
+     * reloadMagazine() method will be run.
+     * @param audioAction Requires an int value in order to select the correct sound clip via playWeaponSounds()
+     */
+    public void fire(int i, int j, int audioAction) {
         switch (this.equippedWeapon) {
             case PISTOL:
                 if (!magazinePistol.isMagazineEmpty()) {
                     magazinePistol.changeBulletNumber(-1);
-                    pistolBullets.add(new Bullet(10,10,1.0,1.0,5.0,20,this.equippedWeapon));
+                    playWeaponSounds(audioAction);
+                    setAnimation(i, j);
                     System.out.println("Pistol fired");
                 } else {
-                    magazinePistol.reloadMagazine();
+                    playWeaponSounds(7);
                 }
                 break;
             case RIFLE:
                 if (!magazineRifle.isMagazineEmpty()) {
                     magazineRifle.changeBulletNumber(-1);
-                    rifleBullets.add(new Bullet(10,10,1.0,1.0,5.0,20,this.equippedWeapon));
+                    playWeaponSounds(audioAction);
+                    setAnimation(i, j);
                     System.out.println("Rifle fired");
                 } else {
-                    magazineRifle.reloadMagazine();
+                    reload(i,j+1,audioAction+1);
                 }
                 break;
             case SHOTGUN:
                 if (!magazineShotgun.isMagazineEmpty()) {
                     magazineShotgun.changeBulletNumber(-1);
-                    shotgunBullets.add(new Bullet(10,10,1.0,1.0,5.0,20,this.equippedWeapon));
+                    playWeaponSounds(audioAction);
+                    setAnimation(i, j);
                     System.out.println("Shotgun fired");
                 } else {
-                    magazineShotgun.reloadMagazine();
+                    reload(i,j+1,audioAction+1);
                 }
                 break;
         }
     }
 
-    public void reload() {
+    /***
+     * Method for running the reloadMagazine() method in Magazine, and playing the appropriate sound.
+     * Adds a check to ensure that the magazine isn't full and that there is ammunition left in the pool.
+     * This check ensures to correctly perform the method for changing the number and playing the appropriate sound.
+     * @param audioReload Requires an int value in order to select the correct sound clip via playWeaponSounds()
+     */
+    public void reload(int i, int j, int audioReload) {
         switch (this.equippedWeapon) {
             case PISTOL:
-                magazinePistol.reloadMagazine();
+                if (!magazinePistol.isPoolEmpty() && !magazinePistol.isMagazineFull()) {
+                    magazinePistol.reloadMagazine();
+                    playWeaponSounds(audioReload);
+                    setAnimation(i, j);
+                }
                 break;
             case RIFLE:
-                magazineRifle.reloadMagazine();
+                if (!magazineRifle.isPoolEmpty() && !magazineRifle.isMagazineFull()) {
+                    magazineRifle.reloadMagazine();
+                    playWeaponSounds(audioReload);
+                    setAnimation(i, j);
+                }
                 break;
             case SHOTGUN:
-                magazineShotgun.reloadMagazine();
+                if (!magazineShotgun.isPoolEmpty() && !magazineShotgun.isMagazineFull()) {
+                    magazineShotgun.reloadMagazine();
+                    playWeaponSounds(audioReload);
+                    setAnimation(i, j);
+                }
                 break;
+        }
+    }
+
+    /***
+     * Method to get the current number of bullets in the magazine of each weapon.
+     * @return Returns the getNumberBullets() value associated with specific weapon.
+     */
+    public int getMagazineCount() {
+        switch (this.equippedWeapon) {
+            case PISTOL:
+                return magazinePistol.getNumberBullets();
+            case RIFLE:
+                return magazineRifle.getNumberBullets();
+            case SHOTGUN:
+                return magazineShotgun.getNumberBullets();
+            default:
+                return 0;
+        }
+    }
+
+    /***
+     * Method to get the current number of bullets in the pool for each weapon.
+     * @return Returns the getCurrentPool() value associated with specific weapon.
+     */
+    public int getAmmoPool() {
+        switch (this.equippedWeapon) {
+            case PISTOL:
+                return magazinePistol.getCurrentPool();
+            case RIFLE:
+                return magazineRifle.getCurrentPool();
+            case SHOTGUN:
+                return magazineShotgun.getCurrentPool();
+            default:
+                return 0;
         }
     }
 
@@ -356,9 +407,9 @@ public class Player extends Movable {
          *
          */
         public void changeBulletNumber(int number) {
-            if (number < 0 && !isMagazineEmpty()) {
+            if (number < 0) {
                 this.numberBullets += number;
-            } else if (number > 0 && !isPoolFull()) {
+            } else if (number > 0) {
                 if ((number + getCurrentPool()) > maxPool)
                     this.currentPool = maxPool;
                 else
@@ -376,18 +427,16 @@ public class Player extends Movable {
          * If not, then simply set the ammunition pool to zero, whilst the magazine already equals the accumulated value.
          */
         public void reloadMagazine() {
-            if (!isMagazineFull() && !isPoolEmpty()) {
-                if (getCurrentPool() > maxSize) {
-                    setCurrentPool(getCurrentPool() - (maxSize - getNumberBullets()));
+            if (getCurrentPool() > maxSize) {
+                setCurrentPool(getCurrentPool() - (maxSize - getNumberBullets()));
+                setNumberBullets(maxSize);
+            } else if (getCurrentPool() <= maxSize) {
+                setNumberBullets(getNumberBullets() + getCurrentPool());
+                if (getNumberBullets() > maxSize) {
+                    setCurrentPool(getNumberBullets() - maxSize);
                     setNumberBullets(maxSize);
-                } else if (getCurrentPool() <= maxSize) {
-                    setNumberBullets(getNumberBullets() + getCurrentPool());
-                    if (getNumberBullets() > maxSize) {
-                        setCurrentPool(getNumberBullets() - maxSize);
-                        setNumberBullets(maxSize);
-                    } else {
-                        setCurrentPool(0);
-                    }
+                } else {
+                    setCurrentPool(0);
                 }
             }
         }

@@ -13,7 +13,7 @@ public class Entity{
     private int positionX;
     private int positionY;
 
-    private boolean isAlive = true;
+    private boolean alive;
 
     private Node node;
     private ImageView iv;
@@ -28,6 +28,7 @@ public class Entity{
         this.positionY = positionY;
         this.node.setTranslateX(positionX);
         this.node.setTranslateY(positionY);
+        this.alive = true;
     }
 
     public Entity(String filename, int positionX, int positionY) {
@@ -38,6 +39,7 @@ public class Entity{
         this.positionY = positionY;
         this.node.setTranslateX(positionX);
         this.node.setTranslateY(positionY);
+        this.alive = true;
     }
 
     public Entity(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
@@ -50,6 +52,7 @@ public class Entity{
         this.node.setTranslateX(positionX);
         this.node.setTranslateY(positionY);
         this.healthPoints = healthPoints;
+        this.alive = true;
     }
 
     /***
@@ -76,18 +79,6 @@ public class Entity{
         return clips;
     }
 
-    public class SpriteParam {
-        String filename;
-        String extension;
-        int numberImages;
-
-        public SpriteParam(String filename, String extension, int numberImages) {
-            this.filename = filename;
-            this.extension = extension;
-            this.numberImages = numberImages;
-        }
-    }
-
     public Sprite[] loadSprites(SpriteParam[] spriteParam) {
         Sprite[] sprites = new Sprite[spriteParam.length];
         for(int i = 0; i < sprites.length; i++) {
@@ -96,14 +87,22 @@ public class Entity{
         return sprites;
     }
 
-//    public boolean getAlive() {
-//        if (getHealthPoints() == 0) {
-//            isAlive = false;
-//        } else {
-//            isAlive = true;
-//        }
-//        return isAlive;
-//    }
+    public void checkAlive() {
+        if (this.healthPoints <= 0)
+            setAlive(false);
+    }
+
+    public boolean isDead() {
+        return !alive;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
 
     public int getHealthPoints() {
         return this.healthPoints;
@@ -151,5 +150,20 @@ public class Entity{
 
     public void setIv(ImageView iv) {
         this.iv = iv;
+    }
+
+    /***
+     * Inner class which
+     */
+    public class SpriteParam {
+        String filename;
+        String extension;
+        int numberImages;
+
+        public SpriteParam(String filename, String extension, int numberImages) {
+            this.filename = filename;
+            this.extension = extension;
+            this.numberImages = numberImages;
+        }
     }
 }
