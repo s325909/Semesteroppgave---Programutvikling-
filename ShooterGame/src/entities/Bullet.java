@@ -3,14 +3,25 @@ package entities;
 public class Bullet extends Movable {
 
     private int damage;
-    private String bulletType;
-//    private WeaponTypes currentWeapon;
+    private WeaponTypes currentWeapon;
 
 
-    public Bullet(String filename, int positionX, int positionY, double velocityX, double velocityY, int damage, String bulletType) {
+    public Bullet(int positionX, int positionY, double velocityX, double velocityY, double movementSpeed, int damage, WeaponTypes currentWeapon) {
+        super(positionX, positionY, velocityX, velocityY, movementSpeed);
+        this.damage = damage;
+        this.currentWeapon = currentWeapon;
+    }
+
+    public Bullet(String filename, int positionX, int positionY, double velocityX, double velocityY, double movementSpeed, int damage, WeaponTypes currentWeapon) {
+        super(filename, positionX, positionY, velocityX, velocityY, movementSpeed);
+        this.damage = damage;
+        this.currentWeapon = currentWeapon;
+    }
+
+    public Bullet(String filename, int positionX, int positionY, double velocityX, double velocityY, int damage, WeaponTypes currentWeapon) {
         super(filename, positionX, positionY, velocityX, velocityY, 10);
         this.damage = damage;
-        this.bulletType = bulletType;
+        this.currentWeapon = currentWeapon;
     }
 
 //    public void setBulletType(String weaponWanted) {
@@ -34,9 +45,7 @@ public class Bullet extends Movable {
         this.damage = damage;
     }
 
-//    public WeaponTypes getCurrentWeapon() {
-//        return currentWeapon;
-//    }
-
-
+    public WeaponTypes getCurrentWeapon() {
+        return currentWeapon;
+    }
 }

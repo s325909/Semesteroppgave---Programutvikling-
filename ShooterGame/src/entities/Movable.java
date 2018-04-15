@@ -23,6 +23,13 @@ public class Movable extends Entity {
 
     public Movable() { }
 
+    public Movable(int positionX, int positionY, double velocityX, double velocityY, double movementSpeed) {
+        super(positionX, positionY);
+        this.velocityX = velocityX;
+        this.velocityY = velocityY;
+        this.movementSpeed = movementSpeed;
+    }
+
     public Movable(String filename, int positionX, int positionY, double velocityX, double velocityY, double movementSpeed) {
         super(filename, positionX, positionY);
         this.velocityX = velocityX;

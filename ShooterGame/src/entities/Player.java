@@ -4,19 +4,23 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player extends Movable {
 
     private WeaponTypes equippedWeapon;
-
     private AudioClip[] weapon;
-
     private AudioClip[] basicSounds;
-
     private Sprite[][] allAnimation;
 
-    private Magazine magazinePistol = new Magazine(15, 30);
-    private Magazine magazineRifle = new Magazine(30,90);
-    private Magazine magazineShotgun = new Magazine(8,32);
+    private List<Bullet> pistolBullets = new ArrayList<Bullet>();
+    private List<Bullet> rifleBullets = new ArrayList<Bullet>();
+    private List<Bullet> shotgunBullets = new ArrayList<Bullet>();
+
+    private Magazine magazinePistol;
+    private Magazine magazineRifle;
+    private Magazine magazineShotgun;
 
     public Player(){}
 
@@ -65,6 +69,10 @@ public class Player extends Movable {
 
         playerAnimation("knife");
         setAnimation(0,0);
+
+        magazinePistol = new Magazine(15, 30);
+        magazineRifle = new Magazine(30,90);
+        magazineShotgun = new Magazine(8,32);
     }
 
     /***
@@ -142,6 +150,14 @@ public class Player extends Movable {
         super.setSprite(this.allAnimation[i][j]);
     }
 
+    public WeaponTypes getEquippedWeapon() {
+        return equippedWeapon;
+    }
+
+    public void setEquippedWeapon(WeaponTypes equippedWeapon) {
+        this.equippedWeapon = equippedWeapon;
+    }
+
     /***
      * Method which sets current animation set to be used, together with the required sound clips necessary.
      * Upon WASD or Arrow Key input, the walking animation of each sprite set is selected.
@@ -205,11 +221,13 @@ public class Player extends Movable {
             j = 2;
             playWeaponSounds(audioAction);
         } else if (keyEvent.getCode() == KeyCode.SPACE && equippedWeapon != WeaponTypes.KNIFE) {
+            fire();
             playWeaponSounds(audioAction);
             j = 3;
         } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != WeaponTypes.KNIFE) {
             playWeaponSounds(audioReload);
             j = 4;
+            reload();
         }
 
         if (keyEvent.getCode() == KeyCode.DIGIT1)
@@ -263,19 +281,28 @@ public class Player extends Movable {
             case PISTOL:
                 if (!magazinePistol.isMagazineEmpty()) {
                     magazinePistol.changeBulletNumber(-1);
-                    //this.damage = 10;
+                    pistolBullets.add(new Bullet(10,10,1.0,1.0,5.0,20,this.equippedWeapon));
+                    System.out.println("Pistol fired");
+                } else {
+                    magazinePistol.reloadMagazine();
                 }
                 break;
             case RIFLE:
                 if (!magazineRifle.isMagazineEmpty()) {
                     magazineRifle.changeBulletNumber(-1);
-                    //this.damage = 15;
+                    rifleBullets.add(new Bullet(10,10,1.0,1.0,5.0,20,this.equippedWeapon));
+                    System.out.println("Rifle fired");
+                } else {
+                    magazineRifle.reloadMagazine();
                 }
                 break;
             case SHOTGUN:
                 if (!magazineShotgun.isMagazineEmpty()) {
                     magazineShotgun.changeBulletNumber(-1);
-                    //this.damage = 20;
+                    shotgunBullets.add(new Bullet(10,10,1.0,1.0,5.0,20,this.equippedWeapon));
+                    System.out.println("Shotgun fired");
+                } else {
+                    magazineShotgun.reloadMagazine();
                 }
                 break;
         }
@@ -382,7 +409,7 @@ public class Player extends Movable {
         }
 
         public int getCurrentPool() {
-            return currentPool;
+            return this.currentPool;
         }
 
         public void setCurrentPool(int currentPool) {

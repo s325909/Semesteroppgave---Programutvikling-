@@ -23,22 +23,26 @@ public class Game {
     private Player player;
     private List<Enemy> enemyList;
     private Text playerHP;
+    private Text magazineSize;
+    private Text poolSize;
 
     private boolean isRunning = true;
     private boolean createDrops = true;
 
-    ArrayList<Entity> playerList = new ArrayList<Entity>();
-    ArrayList<Entity> entityList = new ArrayList<Entity>();
+    private ArrayList<Entity> playerList = new ArrayList<Entity>();
+    private ArrayList<Entity> entityList = new ArrayList<Entity>();
 
     private ArrayList<Rectangle> bonuses=new ArrayList<>();
     private ArrayList<Circle> bonuses2=new ArrayList<>();
     private int score = 0;
 
-    public Game(Player player, List <Enemy> enemy, Pane gameWindow, Text playerHP){
+    public Game(Player player, List <Enemy> enemy, Pane gameWindow, Text playerHP, Text magazineSize, Text poolSize){
         this.gameWindow = gameWindow;
         this.player = player;
         this.enemyList = enemy;
         this.playerHP = playerHP;
+        this.magazineSize = magazineSize;
+        this.poolSize = poolSize;
 
         final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
@@ -48,6 +52,7 @@ public class Game {
                 onUpdate(time);
                 bonus();
                 updateHP();
+                updateAmmo();
             }
         };
 
@@ -82,9 +87,16 @@ public class Game {
      * Method for updating the datafield PlayerHP of type Text.
      * This value represents the value displayed on the HUD.
      */
-    public void updateHP(){
+    public void updateHP() {
         String hp_level = String.valueOf(player.getHealthPoints());
         this.playerHP.setText(hp_level);
+    }
+
+    public void updateAmmo() {
+        String magazineLevel = String.valueOf(5);
+        String poolLevel = String.valueOf(5);
+        this.magazineSize.setText(magazineLevel);
+        this.poolSize.setText(poolLevel);
     }
 
     /***

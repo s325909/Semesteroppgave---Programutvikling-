@@ -22,6 +22,14 @@ public class Entity{
 
     public Entity() {}
 
+    public Entity(int positionX, int positionY) {
+        this.node = new Rectangle(positionX, positionY, Color.GREEN);
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.node.setTranslateX(positionX);
+        this.node.setTranslateY(positionY);
+    }
+
     public Entity(String filename, int positionX, int positionY) {
         this.iv = new ImageView();
         this.sprite = new Sprite(this.iv, filename);
@@ -58,13 +66,6 @@ public class Entity{
         this.sprite.setHeight(height);
     }
 
-    public boolean checkAlive() {
-        if (this.healthPoints <= 0)
-            return isAlive = false;
-        else
-            return isAlive;
-    }
-
     public AudioClip[] loadAudio(String[] audioFiles) {
         AudioClip[] clips = new AudioClip[audioFiles.length];
         for(int i = 0; i < clips.length; i++) {
@@ -95,8 +96,17 @@ public class Entity{
         return sprites;
     }
 
+//    public boolean getAlive() {
+//        if (getHealthPoints() == 0) {
+//            isAlive = false;
+//        } else {
+//            isAlive = true;
+//        }
+//        return isAlive;
+//    }
+
     public int getHealthPoints() {
-        return healthPoints;
+        return this.healthPoints;
     }
 
     public void setHealthPoints(int health) {
