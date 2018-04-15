@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -27,7 +28,9 @@ public class InitializeGame implements Initializable{
     @FXML MenuBar topbar;
     @FXML Text playerHP;
     @FXML Label pause, gameOver;
-    @FXML Button saveBtn;
+    @FXML Button saveBtn, loadBtn;
+    TextField fieldName = new TextField();
+    TextField fieldHP = new TextField();
 
     Stage stage = new Stage();
 
@@ -159,6 +162,16 @@ public class InitializeGame implements Initializable{
             root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
             Stage saveGame = new Stage();
             saveGame.setScene(new Scene(root, 300, 200));
+            saveBtn.setOnAction(event -> {
+                SaveData data = new SaveData();
+                data.name = fieldName.getText();
+                data.hp = Integer.parseInt(fieldHP.getText());
+                try {
+                    SaveLoadManager.save(data, "1.save");
+                } catch (Exception e) {
+                    System.out.println("Couldn't save" + e.getMessage());
+                }
+            });
             saveGame.show();
         } catch (Exception e) {
             System.out.println("Error");
@@ -166,6 +179,28 @@ public class InitializeGame implements Initializable{
         }
     }
 
+    @FXML
+    public void loadGame() {
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("loadGame.fxml"));
+            Stage loadGame = new Stage();
+            loadGame.setScene(new Scene(root, 300, 200));
+            loadBtn.setOnAction(event->{
+                try{
+                    SaveData data = (SaveData) SaveLoadManager.load("1.save");
+                    fieldName.setText(data.name);
+                    fieldHP.setText(String.valueOf(data.hp));
+                } catch(Exception e) {
+                    System.out.println("Couldn't load saved data");
+                }
+            });
+            loadGame.show();
+        } catch (Exception e) {
+            System.out.println("Error");
+            System.out.println(e.getMessage());
+        }
+    }
 
     public void exitGame() {
         System.exit(0);
