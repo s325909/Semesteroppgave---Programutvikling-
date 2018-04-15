@@ -14,6 +14,10 @@ public class Player extends Movable {
 
     private Sprite[][] allAnimation;
 
+    private Magazine magazinePistol = new Magazine(15, 30);
+    private Magazine magazineRifle = new Magazine(30,90);
+    private Magazine magazineShotgun = new Magazine(8,32);
+
     public Player(){}
 
     public Player(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
@@ -65,7 +69,7 @@ public class Player extends Movable {
 
     /***
      * Method which is used for loading all the various weapon sprites into a 2-dimensional array.
-     * @param sprites Takes in a 2-dimensional array of type Sprite
+     * @param sprites Requires a 2-dimensional array of type Sprite
      */
     private void loadWeaponSprite(SpriteParam[][] sprites) {
         Sprite[][] outerSprite = new Sprite[sprites.length][];
@@ -102,7 +106,7 @@ public class Player extends Movable {
 
     /***
      * Method which will switch between which set of weapon animations that should be used based on a String value.
-     * @param animationWanted Takes in a String value which is later compared in order to change equippedWeapon.
+     * @param animationWanted Requires a String value which is later compared in order to change equippedWeapon.
      */
     public void playerAnimation(String animationWanted) {
         if (animationWanted == "knife")
@@ -115,6 +119,11 @@ public class Player extends Movable {
             this.equippedWeapon = WeaponTypes.SHOTGUN;
         else
             this.equippedWeapon = WeaponTypes.KNIFE;
+    }
+
+    @Override
+    public void loadBasicSounds(String[] audioFiles) {
+        this.basicSounds = loadAudio(audioFiles);
     }
 
     public void loadWeaponSounds(String[] audioFiles) {
@@ -140,7 +149,7 @@ public class Player extends Movable {
      * When pressing Space, the fire or knife animation of the set is selected.
      * When pressing 1-4, the user may switch between the various sets of animations.
      * Finally adds the now selected i and j int values as indexes in a 2-dimensional array.
-     * @param keyEvent Takes inn user keyboard input
+     * @param keyEvent Handles user input via the pressing of a key.
      */
     public void movePlayer(KeyEvent keyEvent){
         int i,j, audioAction, audioReload;
@@ -216,9 +225,10 @@ public class Player extends Movable {
     }
 
     /***
-     * Method which stops player movement upon key release.
-     * When releasing, the animation state is also returned to the default one in the set.
-     * @param keyEvent
+     * Method which handles key released events of the user input that affects the Player.
+     * The animation set for each Weapon is set to the idle state, and put into the setAnimation().
+     * As for visual movement, the player stops in the direction they were moving.
+     * @param keyEvent Handles user input via the release of a key.
      */
     public void releasedPlayer(KeyEvent keyEvent){
         int i,j=0;
@@ -245,6 +255,138 @@ public class Player extends Movable {
         } else if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.DOWN
                 || keyEvent.getCode() == KeyCode.W || keyEvent.getCode() == KeyCode.S) {
             stopY();
+        }
+    }
+
+    public void fire() {
+        switch (this.equippedWeapon) {
+            case PISTOL:
+                if (!magazinePistol.isMagazineEmpty()) {
+                    magazinePistol.changeBulletNumber(-1);
+                    //this.damage = 10;
+                }
+                break;
+            case RIFLE:
+                if (!magazineRifle.isMagazineEmpty()) {
+                    magazineRifle.changeBulletNumber(-1);
+                    //this.damage = 15;
+                }
+                break;
+            case SHOTGUN:
+                if (!magazineShotgun.isMagazineEmpty()) {
+                    magazineShotgun.changeBulletNumber(-1);
+                    //this.damage = 20;
+                }
+                break;
+        }
+    }
+
+    public void reload() {
+        switch (this.equippedWeapon) {
+            case PISTOL:
+                magazinePistol.reloadMagazine();
+                break;
+            case RIFLE:
+                magazineRifle.reloadMagazine();
+                break;
+            case SHOTGUN:
+                magazineShotgun.reloadMagazine();
+                break;
+        }
+    }
+
+    /***
+     * Inner class for handling magazine count and ammunition pool for the Player.
+     * Controls whether a new Bullet can be created when a weapon is fired.
+     */
+    public class Magazine {
+        private int maxSize;
+        private int numberBullets;
+        private int maxPool;
+        private int currentPool;
+
+        public Magazine(int magazineSize, int maxPool) {
+            this.maxSize = magazineSize;
+            this.numberBullets = this.maxSize;
+            this.maxPool = maxPool;
+            this.currentPool = this.maxSize;
+        }
+
+        /***
+         * Method for decreasing the number of bullets in the magazine upon a fire() call,
+         * or to increase the number of bullets in the ammunition pool upon PowerUp(Ammunition) pickups.
+         * @param number Int value which decides whether to decrease the number of bullets in the magazine
+         *               if the value is negative and the magazine isn't empty, or if the value is positive,
+         *               it'll be added to the ammunition pool as long as it isn't full.
+         *
+         */
+        public void changeBulletNumber(int number) {
+            if (number < 0 && !isMagazineEmpty()) {
+                this.numberBullets += number;
+            } else if (number > 0 && !isPoolFull()) {
+                if ((number + getCurrentPool()) > maxPool)
+                    this.currentPool = maxPool;
+                else
+                    this.currentPool += number;
+            }
+        }
+
+        /***
+         * Method for handling the reloading of a magazine, where it updates both the ammunition count in the magazine and in the pool.
+         *
+         * Requirements for the method is that the magazine isn't full, and the ammunition pool isn't empty.
+         * If the pool is larger than the magazine size, simply fill the magazine and reduce the pool accordingly.
+         * If the pool is equal or lower than the magazine size, accumulate these values, then check if this value is
+         * larger than the maximum size of the magazine. If so, return the extra bullets to the pool and fill the magazine.
+         * If not, then simply set the ammunition pool to zero, whilst the magazine already equals the accumulated value.
+         */
+        public void reloadMagazine() {
+            if (!isMagazineFull() && !isPoolEmpty()) {
+                if (getCurrentPool() > maxSize) {
+                    setCurrentPool(getCurrentPool() - (maxSize - getNumberBullets()));
+                    setNumberBullets(maxSize);
+                } else if (getCurrentPool() <= maxSize) {
+                    setNumberBullets(getNumberBullets() + getCurrentPool());
+                    if (getNumberBullets() > maxSize) {
+                        setCurrentPool(getNumberBullets() - maxSize);
+                        setNumberBullets(maxSize);
+                    } else {
+                        setCurrentPool(0);
+                    }
+                }
+            }
+        }
+
+        public boolean isMagazineEmpty() {
+            return this.numberBullets <= 0;
+        }
+
+        public boolean isMagazineFull() {
+            return this.numberBullets >= this.maxSize;
+        }
+
+        public boolean isPoolEmpty() {
+            return this.currentPool <= 0;
+        }
+
+        public boolean isPoolFull() {
+            return this.currentPool >= this.maxPool;
+        }
+
+        public void setNumberBullets(int numberBullets) {
+            this.numberBullets = numberBullets;
+        }
+
+        public int getNumberBullets() {
+            return this.numberBullets;
+        }
+
+        public int getCurrentPool() {
+            return currentPool;
+        }
+
+        public void setCurrentPool(int currentPool) {
+            this.currentPool = currentPool;
         }
     }
 }

@@ -123,8 +123,8 @@ public class Game {
 
     /***
      * Method for checking for collision between two Nodes.
-     * @param player Takes in a player object, which is represented with a Node.
-     * @param otherShape Takes in a different object, which is represented with a Node.
+     * @param player Requires a Node to represent the Player.
+     * @param otherShape Requires a Node to represent the object of collision.
      * @return Returns a boolean based on whether there is any collision or not.
      */
     public boolean isColliding(Node player, Node otherShape) {
