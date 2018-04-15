@@ -1,7 +1,587 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e345907a-5210-4d30-bf1d-845544a224f2" name="Default" comment="" />
+    <list default="true" id="e345907a-5210-4d30-bf1d-845544a224f2" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/gameCode/SaveData.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/gameCode/SaveLoadManager.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/gameCode/loadGame.fxml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/gameCode/saveGame.fxml" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" afterPath="$PROJECT_DIR$/../.gitignore" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/Entities/Enemy.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/Entities/Entity.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/Entities/Movable.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/Entities/Sprite.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/GameCode/Game$1.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/GameCode/Game.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/entities/Bullet.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/entities/Enemy$1.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/entities/Enemy$DIRECTION.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/entities/Entity$SpriteParam.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/entities/Player$1.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/entities/Player$Magazine.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/entities/Player.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/entities/Zombie.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/entities/weaponTypes.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/gameCode/GameWindow.fxml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/gameCode/InitializeGame.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/gameCode/MusicPlayer$1.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/gameCode/MusicPlayer.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/gameCode/SceneSizeChangeListener.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/gameCode/StyleGameWindow.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/main/GameMenu.fxml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/main/Main.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/main/MainController.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/menuOptions/Controls.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/menuOptions/GameOptions.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/menuOptions/LoadController.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/menuOptions/OptionsMenu.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/menuOptions/SoundOptions.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/menuOptions/VideoOptions.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/menuOptions/controls.fxml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/menuOptions/gameOptions.fxml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/menuOptions/helpMenu.fxml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/menuOptions/loadFiles.fxml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/menuOptions/optionsMenu.fxml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/menuOptions/soundOptions.fxml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/menuOptions/videoOptions.fxml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_15.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_16.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_17.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_18.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_19.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/idle/survivor-idle_handgun_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_15.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_16.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_17.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_18.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_19.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/move/survivor-move_handgun_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/reload/survivor-reload_handgun_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/reload/survivor-reload_handgun_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/reload/survivor-reload_handgun_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/reload/survivor-reload_handgun_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/reload/survivor-reload_handgun_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/reload/survivor-reload_handgun_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/reload/survivor-reload_handgun_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/reload/survivor-reload_handgun_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/reload/survivor-reload_handgun_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/reload/survivor-reload_handgun_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/reload/survivor-reload_handgun_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/reload/survivor-reload_handgun_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/reload/survivor-reload_handgun_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/reload/survivor-reload_handgun_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/reload/survivor-reload_handgun_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/shoot/survivor-shoot_handgun_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/shoot/survivor-shoot_handgun_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/handgun/shoot/survivor-shoot_handgun_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_15.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_16.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_17.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_18.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_19.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/idle/survivor-idle_knife_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_15.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_16.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_17.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_18.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_19.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/knife/move/survivor-move_knife_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_15.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_16.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_17.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_18.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_19.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/idle/survivor-idle_rifle_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_15.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_16.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_17.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_18.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_19.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/move/survivor-move_rifle_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_15.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_16.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_17.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_18.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_19.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/reload/survivor-reload_rifle_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/shoot/survivor-shoot_rifle_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/shoot/survivor-shoot_rifle_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/rifle/shoot/survivor-shoot_rifle_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_15.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_16.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_17.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_18.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_19.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_15.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_16.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_17.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_18.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_19.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/move/survivor-move_shotgun_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_15.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_16.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_17.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_18.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_19.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/shoot/survivor-shoot_shotgun_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/shoot/survivor-shoot_shotgun_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Player/shotgun/shoot/survivor-shoot_shotgun_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-attack_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-attack_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-attack_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-attack_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-attack_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-attack_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-attack_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-attack_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-attack_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_15.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_16.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-idle_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_0.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_1.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_10.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_11.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_12.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_13.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_14.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_15.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_16.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_2.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_3.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_4.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_5.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_6.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_7.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_8.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/Zombie/skeleton-move_9.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/hp_sign.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/tileset_stone.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Art/zombie_background.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Credits.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/META-INF/MANIFEST.MF" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/Applet16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/Applet24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/Application16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/Application24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/ApplicationDeploy16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/ApplicationDeploy24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/Bean16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/Bean24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/BeanAdd16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/BeanAdd24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/EnterpriseJavaBean16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/EnterpriseJavaBean24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/EnterpriseJavaBeanJar16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/EnterpriseJavaBeanJar24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/Host16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/Host24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/J2EEApplication16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/J2EEApplication24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/J2EEApplicationClient16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/J2EEApplicationClient24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/J2EEApplicationClientAdd16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/J2EEApplicationClientAdd24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/J2EEServer16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/J2EEServer24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/Jar16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/Jar24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/JarAdd16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/JarAdd24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/Server16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/Server24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/War16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/War24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/WarAdd16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/WarAdd24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/WebComponent16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/WebComponent24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/WebComponentAdd16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/development/WebComponentAdd24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/About16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/About24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Add16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Add24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/AlignBottom16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/AlignBottom24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/AlignCenter16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/AlignCenter24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/AlignJustifyHorizontal16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/AlignJustifyHorizontal24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/AlignJustifyVertical16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/AlignJustifyVertical24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/AlignLeft16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/AlignLeft24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/AlignRight16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/AlignRight24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/AlignTop16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/AlignTop24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Bookmarks16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Bookmarks24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/ComposeMail16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/ComposeMail24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/ContextualHelp16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/ContextualHelp24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Copy16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Copy24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Cut16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Cut24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Delete16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Delete24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Edit16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Edit24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Export16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Export24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Find16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Find24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/FindAgain16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/FindAgain24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Help16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Help24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/History16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/History24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Import16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Import24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Information16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Information24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/New16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/New24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Open16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Open24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/PageSetup16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/PageSetup24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Paste16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Paste24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Preferences16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Preferences24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Print16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Print24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/PrintPreview16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/PrintPreview24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Properties16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Properties24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Redo16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Redo24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Refresh16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Refresh24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Remove16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Remove24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Replace16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Replace24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Save16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Save24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/SaveAll16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/SaveAll24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/SaveAs16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/SaveAs24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Search16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Search24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/SendMail16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/SendMail24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Stop16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Stop24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/TipOfTheDay16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/TipOfTheDay24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Undo16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Undo24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Zoom16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/Zoom24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/ZoomIn16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/ZoomIn24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/ZoomOut16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/general/ZoomOut24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/FastForward16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/FastForward24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/Movie16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/Movie24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/Pause16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/Pause24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/Play16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/Play24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/Rewind16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/Rewind24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/StepBack16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/StepBack24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/StepForward16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/StepForward24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/Stop16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/Stop24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/Volume16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/media/Volume24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/navigation/Back16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/navigation/Back24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/navigation/Down16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/navigation/Down24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/navigation/Forward16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/navigation/Forward24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/navigation/Home16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/navigation/Home24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/navigation/Up16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/navigation/Up24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/table/ColumnDelete16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/table/ColumnDelete24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/table/ColumnInsertAfter16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/table/ColumnInsertAfter24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/table/ColumnInsertBefore16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/table/ColumnInsertBefore24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/table/RowDelete16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/table/RowDelete24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/table/RowInsertAfter16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/table/RowInsertAfter24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/table/RowInsertBefore16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/table/RowInsertBefore24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/AlignCenter16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/AlignCenter24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/AlignJustify16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/AlignJustify24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/AlignLeft16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/AlignLeft24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/AlignRight16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/AlignRight24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/Bold16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/Bold24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/Italic16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/Italic24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/Normal16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/Normal24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/Underline16.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Icons/toolbarButtonGraphics/text/Underline24.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Sound/Sound Effects/Player/Knife/knife_swish.mp3" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Sound/Sound Effects/Player/Pistol/pistol_reload.mp3" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Sound/Sound Effects/Player/Pistol/pistol_shot.wav" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Sound/Sound Effects/Player/Rifle/rifle_reload.mp3" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Sound/Sound Effects/Player/Rifle/rifle_shot.wav" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Sound/Sound Effects/Player/Shotgun/shotgun_reload.wav" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Sound/Sound Effects/Player/Shotgun/shotgun_shot.wav" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Sound/Sound Effects/Player/footsteps_light.wav" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Sound/Sound Effects/Player/footsteps_single.wav" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Sound/Sound Effects/Player/player_breathing_calm.wav" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Sound/Soundtrack/Doom1.mp3" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/resources/Sound/Soundtrack/Doom2.mp3" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/gameCode/Game.java" afterPath="$PROJECT_DIR$/src/gameCode/Game.java" />
+      <change beforePath="$PROJECT_DIR$/src/gameCode/GameWindow.fxml" afterPath="$PROJECT_DIR$/src/gameCode/GameWindow.fxml" />
+      <change beforePath="$PROJECT_DIR$/src/gameCode/InitializeGame.java" afterPath="$PROJECT_DIR$/src/gameCode/InitializeGame.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/MainController.java" afterPath="$PROJECT_DIR$/src/main/MainController.java" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,14 +600,10 @@
       <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gameCode/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
+            <state relative-caret-position="3171">
               <caret line="151" column="31" lean-forward="false" selection-start-line="151" selection-start-column="31" selection-end-line="151" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#719#727#0" expanded="true" />
-                <element signature="e#779#787#0" expanded="true" />
-                <element signature="e#1242#1506#0" expanded="true" />
-                <element signature="e#1505#1506#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -36,8 +612,8 @@
       <file leaf-file-name="Movable.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/entities/Movable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1428">
-              <caret line="87" column="36" lean-forward="true" selection-start-line="87" selection-start-column="36" selection-end-line="87" selection-end-column="36" />
+            <state relative-caret-position="1764">
+              <caret line="87" column="36" lean-forward="false" selection-start-line="87" selection-start-column="36" selection-end-line="87" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -47,7 +623,7 @@
         <entry file="file://$PROJECT_DIR$/src/entities/Enemy.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="357">
-              <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+              <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -56,7 +632,7 @@
       <file leaf-file-name="Player.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/entities/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
+            <state relative-caret-position="441">
               <caret line="23" column="88" lean-forward="false" selection-start-line="23" selection-start-column="88" selection-end-line="23" selection-end-column="88" />
               <folding />
             </state>
@@ -66,7 +642,7 @@
       <file leaf-file-name="Zombie.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/entities/Zombie.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
+            <state relative-caret-position="189">
               <caret line="9" column="88" lean-forward="false" selection-start-line="9" selection-start-column="88" selection-end-line="9" selection-end-column="88" />
               <folding />
             </state>
@@ -76,7 +652,7 @@
       <file leaf-file-name="Bullet.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/entities/Bullet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
+            <state relative-caret-position="210">
               <caret line="10" column="70" lean-forward="false" selection-start-line="10" selection-start-column="70" selection-end-line="10" selection-end-column="70" />
               <folding />
             </state>
@@ -86,8 +662,8 @@
       <file leaf-file-name="InitializeGame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gameCode/InitializeGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="51" column="9" lean-forward="false" selection-start-line="51" selection-start-column="9" selection-end-line="51" selection-end-column="9" />
+            <state relative-caret-position="651">
+              <caret line="51" column="7" lean-forward="false" selection-start-line="51" selection-start-column="7" selection-end-line="51" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -193,8 +769,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -233,7 +807,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="AndroidView" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -415,30 +991,31 @@
       <workItem from="1523391109215" duration="754000" />
       <workItem from="1523524399525" duration="309000" />
       <workItem from="1523601546297" duration="4914000" />
+      <workItem from="1523800437270" duration="453000" />
+      <workItem from="1523801225400" duration="455000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65335000" />
+    <option name="totallyTimeSpent" value="66243000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
-    <editor active="true" />
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.327654" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27244818" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27244818" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.50384194" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14375" sideWeight="0.5" order="7" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -449,7 +1026,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="10" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.327654" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="17" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930845" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -486,6 +1063,32 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -675,38 +1278,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/entities/Prizes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="20" column="14" lean-forward="true" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/entities/Prizes.java" />
     <entry file="file://$PROJECT_DIR$/src/gameCode/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
+        <state relative-caret-position="3171">
           <caret line="151" column="31" lean-forward="false" selection-start-line="151" selection-start-column="31" selection-end-line="151" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#719#727#0" expanded="true" />
-            <element signature="e#779#787#0" expanded="true" />
-            <element signature="e#1242#1506#0" expanded="true" />
-            <element signature="e#1505#1506#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gameCode/InitializeGame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="51" column="9" lean-forward="false" selection-start-line="51" selection-start-column="9" selection-end-line="51" selection-end-column="9" />
+        <state relative-caret-position="651">
+          <caret line="51" column="7" lean-forward="false" selection-start-line="51" selection-start-column="7" selection-end-line="51" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/entities/Bullet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
+        <state relative-caret-position="210">
           <caret line="10" column="70" lean-forward="false" selection-start-line="10" selection-start-column="70" selection-end-line="10" selection-end-column="70" />
           <folding />
         </state>
@@ -714,7 +1307,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/entities/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
+        <state relative-caret-position="441">
           <caret line="23" column="88" lean-forward="false" selection-start-line="23" selection-start-column="88" selection-end-line="23" selection-end-column="88" />
           <folding />
         </state>
@@ -722,7 +1315,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/entities/Zombie.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
+        <state relative-caret-position="189">
           <caret line="9" column="88" lean-forward="false" selection-start-line="9" selection-start-column="88" selection-end-line="9" selection-end-column="88" />
           <folding />
         </state>
@@ -730,8 +1323,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/entities/Movable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1428">
-          <caret line="87" column="36" lean-forward="true" selection-start-line="87" selection-start-column="36" selection-end-line="87" selection-end-column="36" />
+        <state relative-caret-position="1764">
+          <caret line="87" column="36" lean-forward="false" selection-start-line="87" selection-start-column="36" selection-end-line="87" selection-end-column="36" />
           <folding />
         </state>
       </provider>
@@ -739,7 +1332,7 @@
     <entry file="file://$PROJECT_DIR$/src/entities/Enemy.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
-          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding />
         </state>
       </provider>
