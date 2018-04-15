@@ -97,7 +97,10 @@ public class Movable extends Entity {
     }
 
     public void stopX() {
-        setVelocityX(0.0);
+        if (getVelocityX() > 0)
+            setVelocityX(0.0);
+        else if (getVelocityX() < 0)
+            setVelocityX(0.0);
     }
 
     public void goUp() {
