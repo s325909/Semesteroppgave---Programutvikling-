@@ -82,14 +82,11 @@ public class Game {
                     player.setHealthPoints(player.getHealthPoints() - 10);
                     enemy.setHealthPoints(enemy.getHealthPoints() - 25);
                     enemy.checkAlive();
-                    System.out.println(enemy.getHealthPoints());
-                    System.out.println(enemy.isDead());
-//                    System.out.println("Collision!");
-//                    System.out.println("Health remaining: " + player.getHealthPoints());
+                    System.out.println("Collision!");
                 }
             }
 
-            entityList.removeIf(Entity::isDead);
+            //entityList.removeIf(Entity::isDead);
             //bulletList.removeIf(Entity::isDead);
 
             //enemyList.removeIf(Entity::update);
