@@ -4,7 +4,11 @@ import entities.Enemy;
 import entities.Player;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.input.KeyCode;
@@ -23,6 +27,7 @@ public class InitializeGame implements Initializable{
     @FXML MenuBar topbar;
     @FXML Text playerHP;
     @FXML Label pause, gameOver;
+    @FXML Button saveBtn;
 
     Stage stage = new Stage();
 
@@ -146,6 +151,22 @@ public class InitializeGame implements Initializable{
     /***
      * Method which will exit the application.
      */
+
+    @FXML
+    public void saveGame() {
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
+            Stage saveGame = new Stage();
+            saveGame.setScene(new Scene(root, 300, 200));
+            saveGame.show();
+        } catch (Exception e) {
+            System.out.println("Error");
+            System.out.println(e.getMessage());
+        }
+    }
+
+
     public void exitGame() {
         System.exit(0);
     }
