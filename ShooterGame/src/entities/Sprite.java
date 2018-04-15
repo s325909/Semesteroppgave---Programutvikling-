@@ -58,13 +58,11 @@ public class Sprite {
         //this.iv.setFitHeight(maxHeight);
     }
 
-    public void playAllFrames() {
-        for(int i = 0; i < this.frames.length; i++) {
-            this.iv.setImage(this.frames[i]);
-        }
-    }
-
-
+//    public void playAllImages(Image[] images) {
+//        for(int i = 0; i < images.length; i++) {
+//            this.iv.setImage(images[i]);
+//        }
+//    }
 
     public void setMax(double imageWidth, double imageHeight) {
         this.maxWidth = imageWidth;

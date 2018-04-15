@@ -150,6 +150,10 @@ public class Player extends Movable {
         super.setSprite(this.allAnimation[i][j]);
     }
 
+    public Sprite[][] getAllAnimation() {
+        return allAnimation;
+    }
+
     public WeaponTypes getEquippedWeapon() {
         return equippedWeapon;
     }
