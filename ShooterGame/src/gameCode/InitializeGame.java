@@ -95,18 +95,16 @@ public class InitializeGame implements Initializable{
         }
 
         // Initialize the game
-<<<<<<< HEAD
+
         game = new Game(player, zombies, gameWindow, playerHP, magazineSize, poolSize);
-=======
+
         game = new Game(player, enemyList, gameWindow, playerHP, magazineSize, poolSize);
         game.setController(this);
->>>>>>> JASO
+
 
         Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
-<<<<<<< HEAD
-=======
 
         game.playerDead();
 
@@ -115,7 +113,7 @@ public class InitializeGame implements Initializable{
     public void setGameOverLabel(boolean visible) {
         gameOver.setVisible(visible);
         restart.setVisible(visible);
->>>>>>> JASO
+
     }
 
 
