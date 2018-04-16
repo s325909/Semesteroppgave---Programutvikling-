@@ -39,7 +39,7 @@ public class Movable extends Entity {
 
     public Movable(int positionX, int positionY, double movementSpeed) {
         super(positionX, positionY);
-        this.movementSpeed = movementSpeed;
+        this.movementSpeed= movementSpeed;
     }
 
     public Movable(String filename, int positionX, int positionY, double movementSpeed) {
@@ -191,6 +191,14 @@ public class Movable extends Entity {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public double getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    public void setMovementSpeed(double movementSpeed) {
+        this.movementSpeed = movementSpeed;
     }
 
     public double getVelocityX() {

@@ -23,7 +23,7 @@ public class Entity{
     public Entity() {}
 
     public Entity(int positionX, int positionY) {
-        this.node = new Rectangle(20, 40, Color.GREEN);
+        this.node = new Circle(5, 5, 5,Color.BROWN);
         this.positionX = positionX;
         this.positionY = positionY;
         this.node.setTranslateX(positionX);

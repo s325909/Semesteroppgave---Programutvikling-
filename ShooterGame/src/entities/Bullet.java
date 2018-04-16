@@ -16,18 +16,45 @@ public class Bullet extends Movable {
         this.damage = damage;
     }
 
-//    public void adjustDirection() {
-//        switch(player.getDirection()) {
-//            case NORTH:
-//            case NORTHEAST:
-//            case EAST:
-//            case SOUTHEAST:
-//            case SOUTH:
-//            case SOUTHWEST:
-//            case WEST:
-//            case NORTHWEST:
-//        }
-//    }
+    public void movement(Player player) {
+        switch(player.getDirection()) {
+            case NORTH:
+                setVelocityX(0);
+                setVelocityY(-getMovementSpeed());
+                break;
+            case NORTHEAST:
+                setVelocityX(getMovementSpeed());
+                setVelocityY(-getMovementSpeed());
+                break;
+            case EAST:
+                setVelocityX(getMovementSpeed());
+                setVelocityY(0);
+                break;
+            case SOUTHEAST:
+                setVelocityX(getMovementSpeed());
+                setVelocityY(getMovementSpeed());
+                break;
+            case SOUTH:
+                setVelocityX(0);
+                setVelocityY(getMovementSpeed());
+                break;
+            case SOUTHWEST:
+                setVelocityX(-getMovementSpeed());
+                setVelocityY(getMovementSpeed());
+                break;
+            case WEST:
+                setVelocityX(-getMovementSpeed());
+                setVelocityY(0);
+                break;
+            case NORTHWEST:
+                setVelocityX(-getMovementSpeed());
+                setVelocityY(-getMovementSpeed());
+                break;
+            default:
+                setVelocityX(0);
+                setVelocityY(0);
+        }
+    }
 
     public int getDamage() {
         return damage;

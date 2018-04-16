@@ -29,7 +29,7 @@ public class Game {
 
     InitializeGame controller;
 
-    private List<Bullet> bullets;
+    private ArrayList<Bullet> bullets = new ArrayList<>();
     private ArrayList<Entity> entityList = new ArrayList<>();
 
     private ArrayList<Rectangle> bonuses=new ArrayList<>();
@@ -53,7 +53,7 @@ public class Game {
                 bonus();
                 updateHP();
                 updateAmmo();
-                playerDead();
+                //playerDead();
             }
         };
         timer.start();
@@ -67,7 +67,8 @@ public class Game {
      * Method which continuously run as long as isRunning is set to true.
      * Method will keep updating all Entities' positions and check for collision.
      * Method is affected by pauseGame() method.
-     * @param time Takes in a double which is used to determine how quickly updates should occur.
+     * @param time Requires a double value which here continuously gets updated via the
+     *             the AnimationTimer
      */
     private void onUpdate(double time) {
         if (isRunning) {
@@ -101,6 +102,7 @@ public class Game {
 //                }
                 for (Bullet bullet : bullets) {
                     bullet.update(time);
+                    bullet.movement(player);
                     if (bullet.isColliding(zombie)) {
                         bullet.setAlive(false);
                         zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
