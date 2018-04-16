@@ -7,6 +7,10 @@ import java.util.List;
 
 public class Movable extends Entity {
 
+    public enum Direction {
+        IDLE, NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST
+    }
+
     private double velocityX;
     private double velocityY;
 
@@ -42,12 +46,9 @@ public class Movable extends Entity {
         this.movementSpeed = movementSpeed;
     }
 
-    /***
-     * Method for updating entity's position based on user input and interaction with other objects
-     * @param entityList
-     * @param time
-     */
-    public void update(List<Entity> entityList, double time) {
+
+    //public void update(List<Entity> entityList, double time) {
+    public void update(double time) {
         this.getSprite().setFrame(time);
 
         // Update actual position of object
@@ -87,12 +88,12 @@ public class Movable extends Entity {
         }
 
         // Check for collision between entities and update position and/or velocity
-        for(Entity entity : entityList) {
-            if(this.isColliding(entity)) {
-                setVelocityX(-0.5 * getVelocityX());
-                setVelocityY(-0.5 * getVelocityY());
-            }
-        }
+//        for(Entity entity : entityList) {
+//            if(this.isColliding(entity)) {
+//                setVelocityX(-0.5 * getVelocityX());
+//                setVelocityY(-0.5 * getVelocityY());
+//            }
+//        }
     }
 
     // Functions for changing entity velocity

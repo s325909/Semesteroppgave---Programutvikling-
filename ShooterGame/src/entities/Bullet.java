@@ -3,25 +3,20 @@ package entities;
 public class Bullet extends Movable {
 
     private int damage;
-    private WeaponTypes currentWeapon;
 
-
-    public Bullet(int positionX, int positionY, double velocityX, double velocityY, double movementSpeed, int damage, WeaponTypes currentWeapon) {
+    public Bullet(int positionX, int positionY, double velocityX, double velocityY, double movementSpeed, int damage) {
         super(positionX, positionY, velocityX, velocityY, movementSpeed);
         this.damage = damage;
-        this.currentWeapon = currentWeapon;
     }
 
-    public Bullet(String filename, int positionX, int positionY, double velocityX, double velocityY, double movementSpeed, int damage, WeaponTypes currentWeapon) {
+    public Bullet(String filename, int positionX, int positionY, double velocityX, double velocityY, double movementSpeed, int damage) {
         super(filename, positionX, positionY, velocityX, velocityY, movementSpeed);
         this.damage = damage;
-        this.currentWeapon = currentWeapon;
     }
 
-    public Bullet(String filename, int positionX, int positionY, double velocityX, double velocityY, int damage, WeaponTypes currentWeapon) {
+    public Bullet(String filename, int positionX, int positionY, double velocityX, double velocityY, int damage) {
         super(filename, positionX, positionY, velocityX, velocityY, 10);
         this.damage = damage;
-        this.currentWeapon = currentWeapon;
     }
 
     public int getDamage() {
@@ -30,9 +25,5 @@ public class Bullet extends Movable {
 
     public void setDamage(int damage) {
         this.damage = damage;
-    }
-
-    public WeaponTypes getCurrentWeapon() {
-        return currentWeapon;
     }
 }

@@ -1,7 +1,7 @@
 package gameCode;
 
-import entities.Enemy;
 import entities.Player;
+import entities.Zombie;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,7 +37,7 @@ public class InitializeGame implements Initializable{
     Stage stage = new Stage();
 
     private Player player;
-    private List<Enemy> enemyList = new ArrayList<Enemy>();
+    private List<Zombie> zombies = new ArrayList<>();
     private Game game;
     private SceneSizeChangeListener sceneChange;
 
@@ -70,10 +70,10 @@ public class InitializeGame implements Initializable{
 
         try {
             for (int i = 0; i < 10; i++) {
-                enemyList.add(new Enemy("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
-                enemyList.get(i).setSpriteIdle("/resources/Art/Zombie/skeleton-idle_", ".png", 17);
-                enemyList.get(i).setSpriteMoving("/resources/Art/Zombie/skeleton-move_", ".png", 17);
-                enemyList.get(i).setSpriteMelee("/resources/Art/Zombie/skeleton-attack_", ".png", 9);
+                zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+                zombies.get(i).setSpriteIdle("/resources/Art/Zombie/skeleton-idle_", ".png", 17);
+                zombies.get(i).setSpriteMoving("/resources/Art/Zombie/skeleton-move_", ".png", 17);
+                zombies.get(i).setSpriteMelee("/resources/Art/Zombie/skeleton-attack_", ".png", 9);
             }
         } catch (Exception e) {
             System.out.println("Error: Enemies did not load correctly");
@@ -81,23 +81,22 @@ public class InitializeGame implements Initializable{
 
         if (DEBUG) {
             gameWindow.getChildren().add(player.getNode());
-            for (Enemy enemy : enemyList)
-                gameWindow.getChildren().add(enemy.getNode());
+            for (Zombie zombie : zombies)
+                gameWindow.getChildren().add(zombie.getNode());
         }
 
         gameWindow.getChildren().add(player.getSprite().getImageView());
 
-        for (Enemy enemy : enemyList) {
-            gameWindow.getChildren().add(enemy.getSprite().getImageView());
+        for (Zombie zombie : zombies) {
+            gameWindow.getChildren().add(zombie.getSprite().getImageView());
         }
 
         // Initialize the game
-        game = new Game(player, enemyList, gameWindow, playerHP, magazineSize, poolSize);
+        game = new Game(player, zombies, gameWindow, playerHP, magazineSize, poolSize);
 
         Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
-
     }
 
 

@@ -23,7 +23,7 @@ public class Entity{
     public Entity() {}
 
     public Entity(int positionX, int positionY) {
-        this.node = new Rectangle(positionX, positionY, Color.GREEN);
+        this.node = new Rectangle(20, 40, Color.GREEN);
         this.positionX = positionX;
         this.positionY = positionY;
         this.node.setTranslateX(positionX);
@@ -87,7 +87,7 @@ public class Entity{
         return sprites;
     }
 
-    public void checkAlive() {
+    public void stillAlive() {
         if (this.healthPoints <= 0)
             setAlive(false);
     }

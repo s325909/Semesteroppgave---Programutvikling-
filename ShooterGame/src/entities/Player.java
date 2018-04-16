@@ -9,6 +9,10 @@ import java.util.List;
 
 public class Player extends Movable {
 
+    private enum WeaponTypes {
+        KNIFE, PISTOL, RIFLE, SHOTGUN
+    }
+
     private WeaponTypes equippedWeapon;
     private AudioClip[] weapon;
     private AudioClip[] basicSounds;
@@ -17,6 +21,9 @@ public class Player extends Movable {
     private Magazine magazinePistol;
     private Magazine magazineRifle;
     private Magazine magazineShotgun;
+
+    private Bullet bullet;
+    private List<Bullet> bulletList = new ArrayList<>();
 
     public Player(){}
 
@@ -230,13 +237,13 @@ public class Player extends Movable {
         }
 
         if (keyEvent.getCode() == KeyCode.DIGIT1)
-            this.equippedWeapon = WeaponTypes.KNIFE;
-        else if (keyEvent.getCode() == KeyCode.DIGIT2)
             this.equippedWeapon = WeaponTypes.PISTOL;
-        else if (keyEvent.getCode() == KeyCode.DIGIT3)
+        else if (keyEvent.getCode() == KeyCode.DIGIT2)
             this.equippedWeapon = WeaponTypes.RIFLE;
-        else if (keyEvent.getCode() == KeyCode.DIGIT4)
+        else if (keyEvent.getCode() == KeyCode.DIGIT3)
             this.equippedWeapon = WeaponTypes.SHOTGUN;
+        else if (keyEvent.getCode() == KeyCode.DIGIT4)
+            this.equippedWeapon = WeaponTypes.KNIFE;
 
         setAnimation(i, j);
     }
@@ -266,11 +273,13 @@ public class Player extends Movable {
                 i = 0;
         }
         setAnimation(i, j);
-        if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.RIGHT
-                || keyEvent.getCode() == KeyCode.A || keyEvent.getCode() == KeyCode.D) {
+        if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
             stopX();
-        } else if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.DOWN
-                || keyEvent.getCode() == KeyCode.W || keyEvent.getCode() == KeyCode.S) {
+        } else if (keyEvent.getCode() == KeyCode.RIGHT || keyEvent.getCode() == KeyCode.D) {
+            stopX();
+        } else if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W) {
+            stopY();
+        } else if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S){
             stopY();
         }
     }
@@ -290,6 +299,8 @@ public class Player extends Movable {
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
                     System.out.println("Pistol fired");
+                    bullet = new Bullet(getPositionX(),getPositionY(),1,1,1,20);
+                    bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
                 }
@@ -301,7 +312,7 @@ public class Player extends Movable {
                     setAnimation(i, j);
                     System.out.println("Rifle fired");
                 } else {
-                    reload(i,j+1,audioAction+1);
+                    playWeaponSounds(7);
                 }
                 break;
             case SHOTGUN:
@@ -311,7 +322,7 @@ public class Player extends Movable {
                     setAnimation(i, j);
                     System.out.println("Shotgun fired");
                 } else {
-                    reload(i,j+1,audioAction+1);
+                    playWeaponSounds(7);
                 }
                 break;
         }
@@ -381,6 +392,10 @@ public class Player extends Movable {
             default:
                 return 0;
         }
+    }
+
+    public List<Bullet> getBulletList() {
+        return bulletList;
     }
 
     /***
