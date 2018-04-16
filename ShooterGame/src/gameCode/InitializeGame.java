@@ -112,13 +112,12 @@ public class InitializeGame implements Initializable{
             if (e.getCode() == KeyCode.F12) {
                 changeFullScreen();
             } else if (e.getCode() == KeyCode.ESCAPE) {
-                pause.setVisible(true);
+                // pause.setVisible(true);
                 gameOver.setVisible(true);
                 game.pauseGame();
                 game.pauseDrops();
             } else if (e.getCode() == KeyCode.P) {
                 pause.setVisible(true);
-                gameOver.setVisible(true);
                 game.pauseGame();
                 game.pauseDrops();
             } else if (e.getCode() == KeyCode.M) {
