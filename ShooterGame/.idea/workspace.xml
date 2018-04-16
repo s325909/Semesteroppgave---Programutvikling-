@@ -37,14 +37,13 @@
       <file leaf-file-name="InitializeGame.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/gameCode/InitializeGame.java">
           <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
+
             <state relative-caret-position="128">
               <caret line="100" column="32" lean-forward="false" selection-start-line="100" selection-start-column="32" selection-end-line="100" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <marker date="1523891560572" expanded="false" signature="7434:7445" ph=" { " />
                 <marker date="1523891560572" expanded="false" signature="7460:7466" ph=" }" />
-=======
             <state relative-caret-position="101">
               <caret line="98" column="33" lean-forward="true" selection-start-line="98" selection-start-column="33" selection-end-line="98" selection-end-column="33" />
               <folding>
@@ -52,7 +51,7 @@
                 <element signature="e#1158#1165#0" expanded="true" />
                 <marker date="1523891688194" expanded="false" signature="7353:7364" ph=" { " />
                 <marker date="1523891688194" expanded="false" signature="7379:7385" ph=" }" />
->>>>>>> JASO
+
               </folding>
             </state>
           </provider>
@@ -62,7 +61,7 @@
         <entry file="file://$PROJECT_DIR$/src/gameCode/Game.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="3294">
-<<<<<<< HEAD
+
               <caret line="183" column="16" lean-forward="false" selection-start-line="183" selection-start-column="16" selection-end-line="183" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -72,7 +71,6 @@
                 <element signature="e#1899#1900#0" expanded="true" />
                 <element signature="e#6027#6028#0" expanded="true" />
                 <element signature="e#6056#6057#0" expanded="true" />
-=======
               <caret line="171" column="16" lean-forward="false" selection-start-line="171" selection-start-column="16" selection-end-line="171" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -92,7 +90,6 @@
                 <marker date="1523891688188" expanded="true" signature="6593:6831" ph="{...}" />
                 <marker date="1523891688188" expanded="true" signature="6837:6957" ph="/**...*/" />
                 <marker date="1523891688188" expanded="true" signature="6981:8018" ph="{...}" />
->>>>>>> JASO
               </folding>
             </state>
           </provider>
@@ -112,7 +109,6 @@
         <entry file="file://$PROJECT_DIR$/src/entities/Entity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-316">
-<<<<<<< HEAD
               <caret line="96" column="0" lean-forward="false" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
               <folding>
                 <marker date="1523891490974" expanded="true" signature="3123:3130" ph="{...}" />
@@ -146,7 +142,6 @@
                 <marker date="1523891490974" expanded="true" signature="4203:4240" ph="/**...*/" />
                 <marker date="1523891490974" expanded="true" signature="4270:4571" ph="{...}" />
                 <marker date="1523891490974" expanded="true" signature="4430:4565" ph="{...}" />
-=======
               <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
               <folding>
                 <marker date="1523891688163" expanded="true" signature="3075:3082" ph="{...}" />
@@ -183,7 +178,6 @@
                 <marker date="1523891688163" expanded="true" signature="4155:4192" ph="/**...*/" />
                 <marker date="1523891688163" expanded="true" signature="4222:4523" ph="{...}" />
                 <marker date="1523891688163" expanded="true" signature="4382:4517" ph="{...}" />
->>>>>>> JASO
               </folding>
             </state>
           </provider>
@@ -517,11 +511,8 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-<<<<<<< HEAD
     <option name="totallyTimeSpent" value="74311000" />
-=======
     <option name="totallyTimeSpent" value="74087000" />
->>>>>>> JASO
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
@@ -689,7 +680,6 @@
         <state relative-caret-position="243">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding>
-<<<<<<< HEAD
             <marker date="1523891490974" expanded="true" signature="3123:3130" ph="{...}" />
             <marker date="1523891490974" expanded="true" signature="3159:3170" ph=" { " />
             <marker date="1523891490974" expanded="true" signature="3184:3190" ph=" }" />
@@ -721,7 +711,6 @@
             <marker date="1523891490974" expanded="true" signature="4203:4240" ph="/**...*/" />
             <marker date="1523891490974" expanded="true" signature="4270:4571" ph="{...}" />
             <marker date="1523891490974" expanded="true" signature="4430:4565" ph="{...}" />
-=======
             <marker date="1523891688163" expanded="true" signature="3075:3082" ph="{...}" />
             <marker date="1523891688163" expanded="true" signature="3111:3122" ph=" { " />
             <marker date="1523891688163" expanded="true" signature="3136:3142" ph=" }" />
@@ -756,7 +745,6 @@
             <marker date="1523891688163" expanded="true" signature="4155:4192" ph="/**...*/" />
             <marker date="1523891688163" expanded="true" signature="4222:4523" ph="{...}" />
             <marker date="1523891688163" expanded="true" signature="4382:4517" ph="{...}" />
->>>>>>> JASO
           </folding>
         </state>
       </provider>
@@ -909,7 +897,6 @@
     <entry file="file://$PROJECT_DIR$/src/entities/Entity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-316">
-<<<<<<< HEAD
           <caret line="96" column="0" lean-forward="false" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
           <folding>
             <marker date="1523891490974" expanded="true" signature="3123:3130" ph="{...}" />
@@ -943,7 +930,6 @@
             <marker date="1523891490974" expanded="true" signature="4203:4240" ph="/**...*/" />
             <marker date="1523891490974" expanded="true" signature="4270:4571" ph="{...}" />
             <marker date="1523891490974" expanded="true" signature="4430:4565" ph="{...}" />
-=======
           <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
           <folding>
             <marker date="1523891688163" expanded="true" signature="3075:3082" ph="{...}" />
@@ -980,7 +966,6 @@
             <marker date="1523891688163" expanded="true" signature="4155:4192" ph="/**...*/" />
             <marker date="1523891688163" expanded="true" signature="4222:4523" ph="{...}" />
             <marker date="1523891688163" expanded="true" signature="4382:4517" ph="{...}" />
->>>>>>> JASO
           </folding>
         </state>
       </provider>
@@ -1011,7 +996,6 @@
     <entry file="file://$PROJECT_DIR$/src/gameCode/Game.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3294">
-<<<<<<< HEAD
           <caret line="183" column="16" lean-forward="false" selection-start-line="183" selection-start-column="16" selection-end-line="183" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1021,7 +1005,6 @@
             <element signature="e#1899#1900#0" expanded="true" />
             <element signature="e#6027#6028#0" expanded="true" />
             <element signature="e#6056#6057#0" expanded="true" />
-=======
           <caret line="171" column="16" lean-forward="false" selection-start-line="171" selection-start-column="16" selection-end-line="171" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1041,21 +1024,18 @@
             <marker date="1523891688188" expanded="true" signature="6593:6831" ph="{...}" />
             <marker date="1523891688188" expanded="true" signature="6837:6957" ph="/**...*/" />
             <marker date="1523891688188" expanded="true" signature="6981:8018" ph="{...}" />
->>>>>>> JASO
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gameCode/InitializeGame.java">
       <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
         <state relative-caret-position="128">
           <caret line="100" column="32" lean-forward="false" selection-start-line="100" selection-start-column="32" selection-end-line="100" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
             <marker date="1523891560572" expanded="false" signature="7434:7445" ph=" { " />
             <marker date="1523891560572" expanded="false" signature="7460:7466" ph=" }" />
-=======
         <state relative-caret-position="101">
           <caret line="98" column="33" lean-forward="true" selection-start-line="98" selection-start-column="33" selection-end-line="98" selection-end-column="33" />
           <folding>
@@ -1063,7 +1043,6 @@
             <element signature="e#1158#1165#0" expanded="true" />
             <marker date="1523891688194" expanded="false" signature="7353:7364" ph=" { " />
             <marker date="1523891688194" expanded="false" signature="7379:7385" ph=" }" />
->>>>>>> JASO
           </folding>
         </state>
       </provider>

@@ -98,7 +98,6 @@ public class InitializeGame implements Initializable{
 
         game = new Game(player, zombies, gameWindow, playerHP, magazineSize, poolSize);
 
-        game = new Game(player, enemyList, gameWindow, playerHP, magazineSize, poolSize);
         game.setController(this);
 
 
