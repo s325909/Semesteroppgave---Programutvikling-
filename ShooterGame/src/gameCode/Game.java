@@ -23,8 +23,11 @@ public class Game {
     private Text magazineSize;
     private Text poolSize;
 
+    private boolean isDead = false;
     private boolean isRunning = true;
     private boolean createDrops = true;
+
+    InitializeGame controller;
 
     private ArrayList<Entity> playerList = new ArrayList<>();
     private ArrayList<Entity> entityList = new ArrayList<>();
@@ -55,6 +58,10 @@ public class Game {
             }
         };
         timer.start();
+    }
+
+    public void setController(InitializeGame controller) {
+        this.controller = controller;
     }
 
     /***
@@ -144,8 +151,14 @@ public class Game {
 
     public void playerDead(){
         if (player.getHealthPoints() <= 0){
+            isDead = true;
+            controller.setGameOverLabel(true);
             this.isRunning = false;
         }
+    }
+
+    public boolean isDead() {
+        return isDead;
     }
 
 

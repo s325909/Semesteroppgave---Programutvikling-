@@ -36,7 +36,8 @@ public class InitializeGame implements Initializable{
 
     Stage stage = new Stage();
 
-    private boolean isDead, isPaused;
+    private boolean isPaused = false;
+    private boolean isDead = true;
 
     private Player player;
     private List<Enemy> enemyList = new ArrayList<Enemy>();
@@ -95,25 +96,19 @@ public class InitializeGame implements Initializable{
 
         // Initialize the game
         game = new Game(player, enemyList, gameWindow, playerHP, magazineSize, poolSize);
+        game.setController(this);
 
         Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
 
-        try {
-            game.playerDead();
-            if (isDead) {
-                gameOver.setVisible(false);
-                isDead = false;
-            } else{
-                gameOver.setVisible(true);
-                isDead = true;
-            }
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+        game.playerDead();
+
     }
 
+    public void setGameOverLabel(boolean visible) {
+        gameOver.setVisible(visible);
+    }
 
 
 
