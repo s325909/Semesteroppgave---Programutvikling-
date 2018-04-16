@@ -51,6 +51,7 @@ public class Game {
                 bonus();
                 updateHP();
                 updateAmmo();
+                playerDead();
             }
         };
         timer.start();
@@ -139,6 +140,14 @@ public class Game {
     public boolean isColliding(Node player, Node otherShape) {
         return player.getBoundsInParent().intersects(otherShape.getBoundsInParent());
     }
+
+
+    public void playerDead(){
+        if (player.getHealthPoints() <= 0){
+            this.isRunning = false;
+        }
+    }
+
 
     /***
      * Method for changing the boolean isRunning.

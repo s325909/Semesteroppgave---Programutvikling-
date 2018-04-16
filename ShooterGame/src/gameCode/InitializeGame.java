@@ -36,6 +36,8 @@ public class InitializeGame implements Initializable{
 
     Stage stage = new Stage();
 
+    private boolean isDead, isPaused;
+
     private Player player;
     private List<Enemy> enemyList = new ArrayList<Enemy>();
     private Game game;
@@ -98,7 +100,21 @@ public class InitializeGame implements Initializable{
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
 
+        try {
+            game.playerDead();
+            if (isDead) {
+                gameOver.setVisible(false);
+                isDead = false;
+            } else{
+                gameOver.setVisible(true);
+                isDead = true;
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
+
+
 
 
     /***
@@ -112,14 +128,22 @@ public class InitializeGame implements Initializable{
             if (e.getCode() == KeyCode.F12) {
                 changeFullScreen();
             } else if (e.getCode() == KeyCode.ESCAPE) {
-                // pause.setVisible(true);
-                gameOver.setVisible(true);
-                game.pauseGame();
-                game.pauseDrops();
-            } else if (e.getCode() == KeyCode.P) {
                 pause.setVisible(true);
                 game.pauseGame();
                 game.pauseDrops();
+            } else if (e.getCode() == KeyCode.P) {
+                game.pauseGame();
+                game.pauseDrops();
+
+                if(isPaused) {
+                    pause.setVisible(false);
+                    isPaused = false;
+                } else {
+                    pause.setVisible(true);
+                    isPaused = true;
+                }
+
+
             } else if (e.getCode() == KeyCode.M) {
                 musicPlayer.muteVolume();
             }
@@ -128,6 +152,7 @@ public class InitializeGame implements Initializable{
             player.releasedPlayer(e);
         });
     }
+
 
     /***
      * Method which will change the FullScreen state of the application.
@@ -151,6 +176,7 @@ public class InitializeGame implements Initializable{
         //game = null;
         //game = new Game(player, enemyList, gameWindow, playerHP);
     }
+
 
     /***
      * Method which will exit the application.
