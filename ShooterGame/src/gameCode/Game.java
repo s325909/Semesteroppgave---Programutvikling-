@@ -19,7 +19,6 @@ public class Game {
     private Pane gameWindow;
     private Player player;
     private List<Zombie> zombies;
-    private List<Bullet> bullets;
     private Text playerHP;
     private Text magazineSize;
     private Text poolSize;
@@ -30,7 +29,7 @@ public class Game {
 
     InitializeGame controller;
 
-    private ArrayList<Entity> playerList = new ArrayList<>();
+    private List<Bullet> bullets;
     private ArrayList<Entity> entityList = new ArrayList<>();
 
     private ArrayList<Rectangle> bonuses=new ArrayList<>();
@@ -73,40 +72,42 @@ public class Game {
     private void onUpdate(double time) {
         if (isRunning) {
 
-            bullets = player.getBulletList();
-
-            //playerList.addAll(enemies);
-//            for(int i = 0; i < bullets.size(); i++) {
-//                gameWindow.getChildren().add(bullets.get(i).getNode());
-//            }
-
             player.update(time);
+            bullets = player.getBulletList();
 
             entityList.add(player);
             entityList.addAll(zombies);
             entityList.addAll(bullets);
+
+            //            for(int i = 0; i < bullets.size(); i++) {
+//                gameWindow.getChildren().add(bullets.get(i).getNode());
+//            }
+
 
             for (Zombie zombie : zombies) {
                 zombie.update(time);
                 zombie.movement(player);
                 if (player.isColliding(zombie)) {
                     player.setHealthPoints(player.getHealthPoints() - 10);
-                    zombie.setHealthPoints(zombie.getHealthPoints() - 25);
-                    if (!zombie.stillAlive())
-                        gameWindow.getChildren().remove(zombie);
-                    System.out.println("Collision!");
+                    if (!player.stillAlive()) {
+                        System.out.println("Player is dead");
+                        // pauseGame();
+                    }
                 }
-                if (zombie.isColliding(zombie)) {
-
-                }
+//                for (Zombie zombie2 : zombies) {
+//                    if (zombie.isColliding(zombie2)) {
+//                        zombie.setVelocityX(-0.5);
+//                    }
+//                }
                 for (Bullet bullet : bullets) {
+                    bullet.update(time);
                     if (bullet.isColliding(zombie)) {
-                        bullet.update(time);
                         bullet.setAlive(false);
                         zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
-//                        if (bullet.getPositionX()) {
-//                            bullet.setAlive(false);
-//                        }
+                        if (!zombie.stillAlive())
+                            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
+//                        if (!bullet.stillAlive())
+//                            gameWindow.getChildren().removeAll(bullet.getNode());
                     }
                 }
             }

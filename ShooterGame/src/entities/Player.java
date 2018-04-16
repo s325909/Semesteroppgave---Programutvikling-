@@ -27,6 +27,14 @@ public class Player extends Movable {
 
     public Player(){}
 
+    public Player(int positionX, int positionY) {
+        super(positionX, positionY);
+    }
+
+    public Player(String filename, int positionX, int positionY) {
+        super(filename, positionX, positionY);
+    }
+
     public Player(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
         super(filename, extension, numberImages, positionX, positionY, healthPoints, 5.0);
 
@@ -300,7 +308,7 @@ public class Player extends Movable {
                     setAnimation(i, j);
                     System.out.println("Pistol fired");
                     bullet = new Bullet(getPositionX(),getPositionY(), 20, 20);
-                    bulletList.add(bullet);
+//                    bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
                 }
