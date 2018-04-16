@@ -131,7 +131,7 @@ public class InitializeGame implements Initializable{
                 game.pauseGame();
                 game.pauseDrops();
 
-                if(isPaused) {
+                if (isPaused) {
                     pause.setVisible(false);
                     isPaused = false;
                 } else {
@@ -139,6 +139,9 @@ public class InitializeGame implements Initializable{
                     isPaused = true;
                 }
 
+            } else if (e.getCode() == KeyCode.R) {
+
+                    System.out.println("Starting New Game...");
 
             } else if (e.getCode() == KeyCode.M) {
                 musicPlayer.muteVolume();
