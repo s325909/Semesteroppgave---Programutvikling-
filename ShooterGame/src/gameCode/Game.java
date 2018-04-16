@@ -24,8 +24,11 @@ public class Game {
     private Text magazineSize;
     private Text poolSize;
 
+    private boolean isDead = false;
     private boolean isRunning = true;
     private boolean createDrops = true;
+
+    InitializeGame controller;
 
     private ArrayList<Entity> playerList = new ArrayList<>();
     private ArrayList<Entity> entityList = new ArrayList<>();
@@ -51,9 +54,14 @@ public class Game {
                 bonus();
                 updateHP();
                 updateAmmo();
+                playerDead();
             }
         };
         timer.start();
+    }
+
+    public void setController(InitializeGame controller) {
+        this.controller = controller;
     }
 
     /***
@@ -151,6 +159,20 @@ public class Game {
     public boolean isColliding(Node player, Node otherShape) {
         return player.getBoundsInParent().intersects(otherShape.getBoundsInParent());
     }
+
+
+    public void playerDead(){
+        if (player.getHealthPoints() <= 0){
+            isDead = true;
+            controller.setGameOverLabel(true);
+            this.isRunning = false;
+        }
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
 
     /***
      * Method for changing the boolean isRunning.

@@ -29,12 +29,15 @@ public class InitializeGame implements Initializable{
     @FXML Text playerHP;
     @FXML Text magazineSize;
     @FXML Text poolSize;
-    @FXML Label pause, gameOver;
+    @FXML Label pause, gameOver, restart;
     @FXML Button saveBtn, loadBtn;
     TextField fieldName = new TextField();
     TextField fieldHP = new TextField();
 
     Stage stage = new Stage();
+
+    private boolean isPaused = false;
+    private boolean isDead = true;
 
     private Player player;
     private List<Zombie> zombies = new ArrayList<>();
@@ -92,12 +95,29 @@ public class InitializeGame implements Initializable{
         }
 
         // Initialize the game
+<<<<<<< HEAD
         game = new Game(player, zombies, gameWindow, playerHP, magazineSize, poolSize);
+=======
+        game = new Game(player, enemyList, gameWindow, playerHP, magazineSize, poolSize);
+        game.setController(this);
+>>>>>>> JASO
 
         Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
+<<<<<<< HEAD
+=======
+
+        game.playerDead();
+
     }
+
+    public void setGameOverLabel(boolean visible) {
+        gameOver.setVisible(visible);
+        restart.setVisible(visible);
+>>>>>>> JASO
+    }
+
 
 
     /***
@@ -112,14 +132,24 @@ public class InitializeGame implements Initializable{
                 changeFullScreen();
             } else if (e.getCode() == KeyCode.ESCAPE) {
                 pause.setVisible(true);
-                gameOver.setVisible(true);
                 game.pauseGame();
                 game.pauseDrops();
             } else if (e.getCode() == KeyCode.P) {
-                pause.setVisible(true);
-                gameOver.setVisible(true);
                 game.pauseGame();
                 game.pauseDrops();
+
+                if (isPaused) {
+                    pause.setVisible(false);
+                    isPaused = false;
+                } else {
+                    pause.setVisible(true);
+                    isPaused = true;
+                }
+
+            } else if (e.getCode() == KeyCode.R) {
+
+                    System.out.println("Starting New Game...");
+
             } else if (e.getCode() == KeyCode.M) {
                 musicPlayer.muteVolume();
             }
@@ -128,6 +158,7 @@ public class InitializeGame implements Initializable{
             player.releasedPlayer(e);
         });
     }
+
 
     /***
      * Method which will change the FullScreen state of the application.
@@ -151,6 +182,7 @@ public class InitializeGame implements Initializable{
         //game = null;
         //game = new Game(player, enemyList, gameWindow, playerHP);
     }
+
 
     /***
      * Method which will exit the application.
