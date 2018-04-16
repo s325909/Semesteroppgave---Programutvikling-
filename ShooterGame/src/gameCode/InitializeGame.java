@@ -29,7 +29,7 @@ public class InitializeGame implements Initializable{
     @FXML Text playerHP;
     @FXML Text magazineSize;
     @FXML Text poolSize;
-    @FXML Label pause, gameOver;
+    @FXML Label pause, gameOver, restart;
     @FXML Button saveBtn, loadBtn;
     TextField fieldName = new TextField();
     TextField fieldHP = new TextField();
@@ -108,6 +108,7 @@ public class InitializeGame implements Initializable{
 
     public void setGameOverLabel(boolean visible) {
         gameOver.setVisible(visible);
+        restart.setVisible(visible);
     }
 
 
