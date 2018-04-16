@@ -44,7 +44,7 @@ public class InitializeGame implements Initializable{
     MusicPlayer musicPlayer;
 
     // Debug tool to view the Node representation of every entity, should images not load correctly.
-    final private boolean DEBUG = false;
+    final private boolean DEBUG = true;
 
     /***
      * Method which will create every Entity and add these to the gameWindow.

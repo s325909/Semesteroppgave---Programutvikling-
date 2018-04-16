@@ -87,9 +87,12 @@ public class Entity{
         return sprites;
     }
 
-    public void stillAlive() {
-        if (this.healthPoints <= 0)
+    public boolean stillAlive() {
+        if (this.healthPoints <= 0) {
             setAlive(false);
+            return false;
+        }
+        return true;
     }
 
     public boolean isDead() {

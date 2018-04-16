@@ -68,6 +68,9 @@ public class Game {
             bullets = player.getBulletList();
 
             //playerList.addAll(enemies);
+//            for(int i = 0; i < bullets.size(); i++) {
+//                gameWindow.getChildren().add(bullets.get(i).getNode());
+//            }
 
             player.update(time);
 
@@ -81,7 +84,8 @@ public class Game {
                 if (player.isColliding(zombie)) {
                     player.setHealthPoints(player.getHealthPoints() - 10);
                     zombie.setHealthPoints(zombie.getHealthPoints() - 25);
-                    zombie.stillAlive();
+                    if (!zombie.stillAlive())
+                        gameWindow.getChildren().remove(zombie);
                     System.out.println("Collision!");
                 }
                 if (zombie.isColliding(zombie)) {

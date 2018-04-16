@@ -21,23 +21,21 @@ public class Movable extends Entity {
     private boolean meleeSet = false;
     private Sprite spriteMelee;
 
-    double movementSpeed;
+    private Direction direction;
+
+    private double movementSpeed;
 
     private AudioClip[] basicSounds;
 
     public Movable() { }
 
-    public Movable(int positionX, int positionY, double velocityX, double velocityY, double movementSpeed) {
+    public Movable(int positionX, int positionY, double movementSpeed) {
         super(positionX, positionY);
-        this.velocityX = velocityX;
-        this.velocityY = velocityY;
         this.movementSpeed = movementSpeed;
     }
 
-    public Movable(String filename, int positionX, int positionY, double velocityX, double velocityY, double movementSpeed) {
+    public Movable(String filename, int positionX, int positionY, double movementSpeed) {
         super(filename, positionX, positionY);
-        this.velocityX = velocityX;
-        this.velocityY = velocityY;
         this.movementSpeed = movementSpeed;
     }
 
@@ -45,7 +43,6 @@ public class Movable extends Entity {
         super(filename, extension, numberImages, positionX, positionY, healthPoints);
         this.movementSpeed = movementSpeed;
     }
-
 
     //public void update(List<Entity> entityList, double time) {
     public void update(double time) {
@@ -65,26 +62,33 @@ public class Movable extends Entity {
         if (getVelocityX() > 0) {
             if (getVelocityY() < 0) {
                 this.getSprite().getImageView().setRotate(315);
-                this.getNode().setRotate(315);
-            }
-            else if (getVelocityY() > 0) {
-                this.getSprite().getImageView().setRotate(4+5);
-                this.getNode().setRotate(45);
-            }
-            else
+                this.direction = Direction.NORTHEAST;
+            } else if (getVelocityY() > 0) {
+                this.getSprite().getImageView().setRotate(45);
+                this.direction = Direction.SOUTHEAST;
+            } else {
                 this.getSprite().getImageView().setRotate(0);
-        } else if(getVelocityX() < 0) {
-            if (getVelocityY() < 0)
+                this.direction = Direction.EAST;
+            }
+        } else if (getVelocityX() < 0) {
+            if (getVelocityY() < 0) {
                 this.getSprite().getImageView().setRotate(225);
-            else if (getVelocityY() > 0)
+                this.direction = Direction.NORTHWEST;
+            } else if (getVelocityY() > 0) {
                 this.getSprite().getImageView().setRotate(135);
-            else
+                this.direction = Direction.SOUTHWEST;
+            } else {
                 this.getSprite().getImageView().setRotate(180);
-        } else {
-            if (getVelocityY() < 0)
+                this.direction = Direction.WEST;
+            }
+        } else if (getVelocityX() == 0) {
+            if (getVelocityY() < 0) {
                 this.getSprite().getImageView().setRotate(270);
-            else if (getVelocityY() > 0)
+                this.direction = Direction.NORTH;
+            } else if (getVelocityY() > 0) {
                 this.getSprite().getImageView().setRotate(90);
+                this.direction = Direction.SOUTH;
+            }
         }
 
         // Check for collision between entities and update position and/or velocity
@@ -171,6 +175,14 @@ public class Movable extends Entity {
 
     public void setBasicSounds(AudioClip[] basicSounds) {
         this.basicSounds = basicSounds;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public double getVelocityX() {

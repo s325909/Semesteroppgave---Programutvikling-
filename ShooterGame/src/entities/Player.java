@@ -299,7 +299,7 @@ public class Player extends Movable {
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
                     System.out.println("Pistol fired");
-                    bullet = new Bullet(getPositionX(),getPositionY(),1,1,1,20);
+                    bullet = new Bullet(getPositionX(),getPositionY(), 20, 20);
                     bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
