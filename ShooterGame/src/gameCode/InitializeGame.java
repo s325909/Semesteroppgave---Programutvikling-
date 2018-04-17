@@ -187,12 +187,12 @@ public class InitializeGame implements Initializable{
 
     @FXML
     public void saveGame() {
-        Parent root;
+       Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
             Stage saveGame = new Stage();
             saveGame.setScene(new Scene(root, 300, 200));
-
+            saveGame.show();
             saveBtn.setOnAction(event -> {
                 game.pauseGame();
                 SaveData data = new SaveData();
@@ -204,7 +204,7 @@ public class InitializeGame implements Initializable{
                     System.out.println("Couldn't save" + e.getMessage());
                 }
             });
-            saveGame.show();
+
         } catch (Exception e) {
             System.out.println("Error");
             System.out.println(e.getMessage());
