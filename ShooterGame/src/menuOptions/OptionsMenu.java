@@ -87,7 +87,7 @@ public class OptionsMenu implements Initializable {
             System.out.println(e.getMessage());
         }
 
-        scene_GameMenu = new Scene(root_GameMenu);
+        scene_GameMenu = new Scene(root_GameMenu, 1280, 720);
         window_GameMenu.setScene(scene_GameMenu);
         window_GameMenu.show();
     }
