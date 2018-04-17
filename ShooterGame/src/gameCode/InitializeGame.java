@@ -187,49 +187,57 @@ public class InitializeGame implements Initializable{
 
     @FXML
     public void saveGame() {
-//        Parent root;
-//        try {
-//            root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
-//            Stage saveGame = new Stage();
-//            saveGame.setScene(new Scene(root, 300, 200));
-//            saveBtn.setOnAction(event -> {
-//                SaveData data = new SaveData();
-//                data.name = fieldName.getText();
-//                data.hp = Integer.parseInt(fieldHP.getText());
-//                try {
-//                    SaveLoadManager.save(data, "1.save");
-//                } catch (Exception e) {
-//                    System.out.println("Couldn't save" + e.getMessage());
-//                }
-//            });
-//            saveGame.show();
-//        } catch (Exception e) {
-//            System.out.println("Error");
-//            System.out.println(e.getMessage());
-//        }
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
+            Stage saveGame = new Stage();
+            saveGame.setScene(new Scene(root, 300, 200));
+
+            saveBtn.setOnAction(event -> {
+                SaveData data = new SaveData();
+                data.name = fieldName.getText();
+                data.hp = Integer.parseInt(fieldHP.getText());
+                try {
+                    SaveLoadManager.save(data, "1.save");
+                } catch (Exception e) {
+                    System.out.println("Couldn't save" + e.getMessage());
+                }
+            });
+            saveGame.show();
+        } catch (Exception e) {
+            System.out.println("Error");
+            System.out.println(e.getMessage());
+        }
+
+        gameWindow.getScene().setOnKeyPressed(event -> {
+            player.movePlayer(event);
+            if (event.getCode() == KeyCode.S){
+            System.out.println("Game is saved");
+        }
+    });
     }
 
     @FXML
     public void loadGame() {
-//        Parent root;
-//        try {
-//            root = FXMLLoader.load(getClass().getResource("loadGame.fxml"));
-//            Stage loadGame = new Stage();
-//            loadGame.setScene(new Scene(root, 300, 200));
-//            loadBtn.setOnAction(event->{
-//                try{
-//                    SaveData data = (SaveData) SaveLoadManager.load("1.save");
-//                    fieldName.setText(data.name);
-//                    fieldHP.setText(String.valueOf(data.hp));
-//                } catch(Exception e) {
-//                    System.out.println("Couldn't load saved data");
-//                }
-//            });
-//            loadGame.show();
-//        } catch (Exception e) {
-//            System.out.println("Error");
-//            System.out.println(e.getMessage());
-//        }
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("loadGame.fxml"));
+            Stage loadGame = new Stage();
+            loadGame.setScene(new Scene(root, 300, 200));
+            loadBtn.setOnAction(event->{
+                try{
+                    SaveData data = (SaveData) SaveLoadManager.load("1.save");
+                    fieldName.setText(data.name);
+                    fieldHP.setText(String.valueOf(data.hp));
+                } catch(Exception e) {
+                    System.out.println("Couldn't load saved data");
+                }
+            });
+            loadGame.show();
+        } catch (Exception e) {
+            System.out.println("Error");
+            System.out.println(e.getMessage());
+        }
     }
 
     public void exitGame() {
