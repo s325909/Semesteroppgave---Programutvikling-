@@ -31,11 +31,21 @@ public class InitializeGame implements Initializable{
 
     @FXML Pane gameWindow;
     @FXML MenuBar topbar;
+<<<<<<< HEAD
     @FXML Text playerHP, magazineSize, poolSize, score;
     @FXML Label gameState, pressKey, pressKey2;
+    @FXML Button saveBtn, loadBtn;
+    TextField fieldName = new TextField();
+    TextField fieldHP = new TextField();
+=======
+    @FXML Text playerHP;
+    @FXML Text magazineSize;
+    @FXML Text poolSize;
+    @FXML Label pause, gameOver, restart;
   //  @FXML Button saveBtn, loadBtn;
   //  TextField fieldName = new TextField();
   //  TextField fieldHP = new TextField();
+>>>>>>> silje
 
     Stage stage = new Stage();
 
@@ -196,8 +206,47 @@ public class InitializeGame implements Initializable{
         }
     }
 
+<<<<<<< HEAD
+    @FXML
+    public void saveGame() {
+//        Parent root;
+//        try {
+//            root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
+//            Stage saveGame = new Stage();
+//            saveGame.setScene(new Scene(root, 300, 200));
+//            saveBtn.setOnAction(event -> {
+//                SaveData data = new SaveData();
+//                data.name = fieldName.getText();
+//                data.hp = Integer.parseInt(fieldHP.getText());
+//                try {
+//                    SaveLoadManager.save(data, "1.save");
+//                } catch (Exception e) {
+//                    System.out.println("Couldn't save" + e.getMessage());
+//                }
+//            });
+//            saveGame.show();
+//        } catch (Exception e) {
+//            System.out.println("Error");
+//            System.out.println(e.getMessage());
+//        }
+=======
+    public void startNewGame() {
+//        game.pauseGame();
+//        player.
+//        enemyList.removeAll();
+
+        //game = null;
+        //game = new Game(player, enemyList, gameWindow, playerHP);
+    }
+
+
+    /***
+     * Method which will exit the application.
+     */
+
     public void exitGame() {
         System.exit(0);
+>>>>>>> silje
     }
 
     public void saveGame(ActionEvent actionEvent) {
