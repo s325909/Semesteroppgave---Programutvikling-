@@ -32,7 +32,7 @@ public class Zombie extends Movable {
     }
 
     /***
-     * Method which controls the movement of enemies, whereas they are drawn towards the Player.
+     * Method which controls the bulletDirection of enemies, whereas they are drawn towards the Player.
      * @param player Requires an object of type Player in order to decide which Entity the enemies
      *               should pursue.
      */

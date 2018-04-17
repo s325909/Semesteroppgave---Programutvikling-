@@ -109,6 +109,45 @@ public class Movable extends Entity {
     }
 
     // Functions for changing entity velocity
+//    public void move(Direction direction) {
+//        double left = 0;
+//        double right = 0;
+//        double up = 0;
+//        double down = 0;
+//
+//        if (direction == Direction.NORTH)
+//            up = -movementSpeed;
+//        else if (direction == Direction.SOUTH)
+//            down = movementSpeed;
+//        else if (direction == Direction.EAST)
+//            right = movementSpeed;
+//        else if (direction == Direction.WEST)
+//            left = -movementSpeed;
+//
+//        setVelocityX(right + left);
+//        setVelocityY(up + down);
+//    }
+//
+//    public void stop(Direction direction) {
+//        double left = 0;
+//        double right = 0;
+//        double up = 0;
+//        double down = 0;
+//
+//        if (direction == Direction.NORTH)
+//            up = 0;
+//        else if (direction == Direction.SOUTH)
+//            down = 0;
+//        else if (direction == Direction.EAST)
+//            right = 0;
+//        else if (direction == Direction.WEST)
+//            left = 0;
+//
+//        setVelocityX(right + left);
+//        setVelocityY(up + down);
+//    }
+
+
     public void goLeft() {
         setVelocityX(-movementSpeed);
     }

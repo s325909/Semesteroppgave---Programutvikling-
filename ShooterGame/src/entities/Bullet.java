@@ -2,8 +2,6 @@ package entities;
 
 public class Bullet extends Movable {
 
-    private Direction direction;
-    private Player player;
     private int damage;
 
     public Bullet(int positionX, int positionY, double movementSpeed, int damage) {
@@ -16,7 +14,7 @@ public class Bullet extends Movable {
         this.damage = damage;
     }
 
-    public void movement(Player player) {
+    public void bulletDirection(Player player) {
         switch(player.getDirection()) {
             case NORTH:
                 setVelocityX(0);

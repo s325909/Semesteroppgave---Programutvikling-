@@ -18,11 +18,14 @@ public class Player extends Movable {
     private AudioClip[] basicSounds;
     private Sprite[][] allAnimation;
 
+    private boolean shotFired;
+
     private Magazine magazinePistol;
     private Magazine magazineRifle;
     private Magazine magazineShotgun;
 
-    private ArrayList<Bullet> bulletList = new ArrayList<>();
+    private List<Bullet> bulletList = new ArrayList<>();
+    private Bullet bullet;
 
     public Player(){}
 
@@ -258,7 +261,7 @@ public class Player extends Movable {
     /***
      * Method which handles key released events of the user input that affects the Player.
      * The animation set for each Weapon is set to the idle state, and put into the setAnimation().
-     * As for visual movement, the player stops in the direction they were moving.
+     * As for visual bulletDirection, the player stops in the direction they were moving.
      * @param keyEvent Handles user input via the release of a key.
      */
     public void releasedPlayer(KeyEvent keyEvent){
@@ -291,6 +294,16 @@ public class Player extends Movable {
         }
     }
 
+    public boolean getShotFired() {
+        if (shotFired) {
+            shotFired = false;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     /***
      * Method for running the changeBulletNumber() method in Magazine, and playing the appropriate sound.
      * Adds a check to ensure that the magazine isn't empty. This check ensures to correctly perform the
@@ -306,8 +319,9 @@ public class Player extends Movable {
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
                     System.out.println("Pistol fired");
-//                    Bullet bullet = new Bullet(getPositionX(),getPositionY(),20, 20);
-//                    bulletList.add(bullet);
+                    shotFired = true;
+                    bullet = new Bullet(getPositionX(), getPositionY(), 20, 20);
+                    bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
                 }
@@ -401,7 +415,7 @@ public class Player extends Movable {
         }
     }
 
-    public ArrayList<Bullet> getBulletList() {
+    public List<Bullet> getBulletList() {
         return bulletList;
     }
 

@@ -29,8 +29,8 @@ public class Game {
 
     InitializeGame controller;
 
-    private ArrayList<Bullet> bullets = new ArrayList<>();
-    private ArrayList<Entity> entityList = new ArrayList<>();
+    private List<Bullet> bullets = new ArrayList<>();
+    //private ArrayList<Entity> entityList = new ArrayList<>();
 
     private ArrayList<Rectangle> bonuses=new ArrayList<>();
     private ArrayList<Circle> bonuses2=new ArrayList<>();
@@ -73,15 +73,18 @@ public class Game {
     private void onUpdate(double time) {
         if (isRunning) {
 
+//            entityList.add(player);
+//            entityList.addAll(zombies);
+//            entityList.addAll(bullets);
+
             player.update(time);
+
             bullets = player.getBulletList();
 
-            entityList.add(player);
-            entityList.addAll(zombies);
-            entityList.addAll(bullets);
-
-            //            for(int i = 0; i < bullets.size(); i++) {
-//                gameWindow.getChildren().add(bullets.get(i).getNode());
+//            if (player.getShotFired()) {
+//                for (int i = 0; i < bullets.size(); i++) {
+//                    gameWindow.getChildren().add(bullets.get(i).getNode());
+//                }
 //            }
 
 
@@ -100,21 +103,21 @@ public class Game {
 //                        zombie.setVelocityX(-0.5);
 //                    }
 //                }
-                for (Bullet bullet : bullets) {
-                    bullet.update(time);
-                    bullet.movement(player);
-                    if (bullet.isColliding(zombie)) {
-                        bullet.setAlive(false);
-                        zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
-                        if (!zombie.stillAlive())
-                            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
-//                        if (!bullet.stillAlive())
-//                            gameWindow.getChildren().removeAll(bullet.getNode());
-                    }
-                }
+//                for (Bullet bullet : bullets) {
+//                    bullet.update(time);
+//                    bullet.bulletDirection(player);
+////                    if (bullet.isColliding(zombie)) {
+////                        bullet.setAlive(false);
+////                        zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
+////                        if (!zombie.stillAlive())
+////                            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
+//////                        if (!bullet.stillAlive())
+//////                            gameWindow.getChildren().removeAll(bullet.getNode());
+////                    }
+//                }
             }
 
-            bullets.removeIf(Bullet::isDead);
+//            bullets.removeIf(Bullet::isDead);
             zombies.removeIf(Zombie::isDead);
 
             for (Shape shape : this.bonuses) {
