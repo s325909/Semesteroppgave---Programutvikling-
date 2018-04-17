@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 public class InitializeSave implements Initializable{
     @FXML
     Button saveBtn, loadBtn;
+    @FXML
     TextField fieldName = new TextField();
     TextField fieldHP = new TextField();
 
@@ -29,7 +30,7 @@ public class InitializeSave implements Initializable{
                 data.name = fieldName.getText();
                 data.hp = Integer.parseInt(fieldHP.getText());
                 try {
-                    SaveLoadManager.save(data, "1.save");
+                    SaveLoadManager.save(data, writeName());
                 } catch (Exception e) {
                     System.out.println("Couldn't save" + e.getMessage());
                 }
@@ -37,9 +38,8 @@ public class InitializeSave implements Initializable{
         }
 
         @FXML
-        public void writeName(){
-
-
+        public String writeName(){
+            return fieldName.getText() + ".save";
         }
 
     @FXML

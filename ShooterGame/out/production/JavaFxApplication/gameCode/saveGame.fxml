@@ -23,7 +23,7 @@
         </VBox.margin>
     </Label>
 
-        <TextField fx:id="textField" maxHeight="50.0" maxWidth="300.0" onAction="#writeName" prefHeight="50.0" prefWidth="50.0">
+        <TextField fx:id="fieldName" maxHeight="50.0" maxWidth="300.0" onAction="#writeName" prefHeight="50.0" prefWidth="50.0">
             <VBox.margin>
                 <Insets bottom="15.0" top="15.0" />
             </VBox.margin>
