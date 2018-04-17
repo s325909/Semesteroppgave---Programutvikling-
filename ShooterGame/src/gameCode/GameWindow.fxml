@@ -104,17 +104,18 @@
          <center>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="pause" text="PAUSED" textFill="#fffdfd" visible="false">
+
+                  <Label fx:id="gameState" textFill="#850c0c" visible="false">
                      <font>
-                        <Font name="Copperplate Gothic Bold" size="96.0" />
+                        <Font name="Copperplate Gothic Bold" size="100.0" />
                      </font>
                   </Label>
-                  <Label fx:id="gameOver" text="GAME OVER" textFill="#850c0c" visible="false">
+                  <Label fx:id="pressKey" alignment="CENTER" textFill="WHITE" visible="false">
                      <font>
-                        <Font name="Copperplate Gothic Bold" size="96.0" />
+                        <Font name="Copperplate Gothic Light" size="36.0" />
                      </font>
                   </Label>
-                  <Label fx:id="restart" alignment="CENTER" text="Press R to Restart" textFill="WHITE" visible="false">
+                  <Label fx:id="pressKey2" textFill="WHITE" visible="false">
                      <font>
                         <Font name="Copperplate Gothic Light" size="36.0" />
                      </font>

@@ -19,9 +19,7 @@ public class Game {
     private Pane gameWindow;
     private Player player;
     private List<Zombie> zombies;
-    private Text playerHP;
-    private Text magazineSize;
-    private Text poolSize;
+    private Text playerHP, magazineSize, poolSize;
 
     private boolean isDead = false;
     private boolean isRunning = true;
@@ -187,8 +185,10 @@ public class Game {
     public void pauseGame() {
         if (isRunning) {
             this.isRunning = false;
+            controller.setGameIsPausedLabel(true);
         } else {
             this.isRunning = true;
+            controller.setGameIsPausedLabel(false);
         }
     }
 
