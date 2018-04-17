@@ -24,8 +24,6 @@ public class InitializeSave implements Initializable{
 
     @FXML
     public void saveGame() {
-        Parent root;
-        //try {
             saveBtn.setOnAction(event -> {
                 SaveData data = new SaveData();
                 data.name = fieldName.getText();
@@ -36,8 +34,13 @@ public class InitializeSave implements Initializable{
                     System.out.println("Couldn't save" + e.getMessage());
                 }
             });
+        }
 
-        } //catch (Exception e) {
+        @FXML
+        public void writeName(){
+
+
+        }
 
     @FXML
     public void loadGame() {

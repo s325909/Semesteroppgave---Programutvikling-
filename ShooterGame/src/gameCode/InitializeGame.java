@@ -199,57 +199,6 @@ public class InitializeGame implements Initializable{
      * Method which will exit the application.
      */
 
-   /* @FXML
-    public void saveGame() {
-        Parent root;
-        try {
-            System.out.println("Before load");
-            root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
-            System.out.println("After ");
-            Stage saveGame = new Stage();
-            saveGame.setScene(new Scene(root, 300, 200));
-            saveGame.show();
-            saveBtn.setOnAction(event -> {
-                game.pauseGame();
-                SaveData data = new SaveData();
-                data.name = fieldName.getText();
-                data.hp = Integer.parseInt(fieldHP.getText());
-                try {
-                    SaveLoadManager.save(data, "1.save");
-                } catch (Exception e) {
-                    System.out.println("Couldn't save" + e.getMessage());
-                }
-            });
-
-        } catch (Exception e) {
-            System.out.println("Open SavePane Error");
-            System.out.println(e.getMessage());
-        }
-    }
-
-    @FXML
-    public void loadGame() {
-        Parent root;
-        try {
-            root = FXMLLoader.load(getClass().getResource("loadGame.fxml"));
-            Stage loadGame = new Stage();
-            loadGame.setScene(new Scene(root, 300, 200));
-            loadBtn.setOnAction(event->{
-                try{
-                    SaveData data = (SaveData) SaveLoadManager.load("1.save");
-                    fieldName.setText(data.name);
-                    fieldHP.setText(String.valueOf(data.hp));
-                } catch(Exception e) {
-                    System.out.println("Couldn't load saved data");
-                }
-            });
-            loadGame.show();
-        } catch (Exception e) {
-            System.out.println("Error");
-            System.out.println(e.getMessage());
-        }
-    }
-*/
     public void exitGame() {
         System.exit(0);
     }
@@ -257,9 +206,10 @@ public class InitializeGame implements Initializable{
     public void saveGame(ActionEvent actionEvent) {
         Parent root;
         try {
-            game.pauseGame();
 
+            game.pauseGame();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("saveGame.fxml"));
+
             root = loader.load();
             InitializeSave initializeSave = loader.getController();
             initializeSave.fieldHP.setText(this.playerHP.getText());
