@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" hgap="10" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: BLACK" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menuOptions.OptionsMenu">
+<GridPane alignment="CENTER" hgap="10" style="-fx-background-color: BLACK" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menuOptions.OptionsMenu">
 
-    <VBox alignment="CENTER" prefHeight="779.0" prefWidth="900.0">
+    <VBox alignment="CENTER" prefHeight="900.0" prefWidth="900.0">
 
         <Label text="Options" textAlignment="CENTER" textFill="RED">
             <font>
@@ -54,10 +54,13 @@
                 <Insets bottom="15.0" top="15.0" />
             </VBox.margin>
         </Button>
-      <Button mnemonicParsing="false" text="Button">
+      <Button fx:id="back_Options" mnemonicParsing="false" onAction="#BackToGameMenu" prefHeight="75.0" prefWidth="250.0" text="Back to Menu">
          <font>
-            <Font size="24.0" />
-         </font></Button>
+            <Font name="Copperplate Gothic Light" size="24.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="15.0" top="15.0" />
+         </VBox.margin></Button>
 
     </VBox>
    <columnConstraints>
