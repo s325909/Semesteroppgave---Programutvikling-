@@ -51,7 +51,7 @@ public class Game {
                 bonus();
                 updateHP();
                 updateAmmo();
-                playerDead();
+                //playerDead();
             }
         };
         timer.start();
