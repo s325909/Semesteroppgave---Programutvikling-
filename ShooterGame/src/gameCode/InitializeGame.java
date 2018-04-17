@@ -29,7 +29,7 @@ public class InitializeGame implements Initializable{
     @FXML Text playerHP;
     @FXML Text magazineSize;
     @FXML Text poolSize;
-    @FXML Label pause, gameOver, restart;
+    @FXML Label pause, unPause, gameOver, restart;
     @FXML Button saveBtn, loadBtn;
     TextField fieldName = new TextField();
     TextField fieldHP = new TextField();
@@ -127,19 +127,24 @@ public class InitializeGame implements Initializable{
             player.movePlayer(e);
             if (e.getCode() == KeyCode.F12) {
                 changeFullScreen();
+            /*
             } else if (e.getCode() == KeyCode.ESCAPE) {
                 pause.setVisible(true);
+                unPause.setVisible(true);
                 game.pauseGame();
                 game.pauseDrops();
-            } else if (e.getCode() == KeyCode.P) {
+            */
+            } else if (e.getCode() == (KeyCode.P) || e.getCode() == KeyCode.ESCAPE) {
                 game.pauseGame();
                 game.pauseDrops();
 
                 if (isPaused) {
                     pause.setVisible(false);
+                    unPause.setVisible(false);
                     isPaused = false;
                 } else {
                     pause.setVisible(true);
+                    unPause.setVisible(true );
                     isPaused = true;
                 }
 
