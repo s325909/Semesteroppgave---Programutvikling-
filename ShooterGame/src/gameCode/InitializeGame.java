@@ -14,6 +14,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -29,7 +30,7 @@ public class InitializeGame implements Initializable{
     @FXML Text playerHP;
     @FXML Text magazineSize;
     @FXML Text poolSize;
-    @FXML Label pause, unPause, gameOver, restart;
+    @FXML Label gameState, pressKey, pressKey2;
     @FXML Button saveBtn, loadBtn;
     TextField fieldName = new TextField();
     TextField fieldHP = new TextField();
@@ -110,8 +111,26 @@ public class InitializeGame implements Initializable{
     }
 
     public void setGameOverLabel(boolean visible) {
-        gameOver.setVisible(visible);
-        restart.setVisible(visible);
+        gameState.setVisible(visible);
+        gameState.setText("GAME OVER!");
+        gameState.setTextFill(Color.INDIANRED);
+        pressKey.setVisible(visible);
+        pressKey.setText("Press R to Restart");
+        pressKey.setTextFill(Color.WHITE);
+        pressKey2.setVisible(visible);
+        pressKey2.setText("Press ESC to pop up in game Menu...IDK");
+    }
+
+    public void setGameIsPausedLabel(boolean visible){
+        gameState.setVisible(visible);
+        gameState.setText("GAME IS PAUSED");
+        gameState.setTextFill(Color.WHITE);
+        pressKey.setVisible(visible);
+        pressKey.setText("Press P to Continue");
+        pressKey.setTextFill(Color.WHITE);
+        pressKey.setTextFill(Color.WHITE);
+        pressKey2.setVisible(visible);
+        pressKey2.setText("Press ESC to pop up in game Menu...IDK");
 
     }
 
@@ -138,6 +157,7 @@ public class InitializeGame implements Initializable{
                 game.pauseGame();
                 game.pauseDrops();
 
+                /*
                 if (isPaused) {
                     pause.setVisible(false);
                     unPause.setVisible(false);
@@ -147,6 +167,7 @@ public class InitializeGame implements Initializable{
                     unPause.setVisible(true );
                     isPaused = true;
                 }
+                */
 
             } else if (e.getCode() == KeyCode.R) {
 
