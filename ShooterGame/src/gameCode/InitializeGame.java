@@ -18,9 +18,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.lang.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
 
 public class InitializeGame implements Initializable{
 
@@ -68,6 +70,9 @@ public class InitializeGame implements Initializable{
             player = new Player("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20, (int)gameWindow.getHeight()/2, (int)gameWindow.getWidth()/2, 100);
             player.playerAnimation("knife");
         } catch (Exception e) {
+            for (StackTraceElement element : e.getStackTrace()) {
+                System.out.println(element);
+            }
             System.out.println("Error: Player did not load correctly");
         }
 
@@ -160,7 +165,7 @@ public class InitializeGame implements Initializable{
             if (event.getCode() == KeyCode.F5){
                 game.pauseGame();
                 System.out.println("Game is saved");
-
+                saveGame();
             }
         });
     }
@@ -196,10 +201,11 @@ public class InitializeGame implements Initializable{
 
     @FXML
     public void saveGame() {
-
-       Parent root;
+        Parent root;
         try {
+            System.out.println("Before load");
             root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
+            System.out.println("After ");
             Stage saveGame = new Stage();
             saveGame.setScene(new Scene(root, 300, 200));
             saveGame.show();
@@ -216,18 +222,9 @@ public class InitializeGame implements Initializable{
             });
 
         } catch (Exception e) {
-            System.out.println("Error");
+            System.out.println("Open SavePane Error");
             System.out.println(e.getMessage());
         }
-
-        /*gameWindow.getScene().setOnKeyPressed(event -> {
-            player.movePlayer(event);
-            if (event.getCode() == KeyCode.L){
-                game.pauseGame();
-            System.out.println("Game is saved");
-
-        }
-    });*/
     }
 
     @FXML
