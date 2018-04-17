@@ -54,7 +54,7 @@ public class MainController implements Initializable{
             System.out.println(e.getMessage());
         }
 
-        loadScene = new Scene(loadRoot, 900, 900);
+        loadScene = new Scene(loadRoot, 1280, 720);
         loadWindow.setScene(loadScene);
         loadWindow.show();
     }
@@ -70,7 +70,7 @@ public class MainController implements Initializable{
             System.out.println(e.getMessage());
         }
 
-        optionsScene = new Scene(optionsRoot, 900, 900);
+        optionsScene = new Scene(optionsRoot, 1280, 720);
         optionWindow.setScene(optionsScene);
         optionWindow.show();
     }
@@ -86,7 +86,7 @@ public class MainController implements Initializable{
             System.out.println(e.getMessage());
         }
 
-        helpScene = new Scene(helpRoot, 900, 900);
+        helpScene = new Scene(helpRoot, 1280, 720);
         helpWindow.setScene(helpScene);
         helpWindow.show();
     }
