@@ -194,6 +194,7 @@ public class InitializeGame implements Initializable{
             saveGame.setScene(new Scene(root, 300, 200));
 
             saveBtn.setOnAction(event -> {
+                game.pauseGame();
                 SaveData data = new SaveData();
                 data.name = fieldName.getText();
                 data.hp = Integer.parseInt(fieldHP.getText());
@@ -212,6 +213,7 @@ public class InitializeGame implements Initializable{
         gameWindow.getScene().setOnKeyPressed(event -> {
             player.movePlayer(event);
             if (event.getCode() == KeyCode.S){
+                game.pauseGame();
             System.out.println("Game is saved");
         }
     });
