@@ -17,6 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import main.MainController;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -37,15 +38,12 @@ public class InitializeGame implements Initializable{
 
     Stage stage = new Stage();
 
-    private boolean isPaused = false;
-    private boolean isDead = true;
-
     private Player player;
     private List<Zombie> zombies = new ArrayList<>();
     private Game game;
     private SceneSizeChangeListener sceneChange;
 
-    MusicPlayer musicPlayer;
+    private MusicPlayer musicPlayer;
 
     // Debug tool to view the Node representation of every entity, should images not load correctly.
     final private boolean DEBUG = true;
@@ -101,15 +99,17 @@ public class InitializeGame implements Initializable{
 
         game.setController(this);
 
-
         Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
 
-        game.playerDead();
 
     }
 
+    /***
+     *
+     * @param visible
+     */
     public void setGameOverLabel(boolean visible) {
         gameState.setVisible(visible);
         gameState.setText("GAME OVER!");
@@ -121,6 +121,10 @@ public class InitializeGame implements Initializable{
         pressKey2.setText("Press ESC to pop up in game Menu...IDK");
     }
 
+    /***
+     *
+     * @param visible
+     */
     public void setGameIsPausedLabel(boolean visible){
         gameState.setVisible(visible);
         gameState.setText("GAME IS PAUSED");
@@ -134,8 +138,6 @@ public class InitializeGame implements Initializable{
 
     }
 
-
-
     /***
      * Method which takes in user keyboard input.
      * Some input is handled in the movePlayer() method.
@@ -146,28 +148,9 @@ public class InitializeGame implements Initializable{
             player.movePlayer(e);
             if (e.getCode() == KeyCode.F12) {
                 changeFullScreen();
-            /*
-            } else if (e.getCode() == KeyCode.ESCAPE) {
-                pause.setVisible(true);
-                unPause.setVisible(true);
-                game.pauseGame();
-                game.pauseDrops();
-            */
+
             } else if (e.getCode() == (KeyCode.P) || e.getCode() == KeyCode.ESCAPE) {
                 game.pauseGame();
-                game.pauseDrops();
-
-                /*
-                if (isPaused) {
-                    pause.setVisible(false);
-                    unPause.setVisible(false);
-                    isPaused = false;
-                } else {
-                    pause.setVisible(true);
-                    unPause.setVisible(true );
-                    isPaused = true;
-                }
-                */
 
             } else if (e.getCode() == KeyCode.R) {
 
@@ -196,20 +179,6 @@ public class InitializeGame implements Initializable{
             topbar.setVisible(false);
         }
     }
-
-    public void startNewGame() {
-//        game.pauseGame();
-//        player.
-//        enemyList.removeAll();
-
-        //game = null;
-        //game = new Game(player, enemyList, gameWindow, playerHP);
-    }
-
-
-    /***
-     * Method which will exit the application.
-     */
 
     @FXML
     public void saveGame() {
