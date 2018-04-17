@@ -54,10 +54,13 @@
                 <Insets bottom="15.0" top="15.0" />
             </VBox.margin>
         </Button>
-      <Button mnemonicParsing="false" text="Button">
+      <Button fx:id="back_Options" mnemonicParsing="false" onAction="#BackToGameMenu" prefHeight="75.0" prefWidth="250.0" text="Back to Menu">
          <font>
-            <Font size="24.0" />
-         </font></Button>
+            <Font name="Copperplate Gothic Light" size="24.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="15.0" top="15.0" />
+         </VBox.margin></Button>
 
     </VBox>
    <columnConstraints>
