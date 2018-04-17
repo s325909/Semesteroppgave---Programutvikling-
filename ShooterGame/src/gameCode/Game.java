@@ -21,11 +21,10 @@ public class Game {
     private List<Zombie> zombies;
     private Text playerHP, magazineSize, poolSize;
 
-    private boolean isDead = false;
     private boolean isRunning = true;
     private boolean createDrops = true;
 
-    InitializeGame controller;
+    private InitializeGame controller;
 
     private List<Bullet> bullets = new ArrayList<>();
     //private ArrayList<Entity> entityList = new ArrayList<>();
@@ -51,7 +50,6 @@ public class Game {
                 bonus();
                 updateHP();
                 updateAmmo();
-                //playerDead();
             }
         };
         timer.start();
@@ -93,7 +91,7 @@ public class Game {
                     player.setHealthPoints(player.getHealthPoints() - 10);
                     if (!player.stillAlive()) {
                         System.out.println("Player is dead");
-                        // pauseGame();
+                        //gameOver();
                     }
                 }
 //                for (Zombie zombie2 : zombies) {
@@ -125,11 +123,9 @@ public class Game {
                     score += 1;
 
                     player.setHealthPoints(player.getHealthPoints() + 25);
-                    double random = Math.random();
-                    if (random < 0.5)
-                        player.playerAnimation("pistol");
-                    else if (random > 0.5)
-                        player.playerAnimation("shotgun");
+                    player.getMagazinePistol().changeBulletNumber(15);
+                    player.getMagazineRifle().changeBulletNumber(30);
+                    player.getMagazineShotgun().changeBulletNumber(8);
 
                     System.out.println("Current healthpoints: " + player.getHealthPoints());
                     System.out.println("You got 1 point! New score equals: " + score);
@@ -144,7 +140,9 @@ public class Game {
                     score += 2;
 
                     player.setHealthPoints(player.getHealthPoints() + 50);
-                    player.playerAnimation("rifle");
+                    player.getMagazinePistol().changeBulletNumber(15);
+                    player.getMagazineRifle().changeBulletNumber(30);
+                    player.getMagazineShotgun().changeBulletNumber(8);
 
                     System.out.println("Current healthpoints: " + player.getHealthPoints());
                     System.out.println("You got 2 points! New score equals: " + score);
@@ -164,20 +162,6 @@ public class Game {
         return player.getBoundsInParent().intersects(otherShape.getBoundsInParent());
     }
 
-
-    public void playerDead(){
-        if (player.getHealthPoints() <= 0){
-            isDead = true;
-            controller.setGameOverLabel(true);
-            this.isRunning = false;
-        }
-    }
-
-    public boolean isDead() {
-        return isDead;
-    }
-
-
     /***
      * Method for changing the boolean isRunning.
      * Method affects the onUdate() function.
@@ -185,23 +169,26 @@ public class Game {
     public void pauseGame() {
         if (isRunning) {
             this.isRunning = false;
+            this.createDrops = false;
             controller.setGameIsPausedLabel(true);
         } else {
             this.isRunning = true;
+            this.createDrops = true;
             controller.setGameIsPausedLabel(false);
         }
     }
 
     /***
-     * Method for changing the boolean createDrops.
-     * Method affects the bonus() method.
+     * Method for stopping the game and displaying a message at a
+     * point where the game is over.
      */
-    public void pauseDrops() {
-        if (createDrops) {
+    public void gameOver() {
+        if (isRunning) {
+            this.isRunning = false;
             this.createDrops = false;
-        } else {
-            this.createDrops = true;
-        }
+            controller.setGameOverLabel(true);
+        } else
+            controller.setGameOverLabel(true);
     }
 
     /***

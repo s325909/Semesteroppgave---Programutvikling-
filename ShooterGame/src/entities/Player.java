@@ -419,6 +419,30 @@ public class Player extends Movable {
         return bulletList;
     }
 
+    public Magazine getMagazinePistol() {
+        return magazinePistol;
+    }
+
+    public void setMagazinePistol(Magazine magazinePistol) {
+        this.magazinePistol = magazinePistol;
+    }
+
+    public Magazine getMagazineRifle() {
+        return magazineRifle;
+    }
+
+    public void setMagazineRifle(Magazine magazineRifle) {
+        this.magazineRifle = magazineRifle;
+    }
+
+    public Magazine getMagazineShotgun() {
+        return magazineShotgun;
+    }
+
+    public void setMagazineShotgun(Magazine magazineShotgun) {
+        this.magazineShotgun = magazineShotgun;
+    }
+
     /***
      * Inner class for handling magazine count and ammunition pool for the Player.
      * Controls whether a new Bullet can be created when a weapon is fired.
