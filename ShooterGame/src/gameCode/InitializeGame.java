@@ -154,6 +154,15 @@ public class InitializeGame implements Initializable{
         gameWindow.getScene().setOnKeyReleased(e -> {
             player.releasedPlayer(e);
         });
+
+        gameWindow.getScene().setOnKeyPressed(event -> {
+            player.movePlayer(event);
+            if (event.getCode() == KeyCode.F5){
+                game.pauseGame();
+                System.out.println("Game is saved");
+
+            }
+        });
     }
 
 
@@ -187,6 +196,7 @@ public class InitializeGame implements Initializable{
 
     @FXML
     public void saveGame() {
+
        Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
@@ -210,13 +220,14 @@ public class InitializeGame implements Initializable{
             System.out.println(e.getMessage());
         }
 
-        gameWindow.getScene().setOnKeyPressed(event -> {
+        /*gameWindow.getScene().setOnKeyPressed(event -> {
             player.movePlayer(event);
-            if (event.getCode() == KeyCode.S){
+            if (event.getCode() == KeyCode.L){
                 game.pauseGame();
             System.out.println("Game is saved");
+
         }
-    });
+    });*/
     }
 
     @FXML
