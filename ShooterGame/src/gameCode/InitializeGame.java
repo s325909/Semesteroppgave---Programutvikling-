@@ -3,6 +3,7 @@ package gameCode;
 import entities.Player;
 import entities.Zombie;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,9 +33,9 @@ public class InitializeGame implements Initializable{
     @FXML Text magazineSize;
     @FXML Text poolSize;
     @FXML Label pause, gameOver, restart;
-    @FXML Button saveBtn, loadBtn;
-    TextField fieldName = new TextField();
-    TextField fieldHP = new TextField();
+  //  @FXML Button saveBtn, loadBtn;
+  //  TextField fieldName = new TextField();
+  //  TextField fieldHP = new TextField();
 
     Stage stage = new Stage();
 
@@ -163,9 +164,8 @@ public class InitializeGame implements Initializable{
         gameWindow.getScene().setOnKeyPressed(event -> {
             player.movePlayer(event);
             if (event.getCode() == KeyCode.F5){
-                game.pauseGame();
                 System.out.println("Game is saved");
-                saveGame();
+                saveGame(null);
             }
         });
     }
@@ -199,7 +199,7 @@ public class InitializeGame implements Initializable{
      * Method which will exit the application.
      */
 
-    @FXML
+   /* @FXML
     public void saveGame() {
         Parent root;
         try {
@@ -249,8 +249,27 @@ public class InitializeGame implements Initializable{
             System.out.println(e.getMessage());
         }
     }
-
+*/
     public void exitGame() {
         System.exit(0);
+    }
+
+    public void saveGame(ActionEvent actionEvent) {
+        Parent root;
+        try {
+            game.pauseGame();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("saveGame.fxml"));
+            root = loader.load();
+            InitializeSave initializeSave = loader.getController();
+            initializeSave.fieldHP.setText(this.playerHP.getText());
+            //root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
+
+            Stage saveGame = new Stage();
+            saveGame.setScene(new Scene(root, 600, 400));
+            saveGame.show();
+        } catch (Exception e) {
+            System.out.println("Open SavePane Error");
+        }
     }
 }
