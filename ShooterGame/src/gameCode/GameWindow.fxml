@@ -91,7 +91,7 @@
                   </VBox>
                   <VBox prefHeight="0.0" prefWidth="98.0">
                      <children>
-                        <Text fx:id="poolSize" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="46.171875">
+                        <Text fx:id="poolSize" strokeType="OUTSIDE" strokeWidth="0.0" text="00" wrappingWidth="46.171875">
                            <font>
                               <Font size="40.0" />
                            </font>
@@ -123,6 +123,21 @@
                </children>
             </VBox>
          </center>
+         <right>
+            <FlowPane prefHeight="623.0" prefWidth="116.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox prefHeight="118.0" prefWidth="43.0">
+                     <children>
+                        <Text fx:id="score" strokeType="OUTSIDE" strokeWidth="0.0" text="00000" wrappingWidth="113.6708984375">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+               </children>
+            </FlowPane>
+         </right>
 
       </BorderPane>
    </children>

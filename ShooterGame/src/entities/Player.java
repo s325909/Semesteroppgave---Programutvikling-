@@ -423,24 +423,12 @@ public class Player extends Movable {
         return magazinePistol;
     }
 
-    public void setMagazinePistol(Magazine magazinePistol) {
-        this.magazinePistol = magazinePistol;
-    }
-
     public Magazine getMagazineRifle() {
         return magazineRifle;
     }
 
-    public void setMagazineRifle(Magazine magazineRifle) {
-        this.magazineRifle = magazineRifle;
-    }
-
     public Magazine getMagazineShotgun() {
         return magazineShotgun;
-    }
-
-    public void setMagazineShotgun(Magazine magazineShotgun) {
-        this.magazineShotgun = magazineShotgun;
     }
 
     /***

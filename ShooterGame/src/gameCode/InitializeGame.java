@@ -28,9 +28,7 @@ public class InitializeGame implements Initializable{
 
     @FXML Pane gameWindow;
     @FXML MenuBar topbar;
-    @FXML Text playerHP;
-    @FXML Text magazineSize;
-    @FXML Text poolSize;
+    @FXML Text playerHP, magazineSize, poolSize, score;
     @FXML Label gameState, pressKey, pressKey2;
     @FXML Button saveBtn, loadBtn;
     TextField fieldName = new TextField();
@@ -70,6 +68,8 @@ public class InitializeGame implements Initializable{
             System.out.println("Error: Player did not load correctly");
         }
 
+        System.out.println(gameWindow.getHeight());
+
         try {
             for (int i = 0; i < 10; i++) {
                 zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
@@ -95,15 +95,13 @@ public class InitializeGame implements Initializable{
 
         // Initialize the game
 
-        game = new Game(player, zombies, gameWindow, playerHP, magazineSize, poolSize);
+        game = new Game(player, zombies, gameWindow, playerHP, magazineSize, poolSize, score);
 
         game.setController(this);
 
         Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
-
-
     }
 
     /***

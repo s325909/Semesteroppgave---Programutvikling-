@@ -8,11 +8,6 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    //puts title on top of window
-    public static void setTitle(String title) {
-        Main.stage.setTitle(title);
-    }
-
     private static Stage stage;
 
     @Override
@@ -20,7 +15,7 @@ public class Main extends Application {
 
         Main.stage = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("GameMenu.fxml"));
-        primaryStage.setTitle("The Game");
+        primaryStage.setTitle("Zombie Mayhem");
         primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();
     }

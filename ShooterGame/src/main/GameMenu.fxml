@@ -23,7 +23,7 @@
       </VBox>
       <VBox alignment="CENTER" prefHeight="779.0" prefWidth="900.0">
          <children>
-            <Label text="The Game Title" textAlignment="CENTER" textFill="#850c0c">
+            <Label text="Zombie Mayhem" textAlignment="CENTER" textFill="#850c0c">
                <font>
                   <Font name="Copperplate Gothic Light" size="64.0" />
                </font>

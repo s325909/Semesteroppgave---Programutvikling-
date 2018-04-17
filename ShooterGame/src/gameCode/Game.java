@@ -9,7 +9,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
-import main.Main;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ public class Game {
     private Pane gameWindow;
     private Player player;
     private List<Zombie> zombies;
-    private Text playerHP, magazineSize, poolSize;
+    private Text playerHP, magazineSize, poolSize, score;
 
     private boolean isRunning = true;
     private boolean createDrops = true;
@@ -31,15 +30,16 @@ public class Game {
 
     private ArrayList<Rectangle> bonuses=new ArrayList<>();
     private ArrayList<Circle> bonuses2=new ArrayList<>();
-    private int score = 0;
+    private int scoreNumber = 0;
 
-    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Text playerHP, Text magazineSize, Text poolSize){
+    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Text playerHP, Text magazineSize, Text poolSize, Text score){
         this.gameWindow = gameWindow;
         this.player = player;
         this.zombies = zombies;
         this.playerHP = playerHP;
         this.magazineSize = magazineSize;
         this.poolSize = poolSize;
+        this.score = score;
 
         final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
@@ -48,8 +48,7 @@ public class Game {
                 double time = (now - startNanoTime) / 1000000000.0;
                 onUpdate(time);
                 bonus();
-                updateHP();
-                updateAmmo();
+                updateHUD();
             }
         };
         timer.start();
@@ -83,7 +82,6 @@ public class Game {
 //                }
 //            }
 
-
             for (Zombie zombie : zombies) {
                 zombie.update(time);
                 zombie.movement(player);
@@ -99,18 +97,18 @@ public class Game {
 //                        zombie.setVelocityX(-0.5);
 //                    }
 //                }
-//                for (Bullet bullet : bullets) {
+                for (Bullet bullet : bullets) {
 //                    bullet.update(time);
-//                    bullet.bulletDirection(player);
-////                    if (bullet.isColliding(zombie)) {
-////                        bullet.setAlive(false);
-////                        zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
-////                        if (!zombie.stillAlive())
-////                            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
-//////                        if (!bullet.stillAlive())
-//////                            gameWindow.getChildren().removeAll(bullet.getNode());
-////                    }
-//                }
+                    bullet.bulletDirection(player);
+                    if (bullet.isColliding(zombie)) {
+                        bullet.setAlive(false);
+                        zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
+                        if (!zombie.stillAlive())
+                            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
+//                        if (!bullet.stillAlive())
+//                            gameWindow.getChildren().removeAll(bullet.getNode());
+                    }
+                }
             }
 
 //            bullets.removeIf(Bullet::isDead);
@@ -120,16 +118,12 @@ public class Game {
                 if (isColliding(player.getNode(), shape)) {
                     bonuses.remove(shape);
                     gameWindow.getChildren().remove(shape);
-                    score += 1;
+                    scoreNumber += 10;
 
                     player.setHealthPoints(player.getHealthPoints() + 25);
                     player.getMagazinePistol().changeBulletNumber(15);
                     player.getMagazineRifle().changeBulletNumber(30);
                     player.getMagazineShotgun().changeBulletNumber(8);
-
-                    System.out.println("Current healthpoints: " + player.getHealthPoints());
-                    System.out.println("You got 1 point! New score equals: " + score);
-                    Main.setTitle("The Game... Score: " + score);
                 }
             }
 
@@ -137,16 +131,12 @@ public class Game {
                 if (isColliding(player.getNode(), shape)) {
                     bonuses2.remove(shape);
                     gameWindow.getChildren().remove(shape);
-                    score += 2;
+                    scoreNumber += 20;
 
                     player.setHealthPoints(player.getHealthPoints() + 50);
                     player.getMagazinePistol().changeBulletNumber(15);
                     player.getMagazineRifle().changeBulletNumber(30);
                     player.getMagazineShotgun().changeBulletNumber(8);
-
-                    System.out.println("Current healthpoints: " + player.getHealthPoints());
-                    System.out.println("You got 2 points! New score equals: " + score);
-                    Main.setTitle("The Game... Score: " + score);
                 }
             }
         }
@@ -192,23 +182,19 @@ public class Game {
     }
 
     /***
-     * Method for updating the datafield playerHP of type Text.
-     * This value is displayed on the HUD.
+     * Method for updating the datafields playerHP, magazineSize, poolSize of type Text.
+     * These will in turn update the Text values on the HUD.
      */
-    public void updateHP() {
-        String hp_level = String.valueOf(player.getHealthPoints());
-        this.playerHP.setText(hp_level);
-    }
-
-    /***
-     * Method for updating the datafields magazineSize and poolSize of type Text.
-     * These values are displayed on the HUD.
-     */
-    public void updateAmmo() {
+    public void updateHUD() {
+        String hpLevel = String.valueOf(player.getHealthPoints());
         String magazineLevel = String.valueOf(player.getMagazineCount());
-        String poolLevel = String.valueOf(player.getAmmoPool());
+        String poolLevel = String.format("%02d", player.getAmmoPool());
+        String score = String.format("%05d", this.scoreNumber);
+
+        this.playerHP.setText(hpLevel);
         this.magazineSize.setText(magazineLevel);
         this.poolSize.setText(poolLevel);
+        this.score.setText(score);
     }
 
     /***

@@ -13,7 +13,7 @@ public class Drop extends Player {
         super(filename, positionX, positionY);
     }
 
-    public void pickUps(Player player) {
+    public void pickUps(Player player, double time) {
         int random = (int) Math.floor(Math.random() * 100);
     }
 }
