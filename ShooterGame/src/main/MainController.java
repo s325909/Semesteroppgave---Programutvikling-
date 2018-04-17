@@ -70,7 +70,7 @@ public class MainController implements Initializable{
             System.out.println(e.getMessage());
         }
 
-        optionsScene = new Scene(optionsRoot, 900, 900);
+        optionsScene = new Scene(optionsRoot);
         optionWindow.setScene(optionsScene);
         optionWindow.show();
     }

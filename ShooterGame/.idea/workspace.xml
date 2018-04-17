@@ -17,23 +17,36 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="MainController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MainController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/MainController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1315">
-              <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+            <state relative-caret-position="413">
+              <caret line="73" column="44" lean-forward="true" selection-start-line="73" selection-start-column="44" selection-end-line="73" selection-end-column="44" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OptionsMenu.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="OptionsMenu.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/menuOptions/OptionsMenu.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="481">
-              <caret line="88" column="0" lean-forward="true" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+            <state relative-caret-position="-761">
+              <caret line="20" column="9" lean-forward="true" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
               <folding />
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GameMenu.fxml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/GameMenu.fxml">
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="347">
+              <caret line="18" column="22" lean-forward="false" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+          <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+            <state />
           </provider>
         </entry>
       </file>
@@ -43,11 +56,27 @@
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <marker date="1523959441911" expanded="true" signature="2393:2595" ph="..." />
-                <marker date="1523959441911" expanded="true" signature="2409:2491" ph="..." />
-                <marker date="1523959441911" expanded="true" signature="2491:2595" ph="..." />
-                <marker date="1523959441911" expanded="true" signature="2631:2683" ph="..." />
-                <marker date="1523959441911" expanded="true" signature="2703:2749" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="558:2724" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="626:2571" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="696:821" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="715:804" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="939:1170" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="958:1047" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="1073:1152" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="1291:1522" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="1310:1399" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="1425:1504" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="1643:1874" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="1662:1751" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="1777:1856" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="1982:2213" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="2001:2090" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="2116:2195" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="2356:2558" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="2372:2454" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="2454:2558" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="2594:2646" ph="..." />
+                <marker date="1523963286422" expanded="true" signature="2666:2712" ph="..." />
               </folding>
             </state>
           </provider>
@@ -85,8 +114,10 @@
         <option value="$PROJECT_DIR$/src/gameCode/GameWindow.fxml" />
         <option value="$PROJECT_DIR$/src/gameCode/InitializeGame.java" />
         <option value="$PROJECT_DIR$/src/gameCode/Game.java" />
-        <option value="$PROJECT_DIR$/src/menuOptions/optionsMenu.fxml" />
         <option value="$PROJECT_DIR$/src/menuOptions/OptionsMenu.java" />
+        <option value="$PROJECT_DIR$/src/main/GameMenu.fxml" />
+        <option value="$PROJECT_DIR$/src/menuOptions/optionsMenu.fxml" />
+        <option value="$PROJECT_DIR$/src/main/MainController.java" />
       </list>
     </option>
   </component>
@@ -128,6 +159,12 @@
               <item name="ShooterGame" type="b2602c69:ProjectViewProjectNode" />
               <item name="ShooterGame" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ShooterGame" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ShooterGame" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ShooterGame" type="b2602c69:ProjectViewProjectNode" />
@@ -311,7 +348,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8176000" />
+    <option name="totallyTimeSpent" value="8703000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
@@ -472,21 +509,9 @@
     <entry file="file://$PROJECT_DIR$/src/menuOptions/soundOptions.fxml" />
     <entry file="file://$PROJECT_DIR$/src/menuOptions/loadFiles.fxml" />
     <entry file="file://$PROJECT_DIR$/src/menuOptions/LoadController.java" />
-    <entry file="file://$PROJECT_DIR$/src/menuOptions/gameOptions.fxml" />
     <entry file="file://$PROJECT_DIR$/src/menuOptions/GameOptions.java" />
     <entry file="file://$PROJECT_DIR$/src/menuOptions/controls.fxml" />
     <entry file="file://$PROJECT_DIR$/src/menuOptions/helpMenu.fxml" />
-    <entry file="file://$PROJECT_DIR$/src/main/GameMenu.fxml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="18" column="22" lean-forward="false" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -615,16 +640,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/menuOptions/gameOptions.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/menuOptions/optionsMenu.fxml">
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1523959441911" expanded="true" signature="2393:2595" ph="..." />
-            <marker date="1523959441911" expanded="true" signature="2409:2491" ph="..." />
-            <marker date="1523959441911" expanded="true" signature="2491:2595" ph="..." />
-            <marker date="1523959441911" expanded="true" signature="2631:2683" ph="..." />
-            <marker date="1523959441911" expanded="true" signature="2703:2749" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="558:2724" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="626:2571" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="696:821" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="715:804" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="939:1170" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="958:1047" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="1073:1152" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="1291:1522" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="1310:1399" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="1425:1504" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="1643:1874" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="1662:1751" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="1777:1856" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="1982:2213" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="2001:2090" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="2116:2195" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="2356:2558" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="2372:2454" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="2454:2558" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="2594:2646" ph="..." />
+            <marker date="1523963286422" expanded="true" signature="2666:2712" ph="..." />
           </folding>
         </state>
       </provider>
@@ -632,18 +684,29 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/MainController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1315">
-          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+    <entry file="file://$PROJECT_DIR$/src/main/GameMenu.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="18" column="22" lean-forward="false" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
           <folding />
         </state>
+      </provider>
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/menuOptions/OptionsMenu.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="88" column="0" lean-forward="true" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+        <state relative-caret-position="-761">
+          <caret line="20" column="9" lean-forward="true" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/MainController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="413">
+          <caret line="73" column="44" lean-forward="true" selection-start-line="73" selection-start-column="44" selection-end-line="73" selection-end-column="44" />
           <folding />
         </state>
       </provider>
