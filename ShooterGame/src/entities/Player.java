@@ -150,6 +150,36 @@ public class Player extends Movable {
             this.equippedWeapon = WeaponTypes.KNIFE;
     }
 
+    public void damage(int damage) {
+        int hpLimit;
+
+        if (this.getArmor() > 0) {
+            this.setArmor(this.getArmor() - damage);
+            hpLimit = this.getHealthPoints() - damage / 2;
+        } else {
+            hpLimit = this.getHealthPoints() - damage;
+        }
+
+        if (hpLimit > 0)
+            this.setHealthPoints(hpLimit);
+        else
+            this.setHealthPoints(0);
+    }
+
+    public void healthPickup(int hpChange) {
+        if (this.getHealthPoints() + hpChange <= 100)
+            this.setHealthPoints(this.getHealthPoints() + hpChange);
+        else
+            this.setHealthPoints(100);
+    }
+
+    public void armorPickup(int armorChange) {
+        if (this.getArmor() + armorChange <= 200)
+            this.setArmor(this.getArmor() + armorChange);
+        else
+            this.setArmor(200);
+    }
+
     @Override
     public void loadBasicSounds(String[] audioFiles) {
         this.basicSounds = loadAudio(audioFiles);
@@ -326,9 +356,9 @@ public class Player extends Movable {
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
                     System.out.println("Pistol fired");
+
+                    bulletList.add(new Bullet(getPositionX(), getPositionY(), 20, 20));
                     shotFired = true;
-                    bullet = new Bullet(getPositionX(), getPositionY(), 20, 20);
-                    bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
                 }
@@ -444,28 +474,6 @@ public class Player extends Movable {
 
     public void setArmor(int armor) {
         this.armor = armor;
-    }
-
-    public void damage(int damage) {
-        if (this.getArmor() > 0) {
-            this.setHealthPoints(this.getHealthPoints() - damage / 2);
-            this.setArmor(this.getArmor() + damage);
-        } else {
-            this.setHealthPoints(this.getHealthPoints() - damage);
-        }
-    }
-
-    public void healthPickup(int hpChange) {
-        if (this.getHealthPoints() <= 100)
-            this.setHealthPoints(this.getHealthPoints() + hpChange);
-        else
-            this.setHealthPoints(100);
-    }
-
-    public void armorPickup(int armorChange) {
-        if (this.getArmor() <= 200) {
-            this.setArmor(this.getArmor() + armorChange);
-        }
     }
 
     /***
