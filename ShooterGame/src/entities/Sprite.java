@@ -43,7 +43,7 @@ public class Sprite {
         }
         this.width = this.frames[0].getWidth();
         this.height = this.frames[0].getHeight();
-        this.duration = 0.016;
+        this.duration = 0.032;
         this.maxWidth = this.width;
         this.maxHeight = this.height;
     }

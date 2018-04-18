@@ -522,5 +522,13 @@ public class Player extends Movable {
         public void setCurrentPool(int currentPool) {
             this.currentPool = currentPool;
         }
+
+        public int getMaxSize() {
+            return maxSize;
+        }
+
+        public int getMaxPool() {
+            return maxPool;
+        }
     }
 }
