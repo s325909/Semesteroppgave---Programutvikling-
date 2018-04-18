@@ -6,12 +6,12 @@ public class Zombie extends Movable {
 
     private Direction walkDirection;
     private int walkDistance;
+    private Sprite[] animation;
 
     public Zombie(){}
 
     public Zombie(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
         super(filename, extension, numberImages, positionX, positionY, healthPoints, 1.0);
-        loadZombieAssets();
     }
 
     public void loadZombieAssets() {
@@ -25,11 +25,16 @@ public class Zombie extends Movable {
                 new SpriteParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
 
         loadBasicSounds(zombieSounds);
+        this.animation = loadSprites(zombieAnimations);
 //        Sprite[] sprites = new Sprite[zombieAnimations.length];
 //        for(int i = 0; i < zombieAnimations.length; i++) {
 //            sprites[i] = loadSprites(zombieAnimations[i]
 //        }
     }
+
+//    public void setAnimation(int i) {
+//        super.setSprite(this.animation[i]);
+//    }
 
     /***
      * Method which controls the bulletDirection of enemies, whereas they are drawn towards the Player.
@@ -80,29 +85,35 @@ public class Zombie extends Movable {
                 stopY();
                 setIdle();
                 this.walkDistance = 0;
+                //setAnimation(0);
                 break;
             case NORTH:
                 goUp();
                 stopX();
                 setMoving();
                 this.walkDistance--;
+                //setAnimation(1);
                 break;
             case NORTHEAST:
                 goUp();
                 goRight();
                 setMoving();
                 this.walkDistance--;
+                //setAnimation(1);
                 break;
             case EAST:
                 goRight();
                 stopY();
                 setMoving();
                 this.walkDistance--;
+                //setAnimation(1);
+                break;
             case SOUTHEAST:
                 goDown();
                 goRight();
                 setMoving();
                 this.walkDistance--;
+                //setAnimation(1);
                 break;
             case SOUTH:
                 goDown();
@@ -115,24 +126,28 @@ public class Zombie extends Movable {
                 goLeft();
                 setMoving();
                 this.walkDistance--;
+                //setAnimation(1);
                 break;
             case WEST:
                 goLeft();
                 stopY();
                 setMoving();
                 this.walkDistance--;
+                //setAnimation(1);
                 break;
             case NORTHWEST:
                 goUp();
                 goLeft();
                 setMoving();
                 this.walkDistance--;
+                //setAnimation(1);
                 break;
             default:
                 stopX();
                 stopY();
                 setIdle();
                 this.walkDistance = 0;
+                //setAnimation(0);
         }
     }
 

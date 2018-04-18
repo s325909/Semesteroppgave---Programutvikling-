@@ -2,6 +2,8 @@ package entities;
 
 public class Drop extends Player {
 
+
+
     public Drop() {
     }
 
@@ -13,10 +15,23 @@ public class Drop extends Player {
         super(filename, positionX, positionY);
     }
 
+    public void loadPowerupImages() {
+        String[] images = {
+                "/resources/Art/Icon/hp_icon.png",
+                "/resources/Art/Icon/armor_icon.png",
+                "/resources/Art/Icon/mag_icon.png",
+                "/resources/Art/Icon/pool_icon.png",
+                "/resources/Art/Icon/speed_icon.png"};
+    }
+
+//    public void setAnimation(int i) {
+//        super.setSprite(this.animation[i]);
+//    }
+
     public void randomPickup(Player player) {
         int randomNumber = (int)(Math.random()*10) % 10;
         if (randomNumber < 2) {
-            player.setHealthPoints(player.getHealthPoints() + 25);
+            player.healthPickup(25);
         } else if (randomNumber < 4) {
             player.getMagazinePistol().changeBulletNumber(player.getMagazinePistol().getMaxSize());
         } else if (randomNumber < 5) {
@@ -24,7 +39,7 @@ public class Drop extends Player {
         } else if (randomNumber < 6) {
             player.getMagazineShotgun().changeBulletNumber(player.getMagazineShotgun().getMaxSize());
         } else if (randomNumber < 8) {
-            player.setArmor(player.getArmor() + 25);
+            player.armorPickup(25);
         } else if (randomNumber <= 9) {
             player.setMovementSpeed(player.getMovementSpeed() + 10);
         }

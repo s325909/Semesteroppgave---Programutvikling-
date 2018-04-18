@@ -2,7 +2,6 @@ package gameCode;
 
 import entities.*;
 import javafx.animation.AnimationTimer;
-import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -85,26 +84,15 @@ public class Game {
             controller.pressKey2.setVisible(false);
         }
         if (isRunning) {
-
-//            entityList.add(player);
-//            entityList.addAll(zombies);
-//            entityList.addAll(bullets);
-
             player.update(time);
-
             bullets = player.getBulletList();
 
-//            if (player.getShotFired()) {
-//                for (int i = 0; i < bullets.size(); i++) {
-//                    gameWindow.getChildren().add(bullets.get(i).getNode());
-//                }
-//            }
 
             for (Zombie zombie : zombies) {
                 zombie.update(time);
                 zombie.movement(player);
                 if (player.isColliding(zombie)) {
-                    player.adjustedDamage(10);
+                    player.damage(10);
                     if (!player.stillAlive()) {
                         System.out.println("Player is dead");
                         //gameOver();
@@ -115,30 +103,30 @@ public class Game {
 //                        zombie.setVelocityX(-0.5);
 //                    }
 //                }
-                for (Bullet bullet : bullets) {
-//                    bullet.update(time);
-                    bullet.bulletDirection(player);
-                    if (bullet.isColliding(zombie)) {
-                        bullet.setAlive(false);
-                        zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
-                        if (!zombie.stillAlive()) {
-                            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
-                            zombie.setAlive(false);
-                            this.scoreNumber = 100;
-                            drop = new Drop(zombie.getPositionX(), zombie.getPositionY());
-                            drops.add(drop);
-                        }
-//                        if (!bullet.stillAlive())
-//                            gameWindow.getChildren().removeAll(bullet.getNode());
-                    }
-                    for (Drop drop : drops) {
-                        if(drop.isColliding(player)) {
-                            drop.randomPickup(player);
-                            gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
-                            drop.setAlive(false);
-                        }
-                    }
-                }
+//                for (Bullet bullet : bullets) {
+////                    bullet.update(time);
+//                    bullet.bulletDirection(player);
+//                    if (bullet.isColliding(zombie)) {
+//                        bullet.setAlive(false);
+//                        zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
+//                        if (!zombie.stillAlive()) {
+//                            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
+//                            zombie.setAlive(false);
+//                            this.scoreNumber = 100;
+//                            drop = new Drop(zombie.getPositionX(), zombie.getPositionY());
+//                            drops.add(drop);
+//                        }
+////                        if (!bullet.stillAlive())
+////                            gameWindow.getChildren().removeAll(bullet.getNode());
+//                    }
+//                    for (Drop drop : drops) {
+//                        if(drop.isColliding(player)) {
+//                            drop.randomPickup(player);
+//                            gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
+//                            drop.setAlive(false);
+//                        }
+//                    }
+//                }
             }
 
             bullets.removeIf(Bullet::isDead);
@@ -151,8 +139,8 @@ public class Game {
                     gameWindow.getChildren().remove(shape);
                     scoreNumber += 10;
 
-                    player.setHealthPoints(player.getHealthPoints() + 25);
-                    player.setArmor(player.getArmor() + 10);
+                    player.healthPickup(25);
+                    player.armorPickup(25);
                     player.getMagazinePistol().changeBulletNumber(15);
                     player.getMagazineRifle().changeBulletNumber(30);
                     player.getMagazineShotgun().changeBulletNumber(8);
@@ -165,8 +153,8 @@ public class Game {
                     gameWindow.getChildren().remove(shape);
                     scoreNumber += 20;
 
-                    player.setHealthPoints(player.getHealthPoints() + 50);
-                    player.setArmor(player.getArmor() + 20);
+                    player.healthPickup(50);
+                    player.armorPickup(50);
                     player.getMagazinePistol().changeBulletNumber(15);
                     player.getMagazineRifle().changeBulletNumber(30);
                     player.getMagazineShotgun().changeBulletNumber(8);

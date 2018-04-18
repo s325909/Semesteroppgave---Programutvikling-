@@ -1,11 +1,15 @@
 package entities;
 
+import gameCode.Game;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import gameCode.Game;
 
 public class Player extends Movable {
 
@@ -442,12 +446,25 @@ public class Player extends Movable {
         this.armor = armor;
     }
 
-    public void adjustedDamage(int damageTaken) {
+    public void damage(int damage) {
         if (this.getArmor() > 0) {
-            this.setHealthPoints(this.getHealthPoints() - damageTaken/2);
-            this.setArmor(this.getArmor() - damageTaken);
+            this.setHealthPoints(this.getHealthPoints() - damage / 2);
+            this.setArmor(this.getArmor() + damage);
         } else {
-            this.setHealthPoints(this.getHealthPoints() - damageTaken);
+            this.setHealthPoints(this.getHealthPoints() - damage);
+        }
+    }
+
+    public void healthPickup(int hpChange) {
+        if (this.getHealthPoints() <= 100)
+            this.setHealthPoints(this.getHealthPoints() + hpChange);
+        else
+            this.setHealthPoints(100);
+    }
+
+    public void armorPickup(int armorChange) {
+        if (this.getArmor() <= 200) {
+            this.setArmor(this.getArmor() + armorChange);
         }
     }
 
