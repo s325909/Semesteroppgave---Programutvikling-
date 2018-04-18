@@ -2,13 +2,17 @@ package gameCode;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class LoadSavedGame {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class LoadSavedGame implements Initializable{
 
     @FXML
     Button loadBtn;
@@ -16,25 +20,22 @@ public class LoadSavedGame {
     TextField fieldName = new TextField();
     TextField fieldHP = new TextField();
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+    }
+
     @FXML
     public void loadGame() {
-        Parent root;
-        try {
-            root = FXMLLoader.load(getClass().getResource("loadGame.fxml"));
-            Stage loadGame = new Stage();
-            loadGame.setScene(new Scene(root, 600, 400));
-            loadGame.show();
             loadBtn.setOnAction(event->{
                 try{
-                    SaveData data = (SaveData) SaveLoadManager.load("1.save");
+                    SaveData data = (SaveData) SaveLoadManager.load("");
                     fieldName.setText(data.name);
                     fieldHP.setText(String.valueOf(data.hp));
                 } catch(Exception e) {
                     System.out.println("Couldn't load saved data");
                 }
             });
-        } catch (Exception e) {
-            System.out.println("Error");
-        }
     }
+
+
 }

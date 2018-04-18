@@ -31,7 +31,6 @@ public class InitializeSave implements Initializable {
             data.hp = Integer.parseInt(fieldHP.getText());
             try {
                 SaveLoadManager.save(data, writeName());
-
             } catch (Exception e) {
                 System.out.println("Couldn't save" + e.getMessage());
             }

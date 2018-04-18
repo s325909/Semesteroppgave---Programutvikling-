@@ -33,9 +33,9 @@ public class InitializeGame implements Initializable{
     @FXML MenuBar topbar;
     @FXML Text playerHP, magazineSize, poolSize, score;
     @FXML Label gameState, pressKey, pressKey2;
-  //  @FXML Button saveBtn, loadBtn;
-  //  TextField fieldName = new TextField();
-  //  TextField fieldHP = new TextField();
+    @FXML Button saveBtn, loadBtn;
+    TextField fieldName = new TextField();
+    TextField fieldHP = new TextField();
 
     Stage stage = new Stage();
 
@@ -176,7 +176,7 @@ public class InitializeGame implements Initializable{
             player.movePlayer(event);
             if (event.getCode() == KeyCode.F5){
                 System.out.println("Game is saved");
-                saveGame(null);
+                saveGame();
             }
         });
     }
@@ -200,7 +200,7 @@ public class InitializeGame implements Initializable{
         System.exit(0);
     }
 
-    public void saveGame(ActionEvent actionEvent) {
+    public void saveGame(/*ActionEvent actionEvent*/) {
         Parent root;
         try {
             game.pauseGame();
@@ -214,6 +214,24 @@ public class InitializeGame implements Initializable{
             saveGame.show();
         } catch (Exception e) {
             System.out.println("Open SavePane Error");
+        }
+    }
+
+    @FXML
+    public void loadGame() {
+        Parent root;
+        try {
+            game.pauseGame();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("loadGame.fxml"));
+            root = loader.load();
+            LoadSavedGame loadSavedGame = loader.getController();
+            loadSavedGame.fieldHP.setText(this.playerHP.getText());
+            //root = FXMLLoader.load(getClass().getResource("loadGame.fxml"));
+            Stage loadGame = new Stage();
+            loadGame.setScene(new Scene(root, 600, 400));
+            loadGame.show();
+        } catch (Exception e) {
+            System.out.println("Error");
         }
     }
 }
