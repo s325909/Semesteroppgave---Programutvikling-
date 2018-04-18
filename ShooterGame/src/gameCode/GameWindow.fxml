@@ -69,7 +69,7 @@
                               </ImageView>
                               <HBox prefHeight="60.0" prefWidth="120.0">
                                  <children>
-                                    <Text fx:id="playerHP" strokeType="OUTSIDE" strokeWidth="0.0" text="100" textAlignment="CENTER" wrappingWidth="77.13671875">
+                                    <Text fx:id="playerHP" strokeType="OUTSIDE" strokeWidth="0.0" text="100" textAlignment="RIGHT" wrappingWidth="77.13671875">
                                        <font>
                                           <Font size="40.0" />
                                        </font>
@@ -79,10 +79,17 @@
                            </children>
                         </HBox>
                      </children></VBox>
-                  <VBox prefHeight="65.0" prefWidth="432.0" />
+                  <VBox prefHeight="65.0" prefWidth="432.0">
+                     <children>
+                        <Text fx:id="playerArmor" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="66.5625">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Text>
+                     </children></VBox>
                   <VBox prefHeight="25.0" prefWidth="75.0">
                      <children>
-                        <Text fx:id="magazineSize" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="131.13671875">
+                        <Text fx:id="magazineSize" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="131.13671875">
                            <font>
                               <Font size="40.0" />
                            </font>
@@ -91,7 +98,7 @@
                   </VBox>
                   <VBox prefHeight="0.0" prefWidth="98.0">
                      <children>
-                        <Text fx:id="poolSize" strokeType="OUTSIDE" strokeWidth="0.0" text="00" wrappingWidth="46.171875">
+                        <Text fx:id="poolSize" strokeType="OUTSIDE" strokeWidth="0.0" text="00" textAlignment="CENTER" wrappingWidth="87.171875">
                            <font>
                               <Font size="40.0" />
                            </font>
@@ -124,11 +131,11 @@
             </VBox>
          </center>
          <right>
-            <FlowPane prefHeight="623.0" prefWidth="116.0" BorderPane.alignment="CENTER">
+            <FlowPane prefHeight="630.0" prefWidth="128.0" BorderPane.alignment="CENTER">
                <children>
                   <HBox prefHeight="118.0" prefWidth="43.0">
                      <children>
-                        <Text fx:id="score" strokeType="OUTSIDE" strokeWidth="0.0" text="00000" wrappingWidth="113.6708984375">
+                        <Text fx:id="score" strokeType="OUTSIDE" strokeWidth="0.0" text="00000" textAlignment="RIGHT" wrappingWidth="120.6708984375">
                            <font>
                               <Font size="40.0" />
                            </font>

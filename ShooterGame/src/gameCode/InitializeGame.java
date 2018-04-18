@@ -29,10 +29,10 @@ import java.util.ResourceBundle;
 
 public class InitializeGame implements Initializable{
 
-    @FXML Pane gameWindow;
-    @FXML MenuBar topbar;
-    @FXML Text playerHP, magazineSize, poolSize, score;
-    @FXML Label gameState, pressKey, pressKey2;
+    @FXML private Pane gameWindow;
+    @FXML private MenuBar topbar;
+    @FXML private Text playerHP, playerArmor, magazineSize, poolSize, score;
+    @FXML protected Label gameState, pressKey, pressKey2;
   //  @FXML Button saveBtn, loadBtn;
   //  TextField fieldName = new TextField();
   //  TextField fieldHP = new TextField();
@@ -65,7 +65,7 @@ public class InitializeGame implements Initializable{
         }
 
         try {
-            player = new Player("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20, (int)gameWindow.getHeight()/2, (int)gameWindow.getWidth()/2, 100,0);
+            player = new Player("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20, (int)gameWindow.getHeight()/2, (int)gameWindow.getWidth()/2, 100,50);
             player.playerAnimation("knife");
         } catch (Exception e) {
             for (StackTraceElement element : e.getStackTrace()) {
@@ -101,7 +101,7 @@ public class InitializeGame implements Initializable{
 
         // Initialize the game
 
-        game = new Game(player, zombies, gameWindow, playerHP, magazineSize, poolSize, score);
+        game = new Game(player, zombies, gameWindow, playerHP, playerArmor, magazineSize, poolSize, score);
 
         game.setController(this);
 
@@ -158,26 +158,18 @@ public class InitializeGame implements Initializable{
 
             } else if (e.getCode() == KeyCode.R) {
                 game.setrPressed(true);
-                //game.restartGame();
-
-                    //System.out.println("Starting New Game...");
 
             } else if (e.getCode() == KeyCode.M) {
                 musicPlayer.muteVolume();
+            } else if (e.getCode() == KeyCode.F5){
+                System.out.println("Game is saved");
+                saveGame(null);
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {
             player.releasedPlayer(e);
             if (e.getCode() == KeyCode.R)
                         game.setrPressed(false);
-        });
-
-        gameWindow.getScene().setOnKeyPressed(event -> {
-            player.movePlayer(event);
-            if (event.getCode() == KeyCode.F5){
-                System.out.println("Game is saved");
-                saveGame(null);
-            }
         });
     }
 

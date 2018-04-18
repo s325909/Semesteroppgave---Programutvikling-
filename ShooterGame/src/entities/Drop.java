@@ -2,38 +2,31 @@ package entities;
 
 public class Drop extends Player {
 
-    int randomNumber;
-    Player player;
-
     public Drop() {
     }
 
-    public Drop(int positionX, int positionY, Player player, int randomNumber) {
+    public Drop(int positionX, int positionY) {
         super(positionX, positionY);
-        this.randomNumber = randomNumber;
-        this.player = player;
-
-        if (this.randomNumber == 0) {
-            player.setHealthPoints(getHealthPoints() + 25);
-        } else if (this.randomNumber == 1) {
-            player.getMagazinePistol().changeBulletNumber(getMagazinePistol().getMaxSize());
-        } else if (this.randomNumber == 2) {
-            player.getMagazineRifle().changeBulletNumber(getMagazineRifle().getMaxSize());
-        } else if (this.randomNumber == 3) {
-            player.getMagazineShotgun().changeBulletNumber(getMagazineShotgun().getMaxSize());
-        } else if (this.randomNumber == 4) {
-            player.setArmor(getArmor() + 25);
-        } else if (this.randomNumber == 5) {
-            player.setMovementSpeed(getMovementSpeed() + 10);
-        }
     }
 
     public Drop(String filename, int positionX, int positionY) {
         super(filename, positionX, positionY);
     }
 
-    public void pickUps(Player player, double time) {
-        int random = (int) Math.floor(Math.random() * 100);
-        Drop drop = new Drop();
+    public void randomPickup(Player player) {
+        int randomNumber = (int)(Math.random()*10) % 10;
+        if (randomNumber < 2) {
+            player.setHealthPoints(player.getHealthPoints() + 25);
+        } else if (randomNumber < 4) {
+            player.getMagazinePistol().changeBulletNumber(player.getMagazinePistol().getMaxSize());
+        } else if (randomNumber < 5) {
+            player.getMagazineRifle().changeBulletNumber(player.getMagazineRifle().getMaxSize());
+        } else if (randomNumber < 6) {
+            player.getMagazineShotgun().changeBulletNumber(player.getMagazineShotgun().getMaxSize());
+        } else if (randomNumber < 8) {
+            player.setArmor(player.getArmor() + 25);
+        } else if (randomNumber <= 9) {
+            player.setMovementSpeed(player.getMovementSpeed() + 10);
+        }
     }
 }

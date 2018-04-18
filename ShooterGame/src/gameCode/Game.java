@@ -19,7 +19,7 @@ public class Game {
     private Pane gameWindow;
     private Player player;
     private List<Zombie> zombies;
-    private Text playerHP, magazineSize, poolSize, score;
+    private Text playerHP, playerArmor, magazineSize, poolSize, score;
 
     private boolean isRunning = true;
     private boolean createDrops = true;
@@ -29,18 +29,22 @@ public class Game {
     private InitializeGame controller;
 
     private List<Bullet> bullets = new ArrayList<>();
+    private List<Drop> drops = new ArrayList<>();
     //private ArrayList<Entity> entityList = new ArrayList<>();
+
+    private Drop drop;
 
     private ArrayList<Rectangle> bonuses=new ArrayList<>();
     private ArrayList<Circle> bonuses2=new ArrayList<>();
     private int scoreNumber = 0;
 
-    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Text playerHP, Text magazineSize, Text poolSize, Text score){
+    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Text playerHP, Text playerArmor, Text magazineSize, Text poolSize, Text score){
 
         this.gameWindow = gameWindow;
         this.player = player;
         this.zombies = zombies;
         this.playerHP = playerHP;
+        this.playerArmor = playerArmor;
         this.magazineSize = magazineSize;
         this.poolSize = poolSize;
         this.score = score;
@@ -82,8 +86,6 @@ public class Game {
         }
         if (isRunning) {
 
-            this.scoreNumber += (int)time;
-
 //            entityList.add(player);
 //            entityList.addAll(zombies);
 //            entityList.addAll(bullets);
@@ -105,7 +107,7 @@ public class Game {
                     player.adjustedDamage(10);
                     if (!player.stillAlive()) {
                         System.out.println("Player is dead");
-                        gameOver();
+                        //gameOver();
                     }
                 }
 //                for (Zombie zombie2 : zombies) {
@@ -121,16 +123,27 @@ public class Game {
                         zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
                         if (!zombie.stillAlive()) {
                             gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
+                            zombie.setAlive(false);
                             this.scoreNumber = 100;
+                            drop = new Drop(zombie.getPositionX(), zombie.getPositionY());
+                            drops.add(drop);
                         }
 //                        if (!bullet.stillAlive())
 //                            gameWindow.getChildren().removeAll(bullet.getNode());
                     }
+                    for (Drop drop : drops) {
+                        if(drop.isColliding(player)) {
+                            drop.randomPickup(player);
+                            gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
+                            drop.setAlive(false);
+                        }
+                    }
                 }
             }
 
-//            bullets.removeIf(Bullet::isDead);
+            bullets.removeIf(Bullet::isDead);
             zombies.removeIf(Zombie::isDead);
+            drops.removeIf(Drop::isDead);
 
             for (Shape shape : this.bonuses) {
                 if (isColliding(player.getNode(), shape)) {
@@ -139,6 +152,7 @@ public class Game {
                     scoreNumber += 10;
 
                     player.setHealthPoints(player.getHealthPoints() + 25);
+                    player.setArmor(player.getArmor() + 10);
                     player.getMagazinePistol().changeBulletNumber(15);
                     player.getMagazineRifle().changeBulletNumber(30);
                     player.getMagazineShotgun().changeBulletNumber(8);
@@ -152,6 +166,7 @@ public class Game {
                     scoreNumber += 20;
 
                     player.setHealthPoints(player.getHealthPoints() + 50);
+                    player.setArmor(player.getArmor() + 20);
                     player.getMagazinePistol().changeBulletNumber(15);
                     player.getMagazineRifle().changeBulletNumber(30);
                     player.getMagazineShotgun().changeBulletNumber(8);
@@ -242,11 +257,13 @@ public class Game {
      */
     public void updateHUD() {
         String hpLevel = String.valueOf(player.getHealthPoints());
+        String armorLevel = String.valueOf(player.getArmor());
         String magazineLevel = String.valueOf(player.getMagazineCount());
         String poolLevel = String.format("%02d", player.getAmmoPool());
         String score = String.format("%05d", this.scoreNumber);
 
         this.playerHP.setText(hpLevel);
+        this.playerArmor.setText(armorLevel);
         this.magazineSize.setText(magazineLevel);
         this.poolSize.setText(poolLevel);
         this.score.setText(score);
