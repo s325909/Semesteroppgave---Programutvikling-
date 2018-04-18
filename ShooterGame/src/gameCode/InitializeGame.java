@@ -65,7 +65,7 @@ public class InitializeGame implements Initializable{
         }
 
         try {
-            player = new Player("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20, (int)gameWindow.getHeight()/2, (int)gameWindow.getWidth()/2, 100);
+            player = new Player("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20, (int)gameWindow.getHeight()/2, (int)gameWindow.getWidth()/2, 100,0);
             player.playerAnimation("knife");
         } catch (Exception e) {
             for (StackTraceElement element : e.getStackTrace()) {

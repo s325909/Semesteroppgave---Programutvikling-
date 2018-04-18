@@ -22,7 +22,9 @@ public class Drop extends Player {
         } else if (this.randomNumber == 3) {
             player.getMagazineShotgun().changeBulletNumber(getMagazineShotgun().getMaxSize());
         } else if (this.randomNumber == 4) {
-
+            player.setArmor(getArmor() + 25);
+        } else if (this.randomNumber == 5) {
+            player.setMovementSpeed(getMovementSpeed() + 10);
         }
     }
 

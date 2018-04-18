@@ -82,6 +82,8 @@ public class Game {
         }
         if (isRunning) {
 
+            this.scoreNumber += (int)time;
+
 //            entityList.add(player);
 //            entityList.addAll(zombies);
 //            entityList.addAll(bullets);
@@ -100,7 +102,7 @@ public class Game {
                 zombie.update(time);
                 zombie.movement(player);
                 if (player.isColliding(zombie)) {
-                    player.setHealthPoints(player.getHealthPoints() - 10);
+                    player.adjustedDamage(10);
                     if (!player.stillAlive()) {
                         System.out.println("Player is dead");
                         gameOver();
@@ -117,8 +119,10 @@ public class Game {
                     if (bullet.isColliding(zombie)) {
                         bullet.setAlive(false);
                         zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
-                        if (!zombie.stillAlive())
+                        if (!zombie.stillAlive()) {
                             gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
+                            this.scoreNumber = 100;
+                        }
 //                        if (!bullet.stillAlive())
 //                            gameWindow.getChildren().removeAll(bullet.getNode());
                     }

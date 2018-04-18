@@ -13,6 +13,8 @@ public class Player extends Movable {
         KNIFE, PISTOL, RIFLE, SHOTGUN
     }
 
+    private int armor;
+
     private WeaponTypes equippedWeapon;
     private AudioClip[] weapon;
     private AudioClip[] basicSounds;
@@ -37,7 +39,7 @@ public class Player extends Movable {
         super(filename, positionX, positionY);
     }
 
-    public Player(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
+    public Player(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints, int armor) {
         super(filename, extension, numberImages, positionX, positionY, healthPoints, 5.0);
 
         String[] playerSounds = {
@@ -87,6 +89,7 @@ public class Player extends Movable {
         magazinePistol = new Magazine(15, 30);
         magazineRifle = new Magazine(30,90);
         magazineShotgun = new Magazine(8,32);
+        this.armor = armor;
     }
 
     /***
@@ -429,6 +432,23 @@ public class Player extends Movable {
 
     public Magazine getMagazineShotgun() {
         return magazineShotgun;
+    }
+
+    public int getArmor() {
+        return armor;
+    }
+
+    public void setArmor(int armor) {
+        this.armor = armor;
+    }
+
+    public void adjustedDamage(int damageTaken) {
+        if (this.getArmor() > 0) {
+            this.setHealthPoints(this.getHealthPoints() - damageTaken/2);
+            this.setArmor(this.getArmor() - damageTaken);
+        } else {
+            this.setHealthPoints(this.getHealthPoints() - damageTaken);
+        }
     }
 
     /***
