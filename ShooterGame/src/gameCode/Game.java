@@ -27,11 +27,8 @@ public class Game {
 
     private InitializeGame controller;
 
-    private List<Bullet> bullets = new ArrayList<>();
     private List<Drop> drops = new ArrayList<>();
     //private ArrayList<Entity> entityList = new ArrayList<>();
-
-    private Drop drop;
 
     private ArrayList<Rectangle> bonuses=new ArrayList<>();
     private ArrayList<Circle> bonuses2=new ArrayList<>();
@@ -85,20 +82,7 @@ public class Game {
         }
         if (isRunning) {
             player.update(time);
-            bullets = player.getBulletList();
-
-//            if (player.getShotFired()) {
-//                for (int i = 0; i < bullets.size(); i++)
-//                    gameWindow.getChildren().add(bullets.get(i).getNode());
-//            }
-
-            for (Bullet bullet : bullets) {
-                if (!bullet.isDrawn()) {
-                    gameWindow.getChildren().add(bullet.getNode());
-                    bullet.setDrawn();
-                }
-            }
-
+            List<Bullet> bullets = player.getBulletList();
 
             for (Zombie zombie : zombies) {
                 zombie.update(time);
@@ -115,30 +99,40 @@ public class Game {
 //                        zombie.setVelocityX(-0.5);
 //                    }
 //                }
-//                for (Bullet bullet : bullets) {
-////                    bullet.update(time);
-//                    bullet.bulletDirection(player);
-//                    if (bullet.isColliding(zombie)) {
-//                        bullet.setAlive(false);
-//                        zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
-//                        if (!zombie.stillAlive()) {
-//                            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
-//                            zombie.setAlive(false);
-//                            this.scoreNumber = 100;
-//                            drop = new Drop(zombie.getPositionX(), zombie.getPositionY());
-//                            drops.add(drop);
-//                        }
-////                        if (!bullet.stillAlive())
-////                            gameWindow.getChildren().removeAll(bullet.getNode());
-//                    }
-//                    for (Drop drop : drops) {
-//                        if(drop.isColliding(player)) {
-//                            drop.randomPickup(player);
-//                            gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
-//                            drop.setAlive(false);
-//                        }
-//                    }
-//                }
+                for (Bullet bullet : bullets) {
+                    if (!bullet.isDrawn()) {
+                        gameWindow.getChildren().add(bullet.getNode());
+                        bullet.setDrawn();
+                    }
+                    //bullet.update(time);
+                    //bullet.bulletDirection(player);
+                    if (bullet.isColliding(zombie)) {
+                        bullet.setAlive(false);
+                        gameWindow.getChildren().removeAll(bullet.getNode(), bullet.getIv());
+
+                        zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
+                        if (!zombie.stillAlive()) {
+                            zombie.setAlive(false);
+                            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
+
+                            this.scoreNumber += 100;
+                            Drop drop = new Drop(zombie.getPositionX(), zombie.getPositionY());
+                            drops.add(drop);
+                        }
+                    }
+                    for (Drop drop : drops) {
+                        if (!drop.isDrawn()) {
+                           gameWindow.getChildren().add(drop.getNode());
+                           drop.setDrawn();
+                        }
+
+                        if(drop.isColliding(player)) {
+                            drop.randomPickup(player);
+                            drop.setAlive(false);
+                            gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
+                        }
+                    }
+                }
             }
 
             bullets.removeIf(Bullet::isDead);

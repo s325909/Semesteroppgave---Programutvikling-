@@ -1,8 +1,8 @@
 package entities;
 
-public class Drop extends Player {
+public class Drop extends Entity {
 
-
+    private boolean drawn;
 
     public Drop() {
     }
@@ -41,7 +41,11 @@ public class Drop extends Player {
         } else if (randomNumber < 8) {
             player.armorPickup(25);
         } else if (randomNumber <= 9) {
-            player.setMovementSpeed(player.getMovementSpeed() + 10);
+            player.setMovementSpeed(player.getMovementSpeed() + 5);
         }
     }
+
+    public boolean isDrawn() { return drawn; };
+
+    public void setDrawn() { drawn = true; };
 }

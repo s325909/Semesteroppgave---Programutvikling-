@@ -151,17 +151,18 @@ public class Player extends Movable {
     }
 
     public void damage(int damage) {
-        int hpLimit;
-
         if (this.getArmor() > 0) {
             this.setArmor(this.getArmor() - damage);
-            hpLimit = this.getHealthPoints() - damage / 2;
+            this.setHealthPoints(this.getHealthPoints() - damage / 2);
         } else {
-            hpLimit = this.getHealthPoints() - damage;
+            this.setHealthPoints(this.getHealthPoints() - damage);
         }
 
-        if (hpLimit > 0)
-            this.setHealthPoints(hpLimit);
+        if (this.getArmor() < 0)
+            this.setArmor(0);
+
+        if (this.getHealthPoints() > 0)
+            this.setHealthPoints(this.getHealthPoints());
         else
             this.setHealthPoints(0);
     }
@@ -331,16 +332,6 @@ public class Player extends Movable {
         }
     }
 
-    public boolean getShotFired() {
-        if (shotFired) {
-            shotFired = false;
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     /***
      * Method for running the changeBulletNumber() method in Magazine, and playing the appropriate sound.
      * Adds a check to ensure that the magazine isn't empty. This check ensures to correctly perform the
@@ -356,10 +347,6 @@ public class Player extends Movable {
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
                     System.out.println("Pistol fired");
-
-//                    bulletList.add(new Bullet(getPositionX(), getPositionY(), 20, 20));
-//                    shotFired = true;
-                    
                     Bullet bullet = new Bullet(getPositionX(), getPositionY(), 20, 20);
                     bulletList.add(bullet);
                 } else {
