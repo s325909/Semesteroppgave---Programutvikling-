@@ -8,46 +8,46 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" hgap="10" style="-fx-background-color: BLACK" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menuOptions.LoadController">
+<GridPane alignment="center" hgap="10" style="-fx-background-color: BLACK" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameCode.LoadSavedGame">
         <children>
         <VBox alignment="CENTER" prefHeight="600.0" prefWidth="600.0">
         <children>
-        <Button fx:id="saveFile1" mnemonicParsing="false" onAction="#loadFile1" prefHeight="75.0" prefWidth="250.0" text="Save File 1">
+        <Button fx:id="saveFile1" mnemonicParsing="false" onAction="#loadGame" prefHeight="75.0" prefWidth="250.0" text="Save File 1">
         <VBox.margin>
         <Insets bottom="15.0" top="15.0" />
         </VBox.margin>
         <font>
         <Font name="Copperplate Gothic Light" size="24.0" />
         </font></Button>
-        <Button fx:id="saveFile2" mnemonicParsing="false" onAction="#loadFile2" prefHeight="75.0" prefWidth="250.0" text="Save File 2">
+        <Button fx:id="saveFile2" mnemonicParsing="false" onAction="#loadGame" prefHeight="75.0" prefWidth="250.0" text="Save File 2">
         <font>
         <Font name="Copperplate Gothic Light" size="24.0" />
         </font>
         <VBox.margin>
         <Insets bottom="15.0" top="15.0" />
         </VBox.margin></Button>
-        <Button fx:id="saveFile3" mnemonicParsing="false" onAction="#loadFile3" prefHeight="75.0" prefWidth="250.0" text="Save File 3">
+        <Button fx:id="saveFile3" mnemonicParsing="false" onAction="#loadGame" prefHeight="75.0" prefWidth="250.0" text="Save File 3">
         <VBox.margin>
         <Insets bottom="15.0" top="15.0" />
         </VBox.margin>
         <font>
         <Font name="Copperplate Gothic Light" size="24.0" />
         </font></Button>
-            <Button fx:id="backBTN" mnemonicParsing="false" onAction="#backToMenu" prefHeight="25.0" prefWidth="150.0" text="Back to Menu">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="75.0" />
-               </VBox.margin>
-            </Button>
-        </children>
-        </VBox>
-        </children>
-        <columnConstraints>
-        <ColumnConstraints />
-        </columnConstraints>
-        <rowConstraints>
-        <RowConstraints />
-        </rowConstraints>
-        </GridPane>
+                <!--<Button fx:id="backBTN" mnemonicParsing="false" onAction="#backToMenu" prefHeight="25.0" prefWidth="150.0" text="Back to Menu">
+                 <font>
+                    <Font size="18.0" />
+                 </font>
+                 <VBox.margin>
+                    <Insets top="75.0" />
+                 </VBox.margin>
+              </Button>-->
+          </children>
+          </VBox>
+          </children>
+          <columnConstraints>
+          <ColumnConstraints />
+          </columnConstraints>
+          <rowConstraints>
+          <RowConstraints />
+          </rowConstraints>
+          </GridPane>
