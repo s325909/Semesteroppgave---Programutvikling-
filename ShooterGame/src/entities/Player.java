@@ -31,7 +31,7 @@ public class Player extends Movable {
     private Magazine magazineShotgun;
 
     private List<Bullet> bulletList = new ArrayList<>();
-    private Bullet bullet;
+    //private Bullet bullet;
 
     public Player(){}
 
@@ -357,8 +357,11 @@ public class Player extends Movable {
                     setAnimation(i, j);
                     System.out.println("Pistol fired");
 
-                    bulletList.add(new Bullet(getPositionX(), getPositionY(), 20, 20));
-                    shotFired = true;
+//                    bulletList.add(new Bullet(getPositionX(), getPositionY(), 20, 20));
+//                    shotFired = true;
+                    
+                    Bullet bullet = new Bullet(getPositionX(), getPositionY(), 20, 20);
+                    bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
                 }

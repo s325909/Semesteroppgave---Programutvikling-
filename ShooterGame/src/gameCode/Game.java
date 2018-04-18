@@ -87,10 +87,18 @@ public class Game {
             player.update(time);
             bullets = player.getBulletList();
 
-            if (player.getShotFired()) {
-                for (int i = 0; i < bullets.size(); i++)
-                    gameWindow.getChildren().add(bullets.get(i).getNode());
+//            if (player.getShotFired()) {
+//                for (int i = 0; i < bullets.size(); i++)
+//                    gameWindow.getChildren().add(bullets.get(i).getNode());
+//            }
+
+            for (Bullet bullet : bullets) {
+                if (!bullet.isDrawn()) {
+                    gameWindow.getChildren().add(bullet.getNode());
+                    bullet.setDrawn();
+                }
             }
+
 
             for (Zombie zombie : zombies) {
                 zombie.update(time);

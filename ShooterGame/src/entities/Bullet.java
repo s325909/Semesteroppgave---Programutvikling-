@@ -3,6 +3,7 @@ package entities;
 public class Bullet extends Movable {
 
     private int damage;
+    private boolean drawn;
 
     public Bullet(int positionX, int positionY, double movementSpeed, int damage) {
         super(positionX, positionY, movementSpeed);
@@ -61,4 +62,8 @@ public class Bullet extends Movable {
     public void setDamage(int damage) {
         this.damage = damage;
     }
+
+    public boolean isDrawn() { return drawn; };
+
+    public void setDrawn() { drawn = true; };
 }
