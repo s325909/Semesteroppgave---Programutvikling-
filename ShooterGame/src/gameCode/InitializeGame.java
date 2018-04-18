@@ -196,11 +196,11 @@ public class InitializeGame implements Initializable{
         }
     }
 
-    public void exitGame() {
-        System.exit(0);
-    }
-
-    public void saveGame(/*ActionEvent actionEvent*/) {
+    /***
+     * Method which will open a new window with Save option.
+     */
+    @FXML
+    public void saveGame() {
         Parent root;
         try {
             game.pauseGame();
@@ -217,6 +217,9 @@ public class InitializeGame implements Initializable{
         }
     }
 
+    /***
+     * Method which will open a new window with Load option.
+     */
     @FXML
     public void loadGame() {
         Parent root;
@@ -233,5 +236,11 @@ public class InitializeGame implements Initializable{
         } catch (Exception e) {
             System.out.println("Error");
         }
+    }
+
+    public void exitGame() {
+
+        System.exit(0);
+
     }
 }

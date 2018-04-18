@@ -24,11 +24,15 @@ public class LoadSavedGame implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
     }
 
+    /***
+     * Method which establishes load function by clicking load button.
+     */
+
     @FXML
     public void loadGame() {
             loadBtn.setOnAction(event->{
                 try{
-                    SaveData data = (SaveData) SaveLoadManager.load("");
+                    SaveData data = (SaveData) SaveLoadManager.load("1.save");
                     fieldName.setText(data.name);
                     fieldHP.setText(String.valueOf(data.hp));
                 } catch(Exception e) {

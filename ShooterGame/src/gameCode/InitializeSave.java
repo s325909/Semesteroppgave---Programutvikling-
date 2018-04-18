@@ -23,6 +23,10 @@ public class InitializeSave implements Initializable {
 
     }
 
+    /***
+     * Method which takes user input and establishes save function by clicking save button.
+     */
+
     @FXML
     public void saveGame() {
         saveBtn.setOnAction(event -> {
