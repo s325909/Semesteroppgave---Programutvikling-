@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 public class LoadSavedGame implements Initializable{
 
     @FXML
-    Button loadBtn;
+    Button loadBtn1, loadBtn2, loadBtn3;
     @FXML
     TextField fieldName = new TextField();
     TextField fieldHP = new TextField();
@@ -30,15 +30,35 @@ public class LoadSavedGame implements Initializable{
 
     @FXML
     public void loadGame() {
-            loadBtn.setOnAction(event->{
-                try{
-                    SaveData data = (SaveData) SaveLoadManager.load("1.save");
-                    fieldName.setText(data.name);
-                    fieldHP.setText(String.valueOf(data.hp));
-                } catch(Exception e) {
-                    System.out.println("Couldn't load saved data");
-                }
-            });
+        loadBtn1.setOnAction(event->{
+            try{
+                SaveData data = (SaveData) SaveLoadManager.load("1.save");
+                fieldName.setText(data.name);
+                fieldHP.setText(String.valueOf(data.hp));
+            } catch(Exception e) {
+                System.out.println("Couldn't load saved data");
+            }
+        });
+
+        loadBtn2.setOnAction(event->{
+            try{
+                SaveData data = (SaveData) SaveLoadManager.load("Game.save");
+                fieldName.setText(data.name);
+                fieldHP.setText(String.valueOf(data.hp));
+            } catch(Exception e) {
+                System.out.println("Couldn't load saved data");
+            }
+        });
+
+        loadBtn3.setOnAction(event->{
+            try{
+                SaveData data = (SaveData) SaveLoadManager.load("");
+                fieldName.setText(data.name);
+                fieldHP.setText(String.valueOf(data.hp));
+            } catch(Exception e) {
+                System.out.println("Couldn't load saved data");
+            }
+        });
     }
 
 
