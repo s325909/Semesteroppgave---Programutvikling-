@@ -203,15 +203,12 @@ public class InitializeGame implements Initializable{
     public void saveGame(ActionEvent actionEvent) {
         Parent root;
         try {
-
             game.pauseGame();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("saveGame.fxml"));
-
             root = loader.load();
             InitializeSave initializeSave = loader.getController();
             initializeSave.fieldHP.setText(this.playerHP.getText());
             //root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
-
             Stage saveGame = new Stage();
             saveGame.setScene(new Scene(root, 600, 400));
             saveGame.show();

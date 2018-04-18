@@ -5,19 +5,27 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.text.Font?>
-<GridPane alignment="center" hgap="10" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: BLACK" vgap="10" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="gameCode.InitializeGame">
+<?import javafx.geometry.Insets?>
+
+<GridPane alignment="center" hgap="10" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: BLACK" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameCode.LoadSavedGame">
 
     <VBox alignment="CENTER" prefHeight="779.0" prefWidth="900.0">
 
-        <Label text=" Game" textAlignment="CENTER" textFill="RED">
+        <Label text="Load Game" textAlignment="CENTER" textFill="RED">
             <font>
                 <Font name="Copperplate Gothic Light" size="64.0" />
             </font>
+            <VBox.margin>
+                <Insets bottom="15.0" top="15.0" />
+            </VBox.margin>
         </Label>
 
-        <Button fx:id="loadBtn" onAction="#loadGame" text="LOAD GAME" prefHeight="75.0" prefWidth="250.0"/>
+        <Button fx:id="loadBtn" onAction="#loadGame" text="LOAD GAME" prefHeight="75.0" prefWidth="250.0">
+            <VBox.margin>
+                <Insets bottom="15.0" top="15.0" />
+            </VBox.margin>
+        </Button>
 
     </VBox>
 

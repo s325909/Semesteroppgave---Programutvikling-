@@ -11,9 +11,9 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class InitializeSave implements Initializable{
+public class InitializeSave implements Initializable {
     @FXML
-    Button saveBtn, loadBtn;
+    Button saveBtn;
     @FXML
     TextField fieldName = new TextField();
     TextField fieldHP = new TextField();
@@ -31,37 +31,17 @@ public class InitializeSave implements Initializable{
             data.hp = Integer.parseInt(fieldHP.getText());
             try {
                 SaveLoadManager.save(data, writeName());
+
             } catch (Exception e) {
                 System.out.println("Couldn't save" + e.getMessage());
             }
         });
+        Stage stage = (Stage) saveBtn.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
-    public String writeName(){
+    public String writeName() {
         return fieldName.getText() + ".save";
-    }
-
-    @FXML
-    public void loadGame() {
-        Parent root;
-        try {
-            root = FXMLLoader.load(getClass().getResource("loadGame.fxml"));
-            Stage loadGame = new Stage();
-            loadGame.setScene(new Scene(root, 600, 400));
-            loadBtn.setOnAction(event->{
-                try{
-                    SaveData data = (SaveData) SaveLoadManager.load("1.save");
-                    fieldName.setText(data.name);
-                    fieldHP.setText(String.valueOf(data.hp));
-                } catch(Exception e) {
-                    System.out.println("Couldn't load saved data");
-                }
-            });
-            loadGame.show();
-        } catch (Exception e) {
-            System.out.println("Error");
-            System.out.println(e.getMessage());
-        }
     }
 }
