@@ -222,12 +222,24 @@ public class Game {
             }
             zombies.clear();
 
+            for (Shape shape : bonuses){
+                gameWindow.getChildren().remove(shape);
+            }
+            bonuses.clear();
+
+            for (Shape shape : bonuses2){
+                gameWindow.getChildren().remove(shape);
+            }
+            bonuses2.clear();
+
+
             player.getNode().setTranslateX(0);
             player.getNode().setTranslateY(0);
             player.setPositionX(0);
             player.setPositionY(0);
 
             player.setHealthPoints(100);
+            player.setArmor(50);
             //this.score = 0;
 
             try {
