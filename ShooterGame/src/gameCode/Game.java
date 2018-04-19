@@ -20,10 +20,11 @@ public class Game {
     private List<Zombie> zombies;
     private Text playerHP, playerArmor, magazineSize, poolSize, score;
 
-    private boolean isRunning = true;
-    private boolean createDrops = true;
     private boolean rPressed = false;
     private boolean isGameOver = false;
+    private boolean isGamePaused = false;
+    private boolean isRunning = true;
+    private boolean createDrops = true;
 
     private InitializeGame controller;
 
@@ -74,7 +75,7 @@ public class Game {
      *             the AnimationTimer
      */
     private void onUpdate(double time) {
-        if (isGameOver && rPressed){
+        if ((isGameOver && rPressed) || (isGamePaused && rPressed)){
             restartGame();
             controller.gameState.setVisible(false);
             controller.pressKey.setVisible(false);
@@ -91,7 +92,7 @@ public class Game {
                     player.damage(10);
                     if (!player.stillAlive()) {
                         System.out.println("Player is dead");
-                        //gameOver();
+                        gameOver();
                     }
                 }
 //                for (Zombie zombie2 : zombies) {
@@ -187,10 +188,12 @@ public class Game {
         if (isRunning) {
             this.isRunning = false;
             this.createDrops = false;
+            this.isGamePaused = true;
             controller.setGameIsPausedLabel(true);
         } else {
             this.isRunning = true;
             this.createDrops = true;
+            this.isGamePaused = false;
             controller.setGameIsPausedLabel(false);
         }
     }
@@ -203,45 +206,52 @@ public class Game {
         if (isRunning) {
             this.isRunning = false;
             this.createDrops = false;
-            controller.setGameOverLabel(true);
             this.isGameOver = true;
+            controller.setGameOverLabel(true);
         }
     }
 
     public void restartGame() {
 
-        for (Zombie zombie : zombies){
-            gameWindow.getChildren().remove(zombie.getSprite().getImageView());
-            gameWindow.getChildren().remove(zombie.getNode());
-        }
-       zombies.clear();
+        if (isGameOver || isGamePaused) {
 
-        player.getNode().setTranslateX(0);
-        player.getNode().setTranslateY(0);
-        player.setPositionX(0);
-        player.setPositionY(0);
-
-        player.setHealthPoints(100);
-        //this.score = 0;
-
-        try {
-            for (int i = 0; i < 10; i++) {
-                zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
-                zombies.get(i).setSpriteIdle("/resources/Art/Zombie/skeleton-idle_", ".png", 17);
-                zombies.get(i).setSpriteMoving("/resources/Art/Zombie/skeleton-move_", ".png", 17);
-                zombies.get(i).setSpriteMelee("/resources/Art/Zombie/skeleton-attack_", ".png", 9);
+            for (Zombie zombie : zombies) {
+                gameWindow.getChildren().remove(zombie.getSprite().getImageView());
+                gameWindow.getChildren().remove(zombie.getNode());
             }
-        } catch (Exception e) {
-            System.out.println("Error: Enemies did not load correctly");
-        }
+            zombies.clear();
 
-        for (Zombie zombie : zombies){
-            gameWindow.getChildren().addAll(zombie.getNode());
-            gameWindow.getChildren().addAll(zombie.getSprite().getImageView());
-        }
+            player.getNode().setTranslateX(0);
+            player.getNode().setTranslateY(0);
+            player.setPositionX(0);
+            player.setPositionY(0);
 
-        this.isRunning = true;
-        this.createDrops = true;
+            player.setHealthPoints(100);
+            //this.score = 0;
+
+            try {
+                for (int i = 0; i < 10; i++) {
+                    zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+                    zombies.get(i).setSpriteIdle("/resources/Art/Zombie/skeleton-idle_", ".png", 17);
+                    zombies.get(i).setSpriteMoving("/resources/Art/Zombie/skeleton-move_", ".png", 17);
+                    zombies.get(i).setSpriteMelee("/resources/Art/Zombie/skeleton-attack_", ".png", 9);
+                }
+            } catch (Exception e) {
+                System.out.println("Error: Enemies did not load correctly");
+            }
+
+            for (Zombie zombie : zombies) {
+                gameWindow.getChildren().addAll(zombie.getNode());
+                gameWindow.getChildren().addAll(zombie.getSprite().getImageView());
+            }
+
+            this.isRunning = true;
+            this.createDrops = true;
+
+            this.isGameOver = false;
+            this.isGamePaused = false;
+
+        }
 
     }
 

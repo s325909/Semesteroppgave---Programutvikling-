@@ -32,7 +32,7 @@ public class InitializeGame implements Initializable{
     @FXML private Pane gameWindow;
     @FXML private MenuBar topbar;
     @FXML private Text playerHP, playerArmor, magazineSize, poolSize, score;
-    @FXML protected Label gameState, pressKey, pressKey2;
+    @FXML protected Label gameState, pressKey, pressKey2, pressKey3;
   //  @FXML Button saveBtn, loadBtn;
   //  TextField fieldName = new TextField();
   //  TextField fieldHP = new TextField();
@@ -122,6 +122,8 @@ public class InitializeGame implements Initializable{
         pressKey.setText("Press R to Restart");
         pressKey2.setVisible(visible);
         pressKey2.setText("Press ESC to pop up in game Menu...IDK");
+        pressKey3.setVisible(visible);
+        pressKey3.setText("Testing");
     }
 
     /***
@@ -135,8 +137,9 @@ public class InitializeGame implements Initializable{
         pressKey.setVisible(visible);
         pressKey.setText("Press P to Continue");
         pressKey2.setVisible(visible);
-        pressKey2.setText("Press ESC to pop up in game Menu...IDK");
-
+        pressKey2.setText("Press R to Restart");
+        pressKey3.setVisible(visible);
+        pressKey3.setText("Press ESC to pop up in game Menu...IDK");
     }
 
     /***
