@@ -21,11 +21,11 @@ public class Game {
     private List<Zombie> zombies;
     private Text playerHP, playerArmor, magazineSize, poolSize, score;
 
-    private boolean rPressed = false;
-    private boolean isGameOver = false;
-    private boolean isGamePaused = false;
     private boolean isRunning = true;
     private boolean createDrops = true;
+    private boolean isGamePaused = false;
+    private boolean isGameOver = false;
+    private boolean restartable = false;
 
     private InitializeGame controller;
 
@@ -90,8 +90,8 @@ public class Game {
         return player;
     }
 
-    public void setrPressed(boolean rPressed) {
-        this.rPressed = rPressed;
+    public void setRestartable(boolean restartable) {
+        this.restartable = restartable;
     }
 
     public void setController(InitializeGame controller) {
@@ -106,7 +106,7 @@ public class Game {
      *             the AnimationTimer
      */
     private void onUpdate(double time) {
-        if ((isGameOver && rPressed) || (isGamePaused && rPressed)){
+        if ((isGameOver && restartable) || (isGamePaused && restartable)){
             restartGame();
             controller.gameState.setVisible(false);
             controller.pressKey.setVisible(false);
@@ -244,7 +244,14 @@ public class Game {
     }
 
     /***
-     * Method for restarting the game
+     * Method for restarting the game when GameOver or Paused
+     * The method will first try to remove all zombies and bonuses on the stage.
+     * Then set the player's position equals to the player's original start position,
+     * as well as resetting the player's hp, armor and score to it's original value.
+     * The method will then try to respawn all the zombies.
+     * Then set both "isRunning" and "createDrops" equals "true"
+     * as well as setting both "isGameOver" and "gameIsPaused" equals "false",
+     * which allows this method to run again after restarting the game
      */
     public void restartGame() {
 
@@ -255,6 +262,16 @@ public class Game {
                 gameWindow.getChildren().remove(zombie.getNode());
             }
             zombies.clear();
+
+            for (Shape shape : bonuses){
+                gameWindow.getChildren().remove(shape);
+            }
+            bonuses.clear();
+
+            for (Shape shape : bonuses2){
+                gameWindow.getChildren().remove(shape);
+            }
+            bonuses2.clear();
 
             player.resetPlayer();
             this.scoreNumber = 0;
