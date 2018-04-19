@@ -16,9 +16,6 @@ public class LoadSavedGame implements Initializable{
 
     @FXML
     Button loadBtn1, loadBtn2, loadBtn3;
-    @FXML
-    TextField fieldName = new TextField();
-    TextField fieldHP = new TextField();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
