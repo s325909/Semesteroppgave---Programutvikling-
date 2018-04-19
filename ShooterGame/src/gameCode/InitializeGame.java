@@ -32,9 +32,9 @@ public class InitializeGame implements Initializable{
     @FXML private MenuBar topbar;
     @FXML private Text playerHP, playerArmor, magazineSize, poolSize, score;
     @FXML protected Label gameState, pressKey, pressKey2, pressKey3;
-  //  @FXML Button saveBtn, loadBtn;
-  //  TextField fieldName = new TextField();
-  //  TextField fieldHP = new TextField();
+    int positionX, positionY, healthPoints, armor;
+    TextField fieldName = new TextField();
+    TextField fieldHP = new TextField();
 
     Stage stage = new Stage();
 
@@ -172,6 +172,14 @@ public class InitializeGame implements Initializable{
             if (e.getCode() == KeyCode.R)
                         game.setRestartable(false);
         });
+
+        /*gameWindow.getScene().setOnKeyPressed(event -> {
+            player.movePlayer(event);
+            if (event.getCode() == KeyCode.F5){
+                System.out.println("Game is saved");
+                saveGame();
+            }
+        });*/
     }
 
 
@@ -189,18 +197,18 @@ public class InitializeGame implements Initializable{
         }
     }
 
-    public void exitGame() {
-        System.exit(0);
-    }
-
-    public void saveGame(ActionEvent actionEvent) {
+    /***
+     * Method which will open a new window with Save option.
+     */
+    @FXML
+    public void saveGame() {
         Parent root;
         try {
             game.pauseGame();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("saveGame.fxml"));
             root = loader.load();
             InitializeSave initializeSave = loader.getController();
-            initializeSave.fieldHP.setText(this.playerHP.getText());
+            initializeSave.saveData = new SaveData(positionX, positionY, healthPoints, armor, playerHP, playerArmor, magazineSize, poolSize, score); //.setText(this.playerHP.getText());
             //root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
             Stage saveGame = new Stage();
             saveGame.setScene(new Scene(root, 600, 400));
@@ -213,7 +221,32 @@ public class InitializeGame implements Initializable{
     private int numberZombies;
     private int numberZombiesFields;
     private int numberGameFields;
+    /***
+     * Method which will open a new window with Load option.
+     */
+    @FXML
+    public void loadGame() {
+        Parent root;
+        try {
+            game.pauseGame();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("loadGame.fxml"));
+            root = loader.load();
+            LoadSavedGame loadSavedGame = loader.getController();
+            loadSavedGame.fieldHP.setText(this.playerHP.getText());
+            //root = FXMLLoader.load(getClass().getResource("loadGame.fxml"));
+            Stage loadGame = new Stage();
+            loadGame.setScene(new Scene(root, 600, 400));
+            loadGame.show();
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
+    }
 
+    public void exitGame() {
+
+        System.exit(0);
+
+    }
     public void quickLoad() {
         File loadFile;
         BufferedReader reader;

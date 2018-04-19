@@ -48,7 +48,7 @@ public class MainController implements Initializable{
         try {
             if(event.getSource() == loadGame) {
                 loadWindow = (Stage) loadGame.getScene().getWindow();
-                loadRoot = FXMLLoader.load(getClass().getResource("../menuOptions/loadFiles.fxml"));
+                loadRoot = FXMLLoader.load(getClass().getResource("../gameCode/loadGame.fxml"));
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
