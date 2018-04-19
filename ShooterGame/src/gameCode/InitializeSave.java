@@ -1,6 +1,8 @@
 package gameCode;
 
 import entities.Player;
+import javafx.beans.property.StringPropertyBase;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -29,24 +31,30 @@ public class InitializeSave implements Initializable {
      */
 
     //@FXML
-    public void saveGame() {
+    public void saveGame(ActionEvent actionEvent) {
+        Button btn = (Button) actionEvent.getSource();
+        String btnIdValue = btn.idProperty().getValue();
+        String saveGameName = null;
+        if(btnIdValue == "loadBtn1") {
+            saveGameName = "game1.save";
+        } else if(btnIdValue == "loadBtn2") {
+            saveGameName = "game2.save";
+        } else if(btnIdValue == "loadBtn3") {
+            saveGameName = "game3.save";
+        }
+
+        actionEvent.getSource();
         //saveBtn.setOnAction(event -> {
             SaveData data = new SaveData();
             data.name = fieldName.getText();
             data.hp = Integer.parseInt(fieldHP.getText());
-            System.out.println("her");
             try {
-                SaveLoadManager.save(data, writeName());
+                SaveLoadManager.save(data, saveGameName); //Bytt ut med saveGameName fra wrtieName og slett funksjon og InputField
             } catch (Exception e) {
                 System.out.println("Couldn't save" + e.getMessage());
             }
         //});
         Stage stage = (Stage) saveBtn.getScene().getWindow();
         stage.close();
-    }
-
-    @FXML
-    public String writeName() {
-        return fieldName.getText() + ".save";
     }
 }

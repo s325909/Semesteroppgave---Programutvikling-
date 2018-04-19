@@ -176,13 +176,13 @@ public class InitializeGame implements Initializable{
                         game.setRestartable(false);
         });
 
-        gameWindow.getScene().setOnKeyPressed(event -> {
+        /*gameWindow.getScene().setOnKeyPressed(event -> {
             player.movePlayer(event);
             if (event.getCode() == KeyCode.F5){
                 System.out.println("Game is saved");
                 saveGame();
             }
-        });
+        });*/
     }
 
 
