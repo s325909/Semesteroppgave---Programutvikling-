@@ -240,7 +240,7 @@ public class Game {
 
             player.setHealthPoints(100);
             player.setArmor(50);
-            //this.score = 0;
+            scoreNumber = 0;
 
             try {
                 for (int i = 0; i < 10; i++) {
