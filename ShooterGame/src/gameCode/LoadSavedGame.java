@@ -32,9 +32,7 @@ public class LoadSavedGame implements Initializable{
     public void loadGame() {
         loadBtn1.setOnAction(event->{
             try{
-                SaveData data = (SaveData) SaveLoadManager.load("1.save");
-                fieldName.setText(data.name);
-                fieldHP.setText(String.valueOf(data.hp));
+                SaveLoadManager.load("game1.save");
             } catch(Exception e) {
                 System.out.println("Couldn't load saved data");
             }
@@ -42,9 +40,7 @@ public class LoadSavedGame implements Initializable{
 
         loadBtn2.setOnAction(event->{
             try{
-                SaveData data = (SaveData) SaveLoadManager.load("Game.save");
-                fieldName.setText(data.name);
-                fieldHP.setText(String.valueOf(data.hp));
+                SaveLoadManager.load("game2.save");
             } catch(Exception e) {
                 System.out.println("Couldn't load saved data");
             }
@@ -52,9 +48,7 @@ public class LoadSavedGame implements Initializable{
 
         loadBtn3.setOnAction(event->{
             try{
-                SaveData data = (SaveData) SaveLoadManager.load("");
-                fieldName.setText(data.name);
-                fieldHP.setText(String.valueOf(data.hp));
+                SaveLoadManager.load("game3.save");
             } catch(Exception e) {
                 System.out.println("Couldn't load saved data");
             }

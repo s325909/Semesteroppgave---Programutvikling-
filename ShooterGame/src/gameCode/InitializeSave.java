@@ -18,8 +18,7 @@ public class InitializeSave implements Initializable {
     @FXML
     Button saveBtn;
     @FXML
-    TextField fieldName = new TextField();
-    TextField fieldHP = new TextField();
+    SaveData saveData = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -35,26 +34,25 @@ public class InitializeSave implements Initializable {
         Button btn = (Button) actionEvent.getSource();
         String btnIdValue = btn.idProperty().getValue();
         String saveGameName = null;
-        if(btnIdValue == "loadBtn1") {
+        if(btnIdValue.equals("loadBtn1")) {
             saveGameName = "game1.save";
-        } else if(btnIdValue == "loadBtn2") {
+        } else if(btnIdValue.equals("loadBtn2")) {
             saveGameName = "game2.save";
-        } else if(btnIdValue == "loadBtn3") {
+        } else if(btnIdValue.equals("loadBtn3")) {
             saveGameName = "game3.save";
         }
 
         actionEvent.getSource();
         //saveBtn.setOnAction(event -> {
-            SaveData data = new SaveData();
-            data.name = fieldName.getText();
-            data.hp = Integer.parseInt(fieldHP.getText());
+
+
             try {
-                SaveLoadManager.save(data, saveGameName); //Bytt ut med saveGameName fra wrtieName og slett funksjon og InputField
+                SaveLoadManager.save(saveData, saveGameName); //Bytt ut med saveGameName fra writeName og slett funksjon og InputField
             } catch (Exception e) {
                 System.out.println("Couldn't save" + e.getMessage());
             }
         //});
-        Stage stage = (Stage) saveBtn.getScene().getWindow();
+        Stage stage = (Stage) btn.getScene().getWindow();
         stage.close();
     }
 }

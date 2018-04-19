@@ -211,7 +211,7 @@ public class InitializeGame implements Initializable{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("saveGame.fxml"));
             root = loader.load();
             InitializeSave initializeSave = loader.getController();
-            initializeSave.fieldHP.setText(this.playerHP.getText());
+            initializeSave.saveData = new SaveData(player, zombies, playerHP, playerArmor, magazineSize, poolSize, score); //.setText(this.playerHP.getText());
             //root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
             Stage saveGame = new Stage();
             saveGame.setScene(new Scene(root, 600, 400));
