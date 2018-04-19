@@ -27,6 +27,7 @@ public class LoadSavedGame implements Initializable{
 
     @FXML
     public void loadGame() {
+
         loadBtn1.setOnAction(event->{
             try{
                 SaveLoadManager.load("game1.save");
