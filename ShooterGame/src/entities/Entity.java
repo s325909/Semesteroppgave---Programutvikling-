@@ -56,6 +56,16 @@ public class Entity{
         this.alive = true;
     }
 
+    public void setPosition(int positionX, int positionY) {
+        this.positionX = positionX;
+        this.positionY = positionY;
+    }
+
+    public void setTranslateNode(int positionX, int positionY) {
+        this.node.setTranslateX(positionX);
+        this.node.setTranslateY(positionY);
+    }
+
     /***
      * Method for checking for collision between two objects of type Node
      * @param otherEntity

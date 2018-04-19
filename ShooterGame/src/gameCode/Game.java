@@ -10,7 +10,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,11 +60,11 @@ public class Game {
     }
 
     public int[] gameInfo() {
-        int[] info = new int[player.playerInfo().length + 1];
-        for(int i = 0; i < player.playerInfo().length; i++) {
-            info[i] = player.playerInfo()[i];
+        int[] info = new int[player.getPlayerInfo().length + 1];
+        for(int i = 0; i < player.getPlayerInfo().length; i++) {
+            info[i] = player.getPlayerInfo()[i];
         }
-        info[player.playerInfo().length] = this.scoreNumber;
+        info[player.getPlayerInfo().length] = this.scoreNumber;
         return info;
     }
 

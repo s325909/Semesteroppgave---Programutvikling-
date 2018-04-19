@@ -214,36 +214,37 @@ public class InitializeGame implements Initializable{
     }
 
     public void quickLoad() {
+        File loadFile;
+        BufferedReader reader;
         try {
-            File loadFile = new File("quicksave.txt");
-            BufferedReader reader = new BufferedReader(new FileReader(loadFile));
+            loadFile = new File("quicksave.txt");
+            reader = new BufferedReader(new FileReader(loadFile));
 
             int[] temp = new int[game.gameInfo().length];
 
             for(int i = 0; i < temp.length; i++) {
-                System.out.println(reader.readLine());
                 temp[i] = Integer.valueOf(reader.readLine());
             }
-            System.out.println("Quickload successful");
             game.setGameInfo(temp);
             reader.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Quickload didn't complete");
         }
     }
 
     public void quickSave() {
+        File saveFile;
+        BufferedWriter writer;
         try {
-            File saveFile = new File("quicksave.txt");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(saveFile));
+            saveFile = new File("quicksave.txt");
+            writer = new BufferedWriter(new FileWriter(saveFile));
 
             for(int i = 0; i < game.gameInfo().length; i++) {
                 writer.write(Integer.toString(game.gameInfo()[i]) + "\n");
             }
-            System.out.println("Quicksave successful");
             writer.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Quicksave didn't complete");
         }
     }
 }

@@ -92,7 +92,7 @@ public class Player extends Movable {
         this.armor = armor;
     }
 
-    public int[] playerInfo() {
+    public int[] getPlayerInfo() {
         int[] info = {
                 getPositionX(),
                 getPositionY(),
@@ -113,8 +113,8 @@ public class Player extends Movable {
     }
 
     public void setPlayerInfo(int[] playerInfo) {
-        setPositionX(playerInfo[0]);
-        setPositionY(playerInfo[1]);
+        setPosition(playerInfo[0], playerInfo[1]);
+        setTranslateNode(playerInfo[0], playerInfo[1]);
         setHealthPoints(playerInfo[2]);
         setArmor(playerInfo[3]);
         getMagazinePistol().setNumberBullets(playerInfo[4]);
