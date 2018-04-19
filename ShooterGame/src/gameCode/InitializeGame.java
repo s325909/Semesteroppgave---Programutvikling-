@@ -232,7 +232,6 @@ public class InitializeGame implements Initializable{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("loadGame.fxml"));
             root = loader.load();
             LoadSavedGame loadSavedGame = loader.getController();
-            loadSavedGame.fieldHP.setText(this.playerHP.getText());
             //root = FXMLLoader.load(getClass().getResource("loadGame.fxml"));
             Stage loadGame = new Stage();
             loadGame.setScene(new Scene(root, 600, 400));
