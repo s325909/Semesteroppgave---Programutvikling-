@@ -120,7 +120,6 @@ public class InitializeGame implements Initializable{
         gameState.setTextFill(Color.INDIANRED);
         pressKey.setVisible(visible);
         pressKey.setText("Press R to Restart");
-        pressKey.setTextFill(Color.WHITE);
         pressKey2.setVisible(visible);
         pressKey2.setText("Press ESC to pop up in game Menu...IDK");
     }
@@ -135,8 +134,6 @@ public class InitializeGame implements Initializable{
         gameState.setTextFill(Color.WHITE);
         pressKey.setVisible(visible);
         pressKey.setText("Press P to Continue");
-        pressKey.setTextFill(Color.WHITE);
-        pressKey.setTextFill(Color.WHITE);
         pressKey2.setVisible(visible);
         pressKey2.setText("Press ESC to pop up in game Menu...IDK");
 
