@@ -21,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.MainController;
 
+import java.io.*;
 import java.net.URL;
 import java.lang.*;
 import java.util.ArrayList;
@@ -162,7 +163,11 @@ public class InitializeGame implements Initializable{
                 musicPlayer.muteVolume();
             } else if (e.getCode() == KeyCode.F5){
                 System.out.println("Game is saved");
-                saveGame(null);
+                //saveGame(null);
+                quickSave();
+            } else if (e.getCode() == KeyCode.F9) {
+                System.out.println("Load game");
+                quickLoad();
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {
@@ -205,6 +210,40 @@ public class InitializeGame implements Initializable{
             saveGame.show();
         } catch (Exception e) {
             System.out.println("Open SavePane Error");
+        }
+    }
+
+    public void quickLoad() {
+        try {
+            File loadFile = new File("quicksave.txt");
+            BufferedReader reader = new BufferedReader(new FileReader(loadFile));
+
+            int[] temp = new int[game.gameInfo().length];
+
+            for(int i = 0; i < temp.length; i++) {
+                System.out.println(reader.readLine());
+                temp[i] = Integer.valueOf(reader.readLine());
+            }
+            System.out.println("Quickload successful");
+            game.setGameInfo(temp);
+            reader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void quickSave() {
+        try {
+            File saveFile = new File("quicksave.txt");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(saveFile));
+
+            for(int i = 0; i < game.gameInfo().length; i++) {
+                writer.write(Integer.toString(game.gameInfo()[i]) + "\n");
+            }
+            System.out.println("Quicksave successful");
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

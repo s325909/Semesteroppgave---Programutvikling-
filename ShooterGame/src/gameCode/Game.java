@@ -10,6 +10,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +60,36 @@ public class Game {
         timer.start();
     }
 
+    public int[] gameInfo() {
+        int[] info = new int[player.playerInfo().length + 1];
+        for(int i = 0; i < player.playerInfo().length; i++) {
+            info[i] = player.playerInfo()[i];
+        }
+        info[player.playerInfo().length] = this.scoreNumber;
+        return info;
+    }
+
+    public void setGameInfo(int[] gameInfo) {
+        int[] playerInfo = new int[gameInfo.length - 1];
+        for(int i = 0; i < gameInfo.length - 1; i++) {
+            playerInfo[i] = gameInfo[i];
+        }
+        this.scoreNumber = gameInfo[gameInfo.length - 1];
+        player.setPlayerInfo(playerInfo);
+    }
+
+    public int getScoreNumber() {
+        return scoreNumber;
+    }
+
+    public void setScoreNumber(int scoreNumber) {
+        this.scoreNumber = scoreNumber;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
     public void setrPressed(boolean rPressed) {
         this.rPressed = rPressed;
     }
@@ -93,7 +124,7 @@ public class Game {
                     player.damage(10);
                     if (!player.stillAlive()) {
                         System.out.println("Player is dead");
-                        gameOver();
+                        //gameOver();
                     }
                 }
 //                for (Zombie zombie2 : zombies) {
@@ -212,6 +243,9 @@ public class Game {
         }
     }
 
+    /***
+     * Method for restarting the game
+     */
     public void restartGame() {
 
         if (isGameOver || isGamePaused) {
@@ -222,13 +256,8 @@ public class Game {
             }
             zombies.clear();
 
-            player.getNode().setTranslateX(0);
-            player.getNode().setTranslateY(0);
-            player.setPositionX(0);
-            player.setPositionY(0);
-
-            player.setHealthPoints(100);
-            //this.score = 0;
+            player.resetPlayer();
+            this.scoreNumber = 0;
 
             try {
                 for (int i = 0; i < 10; i++) {

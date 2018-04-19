@@ -92,6 +92,39 @@ public class Player extends Movable {
         this.armor = armor;
     }
 
+    public int[] playerInfo() {
+        int[] info = {
+                getPositionX(),
+                getPositionY(),
+                getHealthPoints(),
+                getArmor(),
+                getMagazinePistol().getNumberBullets(),
+                getMagazinePistol().getCurrentPool(),
+                getMagazineRifle().getNumberBullets(),
+                getMagazineRifle().getCurrentPool(),
+                getMagazineShotgun().getNumberBullets(),
+                getMagazineShotgun().getCurrentPool()};
+        return info;
+    }
+
+    public void resetPlayer() {
+        int[] values = {0,0,100,50,15,15,30,30,8,8};
+        setPlayerInfo(values);
+    }
+
+    public void setPlayerInfo(int[] playerInfo) {
+        setPositionX(playerInfo[0]);
+        setPositionY(playerInfo[1]);
+        setHealthPoints(playerInfo[2]);
+        setArmor(playerInfo[3]);
+        getMagazinePistol().setNumberBullets(playerInfo[4]);
+        getMagazinePistol().setCurrentPool(playerInfo[5]);
+        getMagazineRifle().setNumberBullets(playerInfo[6]);
+        getMagazineRifle().setCurrentPool(playerInfo[7]);
+        getMagazineShotgun().setNumberBullets(playerInfo[8]);
+        getMagazineShotgun().setCurrentPool(playerInfo[9]);
+    }
+
     /***
      * Method which is used for loading all the various weapon sprites into a 2-dimensional array.
      * @param sprites Requires a 2-dimensional array of type Sprite
