@@ -123,7 +123,6 @@ public class InitializeGame implements Initializable{
         pressKey2.setVisible(visible);
         pressKey2.setText("Press ESC to pop up in game Menu...IDK");
         pressKey3.setVisible(visible);
-        pressKey3.setText("Testing");
     }
 
     /***

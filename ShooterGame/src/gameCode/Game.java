@@ -80,6 +80,7 @@ public class Game {
             controller.gameState.setVisible(false);
             controller.pressKey.setVisible(false);
             controller.pressKey2.setVisible(false);
+            controller.pressKey3.setVisible(false);
         }
         if (isRunning) {
             player.update(time);
