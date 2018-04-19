@@ -143,9 +143,14 @@
          <right>
             <FlowPane prefHeight="687.0" prefWidth="89.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="40.0" prefWidth="89.0" style="-fx-background-color: Gray; -fx-border-color: Black;">
+                  <HBox prefHeight="36.0" prefWidth="138.0" style="-fx-background-color: Gray; -fx-border-color: Black;">
                      <children>
-                        <Text fx:id="score" strokeType="OUTSIDE" strokeWidth="0.0" text="00000" textAlignment="RIGHT" wrappingWidth="83.6708984375">
+                        <ImageView fitHeight="44.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/Art/Icon/circle_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Text fx:id="score" strokeType="OUTSIDE" strokeWidth="0.0" text="00000" textAlignment="RIGHT" wrappingWidth="87.6708984375">
                            <font>
                               <Font size="30.0" />
                            </font>

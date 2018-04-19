@@ -20,7 +20,7 @@ public class Sprite {
         this.iv = iv;
         try {
             String resource = getClass().getResource(spriteFileName).toURI().toString();
-            this.singleImage = new Image(resource, 100, 100, true, true);
+            this.singleImage = new Image(resource, 25, 25, true, true);
         } catch (Exception e) {
             System.out.println("Error: Unable to find requested file and SingleImage couldn't be created");
         }

@@ -1,9 +1,6 @@
 package entities;
 
-import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
-
-import java.util.List;
 
 public class Movable extends Entity {
 
@@ -26,6 +23,7 @@ public class Movable extends Entity {
     private double movementSpeed;
 
     private AudioClip[] basicSounds;
+    private AudioClip[] audioClips;
 
     public Movable() { }
 
@@ -157,10 +155,7 @@ public class Movable extends Entity {
     }
 
     public void stopX() {
-        if (getVelocityX() > 0)
-            setVelocityX(0.0);
-        else if (getVelocityX() < 0)
-            setVelocityX(0.0);
+        setVelocityX(0.0);
     }
 
     public void goUp() {
@@ -200,19 +195,11 @@ public class Movable extends Entity {
             super.setSprite(this.spriteMoving);
     }
 
-    public void loadBasicSounds(String[] audioFiles) {
-        this.basicSounds = loadAudio(audioFiles);
-    }
-
-    public void playBasicSounds(int index) {
-        this.basicSounds[index].play();
-    }
-
     public void playIdleSound(double time, int everyNthSecond) {
         int dur = (int)(time % everyNthSecond);
         System.out.println(dur);
         if (dur == 0) {
-            playBasicSounds(0);
+
         }
     }
 

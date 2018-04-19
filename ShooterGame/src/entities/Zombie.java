@@ -1,5 +1,10 @@
 package entities;
 
+import javafx.scene.media.AudioClip;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Zombie extends Movable {
 
     Sprite[] animations;
@@ -7,11 +12,13 @@ public class Zombie extends Movable {
     private Direction walkDirection;
     private int walkDistance;
     private Sprite[] animation;
+    private AudioClip[] audioClips;
 
     public Zombie(){}
 
     public Zombie(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
         super(filename, extension, numberImages, positionX, positionY, healthPoints, 1.0);
+        loadZombieAssets();
     }
 
     public void loadZombieAssets() {
@@ -24,17 +31,28 @@ public class Zombie extends Movable {
                 new SpriteParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
                 new SpriteParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
 
-        loadBasicSounds(zombieSounds);
+        this.audioClips = super.loadAudio(zombieSounds);
         this.animation = loadSprites(zombieAnimations);
-//        Sprite[] sprites = new Sprite[zombieAnimations.length];
-//        for(int i = 0; i < zombieAnimations.length; i++) {
-//            sprites[i] = loadSprites(zombieAnimations[i]
-//        }
     }
 
-//    public void setAnimation(int i) {
-//        super.setSprite(this.animation[i]);
-//    }
+    public void setAnimation(int i) {
+        super.setSprite(this.animation[i]);
+    }
+
+    public void setAudio(int i) {
+        super.playAudio(this.audioClips[i]);
+    }
+
+    public void playIdle() {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                setAudio(0);
+            }
+        };
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(task, 0, 1000); //start immediately, 1000ms period
+    }
 
     /***
      * Method which controls the bulletDirection of enemies, whereas they are drawn towards the Player.
@@ -85,74 +103,71 @@ public class Zombie extends Movable {
                 stopY();
                 setIdle();
                 this.walkDistance = 0;
-                //setAnimation(0);
+                setAnimation(0);
+                //playIdle();
                 break;
             case NORTH:
                 goUp();
                 stopX();
                 setMoving();
                 this.walkDistance--;
-                //setAnimation(1);
+                setAnimation(1);
                 break;
             case NORTHEAST:
                 goUp();
                 goRight();
                 setMoving();
                 this.walkDistance--;
-                //setAnimation(1);
+                setAnimation(1);
                 break;
             case EAST:
                 goRight();
                 stopY();
                 setMoving();
                 this.walkDistance--;
-                //setAnimation(1);
+                setAnimation(1);
                 break;
             case SOUTHEAST:
                 goDown();
                 goRight();
                 setMoving();
                 this.walkDistance--;
-                //setAnimation(1);
+                setAnimation(1);
                 break;
             case SOUTH:
                 goDown();
                 stopX();
                 setMoving();
                 this.walkDistance--;
+                setAnimation(1);
                 break;
             case SOUTHWEST:
                 goDown();
                 goLeft();
                 setMoving();
                 this.walkDistance--;
-                //setAnimation(1);
+                setAnimation(1);
                 break;
             case WEST:
                 goLeft();
                 stopY();
                 setMoving();
                 this.walkDistance--;
-                //setAnimation(1);
+                setAnimation(1);
                 break;
             case NORTHWEST:
                 goUp();
                 goLeft();
                 setMoving();
                 this.walkDistance--;
-                //setAnimation(1);
+                setAnimation(1);
                 break;
             default:
                 stopX();
                 stopY();
                 setIdle();
                 this.walkDistance = 0;
-                //setAnimation(0);
+                setAnimation(0);
         }
     }
-
-//    public void setAnimation(int i) {
-//        super.setSprite(this.animations[i]);
-//    }
-
 }

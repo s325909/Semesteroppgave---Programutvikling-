@@ -116,7 +116,7 @@ public class Game {
                             gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
 
                             this.scoreNumber += 100;
-                            Drop drop = new Drop(zombie.getPositionX(), zombie.getPositionY());
+                            Drop drop = new Drop("/resources/Art/Icon/circle_icon.png",zombie.getPositionX(), zombie.getPositionY());
                             drops.add(drop);
                         }
                     }

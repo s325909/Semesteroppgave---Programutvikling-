@@ -1,5 +1,6 @@
 package gameCode;
 
+import entities.Drop;
 import entities.Player;
 import entities.Zombie;
 import javafx.application.Platform;
@@ -43,6 +44,7 @@ public class InitializeGame implements Initializable{
     private List<Zombie> zombies = new ArrayList<>();
     private Game game;
     private SceneSizeChangeListener sceneChange;
+    private Drop drop;
 
     private MusicPlayer musicPlayer;
 
@@ -77,12 +79,10 @@ public class InitializeGame implements Initializable{
         try {
             for (int i = 0; i < 10; i++) {
                 zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
-                zombies.get(i).setSpriteIdle("/resources/Art/Zombie/skeleton-idle_", ".png", 17);
-                zombies.get(i).setSpriteMoving("/resources/Art/Zombie/skeleton-move_", ".png", 17);
-                zombies.get(i).setSpriteMelee("/resources/Art/Zombie/skeleton-attack_", ".png", 9);
+//                zombies.get(i).setSpriteIdle("/resources/Art/Zombie/skeleton-idle_", ".png", 17);
+//                zombies.get(i).setSpriteMoving("/resources/Art/Zombie/skeleton-move_", ".png", 17);
+//                zombies.get(i).setSpriteMelee("/resources/Art/Zombie/skeleton-attack_", ".png", 9);
             }
-//            for (int i = 0; i < 1; i++)
-//                zombies.get(i).loadZombieAssets();
         } catch (Exception e) {
             System.out.println("Error: Enemies did not load correctly");
         }

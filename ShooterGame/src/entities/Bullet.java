@@ -4,6 +4,7 @@ public class Bullet extends Movable {
 
     private int damage;
     private boolean drawn;
+    private Sprite[] sprites;
 
     public Bullet(int positionX, int positionY, double movementSpeed, int damage) {
         super(positionX, positionY, movementSpeed);
@@ -13,9 +14,22 @@ public class Bullet extends Movable {
     public Bullet(String filename, int positionX, int positionY, double movementSpeed, int damage) {
         super(filename, positionX, positionY, movementSpeed);
         this.damage = damage;
+        loadBulletImages();
+    }
+
+    public void loadBulletImages() {
+        String[] images = {
+                "/resources/Art/pistol_bullet.png"};
+
+        this.sprites = loadSprite(images);
+    }
+
+    public void setSprite(int i) {
+        super.setSprite(this.sprites[i]);
     }
 
     public void bulletDirection(Player player) {
+        setSprite(0);
         switch(player.getDirection()) {
             case NORTH:
                 setVelocityX(0);

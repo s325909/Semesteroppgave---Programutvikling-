@@ -17,21 +17,17 @@ public class Player extends Movable {
         KNIFE, PISTOL, RIFLE, SHOTGUN
     }
 
-    private int armor;
-
     private WeaponTypes equippedWeapon;
+    private int armor;
     private AudioClip[] weapon;
     private AudioClip[] basicSounds;
     private Sprite[][] allAnimation;
-
-    private boolean shotFired;
 
     private Magazine magazinePistol;
     private Magazine magazineRifle;
     private Magazine magazineShotgun;
 
     private List<Bullet> bulletList = new ArrayList<>();
-    //private Bullet bullet;
 
     public Player(){}
 
@@ -132,6 +128,14 @@ public class Player extends Movable {
 //        //System.out.println(maxHeight);
     }
 
+    public void setAnimation(int i, int j) {
+        super.setSprite(this.allAnimation[i][j]);
+    }
+
+    public Sprite[][] getAllAnimation() {
+        return allAnimation;
+    }
+
 
     /***
      * Method which will switch between which set of weapon animations that should be used based on a String value.
@@ -181,7 +185,6 @@ public class Player extends Movable {
             this.setArmor(200);
     }
 
-    @Override
     public void loadBasicSounds(String[] audioFiles) {
         this.basicSounds = loadAudio(audioFiles);
     }
@@ -196,14 +199,6 @@ public class Player extends Movable {
 
     public void playBasicSounds(int i) {
         this.basicSounds[i].play();
-    }
-
-    public void setAnimation(int i, int j) {
-        super.setSprite(this.allAnimation[i][j]);
-    }
-
-    public Sprite[][] getAllAnimation() {
-        return allAnimation;
     }
 
     public WeaponTypes getEquippedWeapon() {
