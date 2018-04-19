@@ -51,7 +51,7 @@ public class Drop extends Entity {
             player.armorPickup(25);
         } else if (randomNumber <= 9) {
             setSprite(4);
-            player.setMovementSpeed(player.getMovementSpeed() + 5);
+            //player.setMovementSpeed(player.getMovementSpeed() + 5);
         }
     }
 

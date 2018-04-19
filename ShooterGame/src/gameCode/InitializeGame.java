@@ -10,16 +10,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import main.MainController;
 
 import java.io.*;
 import java.net.URL;
@@ -213,6 +210,10 @@ public class InitializeGame implements Initializable{
         }
     }
 
+    private int numberZombies;
+    private int numberZombiesFields;
+    private int numberGameFields;
+
     public void quickLoad() {
         File loadFile;
         BufferedReader reader;
@@ -220,15 +221,26 @@ public class InitializeGame implements Initializable{
             loadFile = new File("quicksave.txt");
             reader = new BufferedReader(new FileReader(loadFile));
 
-            int[] temp = new int[game.gameInfo().length];
+            int[] tempPlayer = new int[numberGameFields];
+            int[][] tempZombie = new int[numberZombies][numberZombiesFields];
 
-            for(int i = 0; i < temp.length; i++) {
-                temp[i] = Integer.valueOf(reader.readLine());
+            for(int i = 0; i < tempPlayer.length; i++) {
+                tempPlayer[i] = Integer.valueOf(reader.readLine());
             }
-            game.setGameInfo(temp);
+
+            for(int i = 0; i < numberZombies; i++) {
+                for(int j = 0; j < numberZombiesFields; j++) {
+                    tempZombie[i][j] = Integer.valueOf(reader.readLine());
+                }
+            }
+
+            game.setGameInfo(tempPlayer);
+            game.setGameInfoZombie(tempZombie);
+
             reader.close();
         } catch (Exception e) {
             System.out.println("Quickload didn't complete");
+            System.out.println(e.getMessage());
         }
     }
 
@@ -239,12 +251,21 @@ public class InitializeGame implements Initializable{
             saveFile = new File("quicksave.txt");
             writer = new BufferedWriter(new FileWriter(saveFile));
 
-            for(int i = 0; i < game.gameInfo().length; i++) {
+            numberZombies = zombies.size();
+            numberGameFields = game.gameInfo().length;
+            numberZombiesFields = zombies.get(0).getZombieInfo().length;
+
+            for(int i = 0; i < numberGameFields; i++) {
                 writer.write(Integer.toString(game.gameInfo()[i]) + "\n");
+            }
+            for(int i = 0; i < numberZombies; i++) {
+                for(int j = 0; j < numberZombiesFields; j++)
+                    writer.write(Integer.toString(game.zombieInfo()[i][j]) + "\n");
             }
             writer.close();
         } catch (Exception e) {
             System.out.println("Quicksave didn't complete");
+            System.out.println(e.getMessage());
         }
     }
 }

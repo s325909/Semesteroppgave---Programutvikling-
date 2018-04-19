@@ -65,6 +65,7 @@ public class Game {
             info[i] = player.getPlayerInfo()[i];
         }
         info[player.getPlayerInfo().length] = this.scoreNumber;
+
         return info;
     }
 
@@ -75,6 +76,44 @@ public class Game {
         }
         this.scoreNumber = gameInfo[gameInfo.length - 1];
         player.setPlayerInfo(playerInfo);
+    }
+
+    public int[][] zombieInfo() {
+        int[][] zombieInfo = new int[zombies.size()][];
+        for(int i = 0; i < zombies.size(); i++) {
+            zombieInfo[i] = zombies.get(i).getZombieInfo();
+        }
+        return zombieInfo;
+    }
+
+    public void setGameInfoZombie(int[][] info) {
+//        if (zombies.size() > info.length) {
+//            for(int i = info.length; i < zombies.size(); i++) {
+//                zombies.remove(i);
+//                gameWindow.getChildren().removeAll(zombies.get(i).getNode(), zombies.get(i).getIv());
+//            }
+//        } else if (zombies.size() < info.length) {
+//            for(int i = zombies.size(); i < info.length; i++) {
+//                zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+//                gameWindow.getChildren().add(zombies.get(i).getNode());
+//                gameWindow.getChildren().add(zombies.get(i).getIv());
+//            }
+//        } else {
+//            System.out.println("like mange");
+//        }
+
+        for(Zombie zombie : zombies) {
+            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
+        }
+
+        zombies.clear();
+
+        System.out.println(info.length);
+        for(int i = 0; i < info.length; i++) {
+            for(int j = 0; j < zombies.get(0).getZombieInfo().length; i++) {
+                zombies.get(i).setZombieInfo(info[j]);
+            }
+        }
     }
 
     public int getScoreNumber() {
@@ -122,7 +161,7 @@ public class Game {
                 if (player.isColliding(zombie)) {
                     player.damage(10);
                     if (!player.stillAlive()) {
-                        System.out.println("Player is dead");
+                        //System.out.println("Player is dead");
                         //gameOver();
                     }
                 }
