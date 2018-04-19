@@ -212,6 +212,17 @@ public class Game {
         }
     }
 
+    /***
+     * Method for restarting the game when GameOver or Paused
+     * The method will first remove all zombies and bonuses on the stage.
+     * Then set the player's position equals to the player's original start position,
+     * as well as resetting the player's hp, armor and score to it's original value.
+     * The method will then start to respawn the zombies,
+     * and allow both the game to run and the bonuses to spawn,
+     * as well ass setting both "isGameOver" and "gameIsPaused" to false,
+     * which allows this method to run again after restarting the game
+     */
+
     public void restartGame() {
 
         if (isGameOver || isGamePaused) {
