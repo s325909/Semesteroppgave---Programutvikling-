@@ -20,7 +20,7 @@ public class Sprite {
         this.iv = iv;
         try {
             String resource = getClass().getResource(spriteFileName).toURI().toString();
-            this.singleImage = new Image(resource, 100, 100, true, true);
+            this.singleImage = new Image(resource, 25, 25, true, true);
         } catch (Exception e) {
             System.out.println("Error: Unable to find requested file and SingleImage couldn't be created");
         }
@@ -43,7 +43,7 @@ public class Sprite {
         }
         this.width = this.frames[0].getWidth();
         this.height = this.frames[0].getHeight();
-        this.duration = 0.016;
+        this.duration = 0.032;
         this.maxWidth = this.width;
         this.maxHeight = this.height;
     }

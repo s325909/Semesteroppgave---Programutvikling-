@@ -1,5 +1,6 @@
 package gameCode;
 
+import entities.Drop;
 import entities.Player;
 import entities.Zombie;
 import javafx.application.Platform;
@@ -20,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.MainController;
 
+import java.io.*;
 import java.net.URL;
 import java.lang.*;
 import java.util.ArrayList;
@@ -29,10 +31,10 @@ import java.util.ResourceBundle;
 
 public class InitializeGame implements Initializable{
 
-    @FXML Pane gameWindow;
-    @FXML MenuBar topbar;
-    @FXML Text playerHP, magazineSize, poolSize, score;
-    @FXML Label gameState, pressKey, pressKey2;
+    @FXML private Pane gameWindow;
+    @FXML private MenuBar topbar;
+    @FXML private Text playerHP, playerArmor, magazineSize, poolSize, score;
+    @FXML protected Label gameState, pressKey, pressKey2, pressKey3;
     @FXML Button saveBtn, loadBtn;
     TextField fieldName = new TextField();
     TextField fieldHP = new TextField();
@@ -43,6 +45,7 @@ public class InitializeGame implements Initializable{
     private List<Zombie> zombies = new ArrayList<>();
     private Game game;
     private SceneSizeChangeListener sceneChange;
+    private Drop drop;
 
     private MusicPlayer musicPlayer;
 
@@ -65,7 +68,7 @@ public class InitializeGame implements Initializable{
         }
 
         try {
-            player = new Player("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20, (int)gameWindow.getHeight()/2, (int)gameWindow.getWidth()/2, 100);
+            player = new Player("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20, (int)gameWindow.getHeight()/2, (int)gameWindow.getWidth()/2, 100,50);
             player.playerAnimation("knife");
         } catch (Exception e) {
             for (StackTraceElement element : e.getStackTrace()) {
@@ -74,14 +77,12 @@ public class InitializeGame implements Initializable{
             System.out.println("Error: Player did not load correctly");
         }
 
-        System.out.println(gameWindow.getHeight());
-
         try {
             for (int i = 0; i < 10; i++) {
                 zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
-                zombies.get(i).setSpriteIdle("/resources/Art/Zombie/skeleton-idle_", ".png", 17);
-                zombies.get(i).setSpriteMoving("/resources/Art/Zombie/skeleton-move_", ".png", 17);
-                zombies.get(i).setSpriteMelee("/resources/Art/Zombie/skeleton-attack_", ".png", 9);
+//                zombies.get(i).setSpriteIdle("/resources/Art/Zombie/skeleton-idle_", ".png", 17);
+//                zombies.get(i).setSpriteMoving("/resources/Art/Zombie/skeleton-move_", ".png", 17);
+//                zombies.get(i).setSpriteMelee("/resources/Art/Zombie/skeleton-attack_", ".png", 9);
             }
         } catch (Exception e) {
             System.out.println("Error: Enemies did not load correctly");
@@ -101,7 +102,7 @@ public class InitializeGame implements Initializable{
 
         // Initialize the game
 
-        game = new Game(player, zombies, gameWindow, playerHP, magazineSize, poolSize, score);
+        game = new Game(player, zombies, gameWindow, playerHP, playerArmor, magazineSize, poolSize, score);
 
         game.setController(this);
 
@@ -120,9 +121,9 @@ public class InitializeGame implements Initializable{
         gameState.setTextFill(Color.INDIANRED);
         pressKey.setVisible(visible);
         pressKey.setText("Press R to Restart");
-        pressKey.setTextFill(Color.WHITE);
         pressKey2.setVisible(visible);
         pressKey2.setText("Press ESC to pop up in game Menu...IDK");
+        pressKey3.setVisible(visible);
     }
 
     /***
@@ -135,11 +136,10 @@ public class InitializeGame implements Initializable{
         gameState.setTextFill(Color.WHITE);
         pressKey.setVisible(visible);
         pressKey.setText("Press P to Continue");
-        pressKey.setTextFill(Color.WHITE);
-        pressKey.setTextFill(Color.WHITE);
         pressKey2.setVisible(visible);
-        pressKey2.setText("Press ESC to pop up in game Menu...IDK");
-
+        pressKey2.setText("Press R to Restart");
+        pressKey3.setVisible(visible);
+        pressKey3.setText("Press ESC to pop up in game Menu...IDK");
     }
 
     /***
@@ -157,19 +157,23 @@ public class InitializeGame implements Initializable{
                 game.pauseGame();
 
             } else if (e.getCode() == KeyCode.R) {
-                game.setrPressed(true);
-                //game.restartGame();
-
-                    //System.out.println("Starting New Game...");
+                game.setRestartable(true);
 
             } else if (e.getCode() == KeyCode.M) {
                 musicPlayer.muteVolume();
+            } else if (e.getCode() == KeyCode.F5){
+                System.out.println("Game is saved");
+                //saveGame(null);
+                quickSave();
+            } else if (e.getCode() == KeyCode.F9) {
+                System.out.println("Load game");
+                quickLoad();
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {
             player.releasedPlayer(e);
             if (e.getCode() == KeyCode.R)
-                        game.setrPressed(false);
+                        game.setRestartable(false);
         });
 
         gameWindow.getScene().setOnKeyPressed(event -> {
@@ -242,5 +246,39 @@ public class InitializeGame implements Initializable{
 
         System.exit(0);
 
+    }
+    public void quickLoad() {
+        File loadFile;
+        BufferedReader reader;
+        try {
+            loadFile = new File("quicksave.txt");
+            reader = new BufferedReader(new FileReader(loadFile));
+
+            int[] temp = new int[game.gameInfo().length];
+
+            for(int i = 0; i < temp.length; i++) {
+                temp[i] = Integer.valueOf(reader.readLine());
+            }
+            game.setGameInfo(temp);
+            reader.close();
+        } catch (Exception e) {
+            System.out.println("Quickload didn't complete");
+        }
+    }
+
+    public void quickSave() {
+        File saveFile;
+        BufferedWriter writer;
+        try {
+            saveFile = new File("quicksave.txt");
+            writer = new BufferedWriter(new FileWriter(saveFile));
+
+            for(int i = 0; i < game.gameInfo().length; i++) {
+                writer.write(Integer.toString(game.gameInfo()[i]) + "\n");
+            }
+            writer.close();
+        } catch (Exception e) {
+            System.out.println("Quicksave didn't complete");
+        }
     }
 }

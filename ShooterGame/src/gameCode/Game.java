@@ -2,7 +2,6 @@ package gameCode;
 
 import entities.*;
 import javafx.animation.AnimationTimer;
-import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -19,28 +18,30 @@ public class Game {
     private Pane gameWindow;
     private Player player;
     private List<Zombie> zombies;
-    private Text playerHP, magazineSize, poolSize, score;
+    private Text playerHP, playerArmor, magazineSize, poolSize, score;
 
     private boolean isRunning = true;
     private boolean createDrops = true;
-    private boolean rPressed = false;
+    private boolean isGamePaused = false;
     private boolean isGameOver = false;
+    private boolean restartable = false;
 
     private InitializeGame controller;
 
-    private List<Bullet> bullets = new ArrayList<>();
+    private List<Drop> drops = new ArrayList<>();
     //private ArrayList<Entity> entityList = new ArrayList<>();
 
     private ArrayList<Rectangle> bonuses=new ArrayList<>();
     private ArrayList<Circle> bonuses2=new ArrayList<>();
     private int scoreNumber = 0;
 
-    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Text playerHP, Text magazineSize, Text poolSize, Text score){
+    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Text playerHP, Text playerArmor, Text magazineSize, Text poolSize, Text score){
 
         this.gameWindow = gameWindow;
         this.player = player;
         this.zombies = zombies;
         this.playerHP = playerHP;
+        this.playerArmor = playerArmor;
         this.magazineSize = magazineSize;
         this.poolSize = poolSize;
         this.score = score;
@@ -58,8 +59,38 @@ public class Game {
         timer.start();
     }
 
-    public void setrPressed(boolean rPressed) {
-        this.rPressed = rPressed;
+    public int[] gameInfo() {
+        int[] info = new int[player.getPlayerInfo().length + 1];
+        for(int i = 0; i < player.getPlayerInfo().length; i++) {
+            info[i] = player.getPlayerInfo()[i];
+        }
+        info[player.getPlayerInfo().length] = this.scoreNumber;
+        return info;
+    }
+
+    public void setGameInfo(int[] gameInfo) {
+        int[] playerInfo = new int[gameInfo.length - 1];
+        for(int i = 0; i < gameInfo.length - 1; i++) {
+            playerInfo[i] = gameInfo[i];
+        }
+        this.scoreNumber = gameInfo[gameInfo.length - 1];
+        player.setPlayerInfo(playerInfo);
+    }
+
+    public int getScoreNumber() {
+        return scoreNumber;
+    }
+
+    public void setScoreNumber(int scoreNumber) {
+        this.scoreNumber = scoreNumber;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setRestartable(boolean restartable) {
+        this.restartable = restartable;
     }
 
     public void setController(InitializeGame controller) {
@@ -74,36 +105,25 @@ public class Game {
      *             the AnimationTimer
      */
     private void onUpdate(double time) {
-        if (isGameOver && rPressed){
+        if ((isGameOver && restartable) || (isGamePaused && restartable)){
             restartGame();
             controller.gameState.setVisible(false);
             controller.pressKey.setVisible(false);
             controller.pressKey2.setVisible(false);
+            controller.pressKey3.setVisible(false);
         }
         if (isRunning) {
-
-//            entityList.add(player);
-//            entityList.addAll(zombies);
-//            entityList.addAll(bullets);
-
             player.update(time);
-
-            bullets = player.getBulletList();
-
-//            if (player.getShotFired()) {
-//                for (int i = 0; i < bullets.size(); i++) {
-//                    gameWindow.getChildren().add(bullets.get(i).getNode());
-//                }
-//            }
+            List<Bullet> bullets = player.getBulletList();
 
             for (Zombie zombie : zombies) {
                 zombie.update(time);
                 zombie.movement(player);
                 if (player.isColliding(zombie)) {
-                    player.setHealthPoints(player.getHealthPoints() - 10);
+                    player.damage(10);
                     if (!player.stillAlive()) {
                         System.out.println("Player is dead");
-                        gameOver();
+                        //gameOver();
                     }
                 }
 //                for (Zombie zombie2 : zombies) {
@@ -112,21 +132,44 @@ public class Game {
 //                    }
 //                }
                 for (Bullet bullet : bullets) {
-//                    bullet.update(time);
-                    bullet.bulletDirection(player);
+                    if (!bullet.isDrawn()) {
+                        gameWindow.getChildren().add(bullet.getNode());
+                        bullet.setDrawn();
+                    }
+                    //bullet.update(time);
+                    //bullet.bulletDirection(player);
                     if (bullet.isColliding(zombie)) {
                         bullet.setAlive(false);
+                        gameWindow.getChildren().removeAll(bullet.getNode(), bullet.getIv());
+
                         zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
-                        if (!zombie.stillAlive())
+                        if (!zombie.stillAlive()) {
+                            zombie.setAlive(false);
                             gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
-//                        if (!bullet.stillAlive())
-//                            gameWindow.getChildren().removeAll(bullet.getNode());
+
+                            this.scoreNumber += 100;
+                            Drop drop = new Drop("/resources/Art/Icon/circle_icon.png",zombie.getPositionX(), zombie.getPositionY());
+                            drops.add(drop);
+                        }
+                    }
+                    for (Drop drop : drops) {
+                        if (!drop.isDrawn()) {
+                           gameWindow.getChildren().add(drop.getNode());
+                           drop.setDrawn();
+                        }
+
+                        if(drop.isColliding(player)) {
+                            drop.randomPickup(player);
+                            drop.setAlive(false);
+                            gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
+                        }
                     }
                 }
             }
 
-//            bullets.removeIf(Bullet::isDead);
+            bullets.removeIf(Bullet::isDead);
             zombies.removeIf(Zombie::isDead);
+            drops.removeIf(Drop::isDead);
 
             for (Shape shape : this.bonuses) {
                 if (isColliding(player.getNode(), shape)) {
@@ -134,7 +177,8 @@ public class Game {
                     gameWindow.getChildren().remove(shape);
                     scoreNumber += 10;
 
-                    player.setHealthPoints(player.getHealthPoints() + 25);
+                    player.healthPickup(25);
+                    player.armorPickup(25);
                     player.getMagazinePistol().changeBulletNumber(15);
                     player.getMagazineRifle().changeBulletNumber(30);
                     player.getMagazineShotgun().changeBulletNumber(8);
@@ -147,7 +191,8 @@ public class Game {
                     gameWindow.getChildren().remove(shape);
                     scoreNumber += 20;
 
-                    player.setHealthPoints(player.getHealthPoints() + 50);
+                    player.healthPickup(50);
+                    player.armorPickup(50);
                     player.getMagazinePistol().changeBulletNumber(15);
                     player.getMagazineRifle().changeBulletNumber(30);
                     player.getMagazineShotgun().changeBulletNumber(8);
@@ -174,10 +219,12 @@ public class Game {
         if (isRunning) {
             this.isRunning = false;
             this.createDrops = false;
+            this.isGamePaused = true;
             controller.setGameIsPausedLabel(true);
         } else {
             this.isRunning = true;
             this.createDrops = true;
+            this.isGamePaused = false;
             controller.setGameIsPausedLabel(false);
         }
     }
@@ -190,45 +237,67 @@ public class Game {
         if (isRunning) {
             this.isRunning = false;
             this.createDrops = false;
-            controller.setGameOverLabel(true);
             this.isGameOver = true;
+            controller.setGameOverLabel(true);
         }
     }
 
+    /***
+     * Method for restarting the game when GameOver or Paused
+     * The method will first try to remove all zombies and bonuses on the stage.
+     * Then set the player's position equals to the player's original start position,
+     * as well as resetting the player's hp, armor and score to it's original value.
+     * The method will then try to respawn all the zombies.
+     * Then set both "isRunning" and "createDrops" equals "true"
+     * as well as setting both "isGameOver" and "gameIsPaused" equals "false",
+     * which allows this method to run again after restarting the game
+     */
     public void restartGame() {
 
-        for (Zombie zombie : zombies){
-            gameWindow.getChildren().remove(zombie.getSprite().getImageView());
-            gameWindow.getChildren().remove(zombie.getNode());
-        }
-       zombies.clear();
+        if (isGameOver || isGamePaused) {
 
-        player.getNode().setTranslateX(0);
-        player.getNode().setTranslateY(0);
-        player.setPositionX(0);
-        player.setPositionY(0);
-
-        player.setHealthPoints(100);
-        //this.score = 0;
-
-        try {
-            for (int i = 0; i < 10; i++) {
-                zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
-                zombies.get(i).setSpriteIdle("/resources/Art/Zombie/skeleton-idle_", ".png", 17);
-                zombies.get(i).setSpriteMoving("/resources/Art/Zombie/skeleton-move_", ".png", 17);
-                zombies.get(i).setSpriteMelee("/resources/Art/Zombie/skeleton-attack_", ".png", 9);
+            for (Zombie zombie : zombies) {
+                gameWindow.getChildren().remove(zombie.getSprite().getImageView());
+                gameWindow.getChildren().remove(zombie.getNode());
             }
-        } catch (Exception e) {
-            System.out.println("Error: Enemies did not load correctly");
-        }
+            zombies.clear();
 
-        for (Zombie zombie : zombies){
-            gameWindow.getChildren().addAll(zombie.getNode());
-            gameWindow.getChildren().addAll(zombie.getSprite().getImageView());
-        }
+            for (Shape shape : bonuses){
+                gameWindow.getChildren().remove(shape);
+            }
+            bonuses.clear();
 
-        this.isRunning = true;
-        this.createDrops = true;
+            for (Shape shape : bonuses2){
+                gameWindow.getChildren().remove(shape);
+            }
+            bonuses2.clear();
+
+            player.resetPlayer();
+            this.scoreNumber = 0;
+
+            try {
+                for (int i = 0; i < 10; i++) {
+                    zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+                    zombies.get(i).setSpriteIdle("/resources/Art/Zombie/skeleton-idle_", ".png", 17);
+                    zombies.get(i).setSpriteMoving("/resources/Art/Zombie/skeleton-move_", ".png", 17);
+                    zombies.get(i).setSpriteMelee("/resources/Art/Zombie/skeleton-attack_", ".png", 9);
+                }
+            } catch (Exception e) {
+                System.out.println("Error: Enemies did not load correctly");
+            }
+
+            for (Zombie zombie : zombies) {
+                gameWindow.getChildren().addAll(zombie.getNode());
+                gameWindow.getChildren().addAll(zombie.getSprite().getImageView());
+            }
+
+            this.isRunning = true;
+            this.createDrops = true;
+
+            this.isGameOver = false;
+            this.isGamePaused = false;
+
+        }
 
     }
 
@@ -238,11 +307,13 @@ public class Game {
      */
     public void updateHUD() {
         String hpLevel = String.valueOf(player.getHealthPoints());
+        String armorLevel = String.valueOf(player.getArmor());
         String magazineLevel = String.valueOf(player.getMagazineCount());
         String poolLevel = String.format("%02d", player.getAmmoPool());
         String score = String.format("%05d", this.scoreNumber);
 
         this.playerHP.setText(hpLevel);
+        this.playerArmor.setText(armorLevel);
         this.magazineSize.setText(magazineLevel);
         this.poolSize.setText(poolLevel);
         this.score.setText(score);

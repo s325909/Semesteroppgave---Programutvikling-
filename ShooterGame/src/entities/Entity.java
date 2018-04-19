@@ -33,7 +33,8 @@ public class Entity{
 
     public Entity(String filename, int positionX, int positionY) {
         this.iv = new ImageView();
-        this.sprite = new Sprite(this.iv, filename);
+        this.spriteDefault = new Sprite(this.iv, filename);
+        this.sprite = this.spriteDefault;
         this.node = new Rectangle(positionX, positionY, Color.GREEN);
         this.positionX = positionX;
         this.positionY = positionY;
@@ -55,6 +56,16 @@ public class Entity{
         this.alive = true;
     }
 
+    public void setPosition(int positionX, int positionY) {
+        this.positionX = positionX;
+        this.positionY = positionY;
+    }
+
+    public void setTranslateNode(int positionX, int positionY) {
+        this.node.setTranslateX(positionX);
+        this.node.setTranslateY(positionY);
+    }
+
     /***
      * Method for checking for collision between two objects of type Node
      * @param otherEntity
@@ -69,6 +80,23 @@ public class Entity{
         this.sprite.setHeight(height);
     }
 
+    public Sprite[] loadSprites(SpriteParam[] spriteParam) {
+        Sprite[] sprites = new Sprite[spriteParam.length];
+        for(int i = 0; i < sprites.length; i++) {
+            sprites[i] = new Sprite(this.iv, spriteParam[i].filename, spriteParam[i].extension, spriteParam[i].numberImages);
+        }
+        return sprites;
+    }
+
+    public Sprite[] loadSprite(String[] filename) {
+        Sprite[] sprite = new Sprite[filename.length];
+        for(int i = 0; i < sprite.length; i++) {
+            sprite[i] = new Sprite(this.iv, filename[i]);
+        }
+        System.out.println("Success");
+        return sprite;
+    }
+
     public AudioClip[] loadAudio(String[] audioFiles) {
         AudioClip[] clips = new AudioClip[audioFiles.length];
         for(int i = 0; i < clips.length; i++) {
@@ -79,12 +107,8 @@ public class Entity{
         return clips;
     }
 
-    public Sprite[] loadSprites(SpriteParam[] spriteParam) {
-        Sprite[] sprites = new Sprite[spriteParam.length];
-        for(int i = 0; i < sprites.length; i++) {
-            sprites[i] = new Sprite(this.iv, spriteParam[i].filename, spriteParam[i].extension, spriteParam[i].numberImages);
-        }
-        return sprites;
+    public void playAudio(AudioClip audioClip) {
+        audioClip.play();
     }
 
     public boolean stillAlive() {
@@ -156,7 +180,7 @@ public class Entity{
     }
 
     /***
-     * Inner class which
+     * Inner class used in combination with creating a 2-dimensional Sprite array.
      */
     public class SpriteParam {
         String filename;

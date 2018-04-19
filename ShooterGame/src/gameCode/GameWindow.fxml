@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -55,49 +56,66 @@
             </MenuBar>
          </top>
          <bottom>
-            <FlowPane prefHeight="32.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+            <FlowPane alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="1280.0" rowValignment="TOP" style="-fx-background-color: Gray; -fx-border-color: Black;" BorderPane.alignment="CENTER">
                <children>
-                  <VBox prefHeight="65.0" prefWidth="7.0" />
-                  <VBox fx:id="hp_sign" prefHeight="65.0" prefWidth="146.0">
+                  <HBox prefHeight="13.0" prefWidth="19.0" />
+                  <HBox prefHeight="10.0" prefWidth="108.0">
                      <children>
-                        <HBox prefHeight="0.0" prefWidth="146.0">
-                           <children>
-                              <ImageView fitHeight="60.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../resources/Art/hp_sign.png" />
-                                 </image>
-                              </ImageView>
-                              <HBox prefHeight="60.0" prefWidth="120.0">
-                                 <children>
-                                    <Text fx:id="playerHP" strokeType="OUTSIDE" strokeWidth="0.0" text="100" textAlignment="CENTER" wrappingWidth="77.13671875">
-                                       <font>
-                                          <Font size="40.0" />
-                                       </font>
-                                    </Text>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </HBox>
-                     </children></VBox>
-                  <VBox prefHeight="65.0" prefWidth="432.0" />
-                  <VBox prefHeight="25.0" prefWidth="75.0">
-                     <children>
-                        <Text fx:id="magazineSize" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="131.13671875">
+                        <ImageView fitHeight="63.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/Art/Icon/hp_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Text fx:id="playerHP" strokeType="OUTSIDE" strokeWidth="0.0" text="100" textAlignment="CENTER" wrappingWidth="66.13671875">
                            <font>
-                              <Font size="40.0" />
+                              <Font size="30.0" />
                            </font>
                         </Text>
                      </children>
-                  </VBox>
-                  <VBox prefHeight="0.0" prefWidth="98.0">
+                  </HBox>
+                  <HBox prefHeight="30.0" prefWidth="99.0">
                      <children>
-                        <Text fx:id="poolSize" strokeType="OUTSIDE" strokeWidth="0.0" text="00" wrappingWidth="46.171875">
+                        <ImageView fitHeight="43.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/Art/Icon/armor_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Text fx:id="playerArmor" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="58.5625">
                            <font>
-                              <Font size="40.0" />
+                              <Font size="30.0" />
                            </font>
                         </Text>
                      </children>
-                  </VBox>
+                  </HBox>
+                  <HBox prefHeight="41.0" prefWidth="840.0" />
+                  <HBox prefHeight="18.0" prefWidth="105.0">
+                     <children>
+                        <ImageView fitHeight="42.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/Art/Icon/mag_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Text fx:id="magazineSize" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="44.13671875">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="20.0" prefWidth="84.0">
+                     <children>
+                        <ImageView fitHeight="41.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/Art/Icon/pool_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Text fx:id="poolSize" strokeType="OUTSIDE" strokeWidth="0.0" text="00" textAlignment="CENTER" wrappingWidth="47.171875">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
                </children>
             </FlowPane>
          </bottom>
@@ -109,28 +127,50 @@
                      <font>
                         <Font name="Copperplate Gothic Bold" size="100.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                     </VBox.margin>
                   </Label>
                   <Label fx:id="pressKey" alignment="CENTER" textFill="WHITE" visible="false">
                      <font>
                         <Font name="Copperplate Gothic Light" size="36.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                     </VBox.margin>
                   </Label>
-                  <Label fx:id="pressKey2" textFill="WHITE" visible="false">
+                  <Label fx:id="pressKey2" alignment="CENTER" textFill="WHITE" visible="false">
                      <font>
                         <Font name="Copperplate Gothic Light" size="36.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="pressKey3" alignment="CENTER" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="36.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                     </VBox.margin>
                   </Label>
                </children>
             </VBox>
          </center>
          <right>
-            <FlowPane prefHeight="623.0" prefWidth="116.0" BorderPane.alignment="CENTER">
+            <FlowPane prefHeight="687.0" prefWidth="89.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="118.0" prefWidth="43.0">
+                  <HBox prefHeight="36.0" prefWidth="138.0" style="-fx-background-color: Gray; -fx-border-color: Black;">
                      <children>
-                        <Text fx:id="score" strokeType="OUTSIDE" strokeWidth="0.0" text="00000" wrappingWidth="113.6708984375">
+                        <ImageView fitHeight="44.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/Art/Icon/circle_icon.png" />
+                           </image>
+                        </ImageView>
+                        <Text fx:id="score" strokeType="OUTSIDE" strokeWidth="0.0" text="00000" textAlignment="RIGHT" wrappingWidth="87.6708984375">
                            <font>
-                              <Font size="40.0" />
+                              <Font size="30.0" />
                            </font>
                         </Text>
                      </children>

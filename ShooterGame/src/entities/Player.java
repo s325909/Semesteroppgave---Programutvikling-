@@ -1,11 +1,15 @@
 package entities;
 
+import gameCode.Game;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import gameCode.Game;
 
 public class Player extends Movable {
 
@@ -14,18 +18,16 @@ public class Player extends Movable {
     }
 
     private WeaponTypes equippedWeapon;
+    private int armor;
     private AudioClip[] weapon;
     private AudioClip[] basicSounds;
     private Sprite[][] allAnimation;
-
-    private boolean shotFired;
 
     private Magazine magazinePistol;
     private Magazine magazineRifle;
     private Magazine magazineShotgun;
 
     private List<Bullet> bulletList = new ArrayList<>();
-    private Bullet bullet;
 
     public Player(){}
 
@@ -37,7 +39,7 @@ public class Player extends Movable {
         super(filename, positionX, positionY);
     }
 
-    public Player(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
+    public Player(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints, int armor) {
         super(filename, extension, numberImages, positionX, positionY, healthPoints, 5.0);
 
         String[] playerSounds = {
@@ -87,6 +89,40 @@ public class Player extends Movable {
         magazinePistol = new Magazine(15, 30);
         magazineRifle = new Magazine(30,90);
         magazineShotgun = new Magazine(8,32);
+        this.armor = armor;
+    }
+
+    public int[] getPlayerInfo() {
+        int[] info = {
+                getPositionX(),
+                getPositionY(),
+                getHealthPoints(),
+                getArmor(),
+                getMagazinePistol().getNumberBullets(),
+                getMagazinePistol().getCurrentPool(),
+                getMagazineRifle().getNumberBullets(),
+                getMagazineRifle().getCurrentPool(),
+                getMagazineShotgun().getNumberBullets(),
+                getMagazineShotgun().getCurrentPool()};
+        return info;
+    }
+
+    public void resetPlayer() {
+        int[] values = {0,0,100,50,15,15,30,30,8,8};
+        setPlayerInfo(values);
+    }
+
+    public void setPlayerInfo(int[] playerInfo) {
+        setPosition(playerInfo[0], playerInfo[1]);
+        setTranslateNode(playerInfo[0], playerInfo[1]);
+        setHealthPoints(playerInfo[2]);
+        setArmor(playerInfo[3]);
+        getMagazinePistol().setNumberBullets(playerInfo[4]);
+        getMagazinePistol().setCurrentPool(playerInfo[5]);
+        getMagazineRifle().setNumberBullets(playerInfo[6]);
+        getMagazineRifle().setCurrentPool(playerInfo[7]);
+        getMagazineShotgun().setNumberBullets(playerInfo[8]);
+        getMagazineShotgun().setCurrentPool(playerInfo[9]);
     }
 
     /***
@@ -125,6 +161,14 @@ public class Player extends Movable {
 //        //System.out.println(maxHeight);
     }
 
+    public void setAnimation(int i, int j) {
+        super.setSprite(this.allAnimation[i][j]);
+    }
+
+    public Sprite[][] getAllAnimation() {
+        return allAnimation;
+    }
+
 
     /***
      * Method which will switch between which set of weapon animations that should be used based on a String value.
@@ -143,7 +187,37 @@ public class Player extends Movable {
             this.equippedWeapon = WeaponTypes.KNIFE;
     }
 
-    @Override
+    public void damage(int damage) {
+        if (this.getArmor() > 0) {
+            this.setArmor(this.getArmor() - damage);
+            this.setHealthPoints(this.getHealthPoints() - damage / 2);
+        } else {
+            this.setHealthPoints(this.getHealthPoints() - damage);
+        }
+
+        if (this.getArmor() < 0)
+            this.setArmor(0);
+
+        if (this.getHealthPoints() > 0)
+            this.setHealthPoints(this.getHealthPoints());
+        else
+            this.setHealthPoints(0);
+    }
+
+    public void healthPickup(int hpChange) {
+        if (this.getHealthPoints() + hpChange <= 100)
+            this.setHealthPoints(this.getHealthPoints() + hpChange);
+        else
+            this.setHealthPoints(100);
+    }
+
+    public void armorPickup(int armorChange) {
+        if (this.getArmor() + armorChange <= 200)
+            this.setArmor(this.getArmor() + armorChange);
+        else
+            this.setArmor(200);
+    }
+
     public void loadBasicSounds(String[] audioFiles) {
         this.basicSounds = loadAudio(audioFiles);
     }
@@ -158,14 +232,6 @@ public class Player extends Movable {
 
     public void playBasicSounds(int i) {
         this.basicSounds[i].play();
-    }
-
-    public void setAnimation(int i, int j) {
-        super.setSprite(this.allAnimation[i][j]);
-    }
-
-    public Sprite[][] getAllAnimation() {
-        return allAnimation;
     }
 
     public WeaponTypes getEquippedWeapon() {
@@ -294,16 +360,6 @@ public class Player extends Movable {
         }
     }
 
-    public boolean getShotFired() {
-        if (shotFired) {
-            shotFired = false;
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     /***
      * Method for running the changeBulletNumber() method in Magazine, and playing the appropriate sound.
      * Adds a check to ensure that the magazine isn't empty. This check ensures to correctly perform the
@@ -319,8 +375,7 @@ public class Player extends Movable {
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
                     System.out.println("Pistol fired");
-                    shotFired = true;
-                    bullet = new Bullet(getPositionX(), getPositionY(), 20, 20);
+                    Bullet bullet = new Bullet(getPositionX(), getPositionY(), 20, 20);
                     bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
@@ -431,6 +486,14 @@ public class Player extends Movable {
         return magazineShotgun;
     }
 
+    public int getArmor() {
+        return armor;
+    }
+
+    public void setArmor(int armor) {
+        this.armor = armor;
+    }
+
     /***
      * Inner class for handling magazine count and ammunition pool for the Player.
      * Controls whether a new Bullet can be created when a weapon is fired.
@@ -521,6 +584,14 @@ public class Player extends Movable {
 
         public void setCurrentPool(int currentPool) {
             this.currentPool = currentPool;
+        }
+
+        public int getMaxSize() {
+            return maxSize;
+        }
+
+        public int getMaxPool() {
+            return maxPool;
         }
     }
 }
