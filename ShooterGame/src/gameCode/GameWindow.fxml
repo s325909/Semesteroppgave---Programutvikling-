@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -126,16 +127,33 @@
                      <font>
                         <Font name="Copperplate Gothic Bold" size="100.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                     </VBox.margin>
                   </Label>
                   <Label fx:id="pressKey" alignment="CENTER" textFill="WHITE" visible="false">
                      <font>
                         <Font name="Copperplate Gothic Light" size="36.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                     </VBox.margin>
                   </Label>
-                  <Label fx:id="pressKey2" textFill="WHITE" visible="false">
+                  <Label fx:id="pressKey2" alignment="CENTER" textFill="WHITE" visible="false">
                      <font>
                         <Font name="Copperplate Gothic Light" size="36.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="pressKey3" alignment="CENTER" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="36.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                     </VBox.margin>
                   </Label>
                </children>
             </VBox>
