@@ -33,8 +33,6 @@ public class InitializeGame implements Initializable{
     @FXML private Text playerHP, playerArmor, magazineSize, poolSize, score;
     @FXML protected Label gameState, pressKey, pressKey2, pressKey3;
     int positionX, positionY, healthPoints, armor;
-    TextField fieldName = new TextField();
-    TextField fieldHP = new TextField();
 
     Stage stage = new Stage();
 
