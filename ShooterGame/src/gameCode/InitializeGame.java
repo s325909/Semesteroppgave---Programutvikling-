@@ -156,7 +156,7 @@ public class InitializeGame implements Initializable{
                 game.pauseGame();
 
             } else if (e.getCode() == KeyCode.R) {
-                game.setrPressed(true);
+                game.setRestartable(true);
 
             } else if (e.getCode() == KeyCode.M) {
                 musicPlayer.muteVolume();
@@ -168,7 +168,7 @@ public class InitializeGame implements Initializable{
         gameWindow.getScene().setOnKeyReleased(e -> {
             player.releasedPlayer(e);
             if (e.getCode() == KeyCode.R)
-                        game.setrPressed(false);
+                        game.setRestartable(false);
         });
     }
 

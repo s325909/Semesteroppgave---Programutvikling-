@@ -20,11 +20,11 @@ public class Game {
     private List<Zombie> zombies;
     private Text playerHP, playerArmor, magazineSize, poolSize, score;
 
-    private boolean rPressed = false;
-    private boolean isGameOver = false;
-    private boolean isGamePaused = false;
     private boolean isRunning = true;
     private boolean createDrops = true;
+    private boolean isGamePaused = false;
+    private boolean isGameOver = false;
+    private boolean restartable = false;
 
     private InitializeGame controller;
 
@@ -59,8 +59,8 @@ public class Game {
         timer.start();
     }
 
-    public void setrPressed(boolean rPressed) {
-        this.rPressed = rPressed;
+    public void setRestartable(boolean restartable) {
+        this.restartable = restartable;
     }
 
     public void setController(InitializeGame controller) {
@@ -75,7 +75,7 @@ public class Game {
      *             the AnimationTimer
      */
     private void onUpdate(double time) {
-        if ((isGameOver && rPressed) || (isGamePaused && rPressed)){
+        if ((isGameOver && restartable) || (isGamePaused && restartable)){
             restartGame();
             controller.gameState.setVisible(false);
             controller.pressKey.setVisible(false);
