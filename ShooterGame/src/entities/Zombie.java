@@ -69,6 +69,7 @@ public class Zombie extends Movable {
 
     public void setZombieInfo(int[] zombieInfo) {
         setPosition(zombieInfo[0], zombieInfo[1]);
+        setTranslateNode(zombieInfo[0], zombieInfo[1]);
         setHealthPoints(zombieInfo[2]);
     }
 

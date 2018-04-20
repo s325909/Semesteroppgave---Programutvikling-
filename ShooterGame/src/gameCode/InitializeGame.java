@@ -210,10 +210,6 @@ public class InitializeGame implements Initializable{
         }
     }
 
-    private int numberZombies;
-    private int numberZombiesFields;
-    private int numberGameFields;
-
     public void quickLoad() {
         File loadFile;
         BufferedReader reader;
@@ -221,12 +217,17 @@ public class InitializeGame implements Initializable{
             loadFile = new File("quicksave.txt");
             reader = new BufferedReader(new FileReader(loadFile));
 
-            int[] tempPlayer = new int[numberGameFields];
-            int[][] tempZombie = new int[numberZombies][numberZombiesFields];
+            int numberGameFields = Integer.valueOf(reader.readLine());
 
+            int[] tempPlayer = new int[numberGameFields];
             for(int i = 0; i < tempPlayer.length; i++) {
                 tempPlayer[i] = Integer.valueOf(reader.readLine());
             }
+
+            int numberZombies = Integer.valueOf(reader.readLine());
+            int numberZombiesFields = Integer.valueOf(reader.readLine());
+
+            int[][] tempZombie = new int[numberZombies][numberZombiesFields];
 
             for(int i = 0; i < numberZombies; i++) {
                 for(int j = 0; j < numberZombiesFields; j++) {
@@ -234,6 +235,8 @@ public class InitializeGame implements Initializable{
                 }
             }
 
+            System.out.println("Player array length: " + tempPlayer.length);
+            System.out.println("Zombie 2d array length: " + tempZombie.length);
             game.setGameInfo(tempPlayer);
             game.setGameInfoZombie(tempZombie);
 
@@ -251,17 +254,24 @@ public class InitializeGame implements Initializable{
             saveFile = new File("quicksave.txt");
             writer = new BufferedWriter(new FileWriter(saveFile));
 
-            numberZombies = zombies.size();
-            numberGameFields = game.gameInfo().length;
-            numberZombiesFields = zombies.get(0).getZombieInfo().length;
+            int numberGameFields = game.gameInfo().length;
+            int numberZombies = zombies.size();
+            int numberZombiesFields = zombies.get(0).getZombieInfo().length;
+
+            writer.write(Integer.toString(numberGameFields) + "\n");
 
             for(int i = 0; i < numberGameFields; i++) {
                 writer.write(Integer.toString(game.gameInfo()[i]) + "\n");
             }
+
+            writer.write(Integer.toString(numberZombies) + "\n");
+            writer.write(Integer.toString(numberZombiesFields) + "\n");
+
             for(int i = 0; i < numberZombies; i++) {
                 for(int j = 0; j < numberZombiesFields; j++)
-                    writer.write(Integer.toString(game.zombieInfo()[i][j]) + "\n");
+                    writer.write(Integer.toString(game.GameInfoZombie()[i][j]) + "\n");
             }
+
             writer.close();
         } catch (Exception e) {
             System.out.println("Quicksave didn't complete");

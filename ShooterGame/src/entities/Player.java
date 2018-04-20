@@ -310,6 +310,8 @@ public class Player extends Movable {
         } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != WeaponTypes.KNIFE) {
             j = 4;
             reload(i,j, audioReload);
+        } else if (keyEvent.getCode() == KeyCode.F) {
+            setEquippedWeapon(WeaponTypes.KNIFE);
         }
 
         if (keyEvent.getCode() == KeyCode.DIGIT1)

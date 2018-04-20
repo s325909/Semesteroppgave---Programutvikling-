@@ -52,7 +52,7 @@ public class Game {
             public void handle(long now) {
                 double time = (now - startNanoTime) / 1000000000.0;
                 onUpdate(time);
-                bonus();
+//                bonus();
                 updateHUD();
             }
         };
@@ -69,16 +69,16 @@ public class Game {
         return info;
     }
 
-    public void setGameInfo(int[] gameInfo) {
-        int[] playerInfo = new int[gameInfo.length - 1];
-        for(int i = 0; i < gameInfo.length - 1; i++) {
-            playerInfo[i] = gameInfo[i];
+    public void setGameInfo(int[] info) {
+        int[] playerInfo = new int[info.length - 1];
+        for (int i = 0; i < info.length - 1; i++) {
+            playerInfo[i] = info[i];
         }
-        this.scoreNumber = gameInfo[gameInfo.length - 1];
+        this.scoreNumber = info[info.length - 1];
         player.setPlayerInfo(playerInfo);
     }
 
-    public int[][] zombieInfo() {
+    public int[][] GameInfoZombie() {
         int[][] zombieInfo = new int[zombies.size()][];
         for(int i = 0; i < zombies.size(); i++) {
             zombieInfo[i] = zombies.get(i).getZombieInfo();
@@ -102,17 +102,16 @@ public class Game {
 //            System.out.println("like mange");
 //        }
 
-        for(Zombie zombie : zombies) {
+        for (Zombie zombie : zombies) {
             gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
+            zombie.setAlive(false);
         }
+        zombies.removeIf(Zombie::isDead);
 
-        zombies.clear();
-
-        System.out.println(info.length);
-        for(int i = 0; i < info.length; i++) {
-            for(int j = 0; j < zombies.get(0).getZombieInfo().length; i++) {
-                zombies.get(i).setZombieInfo(info[j]);
-            }
+        for (int i = 0; i < info.length; i++) {
+            zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+            gameWindow.getChildren().addAll(zombies.get(i).getNode(), zombies.get(i).getIv());
+            zombies.get(i).setZombieInfo(info[i]);
         }
     }
 
