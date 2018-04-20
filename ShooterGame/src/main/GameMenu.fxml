@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -12,7 +13,10 @@
 <?import javafx.scene.text.Font?>
 
 <GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainController">
-   <children>
+
+    <stylesheets><URL value="@../menuOptions/StyleMenuOptions.css" /></stylesheets>
+
+    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
          <children>
             <ImageView pickOnBounds="true" VBox.vgrow="ALWAYS">
@@ -28,7 +32,7 @@
                   <Font name="Copperplate Gothic Bold" size="96.0" />
                </font>
             </Label>
-            <Button fx:id="newGame" mnemonicParsing="false" onAction="#launchGame" prefHeight="75.0" prefWidth="250.0" text="New Game" textAlignment="CENTER">
+            <Button fx:id="newGame" mnemonicParsing="false" onAction="#launchGame" text="NEW GAME" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="15.0" top="15.0" />
                </VBox.margin>
@@ -36,7 +40,7 @@
                   <Font name="Copperplate Gothic Bold" size="24.0" />
                </font>
             </Button>
-            <Button fx:id="loadGame" mnemonicParsing="false" onAction="#openLoadMenu" prefHeight="75.0" prefWidth="250.0" text="Load Game">
+            <Button fx:id="loadGame" mnemonicParsing="false" onAction="#openLoadMenu" text="LOAD GAME">
                <VBox.margin>
                   <Insets bottom="15.0" top="15.0" />
                </VBox.margin>
@@ -44,7 +48,7 @@
                   <Font name="Copperplate Gothic Bold" size="24.0" />
                </font>
             </Button>
-            <Button fx:id="options" mnemonicParsing="false" onAction="#openOptionsMenu" prefHeight="75.0" prefWidth="250.0" text="Options">
+            <Button fx:id="options" mnemonicParsing="false" onAction="#openOptionsMenu" text="OPTIONS">
                <VBox.margin>
                   <Insets bottom="15.0" top="15.0" />
                </VBox.margin>
@@ -52,7 +56,7 @@
                   <Font name="Copperplate Gothic Bold" size="24.0" />
                </font>
             </Button>
-            <Button fx:id="help" mnemonicParsing="false" onAction="#openHelpMenu" prefHeight="75.0" prefWidth="250.0" text="Help">
+            <Button fx:id="help" mnemonicParsing="false" onAction="#openHelpMenu" text="HELP">
                <VBox.margin>
                   <Insets bottom="15.0" top="15.0" />
                </VBox.margin>
@@ -60,7 +64,7 @@
                   <Font name="Copperplate Gothic Bold" size="24.0" />
                </font>
             </Button>
-            <Button fx:id="exit" mnemonicParsing="false" onAction="#exitGame" prefHeight="75.0" prefWidth="250.0" text="Exit">
+            <Button fx:id="exit" mnemonicParsing="false" onAction="#exitGame" text="EXIT">
                <VBox.margin>
                   <Insets bottom="15.0" top="15.0" />
                </VBox.margin>

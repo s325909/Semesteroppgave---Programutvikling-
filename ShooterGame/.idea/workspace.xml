@@ -20,20 +20,8 @@
       <file leaf-file-name="InitializeGame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gameCode/InitializeGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2619">
+            <state relative-caret-position="27">
               <caret line="120" column="29" lean-forward="false" selection-start-line="120" selection-start-column="29" selection-end-line="120" selection-end-column="29" />
-              <folding>
-                <marker date="1524221270137" expanded="true" signature="10493:10678" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/MainController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2403">
-              <caret line="99" column="0" lean-forward="false" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -51,51 +39,48 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameWindow.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gameCode/GameWindow.fxml">
-          <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+      <file leaf-file-name="GameMenu.fxml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/GameMenu.fxml">
+          <provider editor-type-id="JavaFX-Scene-Builder">
             <state />
           </provider>
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="128">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-189">
+              <caret line="2" column="23" lean-forward="false" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GameWindow.fxml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gameCode/GameWindow.fxml">
+          <provider editor-type-id="JavaFX-Scene-Builder">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4725">
               <caret line="175" column="0" lean-forward="false" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameMenu.fxml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/GameMenu.fxml">
-          <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
-            <state />
+      <file leaf-file-name="StyleMenuOptions.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/menuOptions/StyleMenuOptions.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="27">
+              <caret line="1" column="87" lean-forward="false" selection-start-line="1" selection-start-column="87" selection-end-line="1" selection-end-column="87" />
+              <folding />
+            </state>
           </provider>
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="347">
-              <caret line="18" column="22" lean-forward="false" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
-              <folding>
-                <marker date="1524221481685" expanded="true" signature="832:930" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="1046:3267" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="1066:3253" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="1149:1285" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="1171:1264" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="1444:1694" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="1473:1557" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="1579:1672" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="1834:2084" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="1863:1947" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="1969:2062" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="2224:2474" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="2253:2337" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="2359:2452" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="2605:2855" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="2634:2718" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="2740:2833" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="2982:3232" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="3011:3095" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="3117:3210" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="3305:3372" ph="..." />
-                <marker date="1524221481685" expanded="true" signature="3392:3453" ph="..." />
-              </folding>
+        </entry>
+      </file>
+      <file leaf-file-name="StyleGameWindow.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gameCode/StyleGameWindow.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -146,6 +131,7 @@
       <list>
         <option value="FxmlFile" />
         <option value="Class" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -182,6 +168,7 @@
         <option value="$PROJECT_DIR$/src/gameCode/LoadSavedGame.java" />
         <option value="$PROJECT_DIR$/src/gameCode/Game.java" />
         <option value="$PROJECT_DIR$/src/gameCode/InitializeGame.java" />
+        <option value="$PROJECT_DIR$/src/menuOptions/StyleMenuOptions.css" />
         <option value="$PROJECT_DIR$/src/main/GameMenu.fxml" />
       </list>
     </option>
@@ -281,6 +268,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -445,7 +433,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32032000" />
+    <option name="totallyTimeSpent" value="33863000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
@@ -593,13 +581,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/JavaFxApplication.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/javafx.graphics/javafx/application/Application.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
@@ -630,13 +611,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/loadMenu/LoadGame.java" />
-    <entry file="file://$PROJECT_DIR$/src/gameCode/StyleGameWindow.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gameCode/SceneSizeChangeListener.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-74">
@@ -709,24 +683,6 @@
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/menuOptions/OptionsMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="823">
-          <caret line="80" column="13" lean-forward="false" selection-start-line="80" selection-start-column="13" selection-end-line="80" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/MainController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2403">
-          <caret line="99" column="0" lean-forward="false" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -905,58 +861,67 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/MainController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="99" column="0" lean-forward="false" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/gameCode/InitializeGame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2619">
+        <state relative-caret-position="27">
           <caret line="120" column="29" lean-forward="false" selection-start-line="120" selection-start-column="29" selection-end-line="120" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameCode/StyleGameWindow.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/menuOptions/StyleMenuOptions.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="1" column="87" lean-forward="false" selection-start-line="1" selection-start-column="87" selection-end-line="1" selection-end-column="87" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/menuOptions/OptionsMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="823">
+          <caret line="80" column="13" lean-forward="false" selection-start-line="80" selection-start-column="13" selection-end-line="80" selection-end-column="13" />
           <folding>
-            <marker date="1524221270137" expanded="true" signature="10493:10678" ph="{...}" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gameCode/GameWindow.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+      <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
       </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="128">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4725">
           <caret line="175" column="0" lean-forward="false" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/GameMenu.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+      <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
       </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="18" column="22" lean-forward="false" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
-          <folding>
-            <marker date="1524221481685" expanded="true" signature="832:930" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="1046:3267" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="1066:3253" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="1149:1285" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="1171:1264" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="1444:1694" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="1473:1557" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="1579:1672" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="1834:2084" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="1863:1947" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="1969:2062" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="2224:2474" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="2253:2337" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="2359:2452" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="2605:2855" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="2634:2718" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="2740:2833" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="2982:3232" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="3011:3095" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="3117:3210" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="3305:3372" ph="..." />
-            <marker date="1524221481685" expanded="true" signature="3392:3453" ph="..." />
-          </folding>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-189">
+          <caret line="2" column="23" lean-forward="false" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -1,0 +1,7 @@
+.button{
+    -fx-background-color: linear-gradient(darkred, orangered, darkgoldenrod, orangered, darkred);
+    -fx-text-fill: darkred;
+    -fx-font-size: 36;
+    -fx-pref-width: 360;
+    -fx-pref-height: 75;
+}
