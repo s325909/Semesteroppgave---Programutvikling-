@@ -187,7 +187,7 @@ public class Player extends Movable {
             this.equippedWeapon = WeaponTypes.KNIFE;
     }
 
-    public void damage(int damage) {
+    public void receivedDamage(int damage) {
         if (this.getArmor() > 0) {
             this.setArmor(this.getArmor() - damage);
             this.setHealthPoints(this.getHealthPoints() - damage / 2);

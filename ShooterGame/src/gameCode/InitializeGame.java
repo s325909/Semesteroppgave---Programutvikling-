@@ -66,7 +66,7 @@ public class InitializeGame implements Initializable{
         }
 
         try {
-            player = new Player("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20, (int)gameWindow.getHeight()/2, (int)gameWindow.getWidth()/2, 100,50);
+            player = new Player("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
             player.playerAnimation("knife");
         } catch (Exception e) {
             for (StackTraceElement element : e.getStackTrace()) {
@@ -248,6 +248,8 @@ public class InitializeGame implements Initializable{
         File loadFile;
         BufferedReader reader;
 
+        Object[] options = {"Resume game"};
+
         try {
             loadFile = new File("quicksave.txt");
             reader = new BufferedReader(new FileReader(loadFile));
@@ -256,6 +258,7 @@ public class InitializeGame implements Initializable{
                 int numberGameFields = Integer.valueOf(reader.readLine());
 
                 int[] tempPlayer = new int[numberGameFields];
+
                 for (int i = 0; i < tempPlayer.length; i++) {
                     tempPlayer[i] = Integer.valueOf(reader.readLine());
                 }
@@ -273,13 +276,15 @@ public class InitializeGame implements Initializable{
                 game.setGameInfo(tempPlayer);
                 game.setGameInfoZombie(tempZombie);
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Save file is corrupt");
+                int n = JOptionPane.showOptionDialog(null, "Savefile is corrupted", "Quickload Error",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
                 System.out.println(e.getMessage());
             }
 
             reader.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Unable to find the save file");
+            int n = JOptionPane.showOptionDialog(null, "Unable to find savefile", "Quickload Error",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             System.out.println(e.getMessage());
         }
     }

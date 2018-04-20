@@ -161,9 +161,22 @@ public class Game {
                 zombie.update(time);
                 zombie.movement(player);
                 if (player.isColliding(zombie)) {
-                    player.damage(10);
+                    player.receivedDamage(10);
+
+                    System.out.println(zombie.getPositionX());
+                    System.out.println(player.getPositionX());
+                    System.out.println((int)zombie.getNode().getLayoutBounds().getWidth()/2);
+
+                    // Spiller til høyre for fiende
+                    if(zombie.getPositionX() < player.getPositionX()) {
+                        player.setPositionX(zombie.getPositionX() + (int)zombie.getNode().getLayoutBounds().getWidth()/2 + 50);
+                    }
+                    // Spiller til venstre for fiende
+                    if(zombie.getPositionX() > player.getPositionX()) {
+                        player.setPositionX(zombie.getPositionX() - (int)zombie.getNode().getLayoutBounds().getWidth()/2 - 5);
+                    }
                     if (!player.stillAlive()) {
-                        //System.out.println("Player is dead");
+                        System.out.println("Player is dead");
                         //gameOver();
                     }
                 }
