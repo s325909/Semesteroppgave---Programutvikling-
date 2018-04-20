@@ -3,8 +3,11 @@ package gameCode;
 import entities.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -363,6 +366,12 @@ public class Game {
      */
     public void bonus(){
 
+        Image image = new Image("resources/Icons/batterycharging.png");
+        Image image2 = new Image("resources/Icons/lightningbolt.png");
+        ImagePattern imagePattern = new ImagePattern(image);
+        ImagePattern imagePattern2 = new ImagePattern(image2);
+
+        ImageView imageView = new ImageView(image);
         if (createDrops) {
             if (bonuses.size() < 5 || bonuses2.size() < 5) {
 
@@ -375,15 +384,17 @@ public class Game {
                     Rectangle rect = new Rectangle(40, 30, Color.PINK);
                     rect.setX(x);
                     rect.setY(y);
+                    rect.setFill(imagePattern);
                     bonuses.add(rect);
                     gameWindow.getChildren().addAll(rect);
                 }
 
                 if (random == 4 && bonuses2.size() < 5) {
-                    Circle circle = new Circle(50, Color.GRAY);
+                    Circle circle = new Circle(30, Color.GRAY);
                     circle.setCenterX(x);
                     circle.setCenterY(y);
                     circle.setRadius(30);
+                    circle.setFill(imagePattern2);
                     bonuses2.add(circle);
                     gameWindow.getChildren().addAll(circle);
                 }

@@ -1,5 +1,8 @@
 package gameCode;
 
+import entities.Player;
+import javafx.beans.property.StringPropertyBase;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,33 +18,41 @@ public class InitializeSave implements Initializable {
     @FXML
     Button saveBtn;
     @FXML
-    TextField fieldName = new TextField();
-    TextField fieldHP = new TextField();
+    SaveData saveData = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
 
-    @FXML
-    public void saveGame() {
-        saveBtn.setOnAction(event -> {
-            SaveData data = new SaveData();
-            data.name = fieldName.getText();
-            data.hp = Integer.parseInt(fieldHP.getText());
-            try {
-                SaveLoadManager.save(data, writeName());
+    /***
+     * Method which takes user input and establishes save function by clicking save button.
+     */
 
+    //@FXML
+    public void saveGame(ActionEvent actionEvent) {
+        Button btn = (Button) actionEvent.getSource();
+        String btnIdValue = btn.idProperty().getValue();
+        String saveGameName = null;
+        if(btnIdValue.equals("loadBtn1")) {
+            saveGameName = "game1.save";
+        } else if(btnIdValue.equals("loadBtn2")) {
+            saveGameName = "game2.save";
+        } else if(btnIdValue.equals("loadBtn3")) {
+            saveGameName = "game3.save";
+        }
+
+        actionEvent.getSource();
+        //saveBtn.setOnAction(event -> {
+
+
+            try {
+                SaveLoadManager.save(saveData, saveGameName); //Bytt ut med saveGameName fra writeName og slett funksjon og InputField
             } catch (Exception e) {
                 System.out.println("Couldn't save" + e.getMessage());
             }
-        });
-        Stage stage = (Stage) saveBtn.getScene().getWindow();
+        //});
+        Stage stage = (Stage) btn.getScene().getWindow();
         stage.close();
-    }
-
-    @FXML
-    public String writeName() {
-        return fieldName.getText() + ".save";
     }
 }
