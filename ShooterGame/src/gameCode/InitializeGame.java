@@ -18,9 +18,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.URL;
 import java.lang.*;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -244,36 +247,39 @@ public class InitializeGame implements Initializable{
     public void quickLoad() {
         File loadFile;
         BufferedReader reader;
+
         try {
             loadFile = new File("quicksave.txt");
             reader = new BufferedReader(new FileReader(loadFile));
 
-            int numberGameFields = Integer.valueOf(reader.readLine());
+            try {
+                int numberGameFields = Integer.valueOf(reader.readLine());
 
-            int[] tempPlayer = new int[numberGameFields];
-            for(int i = 0; i < tempPlayer.length; i++) {
-                tempPlayer[i] = Integer.valueOf(reader.readLine());
-            }
-
-            int numberZombies = Integer.valueOf(reader.readLine());
-            int numberZombiesFields = Integer.valueOf(reader.readLine());
-
-            int[][] tempZombie = new int[numberZombies][numberZombiesFields];
-
-            for(int i = 0; i < numberZombies; i++) {
-                for(int j = 0; j < numberZombiesFields; j++) {
-                    tempZombie[i][j] = Integer.valueOf(reader.readLine());
+                int[] tempPlayer = new int[numberGameFields];
+                for (int i = 0; i < tempPlayer.length; i++) {
+                    tempPlayer[i] = Integer.valueOf(reader.readLine());
                 }
-            }
 
-            System.out.println("Player array length: " + tempPlayer.length);
-            System.out.println("Zombie 2d array length: " + tempZombie.length);
-            game.setGameInfo(tempPlayer);
-            game.setGameInfoZombie(tempZombie);
+                int numberZombies = Integer.valueOf(reader.readLine());
+                int numberZombiesFields = Integer.valueOf(reader.readLine());
+
+                int[][] tempZombie = new int[numberZombies][numberZombiesFields];
+
+                for (int i = 0; i < numberZombies; i++) {
+                    for (int j = 0; j < numberZombiesFields; j++) {
+                        tempZombie[i][j] = Integer.valueOf(reader.readLine());
+                    }
+                }
+                game.setGameInfo(tempPlayer);
+                game.setGameInfoZombie(tempZombie);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Save file is corrupt");
+                System.out.println(e.getMessage());
+            }
 
             reader.close();
         } catch (Exception e) {
-            System.out.println("Quickload didn't complete");
+            JOptionPane.showMessageDialog(null, "Unable to find the save file");
             System.out.println(e.getMessage());
         }
     }

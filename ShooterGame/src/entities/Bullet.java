@@ -76,8 +76,4 @@ public class Bullet extends Movable {
     public void setDamage(int damage) {
         this.damage = damage;
     }
-
-    public boolean isDrawn() { return drawn; };
-
-    public void setDrawn() { drawn = true; };
 }

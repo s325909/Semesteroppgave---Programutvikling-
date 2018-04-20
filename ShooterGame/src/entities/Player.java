@@ -388,6 +388,8 @@ public class Player extends Movable {
                     magazineRifle.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
+                    Bullet bullet = new Bullet(getPositionX(), getPositionY(), 20, 10);
+                    bulletList.add(bullet);
                     System.out.println("Rifle fired");
                 } else {
                     playWeaponSounds(7);
@@ -398,6 +400,8 @@ public class Player extends Movable {
                     magazineShotgun.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
+                    Bullet bullet = new Bullet(getPositionX(), getPositionY(), 20, 5);
+                    bulletList.add(bullet);
                     System.out.println("Shotgun fired");
                 } else {
                     playWeaponSounds(7);

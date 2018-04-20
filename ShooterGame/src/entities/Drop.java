@@ -54,8 +54,4 @@ public class Drop extends Entity {
             //player.setMovementSpeed(player.getMovementSpeed() + 5);
         }
     }
-
-    public boolean isDrawn() { return drawn; };
-
-    public void setDrawn() { drawn = true; };
 }

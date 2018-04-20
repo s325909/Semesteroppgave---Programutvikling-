@@ -14,6 +14,7 @@ public class Entity{
     private int positionY;
 
     private boolean alive;
+    private boolean drawn;
 
     private Node node;
     private ImageView iv;
@@ -178,6 +179,10 @@ public class Entity{
     public void setIv(ImageView iv) {
         this.iv = iv;
     }
+
+    public boolean isDrawn() { return drawn; };
+
+    public void setDrawn() { drawn = true; };
 
     /***
      * Inner class used in combination with creating a 2-dimensional Sprite array.
