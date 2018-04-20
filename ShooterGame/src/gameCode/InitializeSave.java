@@ -19,6 +19,7 @@ public class InitializeSave implements Initializable {
     Button saveBtn;
     @FXML
     SaveData saveData = null;
+    //@FXML private Button OkBtn;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -26,7 +27,7 @@ public class InitializeSave implements Initializable {
     }
 
     /***
-     * Method which takes user input and establishes save function by clicking save button.
+     * Method which establishes save function by clicking save button.
      */
 
     //@FXML
@@ -44,8 +45,6 @@ public class InitializeSave implements Initializable {
 
         actionEvent.getSource();
         //saveBtn.setOnAction(event -> {
-
-
             try {
                 SaveLoadManager.save(saveData, saveGameName); //Bytt ut med saveGameName fra writeName og slett funksjon og InputField
             } catch (Exception e) {
@@ -54,5 +53,16 @@ public class InitializeSave implements Initializable {
         //});
         Stage stage = (Stage) btn.getScene().getWindow();
         stage.close();
+        System.out.println("Game is saved");
+        //FXMLLoader fxmlLoader = new FXMLLoader();
+        //fxmlLoader.setLocation(getClass().getResource("GameIsSaved.fxml"));
     }
+
+    /*@FXML
+    public void gameIsSaved(){
+        Stage stage = (Stage) OkBtn.getScene().getWindow();
+        stage.close();
+    }*/
+
+
 }

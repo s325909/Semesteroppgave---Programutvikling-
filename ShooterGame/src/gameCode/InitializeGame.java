@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.input.KeyCode;
@@ -197,6 +198,7 @@ public class InitializeGame implements Initializable{
 
     /***
      * Method which will open a new window with Save option.
+     * After method saveGame in class InitializeSave is called and user has saved game, message Game is saved appears.
      */
     @FXML
     public void saveGame() {
@@ -214,6 +216,7 @@ public class InitializeGame implements Initializable{
         } catch (Exception e) {
             System.out.println("Open SavePane Error");
         }
+
     }
 
     private int numberZombies;
