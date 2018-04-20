@@ -89,35 +89,6 @@ public class Game {
         return zombieInfo;
     }
 
-    public void setGameInfoZombie(int[][] info) {
-//        if (zombies.size() > info.length) {
-//            for(int i = info.length; i < zombies.size(); i++) {
-//                zombies.remove(i);
-//                gameWindow.getChildren().removeAll(zombies.get(i).getNode(), zombies.get(i).getIv());
-//            }
-//        } else if (zombies.size() < info.length) {
-//            for(int i = zombies.size(); i < info.length; i++) {
-//                zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
-//                gameWindow.getChildren().add(zombies.get(i).getNode());
-//                gameWindow.getChildren().add(zombies.get(i).getIv());
-//            }
-//        } else {
-//            System.out.println("like mange");
-//        }
-
-        for (Zombie zombie : zombies) {
-            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
-            zombie.setAlive(false);
-        }
-        zombies.removeIf(Zombie::isDead);
-
-        for (int i = 0; i < info.length; i++) {
-            zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
-            gameWindow.getChildren().addAll(zombies.get(i).getNode(), zombies.get(i).getIv());
-            zombies.get(i).setZombieInfo(info[i]);
-        }
-    }
-
     public int getScoreNumber() {
         return scoreNumber;
     }
@@ -154,71 +125,63 @@ public class Game {
             controller.pressKey3.setVisible(false);
         }
         if (isRunning) {
-            player.update(time);
+
             List<Bullet> bullets = player.getBulletList();
 
             for (Zombie zombie : zombies) {
-                zombie.update(time);
                 zombie.movement(player);
                 if (player.isColliding(zombie)) {
                     player.receivedDamage(10);
-
-                    System.out.println(zombie.getPositionX());
-                    System.out.println(player.getPositionX());
-                    System.out.println((int)zombie.getNode().getLayoutBounds().getWidth()/2);
-
-                    // Spiller til høyre for fiende
-                    if(zombie.getPositionX() < player.getPositionX()) {
-                        player.setPositionX(zombie.getPositionX() + (int)zombie.getNode().getLayoutBounds().getWidth()/2 + 50);
-                    }
-                    // Spiller til venstre for fiende
-                    if(zombie.getPositionX() > player.getPositionX()) {
-                        player.setPositionX(zombie.getPositionX() - (int)zombie.getNode().getLayoutBounds().getWidth()/2 - 5);
-                    }
                     if (!player.stillAlive()) {
                         System.out.println("Player is dead");
                         //gameOver();
                     }
                 }
-//                for (Zombie zombie2 : zombies) {
-//                    if (zombie.isColliding(zombie2)) {
-//                        zombie.setVelocityX(-0.5);
-//                    }
-//                }
-                for (Bullet bullet : bullets) {
-                    if (!bullet.isDrawn()) {
-                        gameWindow.getChildren().add(bullet.getNode());
-                        bullet.setDrawn();
-                    }
-                    //bullet.update(time);
-                    //bullet.bulletDirection(player);
-                    if (bullet.isColliding(zombie)) {
-                        bullet.setAlive(false);
-                        gameWindow.getChildren().removeAll(bullet.getNode(), bullet.getIv());
+            }
 
-                        zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
-                        if (!zombie.stillAlive()) {
-                            zombie.setAlive(false);
-                            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
+            for (Bullet bullet : bullets) {
+                if (!bullet.isDrawn()) {
+                    gameWindow.getChildren().addAll(bullet.getIv(), bullet.getNode());
+                    bullet.setDrawn();
+                }
+                bullet.bulletDirection();
+                bullet.bulletCollision(zombies);
+            }
 
-                            this.scoreNumber += 100;
-                            Drop drop = new Drop("/resources/Art/Icon/circle_icon.png",zombie.getPositionX(), zombie.getPositionY());
-                            drops.add(drop);
-                        }
-                    }
-                    for (Drop drop : drops) {
-                        if (!drop.isDrawn()) {
-                           gameWindow.getChildren().add(drop.getNode());
-                           drop.setDrawn();
-                        }
+            for (Drop drop : drops) {
+                if(drop.isColliding(player)) {
+                    drop.randomPickup(player);
+                    drop.setAlive(false);
+                }
+            }
+            player.updateAnimation();
+            player.update(time);
 
-                        if(drop.isColliding(player)) {
-                            drop.randomPickup(player);
-                            drop.setAlive(false);
-                            gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
-                        }
+
+            for(Zombie zombie : zombies) {
+                if(!zombie.isAlive()) {
+                    this.scoreNumber += 100;
+                    gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
+                    Drop drop = new Drop("/resources/Art/Icon/circle_icon.png", zombie.getPositionX(), zombie.getPositionY());
+                    drops.add(drop);
+
+                    if (!drop.isDrawn()) {
+                        gameWindow.getChildren().add(drop.getNode());
+                        drop.setDrawn();
                     }
                 }
+                zombie.update(time);
+            }
+
+            for(Bullet bullet : bullets) {
+                if(!bullet.isAlive())
+                    gameWindow.getChildren().removeAll(bullet.getIv(), bullet.getNode());
+                bullet.update(time);
+            }
+
+            for(Drop drop : drops) {
+                if(!drop.isAlive())
+                  gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
             }
 
             bullets.removeIf(Bullet::isDead);

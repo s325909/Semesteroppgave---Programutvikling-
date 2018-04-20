@@ -38,16 +38,29 @@ public class Movable extends Entity {
     public Movable(int positionX, int positionY, double movementSpeed) {
         super(positionX, positionY);
         this.movementSpeed= movementSpeed;
+        this.velocityX = 0;
+        this.velocityY = 0;
     }
 
     public Movable(String filename, int positionX, int positionY, double movementSpeed) {
         super(filename, positionX, positionY);
         this.movementSpeed = movementSpeed;
+        this.velocityX = 0;
+        this.velocityY = 0;
     }
 
     public Movable(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints, double movementSpeed) {
         super(filename, extension, numberImages, positionX, positionY, healthPoints);
         this.movementSpeed = movementSpeed;
+        this.velocityX = 0;
+        this.velocityY = 0;
+    }
+
+    public Movable(Sprite idleSprite, int positionX, int positionY, int healthPoints, double movementSpeed) {
+        super(idleSprite, positionX, positionY, healthPoints);
+        this.movementSpeed = movementSpeed;
+        this.velocityX = 0;
+        this.velocityY = 0;
     }
 
     //public void update(List<Entity> entityList, double time) {
@@ -78,7 +91,7 @@ public class Movable extends Entity {
             }
         } else if (getVelocityX() < 0) {
             if (getVelocityY() < 0) {
-                this.getSprite().getImageView().setRotate(225);
+               this.getSprite().getImageView().setRotate(225);
                 this.direction = Direction.NORTHWEST;
             } else if (getVelocityY() > 0) {
                 this.getSprite().getImageView().setRotate(135);

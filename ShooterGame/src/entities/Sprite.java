@@ -18,14 +18,15 @@ public class Sprite {
 
     public Sprite(ImageView iv, String spriteFileName) {
         this.iv = iv;
+        this.frames = new Image[1];
         try {
             String resource = getClass().getResource(spriteFileName).toURI().toString();
-            this.singleImage = new Image(resource, 25, 25, true, true);
+            this.frames[0] = new Image(resource, 25, 25, true, true);
         } catch (Exception e) {
             System.out.println("Error: Unable to find requested file and SingleImage couldn't be created");
         }
-        this.width = this.singleImage.getWidth();
-        this.height = this.singleImage.getHeight();
+        this.width = this.frames[0].getWidth();
+        this.height = this.frames[0].getHeight();
     }
 
     public Sprite(ImageView iv, String spriteFileName, String extension, int numberImages) {

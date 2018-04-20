@@ -11,7 +11,7 @@ public class Zombie extends Movable {
 
     private Direction walkDirection;
     private int walkDistance;
-    private Sprite[] animation;
+    private Sprite[] allAnimation;
     private AudioClip[] audioClips;
 
     public Zombie(){}
@@ -21,8 +21,14 @@ public class Zombie extends Movable {
         loadZombieAssets();
     }
 
+    public Zombie(Sprite[] allAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints) {
+        super(allAnimation[0], positionX, positionY, healthPoints, 1.0);
+        this.allAnimation = allAnimation;
+        this.audioClips = audioClips;
+    }
+
     public void loadZombieAssets() {
-        String[] zombieSounds = {
+        /*String[] zombieSounds = {
                 "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
                 "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"};
 
@@ -32,11 +38,11 @@ public class Zombie extends Movable {
                 new SpriteParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
 
         this.audioClips = super.loadAudio(zombieSounds);
-        this.animation = loadSprites(zombieAnimations);
+        this.animation = loadSprites(zombieAnimations);*/
     }
 
     public void setAnimation(int i) {
-        super.setSprite(this.animation[i]);
+        super.setSprite(this.allAnimation[i]);
     }
 
     public void setAudio(int i) {
@@ -123,7 +129,6 @@ public class Zombie extends Movable {
                 setIdle();
                 this.walkDistance = 0;
                 setAnimation(0);
-                //playIdle();
                 break;
             case NORTH:
                 goUp();

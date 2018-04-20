@@ -7,7 +7,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import gameCode.Game;
 
@@ -17,8 +19,19 @@ public class Player extends Movable {
         KNIFE, PISTOL, RIFLE, SHOTGUN
     }
 
+    private class SpritePair {
+        Sprite sprite;
+        long time;
+
+        public SpritePair(Sprite sprite, long time) {
+            this.sprite = sprite;
+            this.time = time;
+        }
+    }
+
     private WeaponTypes equippedWeapon;
     private int armor;
+
     private AudioClip[] weapon;
     private AudioClip[] basicSounds;
     private Sprite[][] allAnimation;
@@ -27,7 +40,11 @@ public class Player extends Movable {
     private Magazine magazineRifle;
     private Magazine magazineShotgun;
 
-    private List<Bullet> bulletList = new ArrayList<>();
+    private List<Bullet> bulletList;
+
+    private Queue<SpritePair> animationQueue;
+
+    private long waitTime;
 
     public Player(){}
 
@@ -41,47 +58,8 @@ public class Player extends Movable {
 
     public Player(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints, int armor) {
         super(filename, extension, numberImages, positionX, positionY, healthPoints, 5.0);
-
-        String[] playerSounds = {
-                "/resources/Sound/Sound Effects/Player/player_breathing_calm.wav",
-                "/resources/Sound/Sound Effects/Player/footsteps_single.wav"};
-        String[] weaponSounds = {
-                "/resources/Sound/Sound Effects/Player/Knife/knife_swish.mp3",
-                "/resources/Sound/Sound Effects/Player/Pistol/pistol_shot.wav",
-                "/resources/Sound/Sound Effects/Player/Pistol/pistol_reload.mp3",
-                "/resources/Sound/Sound Effects/Player/Rifle/rifle_shot.wav",
-                "/resources/Sound/Sound Effects/Player/Rifle/rifle_reload.mp3",
-                "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_shot.wav",
-                "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_reload.wav",
-                "/resources/Sound/Sound Effects/Player/Pistol/pistol_empty.mp3"};
-
-        SpriteParam[] knife = {
-                new SpriteParam("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/knife/move/survivor-move_knife_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_", ".png", 15)};
-        SpriteParam[] pistol = {
-                new SpriteParam("/resources/Art/Player/handgun/idle/survivor-idle_handgun_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/handgun/move/survivor-move_handgun_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15),
-                new SpriteParam("/resources/Art/Player/handgun/shoot/survivor-shoot_handgun_", ".png", 3),
-                new SpriteParam("/resources/Art/Player/handgun/reload/survivor-reload_handgun_", ".png", 15)};
-        SpriteParam[] rifle = {
-                new SpriteParam("/resources/Art/Player/rifle/idle/survivor-idle_rifle_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/rifle/move/survivor-move_rifle_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_", ".png", 15),
-                new SpriteParam("/resources/Art/Player/rifle/shoot/survivor-shoot_rifle_", ".png", 3),
-                new SpriteParam("/resources/Art/Player/rifle/reload/survivor-reload_rifle_", ".png", 20)};
-        SpriteParam[] shotgun = {
-                new SpriteParam("/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/shotgun/move/survivor-move_shotgun_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_", ".png", 15),
-                new SpriteParam("/resources/Art/Player/shotgun/shoot/survivor-shoot_shotgun_", ".png", 3),
-                new SpriteParam("/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_", ".png", 20)};
-        SpriteParam[][] all = {knife, pistol, rifle, shotgun};
-
-        loadBasicSounds(playerSounds);
-        loadWeaponSounds(weaponSounds);
-        loadWeaponSprite(all);
+        this.animationQueue = new LinkedList<SpritePair>();
+        this.waitTime = 0;
 
         playerAnimation("knife");
         setAnimation(0,0);
@@ -90,6 +68,25 @@ public class Player extends Movable {
         magazineRifle = new Magazine(30,90);
         magazineShotgun = new Magazine(8,32);
         this.armor = armor;
+        this.bulletList = new ArrayList<Bullet>();
+    }
+
+    public Player(Sprite[][] allAnimation, AudioClip[] weapon, AudioClip[] basicSounds, int positionX, int positionY, int healthPoints, int armor) {
+        super(allAnimation[0][0], positionX, positionY, healthPoints, 5.0);
+        this.allAnimation = allAnimation;
+        this.weapon = weapon;
+        this.basicSounds = basicSounds;
+        this.animationQueue = new LinkedList<SpritePair>();
+        this.waitTime = 0;
+
+        playerAnimation("knife");
+        setAnimation(0,0);
+
+        magazinePistol = new Magazine(15, 30);
+        magazineRifle = new Magazine(30,90);
+        magazineShotgun = new Magazine(8,32);
+        this.armor = armor;
+        this.bulletList = new ArrayList<Bullet>();
     }
 
     public int[] getPlayerInfo() {
@@ -125,50 +122,30 @@ public class Player extends Movable {
         getMagazineShotgun().setCurrentPool(playerInfo[9]);
     }
 
-    /***
-     * Method which is used for loading all the various weapon sprites into a 2-dimensional array.
-     * @param sprites Requires a 2-dimensional array of type Sprite
-     */
-    private void loadWeaponSprite(SpriteParam[][] sprites) {
-        Sprite[][] outerSprite = new Sprite[sprites.length][];
-
-        for (int i = 0; i < sprites.length; i++) {
-            outerSprite[i] = loadSprites(sprites[i]);
+    public void setAnimation(int i, int j) {
+        long time = 0;
+        if(j == 4) {
+            time = 500;
         }
-
-        this.allAnimation = outerSprite;
-
-//        double maxWidth = -1;
-//        double maxHeight = -1;
-//
-//        for(int i = 0; i < this.allAnimation.length; i++) {
-//            for (int j = 0; j < this.allAnimation[i].length; j++) {
-//                if (this.allAnimation[i][j].getWidth() > maxWidth && this.allAnimation[i][j].getHeight() > maxHeight) {
-//                    maxWidth = this.allAnimation[i][j].getWidth();
-//                    maxHeight = this.allAnimation[i][j].getHeight();
-//                }
-//            }
-//        }
-//
-//        for(int i = 0; i < this.allAnimation.length; i++) {
-//            for (int j = 0; j < this.allAnimation[i].length; j++) {
-//                this.allAnimation[i][j].setMax(maxWidth, maxHeight);
-//            }
-//        }
-//
-//        super.getSprite().setMax(maxWidth,maxHeight);
-//        //System.out.println(maxWidth);
-//        //System.out.println(maxHeight);
+        animationQueue.add(new SpritePair(this.allAnimation[i][j], time));
     }
 
-    public void setAnimation(int i, int j) {
-        super.setSprite(this.allAnimation[i][j]);
+    public void updateAnimation() {
+        long currentTime = System.currentTimeMillis();
+        SpritePair pair = animationQueue.peek();
+        if (pair != null) {
+            if (currentTime > this.waitTime) {
+                System.out.println("Change animation!");
+                super.setSprite(animationQueue.peek().sprite);
+                this.waitTime = currentTime + animationQueue.peek().time;
+                animationQueue.remove();
+            }
+        }
     }
 
     public Sprite[][] getAllAnimation() {
         return allAnimation;
     }
-
 
     /***
      * Method which will switch between which set of weapon animations that should be used based on a String value.
@@ -216,14 +193,6 @@ public class Player extends Movable {
             this.setArmor(this.getArmor() + armorChange);
         else
             this.setArmor(200);
-    }
-
-    public void loadBasicSounds(String[] audioFiles) {
-        this.basicSounds = loadAudio(audioFiles);
-    }
-
-    public void loadWeaponSounds(String[] audioFiles) {
-        this.weapon = loadAudio(audioFiles);
     }
 
     public void playWeaponSounds(int i) {
@@ -284,19 +253,15 @@ public class Player extends Movable {
         if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
             j = 1;
             goLeft();
-            playBasicSounds(1);
         } else if (keyEvent.getCode() == KeyCode.RIGHT || keyEvent.getCode() == KeyCode.D) {
             j = 1;
             goRight();
-            playBasicSounds(1);
         } else if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W) {
             j = 1;
             goUp();
-            playBasicSounds(1);
         } else if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
             j = 1;
             goDown();
-            playBasicSounds(1);
         } else {
             j = 0;
         }
@@ -306,10 +271,10 @@ public class Player extends Movable {
             playWeaponSounds(audioAction);
         } else if (keyEvent.getCode() == KeyCode.SPACE && equippedWeapon != WeaponTypes.KNIFE) {
             j = 3;
-            fire(i,j, audioAction);
+            fire(i, j, audioAction);
         } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != WeaponTypes.KNIFE) {
             j = 4;
-            reload(i,j, audioReload);
+            reload(i, j, audioReload);
         } else if (keyEvent.getCode() == KeyCode.F) {
             setEquippedWeapon(WeaponTypes.KNIFE);
         }
@@ -377,8 +342,8 @@ public class Player extends Movable {
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
                     System.out.println("Pistol fired");
-                    Bullet bullet = new Bullet(getPositionX(), getPositionY(), 20, 20);
-                    bulletList.add(bullet);
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 20, getDirection());
+                    this.bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
                 }
@@ -388,8 +353,8 @@ public class Player extends Movable {
                     magazineRifle.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
-                    Bullet bullet = new Bullet(getPositionX(), getPositionY(), 20, 10);
-                    bulletList.add(bullet);
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 10, getDirection());
+                    this.bulletList.add(bullet);
                     System.out.println("Rifle fired");
                 } else {
                     playWeaponSounds(7);
@@ -400,8 +365,8 @@ public class Player extends Movable {
                     magazineShotgun.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
-                    Bullet bullet = new Bullet(getPositionX(), getPositionY(), 20, 5);
-                    bulletList.add(bullet);
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 5, getDirection());
+                    this.bulletList.add(bullet);
                     System.out.println("Shotgun fired");
                 } else {
                     playWeaponSounds(7);
@@ -477,7 +442,7 @@ public class Player extends Movable {
     }
 
     public List<Bullet> getBulletList() {
-        return bulletList;
+        return this.bulletList;
     }
 
     public Magazine getMagazinePistol() {

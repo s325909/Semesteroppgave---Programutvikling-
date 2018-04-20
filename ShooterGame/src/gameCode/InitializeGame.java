@@ -1,8 +1,10 @@
 package gameCode;
 
 import entities.Drop;
+import entities.Entity;
 import entities.Player;
 import entities.Zombie;
+import entities.Sprite;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,8 +14,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -47,6 +51,12 @@ public class InitializeGame implements Initializable{
 
     private MusicPlayer musicPlayer;
 
+    private AudioClip[] weapon;
+    private AudioClip[] basicSounds;
+    private Sprite[][] playerAnimation;
+    private AudioClip[] zombieAudioClips;
+    private Sprite[][] zombieAnimation;
+
     // Debug tool to view the Node representation of every entity, should images not load correctly.
     final private boolean DEBUG = true;
 
@@ -59,14 +69,17 @@ public class InitializeGame implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        try {
-            musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
-        } catch (Exception e) {
-            System.out.println("Error: Could not find sound file");
-        }
+//        try {
+//            musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
+//        } catch (Exception e) {
+//            System.out.println("Error: Could not find sound file");
+//        }
 
+        int nbrZombies = 10;
+        loadAssets(nbrZombies);
         try {
-            player = new Player("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
+            //player = new Player("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
+            player = new Player(this.playerAnimation, this.weapon, this.basicSounds, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
             player.playerAnimation("knife");
         } catch (Exception e) {
             for (StackTraceElement element : e.getStackTrace()) {
@@ -76,11 +89,9 @@ public class InitializeGame implements Initializable{
         }
 
         try {
-            for (int i = 0; i < 10; i++) {
-                zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
-//                zombies.get(i).setSpriteIdle("/resources/Art/Zombie/skeleton-idle_", ".png", 17);
-//                zombies.get(i).setSpriteMoving("/resources/Art/Zombie/skeleton-move_", ".png", 17);
-//                zombies.get(i).setSpriteMelee("/resources/Art/Zombie/skeleton-attack_", ".png", 9);
+            for (int i = 0; i < nbrZombies; i++) {
+                //zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+                zombies.add(new Zombie(this.zombieAnimation[i], this.zombieAudioClips, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
             }
         } catch (Exception e) {
             System.out.println("Error: Enemies did not load correctly");
@@ -107,6 +118,144 @@ public class InitializeGame implements Initializable{
         Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
+    }
+
+    public void loadAssets(int nbrZombies) {
+        String[] playerSounds = {
+                "/resources/Sound/Sound Effects/Player/player_breathing_calm.wav",
+                "/resources/Sound/Sound Effects/Player/footsteps_single.wav"};
+        String[] weaponSounds = {
+                "/resources/Sound/Sound Effects/Player/Knife/knife_swish.mp3",
+                "/resources/Sound/Sound Effects/Player/Pistol/pistol_shot.wav",
+                "/resources/Sound/Sound Effects/Player/Pistol/pistol_reload.mp3",
+                "/resources/Sound/Sound Effects/Player/Rifle/rifle_shot.wav",
+                "/resources/Sound/Sound Effects/Player/Rifle/rifle_reload.mp3",
+                "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_shot.wav",
+                "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_reload.wav",
+                "/resources/Sound/Sound Effects/Player/Pistol/pistol_empty.mp3"};
+
+        SpriteParam[] knife = {
+                new SpriteParam("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20),
+                new SpriteParam("/resources/Art/Player/knife/move/survivor-move_knife_", ".png", 20),
+                new SpriteParam("/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_", ".png", 15)};
+        SpriteParam[] pistol = {
+                new SpriteParam("/resources/Art/Player/handgun/idle/survivor-idle_handgun_", ".png", 20),
+                new SpriteParam("/resources/Art/Player/handgun/move/survivor-move_handgun_", ".png", 20),
+                new SpriteParam("/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15),
+                new SpriteParam("/resources/Art/Player/handgun/shoot/survivor-shoot_handgun_", ".png", 3),
+                new SpriteParam("/resources/Art/Player/handgun/reload/survivor-reload_handgun_", ".png", 15)};
+        SpriteParam[] rifle = {
+                new SpriteParam("/resources/Art/Player/rifle/idle/survivor-idle_rifle_", ".png", 20),
+                new SpriteParam("/resources/Art/Player/rifle/move/survivor-move_rifle_", ".png", 20),
+                new SpriteParam("/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_", ".png", 15),
+                new SpriteParam("/resources/Art/Player/rifle/shoot/survivor-shoot_rifle_", ".png", 3),
+                new SpriteParam("/resources/Art/Player/rifle/reload/survivor-reload_rifle_", ".png", 20)};
+        SpriteParam[] shotgun = {
+                new SpriteParam("/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_", ".png", 20),
+                new SpriteParam("/resources/Art/Player/shotgun/move/survivor-move_shotgun_", ".png", 20),
+                new SpriteParam("/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_", ".png", 15),
+                new SpriteParam("/resources/Art/Player/shotgun/shoot/survivor-shoot_shotgun_", ".png", 3),
+                new SpriteParam("/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_", ".png", 20)};
+        SpriteParam[][] all = {knife, pistol, rifle, shotgun};
+
+        this.basicSounds = loadAudio(playerSounds);
+        this.weapon = loadAudio(weaponSounds);
+        this.playerAnimation = loadSprites(all);
+
+        loadZombies(nbrZombies);
+    }
+
+    public void loadZombies(int nbrZombies) {
+        String[] zombieSounds = {
+                "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
+                "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"};
+
+        SpriteParam[] zombieAnimations = {
+                new SpriteParam("/resources/Art/Zombie/skeleton-idle_", ".png", 17),
+                new SpriteParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
+                new SpriteParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
+
+        this.zombieAudioClips = loadAudio(zombieSounds);
+        this.zombieAnimation = loadSprites(nbrZombies, zombieAnimations);
+    }
+
+    /***
+     * Method which is used for loading all the various weapon sprites into a 2-dimensional array.
+     * @param sprites Requires a 2-dimensional array of type Sprite
+     */
+    private Sprite[][] loadSprites(SpriteParam[][] sprites) {
+        ImageView iv = new ImageView();
+        Sprite[][] outerSprite = new Sprite[sprites.length][];
+
+        for (int i = 0; i < sprites.length; i++) {
+            outerSprite[i] = loadSprites(sprites[i], iv);
+        }
+
+        return outerSprite;
+
+//        double maxWidth = -1;
+//        double maxHeight = -1;
+//
+//        for(int i = 0; i < this.allAnimation.length; i++) {
+//            for (int j = 0; j < this.allAnimation[i].length; j++) {
+//                if (this.allAnimation[i][j].getWidth() > maxWidth && this.allAnimation[i][j].getHeight() > maxHeight) {
+//                    maxWidth = this.allAnimation[i][j].getWidth();
+//                    maxHeight = this.allAnimation[i][j].getHeight();
+//                }
+//            }
+//        }
+//
+//        for(int i = 0; i < this.allAnimation.length; i++) {
+//            for (int j = 0; j < this.allAnimation[i].length; j++) {
+//                this.allAnimation[i][j].setMax(maxWidth, maxHeight);
+//            }
+//        }
+//
+//        super.getSprite().setMax(maxWidth,maxHeight);
+//        //System.out.println(maxWidth);
+//        //System.out.println(maxHeight);
+    }
+
+    private Sprite[][] loadSprites(int nbrZombies, SpriteParam[] sprites) {
+        Sprite[][] outerSprite = new Sprite[nbrZombies][];
+        for (int i = 0; i < nbrZombies; i++) {
+            ImageView iv = new ImageView();
+            outerSprite[i] = loadSprites(sprites, iv);
+        }
+        return outerSprite;
+    }
+
+    public Sprite[] loadSprites(SpriteParam[] spriteParam, ImageView iv) {
+        Sprite[] sprites = new Sprite[spriteParam.length];
+        for(int i = 0; i < sprites.length; i++) {
+            sprites[i] = new Sprite(iv, spriteParam[i].filename, spriteParam[i].extension, spriteParam[i].numberImages);
+        }
+        return sprites;
+    }
+
+    public AudioClip[] loadAudio(String[] audioFiles) {
+        AudioClip[] clips = new AudioClip[audioFiles.length];
+        for(int i = 0; i < clips.length; i++) {
+            clips[i] = new AudioClip(this.getClass().getResource(audioFiles[i]).toExternalForm());
+            clips[i].setVolume(0.1);
+        }
+
+        return clips;
+    }
+
+    /***
+     * Inner class used in combination with creating a 2-dimensional Sprite array.
+     */
+    public class SpriteParam {
+        String filename;
+        String extension;
+        int numberImages;
+
+        public SpriteParam(String filename, String extension, int numberImages) {
+            this.filename = filename;
+            this.extension = extension;
+            this.numberImages = numberImages;
+        }
     }
 
     /***
@@ -274,7 +423,7 @@ public class InitializeGame implements Initializable{
                     }
                 }
                 game.setGameInfo(tempPlayer);
-                game.setGameInfoZombie(tempZombie);
+                setGameInfoZombie(tempZombie);
             } catch (Exception e) {
                 int n = JOptionPane.showOptionDialog(null, "Savefile is corrupted", "Quickload Error",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
@@ -286,6 +435,37 @@ public class InitializeGame implements Initializable{
             int n = JOptionPane.showOptionDialog(null, "Unable to find savefile", "Quickload Error",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             System.out.println(e.getMessage());
+        }
+    }
+
+    public void setGameInfoZombie(int[][] info) {
+//        if (zombies.size() > info.length) {
+//            for(int i = info.length; i < zombies.size(); i++) {
+//                zombies.remove(i);
+//                gameWindow.getChildren().removeAll(zombies.get(i).getNode(), zombies.get(i).getIv());
+//            }
+//        } else if (zombies.size() < info.length) {
+//            for(int i = zombies.size(); i < info.length; i++) {
+//                zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+//                gameWindow.getChildren().add(zombies.get(i).getNode());
+//                gameWindow.getChildren().add(zombies.get(i).getIv());
+//            }
+//        } else {
+//            System.out.println("like mange");
+//        }
+
+        for (Zombie zombie : zombies) {
+            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
+            zombie.setAlive(false);
+        }
+        zombies.removeIf(Zombie::isDead);
+
+        loadZombies(info.length);
+        for (int i = 0; i < info.length; i++) {
+            //zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+            zombies.add(new Zombie(this.zombieAnimation[i], this.zombieAudioClips, info[i][0], info[i][1], info[i][2]));
+            gameWindow.getChildren().addAll(zombies.get(i).getNode(), zombies.get(i).getIv());
+            //zombies.get(i).setZombieInfo(info[i]);
         }
     }
 
