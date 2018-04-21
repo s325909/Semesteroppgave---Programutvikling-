@@ -141,25 +141,6 @@ public class Zombie extends Movable {
         timer.scheduleAtFixedRate(task, 0, 1000); //start immediately, 1000ms period
     }
 
-    public int[] getZombieInfo() {
-        int[] info = {
-                getPositionX(),
-                getPositionY(),
-                getHealthPoints()};
-        return info;
-    }
-
-    public void setZombieInfo(int[] zombieInfo) {
-        setPosition(zombieInfo[0], zombieInfo[1]);
-        setTranslateNode(zombieInfo[0], zombieInfo[1]);
-        setHealthPoints(zombieInfo[2]);
-    }
-
-    public void resetZombie(int randomX, int randomY) {
-        int[] values = {randomX, randomY, 100};
-        setZombieInfo(values);
-    }
-
     public void setAnimation(int i) {
         super.setSprite(this.allAnimation[i]);
     }

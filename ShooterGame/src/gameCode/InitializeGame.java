@@ -19,17 +19,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import notCurrentlyUsed.SaveData;
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
-
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.*;
 import java.net.URL;
 import java.lang.*;
 import java.util.ArrayList;
@@ -43,7 +32,6 @@ public class InitializeGame implements Initializable{
     @FXML private MenuBar topbar;
     @FXML private Text playerHP, playerArmor, magazineSize, poolSize, score, equippedWeapon;
     @FXML protected Label gameState, pressKey, pressKey2, pressKey3;
-    int positionX, positionY, healthPoints, armor;
 
     Stage stage = new Stage();
 
@@ -58,8 +46,6 @@ public class InitializeGame implements Initializable{
     private AudioClip[] zombieAudioClips;
     private Sprite[][] zombieAnimation;
 
-    private boolean initialized = false;
-
     final private boolean DEBUG = true;
 
     /***
@@ -70,8 +56,6 @@ public class InitializeGame implements Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        initialized = true;
 
         // Create an object of MusicPlayer, which includes what file to play and automatically starts playing
 //        try {
@@ -141,25 +125,21 @@ public class InitializeGame implements Initializable{
                 game.pauseGame();
 
             } else if (e.getCode() == KeyCode.R) {
-                game.setRestartable(true);
+                game.setHoldingButtonR(true);
 
             } else if (e.getCode() == KeyCode.M) {
                 musicPlayer.muteVolume();
             } else if (e.getCode() == KeyCode.F5){
                 System.out.println("Game is saved");
                 //saveGame(null);
-                //quickSave();
-                createSaveFile("",true);
             } else if (e.getCode() == KeyCode.F9) {
                 System.out.println("Load game");
-                //quickLoad();
-                readSaveFile("", true);
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {
             player.releasedPlayer(e);
             if (e.getCode() == KeyCode.R)
-                game.setRestartable(false);
+                game.setHoldingButtonR(false);
         });
 
         /*gameWindow.getScene().setOnKeyPressed(event -> {
@@ -169,306 +149,6 @@ public class InitializeGame implements Initializable{
                 saveGame();
             }
         });*/
-    }
-
-    /**
-     * Method for creating a save file.
-     * Requests the current information about the game and all entities, such as score, healthpoints, positions,
-     * and so on, and stores these systematically in a .xml file.
-     * @param fileName Requires a fileName of String type, which will be used as the name for .xml file.
-     * @param isQuick Requires a boolean to define whether this is the quicksave slot. If true, fileName
-     *                gets set to "quicksave", regardless of parameter input, and is saved as quicksave.xml.
-     */
-    public void createSaveFile(String fileName, Boolean isQuick) {
-        Object[] options = {"Resume game"};
-
-        if (isQuick) {
-            fileName = "quicksave";
-        }
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = factory.newDocumentBuilder();
-
-            Document doc = db.newDocument();
-
-            Element element = doc.createElement("Savefile");
-            doc.appendChild(element);
-
-            Element gInfo = doc.createElement("Game");
-            element.appendChild(gInfo);
-
-            Element score = doc.createElement("Score");
-            score.appendChild(doc.createTextNode(String.valueOf(game.getScoreNumber())));
-            gInfo.appendChild(score);
-
-            Element pInfo = doc.createElement("Player");
-            element.appendChild(pInfo);
-
-            Element playerHP = doc.createElement("HP");
-            playerHP.appendChild(doc.createTextNode(String.valueOf(player.getHealthPoints())));
-            pInfo.appendChild(playerHP);
-
-            Element armor = doc.createElement("Armor");
-            armor.appendChild(doc.createTextNode(String.valueOf(player.getArmor())));
-            pInfo.appendChild(armor);
-
-            Element playerPosX = doc.createElement("PosX");
-            playerPosX.appendChild(doc.createTextNode(String.valueOf(player.getPositionX())));
-            pInfo.appendChild(playerPosX);
-
-            Element playerPosY = doc.createElement("PosY");
-            playerPosY.appendChild(doc.createTextNode(String.valueOf(player.getPositionY())));
-            pInfo.appendChild(playerPosY);
-
-            Element playerDirection = doc.createElement("Direction");
-            playerDirection.appendChild(doc.createTextNode(String.valueOf(player.getDirection())));
-            pInfo.appendChild(playerDirection);
-
-            Element eqWep = doc.createElement("Equipped");
-            eqWep.appendChild(doc.createTextNode(String.valueOf(player.getEquippedWeapon())));
-            pInfo.appendChild(eqWep);
-
-            Element magPistol = doc.createElement("MagPistol");
-            magPistol.appendChild(doc.createTextNode(String.valueOf(player.getMagazinePistol().getNumberBullets())));
-            pInfo.appendChild(magPistol);
-
-            Element poolPistol = doc.createElement("PoolPistol");
-            poolPistol.appendChild(doc.createTextNode(String.valueOf(player.getMagazinePistol().getCurrentPool())));
-            pInfo.appendChild(poolPistol);
-
-            Element magRifle = doc.createElement("MagRifle");
-            magRifle.appendChild(doc.createTextNode(String.valueOf(player.getMagazineRifle().getNumberBullets())));
-            pInfo.appendChild(magRifle);
-
-            Element poolRifle = doc.createElement("PoolRifle");
-            poolRifle.appendChild(doc.createTextNode(String.valueOf(player.getMagazineRifle().getCurrentPool())));
-            pInfo.appendChild(poolRifle);
-
-            Element magShotgun = doc.createElement("MagShotgun");
-            magShotgun.appendChild(doc.createTextNode(String.valueOf(player.getMagazineShotgun().getNumberBullets())));
-            pInfo.appendChild(magShotgun);
-
-            Element poolShotgun = doc.createElement("PoolShotgun");
-            poolShotgun.appendChild(doc.createTextNode(String.valueOf(player.getMagazineShotgun().getCurrentPool())));
-            pInfo.appendChild(poolShotgun);
-
-            Element zInfo = doc.createElement("Zombies");
-            element.appendChild(zInfo);
-
-            for(int i = 0; i < zombies.size(); i++) {
-                Element zInfoNbr = doc.createElement("Zombie");
-                Attr nbrZombie = doc.createAttribute("id");
-                nbrZombie.setValue(String.valueOf(i));
-                zInfoNbr.setAttributeNode(nbrZombie);
-                zInfo.appendChild(zInfoNbr);
-
-                Element zombieHP = doc.createElement("HP");
-                zombieHP.appendChild(doc.createTextNode(String.valueOf(zombies.get(i).getHealthPoints())));
-                zInfoNbr.appendChild(zombieHP);
-
-                Element zombiePosX = doc.createElement("PosX");
-                zombiePosX.appendChild(doc.createTextNode(String.valueOf(zombies.get(i).getPositionX())));
-                zInfoNbr.appendChild(zombiePosX);
-
-                Element zombiePosY = doc.createElement("PosY");
-                zombiePosY.appendChild(doc.createTextNode(String.valueOf(zombies.get(i).getPositionY())));
-                zInfoNbr.appendChild(zombiePosY);
-
-                Element zombieDirection = doc.createElement("Direction");
-                zombieDirection.appendChild(doc.createTextNode(String.valueOf(zombies.get(i).getDirection())));
-                zInfoNbr.appendChild(zombieDirection);
-            }
-
-            Element bulletInfo = doc.createElement("Bullets");
-            element.appendChild(bulletInfo);
-
-            for(int i = 0; i < game.getBulletList().size(); i++) {
-                Element bulletInfoNbr = doc.createElement("Bullet");
-                Attr nbrBullet = doc.createAttribute("id");
-                nbrBullet.setValue(String.valueOf(i));
-                bulletInfoNbr.setAttributeNode(nbrBullet);
-                bulletInfo.appendChild(bulletInfoNbr);
-
-                Element bulletPosX = doc.createElement("PosX");
-                bulletPosX.appendChild(doc.createTextNode(String.valueOf(game.getBulletList().get(i).getPositionX())));
-                bulletInfoNbr.appendChild(bulletPosX);
-
-                Element bulletPosY = doc.createElement("PosY");
-                bulletPosY.appendChild(doc.createTextNode(String.valueOf(game.getBulletList().get(i).getPositionY())));
-                bulletInfoNbr.appendChild(bulletPosY);
-
-                Element damage = doc.createElement("Damage");
-                damage.appendChild(doc.createTextNode(String.valueOf(game.getBulletList().get(i).getDamage())));
-                bulletInfoNbr.appendChild(damage);
-
-                Element bulletDirection = doc.createElement("Direction");
-                bulletDirection.appendChild(doc.createTextNode(String.valueOf(game.getBulletList().get(i).getDirection())));
-                bulletInfoNbr.appendChild(bulletDirection);
-            }
-
-            try {
-                TransformerFactory trf = TransformerFactory.newInstance();
-                Transformer tr = trf.newTransformer();
-
-                tr.setOutputProperty(OutputKeys.INDENT, "yes");
-                tr.setOutputProperty(OutputKeys.METHOD, "xml");
-                tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-                tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-
-                DOMSource source = new DOMSource(doc);
-
-//                StreamResult result = new StreamResult(new File("savegame.xml"));
-                StreamResult result = new StreamResult(new File("./savegame/" + fileName + ".xml"));
-
-                tr.transform(source, result);
-            } catch (TransformerException e) {
-                e.printStackTrace();
-                System.out.println("TransformerException");
-            }
-//            catch (IOException ioe) {
-//                System.out.println(ioe.getMessage());
-//            Object[] options = {"Resume game"};
-//            int n = JOptionPane.showOptionDialog(null, "Unable to create save file. " +
-//                    "\n \n Try to name it something else", "Saving error", JOptionPane.DEFAULT_OPTION,
-//                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-//            }
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-            System.out.println("ParseConfigurationException");
-        }
-    }
-
-    /**
-     * Method for loading a save file.
-     * Turns the information stored in the .xml file into values that can be set for the game and all entities,
-     * in order to restore the game to the previous state. Game score and Player's stats and position are reset to
-     * the appropriate values, whilst all zombies, if any, are first removed, then one by one is recreated
-     * according the the saved values regarding number of zombies and their respective stats.
-     * @param fileName Requires a fileName of String type, which will be used to find the correct .xml file.
-     * @param isQuick Requires a boolean to define whether this is the quicksave slot. If true, fileName
-     *                gets set to "quicksave", regardless of parameter input, and quicksave.xml will load.
-     */
-    public void readSaveFile(String fileName, Boolean isQuick) {
-        Object[] options = {"Resume game"};
-
-        if (isQuick) {
-            fileName = "quicksave";
-        }
-
-        try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse("./savegame/" + fileName + ".xml");
-            doc.getDocumentElement().normalize();
-
-            NodeList gameList = doc.getElementsByTagName("Game");
-
-            Node nodeG = gameList.item(0);
-
-            if (nodeG.getNodeType() == Node.ELEMENT_NODE) {
-                Element e = (Element) nodeG;
-                game.setScoreNumber(Integer.valueOf(e.getElementsByTagName("Score").item(0).getTextContent()));
-            }
-
-            NodeList playerList = doc.getElementsByTagName("Player");
-
-            Node nodeP = playerList.item(0);
-
-            if (nodeP.getNodeType() == Node.ELEMENT_NODE) {
-                Element e = (Element) nodeP;
-                player.setHealthPoints(Integer.valueOf(e.getElementsByTagName("HP").item(0).getTextContent()));
-                player.setArmor(Integer.valueOf(e.getElementsByTagName("Armor").item(0).getTextContent()));
-                player.setPosition(
-                        Integer.valueOf(e.getElementsByTagName("PosX").item(0).getTextContent()),
-                        Integer.valueOf(e.getElementsByTagName("PosY").item(0).getTextContent()));
-                player.setTranslateNode(
-                        Integer.valueOf(e.getElementsByTagName("PosX").item(0).getTextContent()),
-                        Integer.valueOf(e.getElementsByTagName("PosY").item(0).getTextContent()));
-                player.setDirection(Player.Direction.valueOf(e.getElementsByTagName("Direction").item(0).getTextContent()));
-                player.setEquippedWeapon(Player.WeaponTypes.valueOf(e.getElementsByTagName("Equipped").item(0).getTextContent()));
-                player.getMagazinePistol().setNumberBullets(Integer.valueOf(e.getElementsByTagName("MagPistol").item(0).getTextContent()));
-                player.getMagazinePistol().setCurrentPool(Integer.valueOf(e.getElementsByTagName("PoolPistol").item(0).getTextContent()));
-                player.getMagazineRifle().setNumberBullets(Integer.valueOf(e.getElementsByTagName("MagRifle").item(0).getTextContent()));
-                player.getMagazineRifle().setCurrentPool(Integer.valueOf(e.getElementsByTagName("PoolRifle").item(0).getTextContent()));
-                player.getMagazineShotgun().setNumberBullets(Integer.valueOf(e.getElementsByTagName("MagShotgun").item(0).getTextContent()));
-                player.getMagazineShotgun().setCurrentPool(Integer.valueOf(e.getElementsByTagName("PoolShotgun").item(0).getTextContent()));
-            }
-
-            // Remove the current number of Zombie objects
-            for(Zombie zombie : zombies) {
-                gameWindow.getChildren().removeAll(zombie.getIv(), zombie.getNode());
-                zombie.setAlive(false);
-            }
-            zombies.removeIf(Zombie::isDead);
-
-
-            NodeList zombieList = doc.getElementsByTagName("Zombie");
-
-            if (!getInitialized())
-                loadAssets(zombieList.getLength());
-
-            for (int i = 0; i < zombieList.getLength(); i++) {
-
-                Node nodeZ = zombieList.item(i);
-
-                if (nodeZ.getNodeType() == Node.ELEMENT_NODE) {
-                    Element e = (Element) nodeZ;
-                    zombies.add(new Zombie(this.zombieAnimation[i], this.zombieAudioClips,
-                            Integer.valueOf(e.getElementsByTagName("PosX").item(0).getTextContent()),
-                            Integer.valueOf(e.getElementsByTagName("PosY").item(0).getTextContent()),
-                            Integer.valueOf(e.getElementsByTagName("HP").item(0).getTextContent())));
-                    gameWindow.getChildren().addAll(zombies.get(i).getNode(), zombies.get(i).getIv());
-                }
-            }
-        }
-        catch (IOException ioe) {
-//            int n = JOptionPane.showOptionDialog(null, "Unable to load save file", "Loading error", JOptionPane.DEFAULT_OPTION,
-//                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-        } catch (ParserConfigurationException pce) {
-            System.out.println(pce.getMessage());
-        } catch (SAXException saxe) {
-            System.out.println(saxe.getMessage());
-        }
-    }
-
-    /***
-     * Method which will open a new window with Save option.
-     */
-    @FXML
-    public void saveGame() {
-        Parent root;
-        try {
-            game.pauseGame();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("saveGame.fxml"));
-            root = loader.load();
-            InitializeSave initializeSave = loader.getController();
-            initializeSave.saveData = new SaveData(positionX, positionY, healthPoints, armor, playerHP, playerArmor, magazineSize, poolSize, score); //.setText(this.playerHP.getText());
-            //root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
-            Stage saveGame = new Stage();
-            saveGame.setScene(new Scene(root, 600, 400));
-            saveGame.show();
-        } catch (Exception e) {
-            System.out.println("Open SavePane Error");
-        }
-    }
-    /***
-     * Method which will open a new window with Load option.
-     */
-    @FXML
-    public void loadGame() {
-        Parent root;
-        try {
-            game.pauseGame();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Loading.fxml"));
-            root = loader.load();
-            LoadSavedGame loadSavedGame = loader.getController();
-            //root = FXMLLoader.load(getClass().getResource("Loading.fxml"));
-            Stage loadGame = new Stage();
-            loadGame.setScene(new Scene(root, 600, 400));
-            loadGame.show();
-        } catch (Exception e) {
-            System.out.println("Error");
-        }
     }
 
     /**
@@ -604,52 +284,37 @@ public class InitializeGame implements Initializable{
     }
 
     /**
-     *
-     * @param info
+     * Method which will display a message to the player upon pausing the game, or if the game ends normally.
+     * What message is displayed is dependent on which of these two states are present.
+     * @param isGameOver Requires a boolean which will decide whether to display a message regarding
+     *                   pause, or a message regarding the end of the game, commonly "game over".
+     * @param visible Requires a boolean which will decide whether to display these messages.
      */
-    private void setGameInfoZombie(int[][] info) {
-        for (Zombie zombie : zombies) {
-            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
-            zombie.setAlive(false);
+    protected void setGameLabel(Boolean isGameOver, boolean visible) {
+        if(visible) {
+            gameState.setVisible(true);
+            pressKey.setVisible(true);
+            pressKey2.setVisible(true);
+            pressKey3.setVisible(true);
+        } else {
+            gameState.setVisible(false);
+            pressKey.setVisible(false);
+            pressKey2.setVisible(false);
+            pressKey3.setVisible(false);
         }
-        zombies.removeIf(Zombie::isDead);
 
-        //loadZombies(info.length);
-        for (int i = 0; i < info.length; i++) {
-            zombies.add(new Zombie(this.zombieAnimation[i], this.zombieAudioClips, info[i][0], info[i][1], info[i][2]));
-            gameWindow.getChildren().addAll(zombies.get(i).getNode(), zombies.get(i).getIv());
+        if (isGameOver) {
+            gameState.setText("GAME OVER!");
+            gameState.setTextFill(Color.INDIANRED);
+            pressKey.setText("Press R to Restart");
+            pressKey2.setText("Press ESC to pop up in game Menu...IDK");
+        } else {
+            gameState.setText("GAME IS PAUSED");
+            gameState.setTextFill(Color.WHITE);
+            pressKey.setText("Press P to Continue");
+            pressKey2.setText("Press R to Restart");
+            pressKey3.setText("Press ESC to pop up in game Menu...IDK");
         }
-    }
-
-    /***
-     *
-     * @param visible Requires
-     */
-    protected void setGameOverLabel(boolean visible) {
-        gameState.setVisible(visible);
-        gameState.setText("GAME OVER!");
-        gameState.setTextFill(Color.INDIANRED);
-        pressKey.setVisible(visible);
-        pressKey.setText("Press R to Restart");
-        pressKey2.setVisible(visible);
-        pressKey2.setText("Press ESC to pop up in game Menu...IDK");
-        pressKey3.setVisible(visible);
-    }
-
-    /***
-     *
-     * @param visible Requires
-     */
-    protected void setGameIsPausedLabel(boolean visible){
-        gameState.setVisible(visible);
-        gameState.setText("GAME IS PAUSED");
-        gameState.setTextFill(Color.WHITE);
-        pressKey.setVisible(visible);
-        pressKey.setText("Press P to Continue");
-        pressKey2.setVisible(visible);
-        pressKey2.setText("Press R to Restart");
-        pressKey3.setVisible(visible);
-        pressKey3.setText("Press ESC to pop up in game Menu...IDK");
     }
 
     /***
@@ -666,13 +331,8 @@ public class InitializeGame implements Initializable{
         }
     }
 
-
     public void exitGame() {
         System.exit(0);
-    }
-
-    public boolean getInitialized() {
-        return this.initialized;
     }
 
     /***
@@ -687,6 +347,47 @@ public class InitializeGame implements Initializable{
             this.filename = filename;
             this.extension = extension;
             this.numberImages = numberImages;
+        }
+    }
+
+
+    /***
+     * Method which will open a new window with Save option.
+     */
+    @FXML
+    public void saveGame() {
+        Parent root;
+        try {
+            game.pauseGame();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("saveGame.fxml"));
+            root = loader.load();
+            InitializeSave initializeSave = loader.getController();
+            initializeSave.saveData = new SaveData(player.getPositionX(), player.getPositionY(), player.getHealthPoints(), player.getArmor(), playerHP, playerArmor, magazineSize, poolSize, score); //.setText(this.playerHP.getText());
+            //root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
+            Stage saveGame = new Stage();
+            saveGame.setScene(new Scene(root, 600, 400));
+            saveGame.show();
+        } catch (Exception e) {
+            System.out.println("Open SavePane Error");
+        }
+    }
+    /***
+     * Method which will open a new window with Load option.
+     */
+    @FXML
+    public void loadGame() {
+        Parent root;
+        try {
+            game.pauseGame();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Loading.fxml"));
+            root = loader.load();
+            LoadSavedGame loadSavedGame = loader.getController();
+            //root = FXMLLoader.load(getClass().getResource("Loading.fxml"));
+            Stage loadGame = new Stage();
+            loadGame.setScene(new Scene(root, 600, 400));
+            loadGame.show();
+        } catch (Exception e) {
+            System.out.println("Error");
         }
     }
 

@@ -320,48 +320,20 @@ public class Player extends Movable {
     }
 
     /**
-     * Method which will return an array of type int with significant fields of interest regarding the Player.
-     * @return Returns an array of type int with Player information.
-     */
-    public int[] getPlayerInfo() {
-        int[] info = {
-                getPositionX(),
-                getPositionY(),
-                getHealthPoints(),
-                getArmor(),
-                getMagazinePistol().getNumberBullets(),
-                getMagazinePistol().getCurrentPool(),
-                getMagazineRifle().getNumberBullets(),
-                getMagazineRifle().getCurrentPool(),
-                getMagazineShotgun().getNumberBullets(),
-                getMagazineShotgun().getCurrentPool()};
-        return info;
-    }
-
-    /**
-     * Method which will take an array of type int and adjust a number of significant fields regarding the Player.
-     * @param playerInfo Requires an array of type int.
-     */
-    public void setPlayerInfo(int[] playerInfo) {
-        setPosition(playerInfo[0], playerInfo[1]);
-        setTranslateNode(playerInfo[0], playerInfo[1]);
-        setHealthPoints(playerInfo[2]);
-        setArmor(playerInfo[3]);
-        getMagazinePistol().setNumberBullets(playerInfo[4]);
-        getMagazinePistol().setCurrentPool(playerInfo[5]);
-        getMagazineRifle().setNumberBullets(playerInfo[6]);
-        getMagazineRifle().setCurrentPool(playerInfo[7]);
-        getMagazineShotgun().setNumberBullets(playerInfo[8]);
-        getMagazineShotgun().setCurrentPool(playerInfo[9]);
-    }
-
-    /**
      * Method which will reset the Player's stats.
      * These include position, healthpoints, armor, and ammunition of each weapon.
      */
     public void resetPlayer() {
-        int[] values = {0,0,100,50,15,15,30,30,8,8};
-        setPlayerInfo(values);
+        setPosition(1280/2,720/2);
+        setTranslateNode(1280/2, 720/2);
+        setHealthPoints(100);
+        setArmor(50);
+        getMagazinePistol().setNumberBullets(15);
+        getMagazinePistol().setCurrentPool(15);
+        getMagazineRifle().setNumberBullets(30);
+        getMagazineRifle().setCurrentPool(30);
+        getMagazineShotgun().setNumberBullets(8);
+        getMagazineShotgun().setCurrentPool(8);
     }
 
     /**

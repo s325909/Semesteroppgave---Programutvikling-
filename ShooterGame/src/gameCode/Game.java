@@ -17,13 +17,11 @@ public class Game {
 
     private boolean isRunning = true;
     private boolean createDrops = true;
-    private boolean isGamePaused = false;
-    private boolean isGameOver = false;
-    private boolean restartable = false;
+    private boolean holdingButtonR;
 
     private InitializeGame controller;
 
-    List<Bullet> bullets;
+    private List<Bullet> bullets;
     private List<Drop> drops = new ArrayList<>();
     private List<Drop> dropsExtra = new ArrayList<>();
 
@@ -61,12 +59,9 @@ public class Game {
      *             the AnimationTimer
      */
     private void onUpdate(double time) {
-        if ((isGameOver && restartable) || (isGamePaused && restartable)){
+        if (!isRunning && holdingButtonR){
             restartGame();
-            controller.gameState.setVisible(false);
-            controller.pressKey.setVisible(false);
-            controller.pressKey2.setVisible(false);
-            controller.pressKey3.setVisible(false);
+            controller.setGameLabel(false, false);
         }
         if (isRunning) {
 
@@ -90,7 +85,7 @@ public class Game {
                     player.receivedDamage(10);
                     if (!player.stillAlive()) {
                         System.out.println("Player is dead");
-                        //gameOver();
+                        gameOver();
                     }
                 }
             }
@@ -198,60 +193,17 @@ public class Game {
         this.equippedWeapon.setText(weapon);
     }
 
-    /**
-     * Method which combines a number of Player information with the current scoreNumber.
-     * @return Returns an array of type int which contains numbers regarding Player information and score Number.
-     */
-    public int[] gameInfo() {
-        int[] info = new int[player.getPlayerInfo().length + 1];
-        for(int i = 0; i < player.getPlayerInfo().length; i++) {
-            info[i] = player.getPlayerInfo()[i];
-        }
-        info[player.getPlayerInfo().length] = this.scoreNumber;
-
-        return info;
-    }
-
-    /***
-     * Method which updates the Player information and current scoreNumber
-     * @param info Requires an array of type int which must contain the required
-     *             information for player and scoreNumber.
-     */
-    public void setGameInfo(int[] info) {
-        int[] playerInfo = new int[info.length - 1];
-        for (int i = 0; i < info.length - 1; i++) {
-            playerInfo[i] = info[i];
-        }
-        this.scoreNumber = info[info.length - 1];
-        player.setPlayerInfo(playerInfo);
-    }
-
-    /**
-     * Method which creates a 2-dimensional array containing the number of entities
-     * of type Zombie, and each given stat for each zombie.
-     * @return Returns a 2-dimensional array of type int.
-     */
-    public int[][] GameInfoZombie() {
-        int[][] zombieInfo = new int[zombies.size()][];
-        for(int i = 0; i < zombies.size(); i++) {
-            zombieInfo[i] = zombies.get(i).getZombieInfo();
-        }
-        return zombieInfo;
-    }
-
     /***
      * Method for changing the boolean isRunning.
      * Method affects the onUdate() function.
      */
     public void pauseGame() {
         if (isRunning) {
-            this.isRunning = false;
-            this.isGamePaused = true;
-            controller.setGameIsPausedLabel(true);
+            setRunning(false);
+            controller.setGameLabel(false, true);
         } else {
-            this.isRunning = true;
-            this.isGamePaused = false;
-            controller.setGameIsPausedLabel(false);
+            setRunning(true);
+            controller.setGameLabel(false, false);
         }
     }
 
@@ -260,11 +212,8 @@ public class Game {
      * point where the game is over.
      */
     public void gameOver() {
-        if (isRunning) {
-            this.isRunning = false;
-            this.isGameOver = true;
-            controller.setGameOverLabel(true);
-        }
+        setRunning(false);
+        controller.setGameLabel(true, true);
     }
 
     /***
@@ -277,38 +226,31 @@ public class Game {
      * as well as setting both "isGameOver" and "gameIsPaused" equals "false",
      * which allows this method to run again after restarting the game
      */
-    public void restartGame() {
-
-        if (isGameOver || isGamePaused) {
-
-            for (Zombie zombie : zombies) {
-                gameWindow.getChildren().remove(zombie.getSprite().getImageView());
-                gameWindow.getChildren().remove(zombie.getNode());
-            }
-            zombies.clear();
-
-            player.resetPlayer();
-            this.scoreNumber = 0;
-
-            // Må Fikse å hente zombie animasjon her ala som i initializegame
-            try {
-                for (int i = 0; i < 10; i++) {
-                    zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
-                }
-            } catch (Exception e) {
-                System.out.println("Error: Enemies did not load correctly");
-            }
-
-            for (Zombie zombie : zombies) {
-                gameWindow.getChildren().addAll(zombie.getNode());
-                gameWindow.getChildren().addAll(zombie.getSprite().getImageView());
-            }
-
-            this.isRunning = true;
-
-            this.isGameOver = false;
-            this.isGamePaused = false;
+    private void restartGame() {
+        for (Zombie zombie : zombies) {
+            gameWindow.getChildren().remove(zombie.getSprite().getImageView());
+            gameWindow.getChildren().remove(zombie.getNode());
         }
+        zombies.clear();
+
+        player.resetPlayer();
+        this.scoreNumber = 0;
+
+        // Må Fikse å hente zombie animasjon her ala som i initializegame
+        try {
+//            for (int i = 0; i < 10; i++) {
+//                zombies.add(new Zombie("/resources/Art/Zombie/skeleton-idle_", ".png", 17, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+//            }
+        } catch (Exception e) {
+            System.out.println("Error: Enemies did not load correctly");
+        }
+
+        for (Zombie zombie : zombies) {
+            gameWindow.getChildren().addAll(zombie.getNode());
+            gameWindow.getChildren().addAll(zombie.getSprite().getImageView());
+        }
+
+        setRunning(true);
     }
 
     public int getScoreNumber() {
@@ -323,8 +265,12 @@ public class Game {
         return player;
     }
 
-    public void setRestartable(boolean restartable) {
-        this.restartable = restartable;
+    public void setRunning(boolean isRunning) {
+        this.isRunning = isRunning;
+    }
+
+    public void setHoldingButtonR(boolean holdingButtonR) {
+        this.holdingButtonR = holdingButtonR;
     }
 
     public void setController(InitializeGame controller) {
