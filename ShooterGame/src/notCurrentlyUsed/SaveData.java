@@ -1,4 +1,4 @@
-package gameCode;
+package notCurrentlyUsed;
 
 import entities.Player;
 import entities.Zombie;

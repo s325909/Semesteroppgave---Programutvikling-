@@ -1,16 +1,13 @@
 package gameCode;
 
-import entities.Player;
-import javafx.beans.property.StringPropertyBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import notCurrentlyUsed.SaveData;
+import notCurrentlyUsed.SaveLoadManager;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 

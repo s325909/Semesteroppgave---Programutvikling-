@@ -18,10 +18,11 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import notCurrentlyUsed.SaveData;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
-import javax.swing.*;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -412,8 +413,8 @@ public class InitializeGame implements Initializable{
             }
         }
         catch (IOException ioe) {
-            int n = JOptionPane.showOptionDialog(null, "Unable to load save file", "Loading error", JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+//            int n = JOptionPane.showOptionDialog(null, "Unable to load save file", "Loading error", JOptionPane.DEFAULT_OPTION,
+//                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         } catch (ParserConfigurationException pce) {
             System.out.println(pce.getMessage());
         } catch (SAXException saxe) {
@@ -449,10 +450,10 @@ public class InitializeGame implements Initializable{
         Parent root;
         try {
             game.pauseGame();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("loadGame.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/LoadMenu.fxml"));
             root = loader.load();
             LoadSavedGame loadSavedGame = loader.getController();
-            //root = FXMLLoader.load(getClass().getResource("loadGame.fxml"));
+            //root = FXMLLoader.load(getClass().getResource("LoadMenu.fxml"));
             Stage loadGame = new Stage();
             loadGame.setScene(new Scene(root, 600, 400));
             loadGame.show();

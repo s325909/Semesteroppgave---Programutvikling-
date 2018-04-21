@@ -14,9 +14,9 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable{
 
-    Stage loadWindow, optionWindow, helpWindow;
-    Scene loadScene, optionsScene, helpScene;
-    Parent loadRoot, optionsRoot, helpRoot;
+    private Stage loadWindow, optionWindow, helpWindow;
+    private Scene loadScene, optionsScene, helpScene;
+    private Parent loadRoot, optionsRoot, helpRoot;
 
     @FXML
     Button newGame, loadGame, options, help, exit;
@@ -33,7 +33,7 @@ public class MainController implements Initializable{
             Stage stage = (Stage) newGame.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../gameCode/GameWindow.fxml"));/* Exception */
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("../gameCode/StyleGameWindow.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("../menuOptions/MenuStyle.css").toExternalForm());
             stage.setScene(scene);
             stage.show();
 
@@ -48,7 +48,7 @@ public class MainController implements Initializable{
         try {
             if(event.getSource() == loadGame) {
                 loadWindow = (Stage) loadGame.getScene().getWindow();
-                loadRoot = FXMLLoader.load(getClass().getResource("../gameCode/loadGame.fxml"));
+                loadRoot = FXMLLoader.load(getClass().getResource("../menuOptions/LoadMenu.fxml"));
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -59,12 +59,12 @@ public class MainController implements Initializable{
         loadWindow.show();
     }
 
-    public void openOptionsMenu(ActionEvent event) throws IOException{
+    public void openSettings(ActionEvent event) throws IOException{
 
         try {
             if (event.getSource() == options){
                 optionWindow = (Stage) options.getScene().getWindow();
-                optionsRoot = FXMLLoader.load(getClass().getResource("../menuOptions/optionsMenu.fxml"));
+                optionsRoot = FXMLLoader.load(getClass().getResource("../menuOptions/Settings.fxml"));
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -75,12 +75,12 @@ public class MainController implements Initializable{
         optionWindow.show();
     }
 
-    public void openHelpMenu(ActionEvent event) throws IOException{
+    public void openHowToPlay(ActionEvent event) throws IOException{
 
         try {
             if (event.getSource() == help){
                 helpWindow = (Stage) help.getScene().getWindow();
-                helpRoot = FXMLLoader.load(getClass().getResource("../menuOptions/helpMenu.fxml"));
+                helpRoot = FXMLLoader.load(getClass().getResource("../menuOptions/HowToPlay.fxml"));
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
