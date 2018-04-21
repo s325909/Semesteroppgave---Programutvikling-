@@ -58,6 +58,8 @@ public class InitializeGame implements Initializable{
     private AudioClip[] zombieAudioClips;
     private Sprite[][] zombieAnimation;
 
+    private boolean initialized = false;
+
     final private boolean DEBUG = true;
 
     /***
@@ -68,6 +70,8 @@ public class InitializeGame implements Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        initialized = true;
 
         // Create an object of MusicPlayer, which includes what file to play and automatically starts playing
 //        try {
@@ -398,6 +402,9 @@ public class InitializeGame implements Initializable{
 
             NodeList zombieList = doc.getElementsByTagName("Zombie");
 
+            if (!getInitialized())
+                loadAssets(zombieList.getLength());
+
             for (int i = 0; i < zombieList.getLength(); i++) {
 
                 Node nodeZ = zombieList.item(i);
@@ -508,14 +515,6 @@ public class InitializeGame implements Initializable{
         this.weapon = loadAudio(weaponSounds);
         this.playerAnimation = loadSprites(all);
 
-        loadZombies(nbrZombies);
-    }
-
-    /**
-     *
-     * @param nbrZombies
-     */
-    private void loadZombies(int nbrZombies) {
         String[] zombieSounds = {
                 "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
                 "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"};
@@ -527,7 +526,23 @@ public class InitializeGame implements Initializable{
 
         this.zombieAudioClips = loadAudio(zombieSounds);
         this.zombieAnimation = loadSprites(nbrZombies, zombieAnimations);
+
+        //loadZombies(nbrZombies);
     }
+
+//    private void loadZombies(int nbrZombies) {
+//        String[] zombieSounds = {
+//                "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
+//                "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"};
+//
+//        SpriteParam[] zombieAnimations = {
+//                new SpriteParam("/resources/Art/Zombie/skeleton-idle_", ".png", 17),
+//                new SpriteParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
+//                new SpriteParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
+//
+//        this.zombieAudioClips = loadAudio(zombieSounds);
+//        this.zombieAnimation = loadSprites(nbrZombies, zombieAnimations);
+//    }
 
     /***
      * Method which is used for loading all the various weapon sprites into a 2-dimensional array.
@@ -597,7 +612,7 @@ public class InitializeGame implements Initializable{
         }
         zombies.removeIf(Zombie::isDead);
 
-        loadZombies(info.length);
+        //loadZombies(info.length);
         for (int i = 0; i < info.length; i++) {
             zombies.add(new Zombie(this.zombieAnimation[i], this.zombieAudioClips, info[i][0], info[i][1], info[i][2]));
             gameWindow.getChildren().addAll(zombies.get(i).getNode(), zombies.get(i).getIv());
@@ -652,6 +667,10 @@ public class InitializeGame implements Initializable{
 
     public void exitGame() {
         System.exit(0);
+    }
+
+    public boolean getInitialized() {
+        return this.initialized;
     }
 
     /***

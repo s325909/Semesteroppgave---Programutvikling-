@@ -1,5 +1,6 @@
 package menuOptions;
 
+import gameCode.InitializeGame;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,14 +11,15 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import notCurrentlyUsed.SaveLoadManager;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MenuController implements Initializable {
 
     private Stage window_GameMenu;
-    private Scene scene_GameMenu;
     private Parent root_GameMenu;
+    private InitializeGame ig;
 
     @FXML
     private Button returnToMenu, loadBtn1, loadBtn2, loadBtn3;
@@ -36,7 +38,7 @@ public class MenuController implements Initializable {
             System.out.println(e.getMessage());
         }
 
-        scene_GameMenu = new Scene(root_GameMenu, 1280, 720);
+        Scene scene_GameMenu = new Scene(root_GameMenu, 1280, 720);
         window_GameMenu.setScene(scene_GameMenu);
         window_GameMenu.show();
     }
@@ -44,33 +46,48 @@ public class MenuController implements Initializable {
     /***
      * Method which establishes load function by clicking load button.
      */
-
     @FXML
-    public void loadGame() {
-
-        loadBtn1.setOnAction(event->{
+    public void loadGame(ActionEvent event) {
+        
             try{
-                SaveLoadManager.load("game1.save");
-            } catch(Exception e) {
-                System.out.println("Couldn't load saved data");
-            }
-        });
+                Stage stage = (Stage) loadBtn1.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("../gameCode/GameWindow.fxml"));
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getResource("../menuOptions/MenuStyle.css").toExternalForm());
+                stage.setScene(scene);
+                stage.show();
 
-        loadBtn2.setOnAction(event->{
-            try{
-                SaveLoadManager.load("game2.save");
-            } catch(Exception e) {
-                System.out.println("Couldn't load saved data");
-            }
-        });
+                if (event.getSource() == loadBtn1 || event.getSource() == loadBtn2 || event.getSource() == loadBtn3) {
+                    //ig.readSaveFile(loadBtn1.getText(), true);
+                }
 
-        loadBtn3.setOnAction(event->{
-            try{
-                SaveLoadManager.load("game3.save");
-            } catch(Exception e) {
-                System.out.println("Couldn't load saved data");
+
+            }catch (IOException io){
+                io.printStackTrace();
             }
-        });
+
+//            try{
+//                SaveLoadManager.load("game1.save");
+//            } catch(Exception e) {
+//                System.out.println("Couldn't load saved data");
+//            }
+
+//
+//        loadBtn2.setOnAction(event->{
+//            try{
+//                SaveLoadManager.load("game2.save");
+//            } catch(Exception e) {
+//                System.out.println("Couldn't load saved data");
+//            }
+//        });
+//
+//        loadBtn3.setOnAction(event->{
+//            try{
+//                SaveLoadManager.load("game3.save");
+//            } catch(Exception e) {
+//                System.out.println("Couldn't load saved data");
+//            }
+//        });
     }
 
 }
