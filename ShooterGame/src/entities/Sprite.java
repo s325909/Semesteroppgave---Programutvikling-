@@ -53,7 +53,7 @@ public class Sprite {
      * Method for determining how quickly the array of Sprites should cycle
      * @param time
      */
-    public void setFrame(double time) {
+    protected void setFrame(double time) {
         int index = (int)((time % (frames.length * duration)) / duration);
         this.iv.setImage(frames[index]);
         //this.iv.setFitWidth(maxWidth);

@@ -10,20 +10,12 @@ public class Movable extends Entity {
 
     private double velocityX;
     private double velocityY;
-
-    private boolean idleSet = false;
-    private Sprite spriteIdle;
-    private boolean moveSet = false;
-    private Sprite spriteMoving;
-    private boolean meleeSet = false;
-    private Sprite spriteMelee;
-
-    private Direction direction;
-
     private double movementSpeed;
 
     private AudioClip[] basicSounds;
     private AudioClip[] audioClips;
+
+    private Direction direction;
 
     public Movable() { }
 
@@ -63,7 +55,6 @@ public class Movable extends Entity {
         this.velocityY = 0;
     }
 
-    //public void update(List<Entity> entityList, double time) {
     public void update(double time) {
         this.getSprite().setFrame(time);
 
@@ -119,46 +110,6 @@ public class Movable extends Entity {
 //        }
     }
 
-    // Functions for changing entity velocity
-//    public void move(Direction direction) {
-//        double left = 0;
-//        double right = 0;
-//        double up = 0;
-//        double down = 0;
-//
-//        if (direction == Direction.NORTH)
-//            up = -movementSpeed;
-//        else if (direction == Direction.SOUTH)
-//            down = movementSpeed;
-//        else if (direction == Direction.EAST)
-//            right = movementSpeed;
-//        else if (direction == Direction.WEST)
-//            left = -movementSpeed;
-//
-//        setVelocityX(right + left);
-//        setVelocityY(up + down);
-//    }
-//
-//    public void stop(Direction direction) {
-//        double left = 0;
-//        double right = 0;
-//        double up = 0;
-//        double down = 0;
-//
-//        if (direction == Direction.NORTH)
-//            up = 0;
-//        else if (direction == Direction.SOUTH)
-//            down = 0;
-//        else if (direction == Direction.EAST)
-//            right = 0;
-//        else if (direction == Direction.WEST)
-//            left = 0;
-//
-//        setVelocityX(right + left);
-//        setVelocityY(up + down);
-//    }
-
-
     public void goLeft() {
         setVelocityX(-movementSpeed);
     }
@@ -183,61 +134,11 @@ public class Movable extends Entity {
         setVelocityY(0.0);
     }
 
-    public void setSpriteIdle(String spriteFileName, String extension, int numberImages) {
-        this.idleSet = true;
-        this.spriteIdle = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
-    }
-
-    public void setSpriteMoving(String spriteFileName, String extension, int numberImages) {
-        this.moveSet = true;
-        this.spriteMoving = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
-    }
-
-    public void setSpriteMelee(String spriteFileName, String extension, int numberImages) {
-        this.meleeSet = true;
-        this.spriteMelee = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
-    }
-
-    public void setIdle() {
-        if (this.idleSet)
-            super.setSprite(this.spriteIdle);
-    }
-
-    public void setMoving() {
-        if (this.moveSet)
-            super.setSprite(this.spriteMoving);
-    }
-
     public void playIdleSound(double time, int everyNthSecond) {
         int dur = (int)(time % everyNthSecond);
         System.out.println(dur);
         if (dur == 0) {
-
         }
-    }
-
-    public AudioClip[] getBasicSounds() {
-        return basicSounds;
-    }
-
-    public void setBasicSounds(AudioClip[] basicSounds) {
-        this.basicSounds = basicSounds;
-    }
-
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
-
-    public double getMovementSpeed() {
-        return movementSpeed;
-    }
-
-    public void setMovementSpeed(double movementSpeed) {
-        this.movementSpeed = movementSpeed;
     }
 
     public double getVelocityX() {
@@ -254,5 +155,29 @@ public class Movable extends Entity {
 
     public void setVelocityY(double velocityY) {
         this.velocityY = velocityY;
+    }
+
+    public double getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    public void setMovementSpeed(double movementSpeed) {
+        this.movementSpeed = movementSpeed;
+    }
+
+    public AudioClip[] getBasicSounds() {
+        return basicSounds;
+    }
+
+    public void setBasicSounds(AudioClip[] basicSounds) {
+        this.basicSounds = basicSounds;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 }

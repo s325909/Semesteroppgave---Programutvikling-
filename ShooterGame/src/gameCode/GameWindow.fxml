@@ -87,7 +87,14 @@
                         </Text>
                      </children>
                   </HBox>
-                  <HBox prefHeight="41.0" prefWidth="840.0" />
+                  <HBox prefHeight="41.0" prefWidth="840.0">
+                     <children>
+                        <Text fx:id="equippedWeapon" strokeType="OUTSIDE" strokeWidth="0.0" text="Weapon" textAlignment="CENTER" wrappingWidth="835.13671875">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Text>
+                     </children></HBox>
                   <HBox prefHeight="18.0" prefWidth="105.0">
                      <children>
                         <ImageView fitHeight="42.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">

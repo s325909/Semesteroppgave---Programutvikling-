@@ -19,31 +19,16 @@ public class Player extends Movable {
         KNIFE, PISTOL, RIFLE, SHOTGUN
     }
 
-    private class SpritePair {
-        Sprite sprite;
-        long time;
-
-        public SpritePair(Sprite sprite, long time) {
-            this.sprite = sprite;
-            this.time = time;
-        }
-    }
-
     private WeaponTypes equippedWeapon;
     private int armor;
-
     private AudioClip[] weapon;
     private AudioClip[] basicSounds;
     private Sprite[][] allAnimation;
-
     private Magazine magazinePistol;
     private Magazine magazineRifle;
     private Magazine magazineShotgun;
-
     private List<Bullet> bulletList;
-
     private Queue<SpritePair> animationQueue;
-
     private long waitTime;
 
     public Player(){}
@@ -89,126 +74,42 @@ public class Player extends Movable {
         this.bulletList = new ArrayList<Bullet>();
     }
 
-    public int[] getPlayerInfo() {
-        int[] info = {
-                getPositionX(),
-                getPositionY(),
-                getHealthPoints(),
-                getArmor(),
-                getMagazinePistol().getNumberBullets(),
-                getMagazinePistol().getCurrentPool(),
-                getMagazineRifle().getNumberBullets(),
-                getMagazineRifle().getCurrentPool(),
-                getMagazineShotgun().getNumberBullets(),
-                getMagazineShotgun().getCurrentPool()};
-        return info;
-    }
-
-    public void resetPlayer() {
-        int[] values = {0,0,100,50,15,15,30,30,8,8};
-        setPlayerInfo(values);
-    }
-
-    public void setPlayerInfo(int[] playerInfo) {
-        setPosition(playerInfo[0], playerInfo[1]);
-        setTranslateNode(playerInfo[0], playerInfo[1]);
-        setHealthPoints(playerInfo[2]);
-        setArmor(playerInfo[3]);
-        getMagazinePistol().setNumberBullets(playerInfo[4]);
-        getMagazinePistol().setCurrentPool(playerInfo[5]);
-        getMagazineRifle().setNumberBullets(playerInfo[6]);
-        getMagazineRifle().setCurrentPool(playerInfo[7]);
-        getMagazineShotgun().setNumberBullets(playerInfo[8]);
-        getMagazineShotgun().setCurrentPool(playerInfo[9]);
-    }
-
-    public void setAnimation(int i, int j) {
-        long time = 0;
-        if(j == 4) {
-            time = 500;
-        }
-        animationQueue.add(new SpritePair(this.allAnimation[i][j], time));
-    }
-
-    public void updateAnimation() {
-        long currentTime = System.currentTimeMillis();
-        SpritePair pair = animationQueue.peek();
-        if (pair != null) {
-            if (currentTime > this.waitTime) {
-                System.out.println("Change animation!");
-                super.setSprite(animationQueue.peek().sprite);
-                this.waitTime = currentTime + animationQueue.peek().time;
-                animationQueue.remove();
-            }
-        }
-    }
-
-    public Sprite[][] getAllAnimation() {
-        return allAnimation;
-    }
-
     /***
      * Method which will switch between which set of weapon animations that should be used based on a String value.
      * @param animationWanted Requires a String value which is later compared in order to change equippedWeapon.
      */
     public void playerAnimation(String animationWanted) {
-        if (animationWanted == "knife")
-            this.equippedWeapon = WeaponTypes.KNIFE;
-        else if (animationWanted == "pistol")
-            this.equippedWeapon = WeaponTypes.PISTOL;
-        else if (animationWanted == "rifle")
-            this.equippedWeapon = WeaponTypes.RIFLE;
-        else if (animationWanted == "shotgun")
-            this.equippedWeapon = WeaponTypes.SHOTGUN;
-        else
-            this.equippedWeapon = WeaponTypes.KNIFE;
-    }
-
-    public void receivedDamage(int damage) {
-        if (this.getArmor() > 0) {
-            this.setArmor(this.getArmor() - damage);
-            this.setHealthPoints(this.getHealthPoints() - damage / 2);
-        } else {
-            this.setHealthPoints(this.getHealthPoints() - damage);
+        switch(animationWanted) {
+            case "knife":
+                this.equippedWeapon = WeaponTypes.KNIFE;
+                break;
+            case "pistol":
+                this.equippedWeapon = WeaponTypes.PISTOL;
+                break;
+            case "rifle":
+                this.equippedWeapon = WeaponTypes.RIFLE;
+                break;
+            case "shotgun":
+                this.equippedWeapon = WeaponTypes.SHOTGUN;
+                break;
+            default:
+                this.equippedWeapon = WeaponTypes.KNIFE;
         }
-
-        if (this.getArmor() < 0)
-            this.setArmor(0);
-
-        if (this.getHealthPoints() > 0)
-            this.setHealthPoints(this.getHealthPoints());
-        else
-            this.setHealthPoints(0);
     }
 
-    public void healthPickup(int hpChange) {
-        if (this.getHealthPoints() + hpChange <= 100)
-            this.setHealthPoints(this.getHealthPoints() + hpChange);
-        else
-            this.setHealthPoints(100);
-    }
-
-    public void armorPickup(int armorChange) {
-        if (this.getArmor() + armorChange <= 200)
-            this.setArmor(this.getArmor() + armorChange);
-        else
-            this.setArmor(200);
-    }
-
-    public void playWeaponSounds(int i) {
-        this.weapon[i].play();
-    }
-
-    public void playBasicSounds(int i) {
-        this.basicSounds[i].play();
-    }
-
-    public WeaponTypes getEquippedWeapon() {
-        return equippedWeapon;
-    }
-
-    public void setEquippedWeapon(WeaponTypes equippedWeapon) {
-        this.equippedWeapon = equippedWeapon;
+    public String getPlayerAnimation() {
+        switch(this.equippedWeapon) {
+            case KNIFE:
+                return "knife";
+            case PISTOL:
+                return "pistol";
+            case RIFLE:
+                return "rifle";
+            case SHOTGUN:
+                return "shotgun";
+            default:
+                return "knife";
+        }
     }
 
     /***
@@ -334,7 +235,7 @@ public class Player extends Movable {
      * reloadMagazine() method will be run.
      * @param audioAction Requires an int value in order to select the correct sound clip via playWeaponSounds()
      */
-    public void fire(int i, int j, int audioAction) {
+    private void fire(int i, int j, int audioAction) {
         switch (this.equippedWeapon) {
             case PISTOL:
                 if (!magazinePistol.isMagazineEmpty()) {
@@ -381,7 +282,7 @@ public class Player extends Movable {
      * This check ensures to correctly perform the method for changing the number and playing the appropriate sound.
      * @param audioReload Requires an int value in order to select the correct sound clip via playWeaponSounds()
      */
-    public void reload(int i, int j, int audioReload) {
+    private void reload(int i, int j, int audioReload) {
         switch (this.equippedWeapon) {
             case PISTOL:
                 if (!magazinePistol.isPoolEmpty() && !magazinePistol.isMagazineFull()) {
@@ -404,6 +305,130 @@ public class Player extends Movable {
                     setAnimation(i, j);
                 }
                 break;
+        }
+    }
+
+    /**
+     * Method which will return an array of type int with significant fields of interest regarding the Player.
+     * @return Returns an array of type int with Player information.
+     */
+    public int[] getPlayerInfo() {
+        int[] info = {
+                getPositionX(),
+                getPositionY(),
+                getHealthPoints(),
+                getArmor(),
+                getMagazinePistol().getNumberBullets(),
+                getMagazinePistol().getCurrentPool(),
+                getMagazineRifle().getNumberBullets(),
+                getMagazineRifle().getCurrentPool(),
+                getMagazineShotgun().getNumberBullets(),
+                getMagazineShotgun().getCurrentPool()};
+        return info;
+    }
+
+    /**
+     * Method which will take an array of type int and adjust a number of significant fields regarding the Player.
+     * @param playerInfo Requires an array of type int.
+     */
+    public void setPlayerInfo(int[] playerInfo) {
+        setPosition(playerInfo[0], playerInfo[1]);
+        setTranslateNode(playerInfo[0], playerInfo[1]);
+        setHealthPoints(playerInfo[2]);
+        setArmor(playerInfo[3]);
+        getMagazinePistol().setNumberBullets(playerInfo[4]);
+        getMagazinePistol().setCurrentPool(playerInfo[5]);
+        getMagazineRifle().setNumberBullets(playerInfo[6]);
+        getMagazineRifle().setCurrentPool(playerInfo[7]);
+        getMagazineShotgun().setNumberBullets(playerInfo[8]);
+        getMagazineShotgun().setCurrentPool(playerInfo[9]);
+    }
+
+    /**
+     * Method which will reset the Player's stats.
+     * These include position, healthpoints, armor, and ammunition of each weapon.
+     */
+    public void resetPlayer() {
+        int[] values = {0,0,100,50,15,15,30,30,8,8};
+        setPlayerInfo(values);
+    }
+
+    /**
+     * Method which will handle damage towards the Player.
+     * This method will adjust Player's armor, whereas the armor will reduce the damage to healthpoints by half.
+     * Method will ensure that both healthpoints and armor can not go below 0 points.
+     * @param damage Requires a positive integer to represent damage received,
+     *               which in turn will adjust Player healthpoints and armor.
+     */
+    public void receivedDamage(int damage) {
+        if (this.getArmor() > 0) {
+            this.setArmor(this.getArmor() - damage);
+            this.setHealthPoints(this.getHealthPoints() - damage / 2);
+        } else {
+            this.setHealthPoints(this.getHealthPoints() - damage);
+        }
+
+        if (this.getArmor() < 0)
+            this.setArmor(0);
+
+        if (this.getHealthPoints() > 0)
+            this.setHealthPoints(this.getHealthPoints());
+        else
+            this.setHealthPoints(0);
+    }
+
+    /**
+     * Method which will handle Player healthpoints upon picking up health booster in the game.
+     * Method ensures that the Player's healthpoints can not exceed 100 points through pickups.
+     * @param hpChange Requires a positive integer to represent the amount of
+     *                 healthpoints that the Player has picked up.
+     */
+    public void healthPickup(int hpChange) {
+        if (this.getHealthPoints() + hpChange <= 100)
+            this.setHealthPoints(this.getHealthPoints() + hpChange);
+        else
+            this.setHealthPoints(100);
+    }
+
+    /**
+     * Method which will handle Player armor upon picking up armor booster in the game.
+     * Method ensures that the Player's armor can not exceed 200 points through pickups.
+     * @param armorChange Requires a positive integer to represent the amount of
+     *                    armor that the Player has picked up.
+     */
+    public void armorPickup(int armorChange) {
+        if (this.getArmor() + armorChange <= 200)
+            this.setArmor(this.getArmor() + armorChange);
+        else
+            this.setArmor(200);
+    }
+
+    /**
+     *
+     * @param i
+     * @param j
+     */
+    private void setAnimation(int i, int j) {
+        long time = 0;
+        if(j == 4) {
+            time = 500;
+        }
+        animationQueue.add(new SpritePair(this.allAnimation[i][j], time));
+    }
+
+    /**
+     *
+     */
+    public void updateAnimation() {
+        long currentTime = System.currentTimeMillis();
+        SpritePair pair = animationQueue.peek();
+        if (pair != null) {
+            if (currentTime > this.waitTime) {
+                System.out.println("Change animation!");
+                super.setSprite(animationQueue.peek().sprite);
+                this.waitTime = currentTime + animationQueue.peek().time;
+                animationQueue.remove();
+            }
         }
     }
 
@@ -441,6 +466,26 @@ public class Player extends Movable {
         }
     }
 
+    public int getArmor() {
+        return armor;
+    }
+
+    public void setArmor(int armor) {
+        this.armor = armor;
+    }
+
+    public Sprite[][] getAllAnimation() {
+        return allAnimation;
+    }
+
+    public void playWeaponSounds(int i) {
+        this.weapon[i].play();
+    }
+
+    public void playBasicSounds(int i) {
+        this.basicSounds[i].play();
+    }
+
     public List<Bullet> getBulletList() {
         return this.bulletList;
     }
@@ -457,12 +502,25 @@ public class Player extends Movable {
         return magazineShotgun;
     }
 
-    public int getArmor() {
-        return armor;
+    public WeaponTypes getEquippedWeapon() {
+        return equippedWeapon;
     }
 
-    public void setArmor(int armor) {
-        this.armor = armor;
+    public void setEquippedWeapon(WeaponTypes equippedWeapon) {
+        this.equippedWeapon = equippedWeapon;
+    }
+
+    /**
+     * Inner class for handling
+     */
+    private class SpritePair {
+        Sprite sprite;
+        long time;
+
+        private SpritePair(Sprite sprite, long time) {
+            this.sprite = sprite;
+            this.time = time;
+        }
     }
 
     /***
@@ -475,7 +533,7 @@ public class Player extends Movable {
         private int maxPool;
         private int currentPool;
 
-        public Magazine(int magazineSize, int maxPool) {
+        private Magazine(int magazineSize, int maxPool) {
             this.maxSize = magazineSize;
             this.numberBullets = this.maxSize;
             this.maxPool = maxPool;
@@ -510,7 +568,7 @@ public class Player extends Movable {
          * larger than the maximum size of the magazine. If so, return the extra bullets to the pool and fill the magazine.
          * If not, then simply set the ammunition pool to zero, whilst the magazine already equals the accumulated value.
          */
-        public void reloadMagazine() {
+        private void reloadMagazine() {
             if (getCurrentPool() > maxSize) {
                 setCurrentPool(getCurrentPool() - (maxSize - getNumberBullets()));
                 setNumberBullets(maxSize);
@@ -525,35 +583,35 @@ public class Player extends Movable {
             }
         }
 
-        public boolean isMagazineEmpty() {
+        private boolean isMagazineEmpty() {
             return this.numberBullets <= 0;
         }
 
-        public boolean isMagazineFull() {
+        private boolean isMagazineFull() {
             return this.numberBullets >= this.maxSize;
         }
 
-        public boolean isPoolEmpty() {
+        private boolean isPoolEmpty() {
             return this.currentPool <= 0;
         }
 
-        public boolean isPoolFull() {
+        private boolean isPoolFull() {
             return this.currentPool >= this.maxPool;
         }
 
-        public void setNumberBullets(int numberBullets) {
+        private void setNumberBullets(int numberBullets) {
             this.numberBullets = numberBullets;
         }
 
-        public int getNumberBullets() {
+        private int getNumberBullets() {
             return this.numberBullets;
         }
 
-        public int getCurrentPool() {
+        private int getCurrentPool() {
             return this.currentPool;
         }
 
-        public void setCurrentPool(int currentPool) {
+        private void setCurrentPool(int currentPool) {
             this.currentPool = currentPool;
         }
 

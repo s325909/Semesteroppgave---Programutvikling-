@@ -2,7 +2,6 @@ package entities;
 
 public class Drop extends Entity {
 
-    private boolean drawn;
     private Sprite[] sprites;
 
     public Drop() {
@@ -23,15 +22,17 @@ public class Drop extends Entity {
                 "/resources/Art/Icon/armor_icon.png",
                 "/resources/Art/Icon/mag_icon.png",
                 "/resources/Art/Icon/pool_icon.png",
-                "/resources/Art/Icon/speed_icon.png"};
+                "/resources/Art/Icon/speed_icon.png",
+                "/resources/Icons/batterycharging.png",
+                "/resources/Icons/lightningbolt.png"};
 
         this.sprites = loadSprite(imageFiles);
     }
 
-    public void setSprite(int i) {
-        super.setSprite(this.sprites[i]);
-    }
-
+    /**
+     * Method which will randomize between which Player statistic should be altered
+     * @param player Requires the specific Player this should apply to
+     */
     public void randomPickup(Player player) {
         int randomNumber = (int)(Math.random()*10) % 10;
         if (randomNumber < 2) {
@@ -53,5 +54,9 @@ public class Drop extends Entity {
             setSprite(4);
             //player.setMovementSpeed(player.getMovementSpeed() + 5);
         }
+    }
+
+    public void setSprite(int i) {
+        super.setSprite(this.sprites[i]);
     }
 }
