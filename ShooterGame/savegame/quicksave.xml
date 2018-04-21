@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Savefile>
+    <Game>
+        <Score>50</Score>
+    </Game>
+    <Player>
+        <HP>0</HP>
+        <Armor>0</Armor>
+        <PosX>375</PosX>
+        <PosY>130</PosY>
+        <Direction>EAST</Direction>
+        <Equipped>KNIFE</Equipped>
+        <MagPistol>15</MagPistol>
+        <PoolPistol>15</PoolPistol>
+        <MagRifle>30</MagRifle>
+        <PoolRifle>30</PoolRifle>
+        <MagShotgun>8</MagShotgun>
+        <PoolShotgun>8</PoolShotgun>
+    </Player>
+    <Zombies>
+        <Zombie id="0">
+            <HP>100</HP>
+            <PosX>656</PosX>
+            <PosY>327</PosY>
+            <Direction>NORTHWEST</Direction>
+        </Zombie>
+        <Zombie id="1">
+            <HP>100</HP>
+            <PosX>321</PosX>
+            <PosY>306</PosY>
+            <Direction>NORTH</Direction>
+        </Zombie>
+        <Zombie id="2">
+            <HP>100</HP>
+            <PosX>843</PosX>
+            <PosY>301</PosY>
+            <Direction>null</Direction>
+        </Zombie>
+        <Zombie id="3">
+            <HP>100</HP>
+            <PosX>283</PosX>
+            <PosY>331</PosY>
+            <Direction>NORTH</Direction>
+        </Zombie>
+        <Zombie id="4">
+            <HP>100</HP>
+            <PosX>718</PosX>
+            <PosY>248</PosY>
+            <Direction>null</Direction>
+        </Zombie>
+        <Zombie id="5">
+            <HP>100</HP>
+            <PosX>311</PosX>
+            <PosY>311</PosY>
+            <Direction>NORTH</Direction>
+        </Zombie>
+        <Zombie id="6">
+            <HP>100</HP>
+            <PosX>590</PosX>
+            <PosY>292</PosY>
+            <Direction>NORTHWEST</Direction>
+        </Zombie>
+        <Zombie id="7">
+            <HP>100</HP>
+            <PosX>329</PosX>
+            <PosY>307</PosY>
+            <Direction>NORTH</Direction>
+        </Zombie>
+        <Zombie id="8">
+            <HP>100</HP>
+            <PosX>398</PosX>
+            <PosY>364</PosY>
+            <Direction>NORTH</Direction>
+        </Zombie>
+        <Zombie id="9">
+            <HP>100</HP>
+            <PosX>262</PosX>
+            <PosY>360</PosY>
+            <Direction>NORTH</Direction>
+        </Zombie>
+    </Zombies>
+    <Bullets/>
+</Savefile>

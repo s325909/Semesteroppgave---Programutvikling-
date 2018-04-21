@@ -1,9 +1,7 @@
 package entities;
 
-import gameCode.Game;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 
 import java.util.ArrayList;
@@ -11,11 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import gameCode.Game;
-
 public class Player extends Movable {
 
-    private enum WeaponTypes {
+    public enum WeaponTypes {
         KNIFE, PISTOL, RIFLE, SHOTGUN
     }
 
@@ -46,7 +42,7 @@ public class Player extends Movable {
         this.animationQueue = new LinkedList<SpritePair>();
         this.waitTime = 0;
 
-        playerAnimation("knife");
+        setWeaponTypeFromString("knife");
         setAnimation(0,0);
 
         magazinePistol = new Magazine(15, 30);
@@ -64,7 +60,7 @@ public class Player extends Movable {
         this.animationQueue = new LinkedList<SpritePair>();
         this.waitTime = 0;
 
-        playerAnimation("knife");
+        setWeaponTypeFromString("knife");
         setAnimation(0,0);
 
         magazinePistol = new Magazine(15, 30);
@@ -76,10 +72,10 @@ public class Player extends Movable {
 
     /***
      * Method which will switch between which set of weapon animations that should be used based on a String value.
-     * @param animationWanted Requires a String value which is later compared in order to change equippedWeapon.
+     * @param weaponType Requires a String value which is later compared in order to change equippedWeapon.
      */
-    public void playerAnimation(String animationWanted) {
-        switch(animationWanted) {
+    public void setWeaponTypeFromString(String weaponType) {
+        switch(weaponType) {
             case "knife":
                 this.equippedWeapon = WeaponTypes.KNIFE;
                 break;
@@ -97,7 +93,7 @@ public class Player extends Movable {
         }
     }
 
-    public String getPlayerAnimation() {
+    public String getWeaponTypeToString() {
         switch(this.equippedWeapon) {
             case KNIFE:
                 return "knife";
@@ -109,6 +105,21 @@ public class Player extends Movable {
                 return "shotgun";
             default:
                 return "knife";
+        }
+    }
+
+    public WeaponTypes getWeaponTypeFromString(String weaponType) {
+        switch(weaponType) {
+            case "knife":
+                return WeaponTypes.KNIFE;
+            case "pistol":
+                return WeaponTypes.PISTOL;
+            case "rifle":
+                return WeaponTypes.RIFLE;
+            case "shotgun":
+                return WeaponTypes.SHOTGUN;
+            default:
+                return WeaponTypes.KNIFE;
         }
     }
 
@@ -243,7 +254,7 @@ public class Player extends Movable {
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
                     System.out.println("Pistol fired");
-                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 20, getDirection());
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 20, super.getDirection());
                     this.bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
@@ -254,7 +265,7 @@ public class Player extends Movable {
                     magazineRifle.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
-                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 10, getDirection());
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 10, super.getDirection());
                     this.bulletList.add(bullet);
                     System.out.println("Rifle fired");
                 } else {
@@ -266,7 +277,7 @@ public class Player extends Movable {
                     magazineShotgun.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
-                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 5, getDirection());
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 5, super.getDirection());
                     this.bulletList.add(bullet);
                     System.out.println("Shotgun fired");
                 } else {
@@ -599,19 +610,19 @@ public class Player extends Movable {
             return this.currentPool >= this.maxPool;
         }
 
-        private void setNumberBullets(int numberBullets) {
+        public void setNumberBullets(int numberBullets) {
             this.numberBullets = numberBullets;
         }
 
-        private int getNumberBullets() {
+        public int getNumberBullets() {
             return this.numberBullets;
         }
 
-        private int getCurrentPool() {
+        public int getCurrentPool() {
             return this.currentPool;
         }
 
-        private void setCurrentPool(int currentPool) {
+        public void setCurrentPool(int currentPool) {
             this.currentPool = currentPool;
         }
 

@@ -180,4 +180,27 @@ public class Movable extends Entity {
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
+
+    public Direction getDirecitonFromString(String direction) {
+        switch(direction) {
+            case "north":
+                return Direction.NORTH;
+            case "northeast":
+                return Direction.NORTHEAST;
+            case "east":
+                return Direction.EAST;
+            case "southeast":
+                return Direction.SOUTHEAST;
+            case "south":
+                return Direction.SOUTH;
+            case "southwest":
+                return Direction.SOUTHWEST;
+            case "west":
+                return Direction.WEST;
+            case "northwest":
+                return Direction.NORTHWEST;
+            default:
+                return Direction.NORTH;
+        }
+    }
 }

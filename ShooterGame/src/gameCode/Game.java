@@ -2,15 +2,7 @@ package gameCode;
 
 import entities.*;
 import javafx.animation.AnimationTimer;
-import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -31,6 +23,7 @@ public class Game {
 
     private InitializeGame controller;
 
+    List<Bullet> bullets;
     private List<Drop> drops = new ArrayList<>();
     private List<Drop> dropsExtra = new ArrayList<>();
 
@@ -77,7 +70,7 @@ public class Game {
         }
         if (isRunning) {
 
-            List<Bullet> bullets = player.getBulletList();
+            bullets = player.getBulletList();
 
             // Create Drop entities with random position
             if (dropsExtra.size() < 10 && createDrops) {
@@ -181,6 +174,10 @@ public class Game {
         }
     }
 
+    public List<Bullet> getBulletList() {
+        return this.bullets;
+    }
+
     /**
      * Method for updating the datafields playerHP, magazineSize, poolSize of type Text.
      * These will in turn update the Text values on the HUD.
@@ -191,7 +188,7 @@ public class Game {
         String magazineLevel = String.valueOf(player.getMagazineCount());
         String poolLevel = String.format("%02d", player.getAmmoPool());
         String score = String.format("%05d", this.scoreNumber);
-        String weapon = player.getPlayerAnimation().toUpperCase();
+        String weapon = player.getWeaponTypeToString().toUpperCase();
 
         this.playerHP.setText(hpLevel);
         this.playerArmor.setText(armorLevel);
