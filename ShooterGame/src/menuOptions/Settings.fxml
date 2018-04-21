@@ -4,17 +4,20 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<GridPane alignment="CENTER" hgap="10" style="-fx-background-color: BLACK" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menuOptions.MenuController">
+<GridPane alignment="CENTER" hgap="10" style="-fx-background-color: BLACK" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menuOptions.SettingsController">
 
-    <stylesheets><URL value="@MenuStyle.css" /></stylesheets>
+    <stylesheets><URL value="@StylesMenu.css" /></stylesheets>
 
     <VBox fx:id="settingsBackground" alignment="CENTER" prefHeight="720" prefWidth="1280">
 
@@ -23,45 +26,109 @@
                 <Font name="Copperplate Gothic Light" size="64.0" />
             </font>
         </Label>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER" prefHeight="54.0" prefWidth="1280.0">
          <children>
-            <VBox alignment="CENTER" prefHeight="100.0" prefWidth="385.0">
+            <VBox alignment="CENTER" prefHeight="58.0" prefWidth="453.0">
                <children>
-                  <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="133.0" />
-                  <VBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="139.0" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Music and Sound">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="13.0" prefWidth="453.0">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="137.0" text="Music Volume" textAlignment="CENTER">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Slider majorTickUnit="10.0" minorTickCount="10" prefHeight="30.0" prefWidth="262.0" snapToTicks="true" />
+                        <Slider fx:id="musicVolumeSlider" majorTickUnit="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="258.0" snapToTicks="true" value="50.0" />
+                        <Text fx:id="musicVolumeNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="50" wrappingWidth="56.13671875">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Text>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox prefHeight="18.0" prefWidth="453.0">
                      <children>
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="138.0" text="Sound volume">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Slider majorTickUnit="10.0" prefHeight="30.0" prefWidth="260.0" snapToTicks="true" />
+                        <Slider fx:id="soundVolumeSlider" majorTickUnit="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="260.0" snapToTicks="true" value="50.0" />
+                        <Text fx:id="soundVolumeNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="50">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Text>
                      </children>
                   </HBox>
                </children>
             </VBox>
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER" prefHeight="130.0" prefWidth="1280.0">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="365.0">
+            <VBox alignment="TOP_CENTER" prefHeight="142.0" prefWidth="365.0">
                <children>
-                  <Label alignment="TOP_CENTER" text="Video">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
+                  <HBox alignment="TOP_CENTER" prefHeight="29.0" prefWidth="365.0">
+                     <children>
+                        <Label alignment="TOP_CENTER" text="Video">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="43.0" prefWidth="365.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="55.0" prefWidth="198.0">
+                           <children>
+                              <Label text="Width">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="userWidth" alignment="CENTER" prefHeight="25.0" prefWidth="178.0" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="55.0" prefWidth="205.0">
+                           <children>
+                              <Label text="Height">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="userHeight" alignment="CENTER" prefHeight="25.0" prefWidth="120.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="32.0" prefWidth="365.0">
+                     <children>
+                        <RadioButton fx:id="select720" mnemonicParsing="false" prefHeight="30.0" prefWidth="87.0" text="720p" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </RadioButton>
+                        <RadioButton fx:id="select1080" mnemonicParsing="false" prefHeight="30.0" prefWidth="101.0" text="1080p" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </RadioButton>
+                        <RadioButton fx:id="select1440" mnemonicParsing="false" prefHeight="30.0" prefWidth="96.0" text="1440p" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </RadioButton>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>

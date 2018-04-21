@@ -124,6 +124,8 @@ public class InitializeGame implements Initializable{
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
     }
 
+    //menuOptions.LoadingController.getMusicSlider();
+
     /***
      * Method which takes in user keyboard input.
      * Some input is handled in the movePlayer() method.
@@ -457,10 +459,10 @@ public class InitializeGame implements Initializable{
         Parent root;
         try {
             game.pauseGame();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/LoadMenu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Loading.fxml"));
             root = loader.load();
             LoadSavedGame loadSavedGame = loader.getController();
-            //root = FXMLLoader.load(getClass().getResource("LoadMenu.fxml"));
+            //root = FXMLLoader.load(getClass().getResource("Loading.fxml"));
             Stage loadGame = new Stage();
             loadGame.setScene(new Scene(root, 600, 400));
             loadGame.show();

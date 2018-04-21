@@ -25,6 +25,11 @@
 }
 */
 
+.radioButton {
+    -fx-border-size: 3px;
+    -fx-border-color: black;
+}
+
 #gameMenuBackground, #settingsBackground, #loadMenuBackground, #howToPlayBackground {
     -fx-background-image: url("../resources/Art/zombie_background.jpg");
     -fx-background-size: stretch;

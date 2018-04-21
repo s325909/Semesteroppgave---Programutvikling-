@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" hgap="10" prefHeight="720" prefWidth="1280" style="-fx-background-color: BLACK" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menuOptions.MenuController">
+<GridPane alignment="center" hgap="10" prefHeight="720" prefWidth="1280" style="-fx-background-color: BLACK" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menuOptions.LoadingController">
 
-    <stylesheets><URL value="@MenuStyle.css" /></stylesheets>
+    <stylesheets><URL value="@StylesMenu.css" /></stylesheets>
 
     <VBox fx:id="loadMenuBackground" alignment="CENTER" prefHeight="720.0" prefWidth="1284.0">
 
