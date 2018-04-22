@@ -35,10 +35,9 @@ public class InitializeGame implements Initializable{
 
     private Stage stage = new Stage();
 
-    private StoreData storeData;
-
     private Player player;
     private List<Zombie> zombies;
+    private int nbrZombies;
     private Game game;
     private MusicPlayer musicPlayer;
     private boolean labelActive;
@@ -54,10 +53,6 @@ public class InitializeGame implements Initializable{
     private String[] bulletImages;
 
     final private boolean DEBUG = true;
-
-    public InitializeGame() {
-        storeData = new StoreData();
-    }
 
     /***
      * Method which will create every Entity and add these to the gameWindow.
@@ -75,7 +70,7 @@ public class InitializeGame implements Initializable{
 //            System.out.println("Error: Could not find sound file");
 //        }
 
-        int nbrZombies = 10;
+        setNbrZombies(10);
         loadAssets(nbrZombies);
 
         // Create the Player upon starting a new game
@@ -144,7 +139,7 @@ public class InitializeGame implements Initializable{
                 System.out.println("Game is saved");
 
             } else if (e.getCode() == KeyCode.F9) {
-                loadSavegame("quicksave");
+                //loadSavegame("quicksave");
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {
@@ -152,70 +147,6 @@ public class InitializeGame implements Initializable{
             if (e.getCode() == KeyCode.R)
                 game.setHoldingButtonR(false);
         });
-    }
-
-    private void loadSavegame(String filename) {
-        StoreData.GameConfiguration gameCfg = new StoreData.GameConfiguration();
-        if (storeData.readSaveFile(filename, gameCfg)) {
-            System.out.println("Load game");
-            System.out.println("GameScore: " + gameCfg.gameScore);
-            System.out.println("Player HP: " + gameCfg.player.health);
-            System.out.println("Player X: " + gameCfg.player.posX);
-            System.out.println("Player Y: " + gameCfg.player.posY);
-            System.out.println("NbrZombies: " + gameCfg.zombies.size());
-
-            loadGame(gameCfg);
-        } else {
-            System.out.println("Could not load quicksave!");
-        }
-    }
-
-    private void loadGame(StoreData.GameConfiguration gameCfg) {
-        game.setScoreNumber(gameCfg.gameScore);
-        loadPlayer(gameCfg.player);
-        loadZombies(gameCfg.zombies);
-        game.setZombies(this.zombies);
-    }
-
-    private void loadPlayer(StoreData.Configuration playerCfg) {
-        this.player.setHealthPoints(playerCfg.health);
-        this.player.setArmor(playerCfg.armour);
-        this.player.setPosition(playerCfg.posX, playerCfg.posY);
-        this.player.setTranslateNode(playerCfg.posX, playerCfg.posY);
-        this.player.setDirection(playerCfg.direction);
-        this.player.setEquippedWeapon(playerCfg.equipped);
-        //.......
-    }
-
-    private void loadZombies(List<StoreData.Configuration> zombieList) {
-        killZombies();
-        loadZombiesAssets(zombieList.size());
-
-        this.zombies = new ArrayList<>();
-        for (int i = 0; i < zombieList.size(); i++) {
-            Zombie zombie = new Zombie(this.zombieAnimation[i], this.zombieAudioClips, zombieList.get(i).posX, zombieList.get(i).posY, zombieList.get(i).health);
-            zombie.setDirection(zombieList.get(i).direction);
-            this.zombies.add(zombie);
-        }
-
-        for (Zombie zombie : this.zombies) {
-            if (DEBUG)
-                gameWindow.getChildren().add(zombie.getNode());
-            gameWindow.getChildren().add(zombie.getSprite().getImageView());
-        }
-    }
-
-    private void killZombies() {
-        for (Zombie zombie : this.zombies) {
-            if (DEBUG)
-                gameWindow.getChildren().remove(zombie.getNode());
-            gameWindow.getChildren().remove(zombie.getSprite().getImageView());
-        }
-
-        for (Zombie zombie : this.zombies) {
-            zombie.setAlive(false);
-        }
-        this.zombies.removeIf(Zombie::isDead);
     }
 
     /**
@@ -266,34 +197,6 @@ public class InitializeGame implements Initializable{
         this.weapon = loadAudio(weaponSounds);
         this.playerAnimation = loadSprites(all);
 
-//        String[] zombieSounds = {
-//                "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
-//                "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"};
-//
-//        SpriteParam[] zombieAnimations = {
-//                new SpriteParam("/resources/Art/Zombie/skeleton-idle_", ".png", 17),
-//                new SpriteParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
-//                new SpriteParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
-//
-//        this.zombieAudioClips = loadAudio(zombieSounds);
-//        this.zombieAnimation = loadSprites(nbrZombies, zombieAnimations);
-
-        loadZombiesAssets(nbrZombies);
-    }
-
-    private void loadZombiesAssets(int nbrZombies) {
-        String[] zombieSounds = {
-                "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
-                "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"};
-
-        SpriteParam[] zombieAnimations = {
-                new SpriteParam("/resources/Art/Zombie/skeleton-idle_", ".png", 17),
-                new SpriteParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
-                new SpriteParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
-
-        this.zombieAudioClips = loadAudio(zombieSounds);
-        this.zombieAnimation = loadSprites(nbrZombies, zombieAnimations);
-
         String[] hudIcons = {
                 "/resources/Art/Icon/hp_icon.png",
                 "/resources/Art/Icon/armor_icon.png",
@@ -305,6 +208,28 @@ public class InitializeGame implements Initializable{
 
         String[] bulletImages = {
                 "/resources/Art/pistol_bullet.png"};
+
+        loadZombiesAssets(nbrZombies);
+    }
+
+    /**
+     * Method which finds and loads all necessary Zombie assets from disk only once.
+     * Once found and loaded into memory, these sets of assets are then turned
+     * into usable arrays which allows easy access without re-reading from disk.
+     * @param nbrZombies Requires the number of Zombie objects to create.
+     */
+    public void loadZombiesAssets(int nbrZombies) {
+        String[] zombieSounds = {
+                "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
+                "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"};
+
+        SpriteParam[] zombieAnimations = {
+                new SpriteParam("/resources/Art/Zombie/skeleton-idle_", ".png", 17),
+                new SpriteParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
+                new SpriteParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
+
+        this.zombieAudioClips = loadAudio(zombieSounds);
+        this.zombieAnimation = loadSprites(nbrZombies, zombieAnimations);
     }
     /***
      * Method which is used for loading all of Player's animations.
@@ -437,6 +362,22 @@ public class InitializeGame implements Initializable{
         this.labelActive = labelActive;
     }
 
+    public int getNbrZombies() {
+        return nbrZombies;
+    }
+
+    public void setNbrZombies(int nbrZombies) {
+        this.nbrZombies = nbrZombies;
+    }
+
+    public Sprite[][] getZombieAnimation() {
+        return zombieAnimation;
+    }
+
+    public AudioClip[] getZombieAudioClips() {
+        return zombieAudioClips;
+    }
+
     /***
      * Inner class used for taking smaller portions of Sprites
      * and combine these into a larger 2-dimensional array of type Sprite.
@@ -452,68 +393,4 @@ public class InitializeGame implements Initializable{
             this.numberImages = numberImages;
         }
     }
-
-
-    /***
-     * Method which will open a new window with Save option.
-     */
-    @FXML
-    public void saveGame() {
-        Parent root;
-        try {
-            game.pauseGame();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("saveGame.fxml"));
-            root = loader.load();
-            InitializeSave initializeSave = loader.getController();
-            initializeSave.saveData = new SaveData(player.getPositionX(), player.getPositionY(), player.getHealthPoints(), player.getArmor(), playerHP, playerArmor, magazineSize, poolSize, score); //.setText(this.playerHP.getText());
-            //root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
-            Stage saveGame = new Stage();
-            saveGame.setScene(new Scene(root, 600, 400));
-            saveGame.show();
-        } catch (Exception e) {
-            System.out.println("Open SavePane Error");
-        }
-    }
-    /***
-     * Method which will open a new window with Load option.
-     */
-    @FXML
-    public void loadGame() {
-        Parent root;
-        try {
-            game.pauseGame();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Loading.fxml"));
-            root = loader.load();
-            LoadSavedGame loadSavedGame = loader.getController();
-            //root = FXMLLoader.load(getClass().getResource("Loading.fxml"));
-            Stage loadGame = new Stage();
-            loadGame.setScene(new Scene(root, 600, 400));
-            loadGame.show();
-        } catch (Exception e) {
-            System.out.println("Error");
-        }
-    }
-
-    // For resizing the images, might use
-    //        double maxWidth = -1;
-//        double maxHeight = -1;
-//
-//        for(int i = 0; i < this.allAnimation.length; i++) {
-//            for (int j = 0; j < this.allAnimation[i].length; j++) {
-//                if (this.allAnimation[i][j].getWidth() > maxWidth && this.allAnimation[i][j].getHeight() > maxHeight) {
-//                    maxWidth = this.allAnimation[i][j].getWidth();
-//                    maxHeight = this.allAnimation[i][j].getHeight();
-//                }
-//            }
-//        }
-//
-//        for(int i = 0; i < this.allAnimation.length; i++) {
-//            for (int j = 0; j < this.allAnimation[i].length; j++) {
-//                this.allAnimation[i][j].setMax(maxWidth, maxHeight);
-//            }
-//        }
-//
-//        super.getSprite().setMax(maxWidth,maxHeight);
-//        //System.out.println(maxWidth);
-//        //System.out.println(maxHeight);
 }

@@ -6,8 +6,8 @@ public class Drop extends Entity {
         super(filename, positionX, positionY);
     }
 
-    public Drop(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
-        super(filename, extension, numberImages, positionX, positionY, healthPoints);
+    public Drop(String filename, String extension, int numberImages, int positionX, int positionY) {
+        super(filename, extension, numberImages, positionX, positionY);
     }
 
     /**

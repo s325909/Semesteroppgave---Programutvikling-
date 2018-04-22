@@ -1,0 +1,40 @@
+
+
+    /***
+     * Method which will open a new window with Save option.
+     */
+    @FXML
+    public void saveGame() {
+        Parent root;
+        try {
+            game.pauseGame();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("saveGame.fxml"));
+            root = loader.load();
+            InitializeSave initializeSave = loader.getController();
+            initializeSave.saveData = new SaveData(player.getPositionX(), player.getPositionY(), player.getHealthPoints(), player.getArmor(), playerHP, playerArmor, magazineSize, poolSize, score); //.setText(this.playerHP.getText());
+            //root = FXMLLoader.load(getClass().getResource("saveGame.fxml"));
+            Stage saveGame = new Stage();
+            saveGame.setScene(new Scene(root, 600, 400));
+            saveGame.show();
+        } catch (Exception e) {
+            System.out.println("Open SavePane Error");
+        }
+    }
+    /***
+     * Method which will open a new window with Load option.
+     */
+    @FXML
+    public void loadGame() {
+        Parent root;
+        try {
+            game.pauseGame();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Loading.fxml"));
+            root = loader.load();
+            LoadSavedGame loadSavedGame = loader.getController();
+            //root = FXMLLoader.load(getClass().getResource("Loading.fxml"));
+            Stage loadGame = new Stage();
+            loadGame.setScene(new Scene(root, 600, 400));
+            loadGame.show();
+        } catch (Exception e) {
+            System.out.println("Error");
+        }

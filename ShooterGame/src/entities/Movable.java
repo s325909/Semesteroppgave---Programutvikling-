@@ -132,6 +132,11 @@ public class Movable extends Entity {
         this.velocityY = velocityY;
     }
 
+    public void setVelocity(double velocityX, double velocityY) {
+        this.velocityX = velocityX;
+        this.velocityY = velocityY;
+    }
+
     public double getMovementSpeed() {
         return movementSpeed;
     }

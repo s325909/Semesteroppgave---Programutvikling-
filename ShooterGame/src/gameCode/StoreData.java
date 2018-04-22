@@ -24,28 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StoreData {
-    private Player player;
-    private List<Zombie> zombies = new ArrayList<>();
-    private List<Bullet> bullets = new ArrayList<>();
-    private List<Drop> drops = new ArrayList<>();
-    private List<Drop> dropsExtra = new ArrayList<>();
-    private Pane gameWindow;
-    private Game game;
-
-    public void retrieveData(Player player, List<Zombie> zombies, List<Bullet> bullets, List<Drop> drops, List<Drop> dropsExtra, Pane gameWindow, Game game) {
-        this.player = player;
-        this.zombies = zombies;
-        this.bullets = bullets;
-        this.drops = drops;
-        this.dropsExtra = dropsExtra;
-        this.gameWindow = gameWindow;
-        this.game = game;
-    }
-
     public static class GameConfiguration {
         public int gameScore;
         Configuration player;
         List<Configuration> zombies;
+        List<Configuration> bullets;
+        List<Configuration> drops;
+        List<Configuration> dropsExtra;
     }
 
     public static class Configuration {
@@ -53,8 +38,12 @@ public class StoreData {
         public int armour;
         public int posX;
         public int posY;
+        public int velX;
+        public int velY;
+        public int movementSpeed;
         public Movable.Direction direction;
         public Player.WeaponTypes equipped;
+        public int damage;
         public int magPistol;
         public int poolPistol;
         public int magRifle;
@@ -230,99 +219,6 @@ public class StoreData {
         }
     }
 
-    /**
-     * Method for loading a save file.
-     * Turns the information stored in the .xml file into values that can be set for the game and all entities,
-     * in order to restore the game to the previous state. Game score and Player's stats and position are reset to
-     * the appropriate values, whilst all zombies, if any, are first removed, then one by one is recreated
-     * according the the saved values regarding number of zombies and their respective stats.
-     * @param fileName Requires a fileName of String type, which will be used to find the correct .xml file.
-     * @param isQuick Requires a boolean to define whether this is the quicksave slot. If true, fileName
-     *                gets set to "quicksave", regardless of parameter input, and quicksave.xml will load.
-     */
-    public void readSaveFile(String fileName, Boolean isQuick) {
-        Object[] options = {"Resume game"};
-
-        if (isQuick) {
-            fileName = "quicksave";
-        }
-
-        try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse("./savegame/" + fileName + ".xml");
-            doc.getDocumentElement().normalize();
-
-            NodeList gameList = doc.getElementsByTagName("Game");
-
-            Node nodeG = gameList.item(0);
-
-            if (nodeG.getNodeType() == Node.ELEMENT_NODE) {
-                Element e = (Element) nodeG;
-                game.setScoreNumber(Integer.valueOf(e.getElementsByTagName("Score").item(0).getTextContent()));
-            }
-
-            NodeList playerList = doc.getElementsByTagName("Player");
-
-            Node nodeP = playerList.item(0);
-
-            if (nodeP.getNodeType() == Node.ELEMENT_NODE) {
-                Element e = (Element) nodeP;
-                player.setHealthPoints(Integer.valueOf(e.getElementsByTagName("HP").item(0).getTextContent()));
-                player.setArmor(Integer.valueOf(e.getElementsByTagName("Armor").item(0).getTextContent()));
-                player.setPosition(
-                        Integer.valueOf(e.getElementsByTagName("PosX").item(0).getTextContent()),
-                        Integer.valueOf(e.getElementsByTagName("PosY").item(0).getTextContent()));
-                player.setTranslateNode(
-                        Integer.valueOf(e.getElementsByTagName("PosX").item(0).getTextContent()),
-                        Integer.valueOf(e.getElementsByTagName("PosY").item(0).getTextContent()));
-                player.setDirection(Player.Direction.valueOf(e.getElementsByTagName("Direction").item(0).getTextContent()));
-                player.setEquippedWeapon(Player.WeaponTypes.valueOf(e.getElementsByTagName("Equipped").item(0).getTextContent()));
-                player.getMagazinePistol().setNumberBullets(Integer.valueOf(e.getElementsByTagName("MagPistol").item(0).getTextContent()));
-                player.getMagazinePistol().setCurrentPool(Integer.valueOf(e.getElementsByTagName("PoolPistol").item(0).getTextContent()));
-                player.getMagazineRifle().setNumberBullets(Integer.valueOf(e.getElementsByTagName("MagRifle").item(0).getTextContent()));
-                player.getMagazineRifle().setCurrentPool(Integer.valueOf(e.getElementsByTagName("PoolRifle").item(0).getTextContent()));
-                player.getMagazineShotgun().setNumberBullets(Integer.valueOf(e.getElementsByTagName("MagShotgun").item(0).getTextContent()));
-                player.getMagazineShotgun().setCurrentPool(Integer.valueOf(e.getElementsByTagName("PoolShotgun").item(0).getTextContent()));
-            }
-
-            // Remove the current number of Zombie objects
-            for(Zombie zombie : zombies) {
-                gameWindow.getChildren().removeAll(zombie.getIv(), zombie.getNode());
-                zombie.setAlive(false);
-            }
-            zombies.removeIf(Zombie::isDead);
-
-
-            NodeList zombieList = doc.getElementsByTagName("Zombie");
-
-//            if (!getInitialized())
-//                loadAssets(zombieList.getLength());
-
-            for (int i = 0; i < zombieList.getLength(); i++) {
-
-                Node nodeZ = zombieList.item(i);
-
-//                if (nodeZ.getNodeType() == Node.ELEMENT_NODE) {
-//                    Element e = (Element) nodeZ;
-//                    zombies.add(new Zombie(this.zombieAnimation[i], this.zombieAudioClips,
-//                            Integer.valueOf(e.getElementsByTagName("PosX").item(0).getTextContent()),
-//                            Integer.valueOf(e.getElementsByTagName("PosY").item(0).getTextContent()),
-//                            Integer.valueOf(e.getElementsByTagName("HP").item(0).getTextContent())));
-//                    gameWindow.getChildren().addAll(zombies.get(i).getNode(), zombies.get(i).getIv());
-//                }
-            }
-        }
-        catch (IOException ioe) {
-//            int n = JOptionPane.showOptionDialog(null, "Unable to load save file", "Loading error", JOptionPane.DEFAULT_OPTION,
-//                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-        } catch (ParserConfigurationException pce) {
-            System.out.println(pce.getMessage());
-        } catch (SAXException saxe) {
-            System.out.println(saxe.getMessage());
-        }
-    }
-
     public boolean readSaveFile(String fileName, GameConfiguration configuration) {
         DocumentBuilderFactory dbf;
         DocumentBuilder db;
@@ -364,6 +260,9 @@ public class StoreData {
             configuration.player.armour = Integer.valueOf(playerElement.getElementsByTagName("Armor").item(0).getTextContent());
             configuration.player.posX = Integer.valueOf(playerElement.getElementsByTagName("PosX").item(0).getTextContent());
             configuration.player.posY = Integer.valueOf(playerElement.getElementsByTagName("PosY").item(0).getTextContent());
+            configuration.player.velX = Integer.valueOf(playerElement.getElementsByTagName("VelX").item(0).getTextContent());
+            configuration.player.velY = Integer.valueOf(playerElement.getElementsByTagName("VelY").item(0).getTextContent());
+            configuration.player.movementSpeed = Integer.valueOf(playerElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
             configuration.player.direction = Movable.Direction.valueOf(playerElement.getElementsByTagName("Direction").item(0).getTextContent());
             configuration.player.equipped =  Player.WeaponTypes.valueOf(playerElement.getElementsByTagName("Equipped").item(0).getTextContent());
             configuration.player.magPistol = Integer.valueOf(playerElement.getElementsByTagName("MagPistol").item(0).getTextContent());
@@ -387,6 +286,9 @@ public class StoreData {
                 zombieCfg.health = Integer.valueOf(zombieElement.getElementsByTagName("HP").item(0).getTextContent());
                 zombieCfg.posX = Integer.valueOf(zombieElement.getElementsByTagName("PosX").item(0).getTextContent());
                 zombieCfg.posY = Integer.valueOf(zombieElement.getElementsByTagName("PosY").item(0).getTextContent());
+                zombieCfg.velX = Integer.valueOf(zombieElement.getElementsByTagName("VelX").item(0).getTextContent());
+                zombieCfg.velY = Integer.valueOf(zombieElement.getElementsByTagName("VelY").item(0).getTextContent());
+                //zombieCfg.movementSpeed = Integer.valueOf(zombieElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
                 zombieCfg.direction = Movable.Direction.valueOf(zombieElement.getElementsByTagName("Direction").item(0).getTextContent());
                 configuration.zombies.add(zombieCfg);
             } else {
@@ -394,6 +296,42 @@ public class StoreData {
             }
         }
 
+        //Parse bullets
+        NodeList bulletList = doc.getElementsByTagName("Bullet");
+        configuration.bullets = new ArrayList<Configuration>();
+        for (int i = 0; i < bulletList.getLength(); i++) {
+            Node bulletNode = bulletList.item(i);
+            if (bulletNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element bulletElement = (Element) bulletNode;
+                Configuration bulletCfg = new Configuration();
+                bulletCfg.posX = Integer.valueOf(bulletElement.getElementsByTagName("PosX").item(0).getTextContent());
+                bulletCfg.posY = Integer.valueOf(bulletElement.getElementsByTagName("PosY").item(0).getTextContent());
+                bulletCfg.velX = Integer.valueOf(bulletElement.getElementsByTagName("VelX").item(0).getTextContent());
+                bulletCfg.velY = Integer.valueOf(bulletElement.getElementsByTagName("VelY").item(0).getTextContent());
+                bulletCfg.movementSpeed = Integer.valueOf(bulletElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
+                bulletCfg.direction = Movable.Direction.valueOf(bulletElement.getElementsByTagName("Direction").item(0).getTextContent());
+                bulletCfg.damage = Integer.valueOf(bulletElement.getElementsByTagName("Damage").item(0).getTextContent());
+                configuration.bullets.add(bulletCfg);
+            } else {
+                return false;
+            }
+        }
+
+        //Parse drops
+        NodeList dropsList = doc.getElementsByTagName("Drop");
+        configuration.drops = new ArrayList<Configuration>();
+        for (int i = 0; i < dropsList.getLength(); i++) {
+            Node dropsNode = dropsList.item(i);
+            if (dropsNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element dropsElement = (Element) dropsNode;
+                Configuration dropsCfg = new Configuration();
+                dropsCfg.posX = Integer.valueOf(dropsElement.getElementsByTagName("PosX").item(0).getTextContent());
+                dropsCfg.posY = Integer.valueOf(dropsElement.getElementsByTagName("PosY").item(0).getTextContent());
+                configuration.drops.add(dropsCfg);
+            } else {
+                return false;
+            }
+        }
         return true;
     }
 }
