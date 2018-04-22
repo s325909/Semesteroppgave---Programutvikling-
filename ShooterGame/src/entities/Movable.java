@@ -21,6 +21,7 @@ public class Movable extends Entity {
         this.movementSpeed = movementSpeed;
         this.velocityX = 0;
         this.velocityY = 0;
+        this.direction = Direction.IDLE;
     }
 
     public Movable(Sprite idleSprite, int positionX, int positionY, int healthPoints, double movementSpeed) {
@@ -28,6 +29,7 @@ public class Movable extends Entity {
         this.movementSpeed = movementSpeed;
         this.velocityX = 0;
         this.velocityY = 0;
+        this.direction = Direction.IDLE;
     }
 
     public void update(double time) {
@@ -74,6 +76,8 @@ public class Movable extends Entity {
                 this.getSprite().getImageView().setRotate(90);
                 this.direction = Direction.SOUTH;
             }
+        } else if (getVelocityX() == 0 && getVelocityY() == 0) {
+            this.direction = Direction.IDLE;
         }
 
         // Check for collision between entities and update position and/or velocity

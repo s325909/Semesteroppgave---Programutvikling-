@@ -7,14 +7,11 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -132,10 +129,10 @@ public class InitializeGame implements Initializable{
                 musicPlayer.muteVolume();
 
             } else if (e.getCode() == KeyCode.F5){
-                System.out.println("Game is saved");
+                game.saveTheGame("quicksave");
 
             } else if (e.getCode() == KeyCode.F9) {
-                //loadSavegame("quicksave");
+                game.loadTheGame("quicksave");
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {
@@ -374,6 +371,18 @@ public class InitializeGame implements Initializable{
 
     public AudioClip[] getZombieAudioClips() {
         return zombieAudioClips;
+    }
+
+    public AudioClip[] getBasicSounds() {
+        return basicSounds;
+    }
+
+    public Sprite[][] getPlayerAnimation() {
+        return playerAnimation;
+    }
+
+    public AudioClip[] getWeapon() {
+        return weapon;
     }
 
     /***

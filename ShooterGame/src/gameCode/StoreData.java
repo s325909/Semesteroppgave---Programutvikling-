@@ -1,11 +1,7 @@
 package gameCode;
 
-import entities.Bullet;
-import entities.Drop;
 import entities.Player;
-import entities.Zombie;
 import entities.Movable;
-import javafx.scene.layout.Pane;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -60,6 +56,14 @@ public class StoreData {
      * @param isQuick Requires a boolean to define whether this is the quicksave slot. If true, fileName
      *                gets set to "quicksave", regardless of parameter input, and is saved as quicksave.xml.
      */
+
+    /**
+     * Method for creating a .xml save file.
+     * Requests
+     * @param fileName Requires a filename of type String, which in turn will be the name for .xml file.
+     * @param configuration Requires a
+     * @return Returns a boolean based on whether the savefile is created successfully.
+     */
     public boolean createSaveFile(String fileName, GameConfiguration configuration) {
 
         DocumentBuilderFactory dbf;
@@ -69,166 +73,214 @@ public class StoreData {
             dbf = DocumentBuilderFactory.newInstance();
             db = dbf.newDocumentBuilder();
             doc = db.newDocument();
-        } catch (IOException ioe) {
-            System.out.println("Caught IOException when reading file: " + ioe.getMessage());
-            return false;
-        } catch (SAXException sax) {
-            System.out.println("Caught SAXException when reading file: " + sax.getMessage());
-            return false;
         } catch (ParserConfigurationException pce) {
             System.out.println("Caught ParserConfigurationException when reading file: " + pce.getMessage());
             return false;
         }
 
-        try {
 
-            Element element = doc.createElement("Savefile");
-            doc.appendChild(element);
 
-            Element gInfo = doc.createElement("Game");
-            element.appendChild(gInfo);
+        // Store player information in a XML structure
+        Element savegame = doc.createElement("Savegame");
+        doc.appendChild(savegame);
 
-            Element score = doc.createElement("Score");
-            score.appendChild(doc.createTextNode(String.valueOf(game.getScoreNumber())));
-            gInfo.appendChild(score);
+        Element gameInfo = doc.createElement("Game");
+        savegame.appendChild(gameInfo);
 
-            Element pInfo = doc.createElement("Player");
-            element.appendChild(pInfo);
+        Element gameScore = doc.createElement("ScorePoints");
+        gameScore.appendChild(doc.createTextNode(String.valueOf(configuration.gameScore)));
+        gameInfo.appendChild(gameScore);
 
-            Element playerHP = doc.createElement("HP");
-            playerHP.appendChild(doc.createTextNode(String.valueOf(player.getHealthPoints())));
-            pInfo.appendChild(playerHP);
+        Element playerInfo = doc.createElement("Player");
+        savegame.appendChild(playerInfo);
 
-            Element armor = doc.createElement("Armor");
-            armor.appendChild(doc.createTextNode(String.valueOf(player.getArmor())));
-            pInfo.appendChild(armor);
+        Element playerHP = doc.createElement("HealthPoints");
+        playerHP.appendChild(doc.createTextNode(String.valueOf(configuration.player.health)));
+        playerInfo.appendChild(playerHP);
 
-            Element playerPosX = doc.createElement("PosX");
-            playerPosX.appendChild(doc.createTextNode(String.valueOf(player.getPositionX())));
-            pInfo.appendChild(playerPosX);
+        Element armor = doc.createElement("ArmorPoints");
+        armor.appendChild(doc.createTextNode(String.valueOf(configuration.player.armor)));
+        playerInfo.appendChild(armor);
 
-            Element playerPosY = doc.createElement("PosY");
-            playerPosY.appendChild(doc.createTextNode(String.valueOf(player.getPositionY())));
-            pInfo.appendChild(playerPosY);
+        Element playerPosX = doc.createElement("PositionX");
+        playerPosX.appendChild(doc.createTextNode(String.valueOf(configuration.player.posX)));
+        playerInfo.appendChild(playerPosX);
 
-            Element playerDirection = doc.createElement("Direction");
-            playerDirection.appendChild(doc.createTextNode(String.valueOf(player.getDirection())));
-            pInfo.appendChild(playerDirection);
+        Element playerPosY = doc.createElement("PositionY");
+        playerPosY.appendChild(doc.createTextNode(String.valueOf(configuration.player.posY)));
+        playerInfo.appendChild(playerPosY);
 
-            Element eqWep = doc.createElement("Equipped");
-            eqWep.appendChild(doc.createTextNode(String.valueOf(player.getEquippedWeapon())));
-            pInfo.appendChild(eqWep);
+        Element playerVelX = doc.createElement("VelocityX");
+        playerVelX.appendChild(doc.createTextNode(String.valueOf(configuration.player.posX)));
+        playerInfo.appendChild(playerVelX);
 
-            Element magPistol = doc.createElement("MagPistol");
-            magPistol.appendChild(doc.createTextNode(String.valueOf(player.getMagazinePistol().getNumberBullets())));
-            pInfo.appendChild(magPistol);
+        Element playerVelY = doc.createElement("VelocityY");
+        playerVelY.appendChild(doc.createTextNode(String.valueOf(configuration.player.posY)));
+        playerInfo.appendChild(playerVelY);
 
-            Element poolPistol = doc.createElement("PoolPistol");
-            poolPistol.appendChild(doc.createTextNode(String.valueOf(player.getMagazinePistol().getCurrentPool())));
-            pInfo.appendChild(poolPistol);
+        Element playerMovement = doc.createElement("MovementSpeed");
+        playerMovement.appendChild(doc.createTextNode(String.valueOf(configuration.player.posX)));
+        playerInfo.appendChild(playerMovement);
 
-            Element magRifle = doc.createElement("MagRifle");
-            magRifle.appendChild(doc.createTextNode(String.valueOf(player.getMagazineRifle().getNumberBullets())));
-            pInfo.appendChild(magRifle);
+        Element playerDirection = doc.createElement("Direction");
+        playerDirection.appendChild(doc.createTextNode(String.valueOf(configuration.player.direction)));
+        playerInfo.appendChild(playerDirection);
 
-            Element poolRifle = doc.createElement("PoolRifle");
-            poolRifle.appendChild(doc.createTextNode(String.valueOf(player.getMagazineRifle().getCurrentPool())));
-            pInfo.appendChild(poolRifle);
+        Element eqWep = doc.createElement("EquippedWep");
+        eqWep.appendChild(doc.createTextNode(String.valueOf(configuration.player.equipped)));
+        playerInfo.appendChild(eqWep);
 
-            Element magShotgun = doc.createElement("MagShotgun");
-            magShotgun.appendChild(doc.createTextNode(String.valueOf(player.getMagazineShotgun().getNumberBullets())));
-            pInfo.appendChild(magShotgun);
+        Element magPistol = doc.createElement("MagPistol");
+        magPistol.appendChild(doc.createTextNode(String.valueOf(configuration.player.magPistol)));
+        playerInfo.appendChild(magPistol);
 
-            Element poolShotgun = doc.createElement("PoolShotgun");
-            poolShotgun.appendChild(doc.createTextNode(String.valueOf(player.getMagazineShotgun().getCurrentPool())));
-            pInfo.appendChild(poolShotgun);
+        Element poolPistol = doc.createElement("PoolPistol");
+        poolPistol.appendChild(doc.createTextNode(String.valueOf(configuration.player.poolPistol)));
+        playerInfo.appendChild(poolPistol);
 
-            Element zInfo = doc.createElement("Zombies");
-            element.appendChild(zInfo);
+        Element magRifle = doc.createElement("MagRifle");
+        magRifle.appendChild(doc.createTextNode(String.valueOf(configuration.player.magRifle)));
+        playerInfo.appendChild(magRifle);
 
-            for(int i = 0; i < zombies.size(); i++) {
-                Element zInfoNbr = doc.createElement("Zombie");
-                Attr nbrZombie = doc.createAttribute("id");
-                nbrZombie.setValue(String.valueOf(i));
-                zInfoNbr.setAttributeNode(nbrZombie);
-                zInfo.appendChild(zInfoNbr);
+        Element poolRifle = doc.createElement("PoolRifle");
+        poolRifle.appendChild(doc.createTextNode(String.valueOf(configuration.player.poolRifle)));
+        playerInfo.appendChild(poolRifle);
 
-                Element zombieHP = doc.createElement("HP");
-                zombieHP.appendChild(doc.createTextNode(String.valueOf(zombies.get(i).getHealthPoints())));
-                zInfoNbr.appendChild(zombieHP);
+        Element magShotgun = doc.createElement("MagShotgun");
+        magShotgun.appendChild(doc.createTextNode(String.valueOf(configuration.player.magShotgun)));
+        playerInfo.appendChild(magShotgun);
 
-                Element zombiePosX = doc.createElement("PosX");
-                zombiePosX.appendChild(doc.createTextNode(String.valueOf(zombies.get(i).getPositionX())));
-                zInfoNbr.appendChild(zombiePosX);
+        Element poolShotgun = doc.createElement("PoolShotgun");
+        poolShotgun.appendChild(doc.createTextNode(String.valueOf(configuration.player.magShotgun)));
+        playerInfo.appendChild(poolShotgun);
 
-                Element zombiePosY = doc.createElement("PosY");
-                zombiePosY.appendChild(doc.createTextNode(String.valueOf(zombies.get(i).getPositionY())));
-                zInfoNbr.appendChild(zombiePosY);
 
-                Element zombieDirection = doc.createElement("Direction");
-                zombieDirection.appendChild(doc.createTextNode(String.valueOf(zombies.get(i).getDirection())));
-                zInfoNbr.appendChild(zombieDirection);
-            }
 
-            Element bulletInfo = doc.createElement("Bullets");
-            element.appendChild(bulletInfo);
+        // Store zombie information in a XML structure
+        Element zombies = doc.createElement("Zombies");
+        savegame.appendChild(zombies);
 
-            for(int i = 0; i < game.getBulletList().size(); i++) {
-                Element bulletInfoNbr = doc.createElement("Bullet");
-                Attr nbrBullet = doc.createAttribute("id");
-                nbrBullet.setValue(String.valueOf(i));
-                bulletInfoNbr.setAttributeNode(nbrBullet);
-                bulletInfo.appendChild(bulletInfoNbr);
+        for(int i = 0; i < configuration.zombies.size(); i++) {
+            Element zombieInfo = doc.createElement("Zombie");
+            zombies.appendChild(zombieInfo);
 
-                Element bulletPosX = doc.createElement("PosX");
-                bulletPosX.appendChild(doc.createTextNode(String.valueOf(game.getBulletList().get(i).getPositionX())));
-                bulletInfoNbr.appendChild(bulletPosX);
+            Element zombieHP = doc.createElement("HealthPoints");
+            zombieHP.appendChild(doc.createTextNode(String.valueOf(configuration.zombies.get(i).health)));
+            zombieInfo.appendChild(zombieHP);
 
-                Element bulletPosY = doc.createElement("PosY");
-                bulletPosY.appendChild(doc.createTextNode(String.valueOf(game.getBulletList().get(i).getPositionY())));
-                bulletInfoNbr.appendChild(bulletPosY);
+            Element zombiePosX = doc.createElement("PositionX");
+            zombiePosX.appendChild(doc.createTextNode(String.valueOf(configuration.zombies.get(i).posX)));
+            zombieInfo.appendChild(zombiePosX);
 
-                Element damage = doc.createElement("Damage");
-                damage.appendChild(doc.createTextNode(String.valueOf(game.getBulletList().get(i).getDamage())));
-                bulletInfoNbr.appendChild(damage);
+            Element zombiePosY = doc.createElement("PositionY");
+            zombiePosY.appendChild(doc.createTextNode(String.valueOf(configuration.zombies.get(i).posY)));
+            zombieInfo.appendChild(zombiePosY);
 
-                Element bulletDirection = doc.createElement("Direction");
-                bulletDirection.appendChild(doc.createTextNode(String.valueOf(game.getBulletList().get(i).getDirection())));
-                bulletInfoNbr.appendChild(bulletDirection);
-            }
+            Element zombieVelX = doc.createElement("VelocityX");
+            zombieVelX.appendChild(doc.createTextNode(String.valueOf(configuration.zombies.get(i).velX)));
+            zombieInfo.appendChild(zombieVelX);
 
-            try {
-                TransformerFactory trf = TransformerFactory.newInstance();
-                Transformer tr = trf.newTransformer();
+            Element zombieVelY = doc.createElement("VelocityY");
+            zombieVelY.appendChild(doc.createTextNode(String.valueOf(configuration.zombies.get(i).velY)));
+            zombieInfo.appendChild(zombieVelY);
 
-                tr.setOutputProperty(OutputKeys.INDENT, "yes");
-                tr.setOutputProperty(OutputKeys.METHOD, "xml");
-                tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-                tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            Element zombieMovement = doc.createElement("MovementSpeed");
+            zombieMovement.appendChild(doc.createTextNode(String.valueOf(configuration.zombies.get(i).movementSpeed)));
+            zombieInfo.appendChild(zombieMovement);
 
-                DOMSource source = new DOMSource(doc);
-
-//                StreamResult result = new StreamResult(new File("savegame.xml"));
-                StreamResult result = new StreamResult(new File("./savegame/" + fileName + ".xml"));
-
-                tr.transform(source, result);
-            } catch (TransformerException e) {
-                e.printStackTrace();
-                System.out.println("TransformerException");
-            }
-//            catch (IOException ioe) {
-//                System.out.println(ioe.getMessage());
-//            Object[] options = {"Resume game"};
-//            int n = JOptionPane.showOptionDialog(null, "Unable to create save file. " +
-//                    "\n \n Try to name it something else", "Saving error", JOptionPane.DEFAULT_OPTION,
-//                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-//            }
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-            System.out.println("ParseConfigurationException");
+            Element zombieDirection = doc.createElement("Direction");
+            zombieDirection.appendChild(doc.createTextNode(String.valueOf(configuration.zombies.get(i).direction)));
+            zombieInfo.appendChild(zombieDirection);
         }
+
+
+
+        // Store bullet information in a XML structure
+        Element bullets = doc.createElement("Bullets");
+        savegame.appendChild(bullets);
+
+        for(int i = 0; i < configuration.bullets.size(); i++) {
+            Element bulletInfo = doc.createElement("Bullet");
+            bullets.appendChild(bulletInfo);
+
+            Element bulletPosX = doc.createElement("PositionX");
+            bulletPosX.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).posX)));
+            bulletInfo.appendChild(bulletPosX);
+
+            Element bulletPosY = doc.createElement("PositionY");
+            bulletPosY.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).posY)));
+            bulletInfo.appendChild(bulletPosY);
+
+            Element bulletVelX = doc.createElement("VelocityX");
+            bulletVelX.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).velX)));
+            bulletInfo.appendChild(bulletVelX);
+
+            Element bulletVelY = doc.createElement("VelocityY");
+            bulletVelY.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).velY)));
+            bulletInfo.appendChild(bulletVelY);
+
+            Element bulletMovement = doc.createElement("PosX");
+            bulletMovement.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).movementSpeed)));
+            bulletInfo.appendChild(bulletMovement);
+
+            Element bulletDirection = doc.createElement("Direction");
+            bulletDirection.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).direction)));
+            bulletInfo.appendChild(bulletDirection);
+
+            Element damage = doc.createElement("Damage");
+            damage.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).damage)));
+            bulletInfo.appendChild(damage);
+        }
+
+
+
+        // Store drop information in a XML structure
+        Element drops = doc.createElement("Drops");
+        savegame.appendChild(drops);
+
+        for(int i = 0; i < configuration.drops.size(); i++) {
+            Element dropInfo = doc.createElement("Drop");
+            drops.appendChild(dropInfo);
+
+            Element dropPosX = doc.createElement("PositionX");
+            dropPosX.appendChild(doc.createTextNode(String.valueOf(configuration.drops.get(i).posX)));
+            dropInfo.appendChild(dropPosX);
+
+            Element dropPosY = doc.createElement("PositionY");
+            dropPosY.appendChild(doc.createTextNode(String.valueOf(configuration.drops.get(i).posY)));
+            dropInfo.appendChild(dropPosY);
+        }
+
+
+
+        // Turn the information into a file named according to the given fileName String.
+        try {
+            TransformerFactory trf = TransformerFactory.newInstance();
+            Transformer tr = trf.newTransformer();
+
+            tr.setOutputProperty(OutputKeys.INDENT, "yes");
+            tr.setOutputProperty(OutputKeys.METHOD, "xml");
+            tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+            DOMSource source = new DOMSource(doc);
+
+            StreamResult result = new StreamResult(new File("./savegame/" + fileName + ".xml"));
+
+            tr.transform(source, result);
+        } catch (TransformerException e) {
+            System.out.println("TransformerException");
+            return false;
+        }
+        return true;
     }
 
+    /**
+     *
+     * @param fileName
+     * @param configuration
+     * @return
+     */
     public boolean readSaveFile(String fileName, GameConfiguration configuration) {
         DocumentBuilderFactory dbf;
         DocumentBuilder db;
@@ -255,7 +307,7 @@ public class StoreData {
         Node gameNode = gameList.item(0);
         if (gameNode.getNodeType() == Node.ELEMENT_NODE) {
             Element gameElement = (Element)gameNode;
-            configuration.gameScore = Integer.valueOf(gameElement.getElementsByTagName("Score").item(0).getTextContent());
+            configuration.gameScore = Integer.valueOf(gameElement.getElementsByTagName("ScorePoints").item(0).getTextContent());
         } else {
             return false;
         }
@@ -266,15 +318,15 @@ public class StoreData {
         configuration.player = new Configuration();
         if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
             Element playerElement = (Element) playerNode;
-            configuration.player.health = Integer.valueOf(playerElement.getElementsByTagName("HP").item(0).getTextContent());
-            configuration.player.armor = Integer.valueOf(playerElement.getElementsByTagName("Armor").item(0).getTextContent());
-            configuration.player.posX = Integer.valueOf(playerElement.getElementsByTagName("PosX").item(0).getTextContent());
-            configuration.player.posY = Integer.valueOf(playerElement.getElementsByTagName("PosY").item(0).getTextContent());
-            configuration.player.velX = Double.valueOf(playerElement.getElementsByTagName("VelX").item(0).getTextContent());
-            configuration.player.velY = Double.valueOf(playerElement.getElementsByTagName("VelY").item(0).getTextContent());
-            //configuration.player.movementSpeed = Double.valueOf(playerElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
+            configuration.player.health = Integer.valueOf(playerElement.getElementsByTagName("HealthPoints").item(0).getTextContent());
+            configuration.player.armor = Integer.valueOf(playerElement.getElementsByTagName("ArmorPoints").item(0).getTextContent());
+            configuration.player.posX = Integer.valueOf(playerElement.getElementsByTagName("PositionX").item(0).getTextContent());
+            configuration.player.posY = Integer.valueOf(playerElement.getElementsByTagName("PositionY").item(0).getTextContent());
+            configuration.player.velX = Double.valueOf(playerElement.getElementsByTagName("VelocityX").item(0).getTextContent());
+            configuration.player.velY = Double.valueOf(playerElement.getElementsByTagName("VelocityY").item(0).getTextContent());
+            configuration.player.movementSpeed = Double.valueOf(playerElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
             configuration.player.direction = Movable.Direction.valueOf(playerElement.getElementsByTagName("Direction").item(0).getTextContent());
-            configuration.player.equipped =  Player.WeaponTypes.valueOf(playerElement.getElementsByTagName("Equipped").item(0).getTextContent());
+            configuration.player.equipped =  Player.WeaponTypes.valueOf(playerElement.getElementsByTagName("EquippedWep").item(0).getTextContent());
             configuration.player.magPistol = Integer.valueOf(playerElement.getElementsByTagName("MagPistol").item(0).getTextContent());
             configuration.player.poolPistol = Integer.valueOf(playerElement.getElementsByTagName("PoolPistol").item(0).getTextContent());
             configuration.player.magRifle = Integer.valueOf(playerElement.getElementsByTagName("MagRifle").item(0).getTextContent());
@@ -293,12 +345,12 @@ public class StoreData {
             if (zombieNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element zombieElement = (Element) zombieNode;
                 Configuration zombieCfg = new Configuration();
-                zombieCfg.health = Integer.valueOf(zombieElement.getElementsByTagName("HP").item(0).getTextContent());
-                zombieCfg.posX = Integer.valueOf(zombieElement.getElementsByTagName("PosX").item(0).getTextContent());
-                zombieCfg.posY = Integer.valueOf(zombieElement.getElementsByTagName("PosY").item(0).getTextContent());
-                zombieCfg.velX = Double.valueOf(zombieElement.getElementsByTagName("VelX").item(0).getTextContent());
-                zombieCfg.velY = Double.valueOf(zombieElement.getElementsByTagName("VelY").item(0).getTextContent());
-                //zombieCfg.movementSpeed = Double.valueOf(zombieElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
+                zombieCfg.health = Integer.valueOf(zombieElement.getElementsByTagName("HealthPoints").item(0).getTextContent());
+                zombieCfg.posX = Integer.valueOf(zombieElement.getElementsByTagName("PositionX").item(0).getTextContent());
+                zombieCfg.posY = Integer.valueOf(zombieElement.getElementsByTagName("PositionY").item(0).getTextContent());
+                zombieCfg.velX = Double.valueOf(zombieElement.getElementsByTagName("VelocityX").item(0).getTextContent());
+                zombieCfg.velY = Double.valueOf(zombieElement.getElementsByTagName("VelocityY").item(0).getTextContent());
+                zombieCfg.movementSpeed = Double.valueOf(zombieElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
                 zombieCfg.direction = Movable.Direction.valueOf(zombieElement.getElementsByTagName("Direction").item(0).getTextContent());
                 configuration.zombies.add(zombieCfg);
             } else {
@@ -314,11 +366,11 @@ public class StoreData {
             if (bulletNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element bulletElement = (Element) bulletNode;
                 Configuration bulletCfg = new Configuration();
-                bulletCfg.posX = Integer.valueOf(bulletElement.getElementsByTagName("PosX").item(0).getTextContent());
-                bulletCfg.posY = Integer.valueOf(bulletElement.getElementsByTagName("PosY").item(0).getTextContent());
-                bulletCfg.velX = Double.valueOf(bulletElement.getElementsByTagName("VelX").item(0).getTextContent());
-                bulletCfg.velY = Double.valueOf(bulletElement.getElementsByTagName("VelY").item(0).getTextContent());
-                //bulletCfg.movementSpeed = Double.valueOf(bulletElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
+                bulletCfg.posX = Integer.valueOf(bulletElement.getElementsByTagName("PositionX").item(0).getTextContent());
+                bulletCfg.posY = Integer.valueOf(bulletElement.getElementsByTagName("PositionY").item(0).getTextContent());
+                bulletCfg.velX = Double.valueOf(bulletElement.getElementsByTagName("VelocityX").item(0).getTextContent());
+                bulletCfg.velY = Double.valueOf(bulletElement.getElementsByTagName("VelocityY").item(0).getTextContent());
+                bulletCfg.movementSpeed = Double.valueOf(bulletElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
                 bulletCfg.direction = Movable.Direction.valueOf(bulletElement.getElementsByTagName("Direction").item(0).getTextContent());
                 bulletCfg.damage = Integer.valueOf(bulletElement.getElementsByTagName("Damage").item(0).getTextContent());
                 configuration.bullets.add(bulletCfg);
@@ -328,16 +380,16 @@ public class StoreData {
         }
 
         //Parse drops
-        NodeList dropsList = doc.getElementsByTagName("Drop");
+        NodeList dropList = doc.getElementsByTagName("Drop");
         configuration.drops = new ArrayList<Configuration>();
-        for (int i = 0; i < dropsList.getLength(); i++) {
-            Node dropsNode = dropsList.item(i);
+        for (int i = 0; i < dropList.getLength(); i++) {
+            Node dropsNode = dropList.item(i);
             if (dropsNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element dropsElement = (Element) dropsNode;
-                Configuration dropsCfg = new Configuration();
-                dropsCfg.posX = Integer.valueOf(dropsElement.getElementsByTagName("PosX").item(0).getTextContent());
-                dropsCfg.posY = Integer.valueOf(dropsElement.getElementsByTagName("PosY").item(0).getTextContent());
-                configuration.drops.add(dropsCfg);
+                Configuration dropCfg = new Configuration();
+                dropCfg.posX = Integer.valueOf(dropsElement.getElementsByTagName("PositionX").item(0).getTextContent());
+                dropCfg.posY = Integer.valueOf(dropsElement.getElementsByTagName("PositionY").item(0).getTextContent());
+                configuration.drops.add(dropCfg);
             } else {
                 return false;
             }

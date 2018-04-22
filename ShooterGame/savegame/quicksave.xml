@@ -1,83 +1,117 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Savefile>
+<Savegame>
     <Game>
-        <Score>0</Score>
+        <ScorePoints>0</ScorePoints>
     </Game>
     <Player>
-        <HP>10</HP>
-        <Armor>10</Armor>
-        <PosX>745</PosX>
-        <PosY>350</PosY>
-        <Direction>EAST</Direction>
-        <Equipped>KNIFE</Equipped>
+        <HealthPoints>100</HealthPoints>
+        <ArmorPoints>50</ArmorPoints>
+        <PositionX>640</PositionX>
+        <PositionY>350</PositionY>
+        <VelocityX>640</VelocityX>
+        <VelocityY>350</VelocityY>
+        <MovementSpeed>640</MovementSpeed>
+        <Direction>IDLE</Direction>
+        <EquippedWep>KNIFE</EquippedWep>
         <MagPistol>15</MagPistol>
         <PoolPistol>15</PoolPistol>
-        <MagRifle>30</MagRifle>
-        <PoolRifle>30</PoolRifle>
-        <MagShotgun>8</MagShotgun>
-        <PoolShotgun>8</PoolShotgun>
+        <MagRifle>0</MagRifle>
+        <PoolRifle>0</PoolRifle>
+        <MagShotgun>0</MagShotgun>
+        <PoolShotgun>0</PoolShotgun>
     </Player>
     <Zombies>
-        <Zombie id="0">
-            <HP>100</HP>
-            <PosX>679</PosX>
-            <PosY>355</PosY>
+        <Zombie>
+            <HealthPoints>0</HealthPoints>
+            <PositionX>506</PositionX>
+            <PositionY>385</PositionY>
+            <VelocityX>1.0</VelocityX>
+            <VelocityY>0.0</VelocityY>
+            <MovementSpeed>1.0</MovementSpeed>
             <Direction>EAST</Direction>
         </Zombie>
-        <Zombie id="1">
-            <HP>100</HP>
-            <PosX>681</PosX>
-            <PosY>348</PosY>
+        <Zombie>
+            <HealthPoints>0</HealthPoints>
+            <PositionX>440</PositionX>
+            <PositionY>563</PositionY>
+            <VelocityX>1.0</VelocityX>
+            <VelocityY>-1.0</VelocityY>
+            <MovementSpeed>1.0</MovementSpeed>
+            <Direction>NORTHEAST</Direction>
+        </Zombie>
+        <Zombie>
+            <HealthPoints>0</HealthPoints>
+            <PositionX>855</PositionX>
+            <PositionY>277</PositionY>
+            <VelocityX>0.0</VelocityX>
+            <VelocityY>0.0</VelocityY>
+            <MovementSpeed>1.0</MovementSpeed>
+            <Direction>IDLE</Direction>
+        </Zombie>
+        <Zombie>
+            <HealthPoints>0</HealthPoints>
+            <PositionX>408</PositionX>
+            <PositionY>191</PositionY>
+            <VelocityX>1.0</VelocityX>
+            <VelocityY>1.0</VelocityY>
+            <MovementSpeed>1.0</MovementSpeed>
+            <Direction>SOUTHEAST</Direction>
+        </Zombie>
+        <Zombie>
+            <HealthPoints>0</HealthPoints>
+            <PositionX>834</PositionX>
+            <PositionY>421</PositionY>
+            <VelocityX>0.0</VelocityX>
+            <VelocityY>0.0</VelocityY>
+            <MovementSpeed>1.0</MovementSpeed>
+            <Direction>IDLE</Direction>
+        </Zombie>
+        <Zombie>
+            <HealthPoints>0</HealthPoints>
+            <PositionX>249</PositionX>
+            <PositionY>188</PositionY>
+            <VelocityX>1.0</VelocityX>
+            <VelocityY>0.0</VelocityY>
+            <MovementSpeed>1.0</MovementSpeed>
             <Direction>EAST</Direction>
         </Zombie>
-        <Zombie id="2">
-            <HP>100</HP>
-            <PosX>676</PosX>
-            <PosY>349</PosY>
+        <Zombie>
+            <HealthPoints>0</HealthPoints>
+            <PositionX>844</PositionX>
+            <PositionY>153</PositionY>
+            <VelocityX>-1.0</VelocityX>
+            <VelocityY>1.0</VelocityY>
+            <MovementSpeed>1.0</MovementSpeed>
+            <Direction>SOUTHWEST</Direction>
+        </Zombie>
+        <Zombie>
+            <HealthPoints>0</HealthPoints>
+            <PositionX>153</PositionX>
+            <PositionY>287</PositionY>
+            <VelocityX>1.0</VelocityX>
+            <VelocityY>0.0</VelocityY>
+            <MovementSpeed>1.0</MovementSpeed>
             <Direction>EAST</Direction>
         </Zombie>
-        <Zombie id="3">
-            <HP>100</HP>
-            <PosX>341</PosX>
-            <PosY>471</PosY>
-            <Direction>EAST</Direction>
+        <Zombie>
+            <HealthPoints>0</HealthPoints>
+            <PositionX>165</PositionX>
+            <PositionY>574</PositionY>
+            <VelocityX>1.0</VelocityX>
+            <VelocityY>-1.0</VelocityY>
+            <MovementSpeed>1.0</MovementSpeed>
+            <Direction>NORTHEAST</Direction>
         </Zombie>
-        <Zombie id="4">
-            <HP>100</HP>
-            <PosX>414</PosX>
-            <PosY>232</PosY>
-            <Direction>EAST</Direction>
-        </Zombie>
-        <Zombie id="5">
-            <HP>100</HP>
-            <PosX>673</PosX>
-            <PosY>357</PosY>
-            <Direction>EAST</Direction>
-        </Zombie>
-        <Zombie id="6">
-            <HP>100</HP>
-            <PosX>646</PosX>
-            <PosY>383</PosY>
-            <Direction>EAST</Direction>
-        </Zombie>
-        <Zombie id="7">
-            <HP>100</HP>
-            <PosX>472</PosX>
-            <PosY>257</PosY>
-            <Direction>EAST</Direction>
-        </Zombie>
-        <Zombie id="8">
-            <HP>100</HP>
-            <PosX>683</PosX>
-            <PosY>355</PosY>
-            <Direction>EAST</Direction>
-        </Zombie>
-        <Zombie id="9">
-            <HP>100</HP>
-            <PosX>1161</PosX>
-            <PosY>569</PosY>
-            <Direction>NORTHWEST</Direction>
+        <Zombie>
+            <HealthPoints>0</HealthPoints>
+            <PositionX>651</PositionX>
+            <PositionY>682</PositionY>
+            <VelocityX>0.0</VelocityX>
+            <VelocityY>-1.0</VelocityY>
+            <MovementSpeed>1.0</MovementSpeed>
+            <Direction>NORTH</Direction>
         </Zombie>
     </Zombies>
     <Bullets/>
-</Savefile>
+    <Drops/>
+</Savegame>
