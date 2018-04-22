@@ -35,12 +35,12 @@ public class StoreData {
 
     public static class Configuration {
         public int health;
-        public int armour;
+        public int armor;
         public int posX;
         public int posY;
-        public int velX;
-        public int velY;
-        public int movementSpeed;
+        public double velX;
+        public double velY;
+        public double movementSpeed;
         public Movable.Direction direction;
         public Player.WeaponTypes equipped;
         public int damage;
@@ -60,17 +60,27 @@ public class StoreData {
      * @param isQuick Requires a boolean to define whether this is the quicksave slot. If true, fileName
      *                gets set to "quicksave", regardless of parameter input, and is saved as quicksave.xml.
      */
-    public void createSaveFile(String fileName, Boolean isQuick) {
-        Object[] options = {"Resume game"};
+    public boolean createSaveFile(String fileName, GameConfiguration configuration) {
 
-        if (isQuick) {
-            fileName = "quicksave";
-        }
+        DocumentBuilderFactory dbf;
+        DocumentBuilder db;
+        Document doc;
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = factory.newDocumentBuilder();
+            dbf = DocumentBuilderFactory.newInstance();
+            db = dbf.newDocumentBuilder();
+            doc = db.newDocument();
+        } catch (IOException ioe) {
+            System.out.println("Caught IOException when reading file: " + ioe.getMessage());
+            return false;
+        } catch (SAXException sax) {
+            System.out.println("Caught SAXException when reading file: " + sax.getMessage());
+            return false;
+        } catch (ParserConfigurationException pce) {
+            System.out.println("Caught ParserConfigurationException when reading file: " + pce.getMessage());
+            return false;
+        }
 
-            Document doc = db.newDocument();
+        try {
 
             Element element = doc.createElement("Savefile");
             doc.appendChild(element);
@@ -257,12 +267,12 @@ public class StoreData {
         if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
             Element playerElement = (Element) playerNode;
             configuration.player.health = Integer.valueOf(playerElement.getElementsByTagName("HP").item(0).getTextContent());
-            configuration.player.armour = Integer.valueOf(playerElement.getElementsByTagName("Armor").item(0).getTextContent());
+            configuration.player.armor = Integer.valueOf(playerElement.getElementsByTagName("Armor").item(0).getTextContent());
             configuration.player.posX = Integer.valueOf(playerElement.getElementsByTagName("PosX").item(0).getTextContent());
             configuration.player.posY = Integer.valueOf(playerElement.getElementsByTagName("PosY").item(0).getTextContent());
-            configuration.player.velX = Integer.valueOf(playerElement.getElementsByTagName("VelX").item(0).getTextContent());
-            configuration.player.velY = Integer.valueOf(playerElement.getElementsByTagName("VelY").item(0).getTextContent());
-            configuration.player.movementSpeed = Integer.valueOf(playerElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
+            configuration.player.velX = Double.valueOf(playerElement.getElementsByTagName("VelX").item(0).getTextContent());
+            configuration.player.velY = Double.valueOf(playerElement.getElementsByTagName("VelY").item(0).getTextContent());
+            //configuration.player.movementSpeed = Double.valueOf(playerElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
             configuration.player.direction = Movable.Direction.valueOf(playerElement.getElementsByTagName("Direction").item(0).getTextContent());
             configuration.player.equipped =  Player.WeaponTypes.valueOf(playerElement.getElementsByTagName("Equipped").item(0).getTextContent());
             configuration.player.magPistol = Integer.valueOf(playerElement.getElementsByTagName("MagPistol").item(0).getTextContent());
@@ -286,9 +296,9 @@ public class StoreData {
                 zombieCfg.health = Integer.valueOf(zombieElement.getElementsByTagName("HP").item(0).getTextContent());
                 zombieCfg.posX = Integer.valueOf(zombieElement.getElementsByTagName("PosX").item(0).getTextContent());
                 zombieCfg.posY = Integer.valueOf(zombieElement.getElementsByTagName("PosY").item(0).getTextContent());
-                zombieCfg.velX = Integer.valueOf(zombieElement.getElementsByTagName("VelX").item(0).getTextContent());
-                zombieCfg.velY = Integer.valueOf(zombieElement.getElementsByTagName("VelY").item(0).getTextContent());
-                //zombieCfg.movementSpeed = Integer.valueOf(zombieElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
+                zombieCfg.velX = Double.valueOf(zombieElement.getElementsByTagName("VelX").item(0).getTextContent());
+                zombieCfg.velY = Double.valueOf(zombieElement.getElementsByTagName("VelY").item(0).getTextContent());
+                //zombieCfg.movementSpeed = Double.valueOf(zombieElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
                 zombieCfg.direction = Movable.Direction.valueOf(zombieElement.getElementsByTagName("Direction").item(0).getTextContent());
                 configuration.zombies.add(zombieCfg);
             } else {
@@ -306,9 +316,9 @@ public class StoreData {
                 Configuration bulletCfg = new Configuration();
                 bulletCfg.posX = Integer.valueOf(bulletElement.getElementsByTagName("PosX").item(0).getTextContent());
                 bulletCfg.posY = Integer.valueOf(bulletElement.getElementsByTagName("PosY").item(0).getTextContent());
-                bulletCfg.velX = Integer.valueOf(bulletElement.getElementsByTagName("VelX").item(0).getTextContent());
-                bulletCfg.velY = Integer.valueOf(bulletElement.getElementsByTagName("VelY").item(0).getTextContent());
-                bulletCfg.movementSpeed = Integer.valueOf(bulletElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
+                bulletCfg.velX = Double.valueOf(bulletElement.getElementsByTagName("VelX").item(0).getTextContent());
+                bulletCfg.velY = Double.valueOf(bulletElement.getElementsByTagName("VelY").item(0).getTextContent());
+                //bulletCfg.movementSpeed = Double.valueOf(bulletElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
                 bulletCfg.direction = Movable.Direction.valueOf(bulletElement.getElementsByTagName("Direction").item(0).getTextContent());
                 bulletCfg.damage = Integer.valueOf(bulletElement.getElementsByTagName("Damage").item(0).getTextContent());
                 configuration.bullets.add(bulletCfg);

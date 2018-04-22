@@ -5,20 +5,18 @@ import entities.Zombie;
 import entities.Sprite;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import notCurrentlyUsed.SaveData;
+
 import java.net.URL;
 import java.lang.*;
 import java.util.ArrayList;
@@ -29,9 +27,7 @@ import java.util.ResourceBundle;
 public class InitializeGame implements Initializable{
 
     @FXML private Pane gameWindow;
-    @FXML private MenuBar topbar;
-    @FXML private Text playerHP, playerArmor, magazineSize, poolSize, score, equippedWeapon;
-    @FXML protected Label gameState, pressKey, pressKey2, pressKey3;
+    @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, gameState, pressKey, pressKey2, pressKey3;
 
     private Stage stage = new Stage();
 
@@ -108,8 +104,8 @@ public class InitializeGame implements Initializable{
         }
 
         // Initialize the Game object, and thus start the game
-        game = new Game(player, zombies, gameWindow, playerHP, playerArmor, equippedWeapon, magazineSize, poolSize, score);
-        game.setController(this);
+        game = new Game(player, zombies, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
+        game.setInitGame(this);
         Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
@@ -343,11 +339,13 @@ public class InitializeGame implements Initializable{
         Stage stage = (Stage) gameWindow.getScene().getWindow();
         if(stage.isFullScreen()) {
             stage.setFullScreen(false);
-            topbar.setVisible(true);
         } else {
             stage.setFullScreen(true);
-            topbar.setVisible(false);
         }
+    }
+
+    public void restartGame() {
+        game.restartGame();
     }
 
     public void exitGame() {

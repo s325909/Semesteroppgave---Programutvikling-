@@ -3,3 +3,8 @@
     -fx-background-repeat: repeat;
     -fx-background-size: 200px 200px;
 }
+
+#bottomBar, #hudTimerBackground, #hudScoreBackground {
+    -fx-background-color: gray;
+    -fx-border-color: black;
+}

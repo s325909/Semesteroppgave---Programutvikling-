@@ -2,6 +2,7 @@ package gameCode;
 
 import entities.*;
 import javafx.animation.AnimationTimer;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
@@ -16,26 +17,28 @@ public class Game {
     private List<Drop> drops = new ArrayList<>();
     private List<Drop> dropsExtra = new ArrayList<>();
     private Pane gameWindow;
-    private Text playerHP, playerArmor, magazineSize, poolSize, score, equippedWeapon;
+    private Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer;
     private int scoreNumber;
+    private int timer;
 
-    private InitializeGame controller;
+    private InitializeGame initGame;
     private boolean holdingButtonR;
     private boolean isRunning;
 
     private StoreData storeData;
 
-    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Text playerHP, Text playerArmor, Text equippedWeapon, Text magazineSize, Text poolSize, Text score){
+    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag,Label hudPool, Label hudScore, Label hudTimer){
 
         this.player = player;
         this.zombies = zombies;
         this.gameWindow = gameWindow;
-        this.playerHP = playerHP;
-        this.playerArmor = playerArmor;
-        this.equippedWeapon = equippedWeapon;
-        this.magazineSize = magazineSize;
-        this.poolSize = poolSize;
-        this.score = score;
+        this.hudHP = hudHP;
+        this.hudArmor = hudArmor;
+        this.hudWeapon = hudWeapon;
+        this.hudMag = hudMag;
+        this.hudPool = hudPool;
+        this.hudScore = hudScore;
+        this.hudTimer = hudTimer;
         this.storeData = new StoreData();
         this.isRunning = true;
         this.scoreNumber = 0;
@@ -60,9 +63,10 @@ public class Game {
      *             the AnimationTimer
      */
     private void onUpdate(double time) {
-        if (controller.isLabelActive() && holdingButtonR){
+        timer = (int)time;
+        if (initGame.isLabelActive() && holdingButtonR){
             restartGame();
-            controller.showGameLabel(false, false);
+            initGame.showGameLabel(false, false);
         }
         if (isRunning) {
 
@@ -104,7 +108,6 @@ public class Game {
             // Check collision between drops and player
             for (Drop drop : drops) {
                 if(drop.isColliding(player)) {
-                    drop.randomPickup(player);
                     drop.setAlive(false);
                 }
             }
@@ -117,6 +120,7 @@ public class Game {
                 }
                 if (drop.isColliding(player)) {
                     drop.setAlive(false);
+                    scoreNumber += 25;
                 }
             }
 
@@ -154,10 +158,9 @@ public class Game {
                   gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
             }
 
-            // Check if Drop of dropsExtra is dead, add 25 points to score if so
+            // Check if Drop of dropsExtra is dead
             for(Drop drop : dropsExtra) {
                 if(!drop.isAlive()) {
-                    scoreNumber += 25;
                     gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
                 }
             }
@@ -177,17 +180,19 @@ public class Game {
     private void updateHUD() {
         String hpLevel = String.valueOf(player.getHealthPoints());
         String armorLevel = String.valueOf(player.getArmor());
+        String weapon = player.getWeaponTypeToString().toUpperCase();
         String magazineLevel = String.valueOf(player.getMagazineCount());
         String poolLevel = String.format("%02d", player.getAmmoPool());
         String score = String.format("%05d", this.getScoreNumber());
-        String weapon = player.getWeaponTypeToString().toUpperCase();
+        String timer = String.format("%03d", this.timer);
 
-        this.playerHP.setText(hpLevel);
-        this.playerArmor.setText(armorLevel);
-        this.magazineSize.setText(magazineLevel);
-        this.poolSize.setText(poolLevel);
-        this.score.setText(score);
-        this.equippedWeapon.setText(weapon);
+        this.hudHP.setText(hpLevel);
+        this.hudArmor.setText(armorLevel);
+        this.hudWeapon.setText(weapon);
+        this.hudMag.setText(magazineLevel);
+        this.hudPool.setText(poolLevel);
+        this.hudScore.setText(score);
+        this.hudTimer.setText("Survival time: " + timer);
     }
 
     /***
@@ -197,10 +202,10 @@ public class Game {
     public void pauseGame() {
         if (isRunning) {
             setRunning(false);
-            controller.showGameLabel(false, true);
+            initGame.showGameLabel(false, true);
         } else {
             setRunning(true);
-            controller.showGameLabel(false, false);
+            initGame.showGameLabel(false, false);
         }
     }
 
@@ -210,7 +215,7 @@ public class Game {
      */
     public void gameOver() {
         setRunning(false);
-        controller.showGameLabel(true, true);
+        initGame.showGameLabel(true, true);
     }
 
     /***
@@ -223,12 +228,73 @@ public class Game {
      * as well as setting both "isGameOver" and "gameIsPaused" equals "false",
      * which allows this method to run again after restarting the game
      */
-    private void restartGame() {
+    protected void restartGame() {
         removeZombies();
+        removeDrops();
+        removeDropsExtra();
         player.resetPlayer();
         setScoreNumber(0);
-        createZombies(controller.getNbrZombies());
+        createZombies(initGame.getNbrZombies());
         setRunning(true);
+    }
+
+    private void saveTheGame(String filename) {
+        StoreData.GameConfiguration gameCfg = new StoreData.GameConfiguration();
+        if (storeData.createSaveFile(filename, gameCfg)) {
+            System.out.println("Save game");
+            System.out.println("GameScore: " + this.getScoreNumber());
+            System.out.println("Player HP: " + player.getHealthPoints());
+            System.out.println("Player X: " + player.getPositionX());
+            System.out.println("Player Y: " + player.getPositionY());
+            System.out.println("NbrZombies: " + zombies.size());
+
+            saveGame(gameCfg);
+        } else {
+            System.out.println("Could not save the game");
+        }
+    }
+
+    public void saveGame(StoreData.GameConfiguration gameCfg) {
+        gameCfg.gameScore = getScoreNumber();
+        gameCfg.player = savePlayer();
+        //saveZombies(gameCfg.zombies);
+    }
+
+    public StoreData.Configuration savePlayer() {
+
+        StoreData.Configuration playerCfg = new StoreData.Configuration();
+        playerCfg.health = player.getHealthPoints();
+        playerCfg.armor = player.getArmor();
+        playerCfg.posX = player.getPositionX();
+        playerCfg.posY = player.getPositionY();
+        playerCfg.velX = player.getVelocityX();
+        playerCfg.velY = player.getVelocityY();
+        //playerCfg.movementSpeed = player.getMovementSpeed();
+        playerCfg.direction = player.getDirection();
+        playerCfg.equipped = player.getEquippedWeapon();
+        playerCfg.magPistol = player.getMagazinePistol().getNumberBullets();
+        playerCfg.poolPistol = player.getMagazinePistol().getCurrentPool();
+        playerCfg.magPistol = player.getMagazinePistol().getNumberBullets();
+        playerCfg.poolPistol = player.getMagazinePistol().getCurrentPool();
+        playerCfg.magPistol = player.getMagazinePistol().getNumberBullets();
+        playerCfg.poolPistol = player.getMagazinePistol().getCurrentPool();
+
+        return playerCfg;
+    }
+
+    public List <StoreData.Configuration> saveZombies() {
+
+        List<StoreData.Configuration> zombieList = new ArrayList<StoreData.Configuration>();
+        for (int i = 0; i < zombies.size(); i++) {
+            zombieList.get(i).health = zombies.get(i).getHealthPoints();
+            zombieList.get(i).posX = zombies.get(i).getPositionX();
+            zombieList.get(i).posY = zombies.get(i).getPositionY();
+            zombieList.get(i).velX = zombies.get(i).getVelocityX();
+            zombieList.get(i).velY = zombies.get(i).getVelocityY();
+            //zombieList.get(i).movementSpeed = zombies.get(i).getMovementSpeed();
+            zombieList.get(i).direction = zombies.get(i).getDirection();
+        }
+        return zombieList;
     }
 
     /**
@@ -270,7 +336,7 @@ public class Game {
      */
     private void loadPlayer(StoreData.Configuration playerCfg) {
         this.player.setHealthPoints(playerCfg.health);
-        this.player.setArmor(playerCfg.armour);
+        this.player.setArmor(playerCfg.armor);
         this.player.setPosition(playerCfg.posX, playerCfg.posY);
         this.player.setTranslateNode(playerCfg.posX, playerCfg.posY);
         this.player.setVelocity(playerCfg.velX, playerCfg.velY);
@@ -291,11 +357,11 @@ public class Game {
      */
     private void loadZombies(List<StoreData.Configuration> zombieList) {
         removeZombies();
-        controller.loadZombiesAssets(zombieList.size());
+        initGame.loadZombiesAssets(zombieList.size());
 
         this.zombies = new ArrayList<>();
         for (int i = 0; i < zombieList.size(); i++) {
-            Zombie zombie = new Zombie(controller.getZombieAnimation()[i], controller.getZombieAudioClips(), zombieList.get(i).posX, zombieList.get(i).posY, zombieList.get(i).health);
+            Zombie zombie = new Zombie(initGame.getZombieAnimation()[i], initGame.getZombieAudioClips(), zombieList.get(i).posX, zombieList.get(i).posY, zombieList.get(i).health);
             zombie.setVelocity(zombieList.get(i).velX, zombieList.get(i).velY);
             //zombie.setMovementSpeed(zombieList.get(i).movementSpeed);
             zombie.setDirection(zombieList.get(i).direction);
@@ -379,6 +445,18 @@ public class Game {
         this.drops.removeIf(Drop::isDead);
     }
 
+    // Kun nødvendig inntil videre
+    private void removeDropsExtra() {
+        for (Drop drop : this.dropsExtra) {
+            gameWindow.getChildren().removeAll(drop.getSprite().getImageView(), drop.getNode());
+        }
+
+        for (Drop drop : this.dropsExtra) {
+            drop.setAlive(false);
+        }
+        this.dropsExtra.removeIf(Drop::isDead);
+    }
+
     /**
      * Method for creating Zombies at random location.
      * @param nbrZombies Requires the number of Zombies to create.
@@ -387,7 +465,7 @@ public class Game {
         try {
             this.zombies = new ArrayList<>();
             for (int i = 0; i < nbrZombies; i++) {
-                Zombie zombie = new Zombie(controller.getZombieAnimation()[i], controller.getZombieAudioClips(), (int) (Math.random() * 1280), (int) (Math.random() * 720), 100);
+                Zombie zombie = new Zombie(initGame.getZombieAnimation()[i], initGame.getZombieAudioClips(), (int) (Math.random() * 1280), (int) (Math.random() * 720), 100);
                 this.zombies.add(zombie);
             }
 
@@ -416,8 +494,8 @@ public class Game {
         this.holdingButtonR = holdingButtonR;
     }
 
-    public void setController(InitializeGame controller) {
-        this.controller = controller;
+    public void setInitGame(InitializeGame initGame) {
+        this.initGame = initGame;
     }
 
     public void setZombies(List<Zombie> zombieList) {
