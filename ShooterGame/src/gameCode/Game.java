@@ -50,6 +50,10 @@ public class Game {
         timer.start();
     }
 
+    public void setZombies(List<Zombie> zombieList) {
+        this.zombies = zombieList;
+    }
+
     /***
      * Method which continuously run as long as isRunning is set to true.
      * Method will keep updating all Entities' positions and check for collision.

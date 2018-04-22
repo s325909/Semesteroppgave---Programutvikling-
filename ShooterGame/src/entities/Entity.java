@@ -127,17 +127,13 @@ public class Entity{
         return positionX;
     }
 
-    public void setPositionX(int positionX) {
-        this.positionX = positionX;
-    }
+    public void setPositionX(int positionX) { this.positionX = positionX; }
 
     public int getPositionY() {
         return positionY;
     }
 
-    public void setPositionY(int positionY) {
-        this.positionY = positionY;
-    }
+    public void setPositionY(int positionY) { this.positionY = positionY; }
 
     public Sprite getSprite() {
         return sprite;

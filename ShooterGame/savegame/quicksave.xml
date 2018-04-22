@@ -4,8 +4,8 @@
         <Score>0</Score>
     </Game>
     <Player>
-        <HP>0</HP>
-        <Armor>0</Armor>
+        <HP>10</HP>
+        <Armor>10</Armor>
         <PosX>745</PosX>
         <PosY>350</PosY>
         <Direction>EAST</Direction>

@@ -35,8 +35,10 @@ public class InitializeGame implements Initializable{
 
     private Stage stage = new Stage();
 
+    private StoreData storeData;
+
     private Player player;
-    private List<Zombie> zombies = new ArrayList<>();
+    private List<Zombie> zombies;
     private Game game;
     private MusicPlayer musicPlayer;
     private boolean labelActive;
@@ -52,6 +54,10 @@ public class InitializeGame implements Initializable{
     private String[] bulletImages;
 
     final private boolean DEBUG = true;
+
+    public InitializeGame() {
+        storeData = new StoreData();
+    }
 
     /***
      * Method which will create every Entity and add these to the gameWindow.
@@ -85,6 +91,7 @@ public class InitializeGame implements Initializable{
 
         // Create every Zombie upon starting a new game
         try {
+            zombies = new ArrayList<>();
             for (int i = 0; i < nbrZombies; i++) {
                 zombies.add(new Zombie(this.zombieAnimation[i], this.zombieAudioClips, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
             }
@@ -137,7 +144,7 @@ public class InitializeGame implements Initializable{
                 System.out.println("Game is saved");
 
             } else if (e.getCode() == KeyCode.F9) {
-                System.out.println("Load game");
+                loadSavegame("quicksave");
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {
@@ -145,6 +152,70 @@ public class InitializeGame implements Initializable{
             if (e.getCode() == KeyCode.R)
                 game.setHoldingButtonR(false);
         });
+    }
+
+    private void loadSavegame(String filename) {
+        StoreData.GameConfiguration gameCfg = new StoreData.GameConfiguration();
+        if (storeData.readSaveFile(filename, gameCfg)) {
+            System.out.println("Load game");
+            System.out.println("GameScore: " + gameCfg.gameScore);
+            System.out.println("Player HP: " + gameCfg.player.health);
+            System.out.println("Player X: " + gameCfg.player.posX);
+            System.out.println("Player Y: " + gameCfg.player.posY);
+            System.out.println("NbrZombies: " + gameCfg.zombies.size());
+
+            loadGame(gameCfg);
+        } else {
+            System.out.println("Could not load quicksave!");
+        }
+    }
+
+    private void loadGame(StoreData.GameConfiguration gameCfg) {
+        game.setScoreNumber(gameCfg.gameScore);
+        loadPlayer(gameCfg.player);
+        loadZombies(gameCfg.zombies);
+        game.setZombies(this.zombies);
+    }
+
+    private void loadPlayer(StoreData.Configuration playerCfg) {
+        this.player.setHealthPoints(playerCfg.health);
+        this.player.setArmor(playerCfg.armour);
+        this.player.setPosition(playerCfg.posX, playerCfg.posY);
+        this.player.setTranslateNode(playerCfg.posX, playerCfg.posY);
+        this.player.setDirection(playerCfg.direction);
+        this.player.setEquippedWeapon(playerCfg.equipped);
+        //.......
+    }
+
+    private void loadZombies(List<StoreData.Configuration> zombieList) {
+        killZombies();
+        loadZombiesAssets(zombieList.size());
+
+        this.zombies = new ArrayList<>();
+        for (int i = 0; i < zombieList.size(); i++) {
+            Zombie zombie = new Zombie(this.zombieAnimation[i], this.zombieAudioClips, zombieList.get(i).posX, zombieList.get(i).posY, zombieList.get(i).health);
+            zombie.setDirection(zombieList.get(i).direction);
+            this.zombies.add(zombie);
+        }
+
+        for (Zombie zombie : this.zombies) {
+            if (DEBUG)
+                gameWindow.getChildren().add(zombie.getNode());
+            gameWindow.getChildren().add(zombie.getSprite().getImageView());
+        }
+    }
+
+    private void killZombies() {
+        for (Zombie zombie : this.zombies) {
+            if (DEBUG)
+                gameWindow.getChildren().remove(zombie.getNode());
+            gameWindow.getChildren().remove(zombie.getSprite().getImageView());
+        }
+
+        for (Zombie zombie : this.zombies) {
+            zombie.setAlive(false);
+        }
+        this.zombies.removeIf(Zombie::isDead);
     }
 
     /**
@@ -195,6 +266,22 @@ public class InitializeGame implements Initializable{
         this.weapon = loadAudio(weaponSounds);
         this.playerAnimation = loadSprites(all);
 
+//        String[] zombieSounds = {
+//                "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
+//                "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"};
+//
+//        SpriteParam[] zombieAnimations = {
+//                new SpriteParam("/resources/Art/Zombie/skeleton-idle_", ".png", 17),
+//                new SpriteParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
+//                new SpriteParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
+//
+//        this.zombieAudioClips = loadAudio(zombieSounds);
+//        this.zombieAnimation = loadSprites(nbrZombies, zombieAnimations);
+
+        loadZombiesAssets(nbrZombies);
+    }
+
+    private void loadZombiesAssets(int nbrZombies) {
         String[] zombieSounds = {
                 "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
                 "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"};
@@ -219,7 +306,6 @@ public class InitializeGame implements Initializable{
         String[] bulletImages = {
                 "/resources/Art/pistol_bullet.png"};
     }
-
     /***
      * Method which is used for loading all of Player's animations.
      * It takes in a 2-dimensional array of type SpriteParam and combines
