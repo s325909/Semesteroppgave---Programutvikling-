@@ -4,6 +4,7 @@ import entities.Bullet;
 import entities.Drop;
 import entities.Player;
 import entities.Zombie;
+import entities.Movable;
 import javafx.scene.layout.Pane;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
@@ -39,6 +40,27 @@ public class StoreData {
         this.dropsExtra = dropsExtra;
         this.gameWindow = gameWindow;
         this.game = game;
+    }
+
+    public static class GameConfiguration {
+        public int gameScore;
+        Configuration player;
+        List<Configuration> zombies;
+    }
+
+    public static class Configuration {
+        public int health;
+        public int armour;
+        public int posX;
+        public int posY;
+        public Movable.Direction direction;
+        public Player.WeaponTypes equipped;
+        public int magPistol;
+        public int poolPistol;
+        public int magRifle;
+        public int poolRifle;
+        public int magShotgun;
+        public int poolShotgun;
     }
 
     /**
@@ -299,5 +321,79 @@ public class StoreData {
         } catch (SAXException saxe) {
             System.out.println(saxe.getMessage());
         }
+    }
+
+    public boolean readSaveFile(String fileName, GameConfiguration configuration) {
+        DocumentBuilderFactory dbf;
+        DocumentBuilder db;
+        Document doc;
+        try {
+            dbf = DocumentBuilderFactory.newInstance();
+            db = dbf.newDocumentBuilder();
+            doc = db.parse("./savegame/" + fileName + ".xml");
+        } catch (IOException ioe) {
+            System.out.println("Caught IOException when reading file: " + ioe.getMessage());
+            return false;
+        } catch (SAXException sax) {
+            System.out.println("Caught SAXException when reading file: " + sax.getMessage());
+            return false;
+        } catch (ParserConfigurationException pce) {
+            System.out.println("Caught ParserConfigurationException when reading file: " + pce.getMessage());
+            return false;
+        }
+
+        doc.getDocumentElement().normalize();
+
+        //Parse game
+        NodeList gameList = doc.getElementsByTagName("Game");
+        Node gameNode = gameList.item(0);
+        if (gameNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element gameElement = (Element)gameNode;
+            configuration.gameScore = Integer.valueOf(gameElement.getElementsByTagName("Score").item(0).getTextContent());
+        } else {
+            return false;
+        }
+
+        //Parse player
+        NodeList playerList = doc.getElementsByTagName("Player");
+        Node playerNode = playerList.item(0);
+        configuration.player = new Configuration();
+        if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element playerElement = (Element) playerNode;
+            configuration.player.health = Integer.valueOf(playerElement.getElementsByTagName("HP").item(0).getTextContent());
+            configuration.player.armour = Integer.valueOf(playerElement.getElementsByTagName("Armor").item(0).getTextContent());
+            configuration.player.posX = Integer.valueOf(playerElement.getElementsByTagName("PosX").item(0).getTextContent());
+            configuration.player.posY = Integer.valueOf(playerElement.getElementsByTagName("PosY").item(0).getTextContent());
+            configuration.player.direction = Movable.Direction.valueOf(playerElement.getElementsByTagName("Direction").item(0).getTextContent());
+            configuration.player.equipped =  Player.WeaponTypes.valueOf(playerElement.getElementsByTagName("Equipped").item(0).getTextContent());
+            configuration.player.magPistol = Integer.valueOf(playerElement.getElementsByTagName("MagPistol").item(0).getTextContent());
+            configuration.player.poolPistol = Integer.valueOf(playerElement.getElementsByTagName("PoolPistol").item(0).getTextContent());
+            configuration.player.magRifle = Integer.valueOf(playerElement.getElementsByTagName("MagRifle").item(0).getTextContent());
+            configuration.player.poolRifle = Integer.valueOf(playerElement.getElementsByTagName("PoolRifle").item(0).getTextContent());
+            configuration.player.magShotgun = Integer.valueOf(playerElement.getElementsByTagName("MagShotgun").item(0).getTextContent());
+            configuration.player.poolShotgun = Integer.valueOf(playerElement.getElementsByTagName("PoolShotgun").item(0).getTextContent());
+        } else {
+            return false;
+        }
+
+        //Parse zombies
+        NodeList zombieList = doc.getElementsByTagName("Zombie");
+        configuration.zombies = new ArrayList<Configuration>();
+        for (int i = 0; i < zombieList.getLength(); i++) {
+            Node zombieNode = zombieList.item(i);
+            if (zombieNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element zombieElement = (Element) zombieNode;
+                Configuration zombieCfg = new Configuration();
+                zombieCfg.health = Integer.valueOf(zombieElement.getElementsByTagName("HP").item(0).getTextContent());
+                zombieCfg.posX = Integer.valueOf(zombieElement.getElementsByTagName("PosX").item(0).getTextContent());
+                zombieCfg.posY = Integer.valueOf(zombieElement.getElementsByTagName("PosY").item(0).getTextContent());
+                zombieCfg.direction = Movable.Direction.valueOf(zombieElement.getElementsByTagName("Direction").item(0).getTextContent());
+                configuration.zombies.add(zombieCfg);
+            } else {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

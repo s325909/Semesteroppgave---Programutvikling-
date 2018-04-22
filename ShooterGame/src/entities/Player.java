@@ -407,7 +407,7 @@ public class Player extends Movable {
         SpritePair pair = animationQueue.peek();
         if (pair != null) {
             if (currentTime > this.waitTime) {
-                System.out.println("Change animation!");
+                //System.out.println("Change animation!");
                 super.setSprite(animationQueue.peek().sprite);
                 this.waitTime = currentTime + animationQueue.peek().time;
                 animationQueue.remove();
