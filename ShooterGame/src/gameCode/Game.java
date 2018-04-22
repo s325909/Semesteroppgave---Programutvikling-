@@ -173,6 +173,14 @@ public class Game {
         return this.bullets;
     }
 
+    public List<Drop> getDrops() {
+        return this.drops;
+    }
+
+    public List<Drop> getDropsExtra() {
+        return this.dropsExtra;
+    }
+
     /**
      * Method for updating the datafields playerHP, magazineSize, poolSize of type Text.
      * These will in turn update the Text values on the HUD.

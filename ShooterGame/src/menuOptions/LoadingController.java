@@ -1,7 +1,5 @@
 package menuOptions;
 
-import gameCode.InitializeGame;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,14 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import notCurrentlyUsed.SaveLoadManager;
 
-import javax.swing.event.ChangeListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -37,7 +29,7 @@ public class LoadingController implements Initializable {
         try {
             if (event.getSource() == returnToMenu) {
                 window_GameMenu = (Stage) returnToMenu.getScene().getWindow();
-                root_GameMenu = FXMLLoader.load(getClass().getResource("../main/GameMenu.fxml"));
+                root_GameMenu = FXMLLoader.load(getClass().getResource("../main/StartupMenu.fxml"));
             }
         } catch (Exception e){
             System.out.println(e.getMessage());

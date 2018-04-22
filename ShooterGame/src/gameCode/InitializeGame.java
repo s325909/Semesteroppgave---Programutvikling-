@@ -45,6 +45,7 @@ public class InitializeGame implements Initializable{
     private Sprite[][] playerAnimation;
     private AudioClip[] zombieAudioClips;
     private Sprite[][] zombieAnimation;
+    private StoreData storeData;
 
     final private boolean DEBUG = true;
 
@@ -132,6 +133,8 @@ public class InitializeGame implements Initializable{
             } else if (e.getCode() == KeyCode.F5){
                 System.out.println("Game is saved");
                 //saveGame(null);
+                storeData.retrieveData(player, zombies, game.getBulletList(), game.getDrops(), game.getDropsExtra(), gameWindow, game);
+                storeData.createSaveFile("hei", true);
             } else if (e.getCode() == KeyCode.F9) {
                 System.out.println("Load game");
             }

@@ -28,7 +28,7 @@ public class HowToPlayController implements Initializable {
         try {
             if (event.getSource() == returnToMenu) {
                 window_GameMenu = (Stage) returnToMenu.getScene().getWindow();
-                root_GameMenu = FXMLLoader.load(getClass().getResource("../main/GameMenu.fxml"));
+                root_GameMenu = FXMLLoader.load(getClass().getResource("../main/StartupMenu.fxml"));
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
