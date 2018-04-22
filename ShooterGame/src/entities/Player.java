@@ -27,31 +27,6 @@ public class Player extends Movable {
     private Queue<SpritePair> animationQueue;
     private long waitTime;
 
-    public Player(){}
-
-    public Player(int positionX, int positionY) {
-        super(positionX, positionY);
-    }
-
-    public Player(String filename, int positionX, int positionY) {
-        super(filename, positionX, positionY);
-    }
-
-    public Player(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints, int armor) {
-        super(filename, extension, numberImages, positionX, positionY, healthPoints, 5.0);
-        this.animationQueue = new LinkedList<SpritePair>();
-        this.waitTime = 0;
-
-        setWeaponTypeFromString("knife");
-        setAnimation(0,0);
-
-        magazinePistol = new Magazine(15, 30);
-        magazineRifle = new Magazine(30,90);
-        magazineShotgun = new Magazine(8,32);
-        this.armor = armor;
-        this.bulletList = new ArrayList<Bullet>();
-    }
-
     public Player(Sprite[][] allAnimation, AudioClip[] weapon, AudioClip[] basicSounds, int positionX, int positionY, int healthPoints, int armor) {
         super(allAnimation[0][0], positionX, positionY, healthPoints, 5.0);
         this.allAnimation = allAnimation;

@@ -33,19 +33,23 @@ public class InitializeGame implements Initializable{
     @FXML private Text playerHP, playerArmor, magazineSize, poolSize, score, equippedWeapon;
     @FXML protected Label gameState, pressKey, pressKey2, pressKey3;
 
-    Stage stage = new Stage();
+    private Stage stage = new Stage();
 
     private Player player;
     private List<Zombie> zombies = new ArrayList<>();
     private Game game;
-    private SceneSizeChangeListener sceneChange;
     private MusicPlayer musicPlayer;
+    private boolean labelActive;
+
+    private SceneSizeChangeListener sceneChange;
+
     private AudioClip[] weapon;
     private AudioClip[] basicSounds;
     private Sprite[][] playerAnimation;
     private AudioClip[] zombieAudioClips;
     private Sprite[][] zombieAnimation;
-    private StoreData storeData;
+    private String[] hudIcons;
+    private String[] bulletImages;
 
     final private boolean DEBUG = true;
 
@@ -102,14 +106,12 @@ public class InitializeGame implements Initializable{
         }
 
         // Initialize the Game object, and thus start the game
-        game = new Game(player, zombies, gameWindow, playerHP, playerArmor, magazineSize, poolSize, score, equippedWeapon);
+        game = new Game(player, zombies, gameWindow, playerHP, playerArmor, equippedWeapon, magazineSize, poolSize, score);
         game.setController(this);
         Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
     }
-
-    //menuOptions.LoadingController.getMusicSlider();
 
     /***
      * Method which takes in user keyboard input.
@@ -130,11 +132,10 @@ public class InitializeGame implements Initializable{
 
             } else if (e.getCode() == KeyCode.M) {
                 musicPlayer.muteVolume();
+
             } else if (e.getCode() == KeyCode.F5){
                 System.out.println("Game is saved");
-                //saveGame(null);
-                storeData.retrieveData(player, zombies, game.getBulletList(), game.getDrops(), game.getDropsExtra(), gameWindow, game);
-                storeData.createSaveFile("hei", true);
+
             } else if (e.getCode() == KeyCode.F9) {
                 System.out.println("Load game");
             }
@@ -144,19 +145,13 @@ public class InitializeGame implements Initializable{
             if (e.getCode() == KeyCode.R)
                 game.setHoldingButtonR(false);
         });
-
-        /*gameWindow.getScene().setOnKeyPressed(event -> {
-            player.movePlayer(event);
-            if (event.getCode() == KeyCode.F5){
-                System.out.println("Game is saved");
-                saveGame();
-            }
-        });*/
     }
 
     /**
      * Method which finds and loads all necessary assets from disk only once.
-     * @param nbrZombies Requires the number of Zombie objects that should be created.
+     * Once found and loaded into memory, these sets of assets are then turned
+     * into usable arrays which allows easy access without re-reading from disk.
+     * @param nbrZombies Requires the number of Zombie objects to create.
      */
     private void loadAssets(int nbrZombies) {
         String[] playerSounds = {
@@ -212,59 +207,67 @@ public class InitializeGame implements Initializable{
         this.zombieAudioClips = loadAudio(zombieSounds);
         this.zombieAnimation = loadSprites(nbrZombies, zombieAnimations);
 
-        //loadZombies(nbrZombies);
+        String[] hudIcons = {
+                "/resources/Art/Icon/hp_icon.png",
+                "/resources/Art/Icon/armor_icon.png",
+                "/resources/Art/Icon/mag_icon.png",
+                "/resources/Art/Icon/pool_icon.png",
+                "/resources/Art/Icon/speed_boost.png"};
+
+        //this.hudIcons = ;
+
+        String[] bulletImages = {
+                "/resources/Art/pistol_bullet.png"};
     }
 
-//    private void loadZombies(int nbrZombies) {
-//        String[] zombieSounds = {
-//                "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
-//                "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"};
-//
-//        SpriteParam[] zombieAnimations = {
-//                new SpriteParam("/resources/Art/Zombie/skeleton-idle_", ".png", 17),
-//                new SpriteParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
-//                new SpriteParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
-//
-//        this.zombieAudioClips = loadAudio(zombieSounds);
-//        this.zombieAnimation = loadSprites(nbrZombies, zombieAnimations);
-//    }
-
     /***
-     * Method which is used for loading all the various weapon sprites into a 2-dimensional array.
-     * @param sprites Requires a 2-dimensional array of type Sprite
+     * Method which is used for loading all of Player's animations.
+     * It takes in a 2-dimensional array of type SpriteParam and combines
+     * it with an ImageView. Through method call prepareSprites(), this is
+     * then turned into a 2-dimensional array of type Sprite.
+     * @param sprites Requires a 2-dimensional array of type SpriteParam.
+     * @return Returns a combined 2-dimensional array of type Sprite.
      */
     private Sprite[][] loadSprites(SpriteParam[][] sprites) {
         ImageView iv = new ImageView();
         Sprite[][] outerSprite = new Sprite[sprites.length][];
 
         for (int i = 0; i < sprites.length; i++) {
-            outerSprite[i] = loadSprites(sprites[i], iv);
+            outerSprite[i] = prepareSprites(sprites[i], iv);
         }
         return outerSprite;
     }
 
     /**
-     *
-     * @param nbrZombies
-     * @param sprites
-     * @return
+     * Method which is used for loading all of Zombie's animations.
+     * It takes in a 2-dimensional array of type SpriteParam and combines it
+     * with an ImageView. Through method call prepareSprite(), this is then
+     * turned into a 2-dimensional array of type Sprite. This action is repeated
+     * equal to the set number of zombies.
+     * @param nbrZombies Requires the number of zombies that should be created.
+     * @param sprites Requires a set of animations created in type SpriteParam[].
+     * @return Returns a combined 2-dimensional array of type Sprite.
      */
     private Sprite[][] loadSprites(int nbrZombies, SpriteParam[] sprites) {
         Sprite[][] outerSprite = new Sprite[nbrZombies][];
         for (int i = 0; i < nbrZombies; i++) {
             ImageView iv = new ImageView();
-            outerSprite[i] = loadSprites(sprites, iv);
+            outerSprite[i] = prepareSprites(sprites, iv);
         }
         return outerSprite;
     }
 
+//    private Sprite[] loadSingleSprites(String[] images) {
+//        Sprite[] sprites =
+//    }
+
     /**
-     *
-     * @param spriteParam
-     * @param iv
-     * @return
+     * Method which is used for turning a SpriteParam array and ImageView into a Sprite array.
+     * @param spriteParam Requires an array of type SpriteParam.
+     * @param iv Requires an ImageView object.
+     * @return Returns an array of type Sprite.
      */
-    private Sprite[] loadSprites(SpriteParam[] spriteParam, ImageView iv) {
+    private Sprite[] prepareSprites(SpriteParam[] spriteParam, ImageView iv) {
         Sprite[] sprites = new Sprite[spriteParam.length];
         for(int i = 0; i < sprites.length; i++) {
             sprites[i] = new Sprite(iv, spriteParam[i].filename, spriteParam[i].extension, spriteParam[i].numberImages);
@@ -293,13 +296,15 @@ public class InitializeGame implements Initializable{
      *                   pause, or a message regarding the end of the game, commonly "game over".
      * @param visible Requires a boolean which will decide whether to display these messages.
      */
-    protected void setGameLabel(Boolean isGameOver, boolean visible) {
+    protected void showGameLabel(Boolean isGameOver, boolean visible) {
         if(visible) {
+            setLabelActive(true);
             gameState.setVisible(true);
             pressKey.setVisible(true);
             pressKey2.setVisible(true);
             pressKey3.setVisible(true);
         } else {
+            setLabelActive(false);
             gameState.setVisible(false);
             pressKey.setVisible(false);
             pressKey2.setVisible(false);
@@ -338,8 +343,17 @@ public class InitializeGame implements Initializable{
         System.exit(0);
     }
 
+    public boolean isLabelActive() {
+        return labelActive;
+    }
+
+    public void setLabelActive(boolean labelActive) {
+        this.labelActive = labelActive;
+    }
+
     /***
-     * Inner class used in combination with creating a 2-dimensional Sprite array.
+     * Inner class used for taking smaller portions of Sprites
+     * and combine these into a larger 2-dimensional array of type Sprite.
      */
     private class SpriteParam {
         String filename;

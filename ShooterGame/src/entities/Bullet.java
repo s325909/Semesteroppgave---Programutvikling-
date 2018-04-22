@@ -5,33 +5,13 @@ import java.util.List;
 public class Bullet extends Movable {
 
     private int damage;
-    private boolean drawn;
-    private Sprite[] sprites;
     private Direction direction;
-
-    public Bullet(int positionX, int positionY, double movementSpeed, int damage, Direction direction) {
-        super(positionX, positionY, movementSpeed);
-        this.damage = damage;
-        this.direction = direction;
-    }
 
     public Bullet(String filename, int positionX, int positionY, double movementSpeed, int damage, Direction direction) {
         super(filename, positionX, positionY, movementSpeed);
         this.damage = damage;
         this.direction = direction;
-//        loadBulletImages();
     }
-
-//    public void loadBulletImages() {
-//        String[] images = {
-//                "/resources/Art/pistol_bullet.png"};
-//
-//        this.sprites = loadSprite(images);
-//    }
-//
-//    public void setSprite(int i) {
-//        super.setSprite(this.sprites[i]);
-//    }
 
     public void bulletDirection() {
         switch(this.direction) {

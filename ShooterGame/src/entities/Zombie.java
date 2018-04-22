@@ -12,12 +12,6 @@ public class Zombie extends Movable {
     private Sprite[] allAnimation;
     private AudioClip[] audioClips;
 
-    public Zombie(){}
-
-    public Zombie(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
-        super(filename, extension, numberImages, positionX, positionY, healthPoints, 1.0);
-    }
-
     public Zombie(Sprite[] allAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints) {
         super(allAnimation[0], positionX, positionY, healthPoints, 1.0);
         this.allAnimation = allAnimation;

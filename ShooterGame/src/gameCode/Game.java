@@ -10,34 +10,33 @@ import java.util.List;
 
 public class Game {
 
-    private Pane gameWindow;
+
     private Player player;
     private List<Zombie> zombies;
-    private Text playerHP, playerArmor, magazineSize, poolSize, score, equippedWeapon;
-
-    private boolean isRunning = true;
-    private boolean createDrops = true;
-    private boolean holdingButtonR;
-
-    private InitializeGame controller;
-
     private List<Bullet> bullets;
     private List<Drop> drops = new ArrayList<>();
     private List<Drop> dropsExtra = new ArrayList<>();
-
+    private Pane gameWindow;
+    private Text playerHP, playerArmor, magazineSize, poolSize, score, equippedWeapon;
     private int scoreNumber = 0;
 
-    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Text playerHP, Text playerArmor, Text magazineSize, Text poolSize, Text score, Text equippedWeapon){
+    private InitializeGame controller;
+    private boolean holdingButtonR;
+    private boolean isRunning = true;
+    private boolean createDrops = true;
 
-        this.gameWindow = gameWindow;
+    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Text playerHP, Text playerArmor, Text equippedWeapon, Text magazineSize, Text poolSize, Text score){
+
         this.player = player;
         this.zombies = zombies;
+        this.gameWindow = gameWindow;
         this.playerHP = playerHP;
         this.playerArmor = playerArmor;
+        this.equippedWeapon = equippedWeapon;
         this.magazineSize = magazineSize;
         this.poolSize = poolSize;
         this.score = score;
-        this.equippedWeapon = equippedWeapon;
+
 
         final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
@@ -59,9 +58,9 @@ public class Game {
      *             the AnimationTimer
      */
     private void onUpdate(double time) {
-        if (!isRunning && holdingButtonR){
+        if (controller.isLabelActive() && holdingButtonR){
             restartGame();
-            controller.setGameLabel(false, false);
+            controller.showGameLabel(false, false);
         }
         if (isRunning) {
 
@@ -74,7 +73,7 @@ public class Game {
                     int x = (int) Math.floor(Math.random() * gameWindow.getWidth());
                     int y = (int) Math.floor(Math.random() * gameWindow.getHeight());
 
-                    dropsExtra.add(new Drop("/resources/Art/Icon/hp_icon.png", x, y));
+                    dropsExtra.add(new Drop("/resources/Art/Icon/Coin/coin_rotate_", ".png", 1, x, y, 100));
                 }
             }
 
@@ -85,7 +84,7 @@ public class Game {
                     player.receivedDamage(10);
                     if (!player.stillAlive()) {
                         System.out.println("Player is dead");
-                        gameOver();
+                        //gameOver();
                     }
                 }
             }
@@ -111,7 +110,8 @@ public class Game {
             // Draw dropsExtra to the pane, and check for collision with player
             for (Drop drop : dropsExtra) {
                 if (!drop.isDrawn()) {
-                    gameWindow.getChildren().addAll(drop.getNode(), drop.getIv());
+                    gameWindow.getChildren().add(drop.getIv());
+                            //, drop.getNode());
                     drop.setDrawn();
                 }
                 if (drop.isColliding(player)) {
@@ -208,10 +208,10 @@ public class Game {
     public void pauseGame() {
         if (isRunning) {
             setRunning(false);
-            controller.setGameLabel(false, true);
+            controller.showGameLabel(false, true);
         } else {
             setRunning(true);
-            controller.setGameLabel(false, false);
+            controller.showGameLabel(false, false);
         }
     }
 
@@ -221,7 +221,7 @@ public class Game {
      */
     public void gameOver() {
         setRunning(false);
-        controller.setGameLabel(true, true);
+        controller.showGameLabel(true, true);
     }
 
     /***

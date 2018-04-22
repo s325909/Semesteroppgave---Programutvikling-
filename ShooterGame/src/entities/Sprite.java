@@ -7,9 +7,8 @@ public class Sprite {
 
     private double width;
     private double height;
-    private ImageView iv;
 
-    private Image singleImage;
+    private ImageView iv;
     private Image[] frames;
     private double duration;
 
@@ -59,12 +58,6 @@ public class Sprite {
         //this.iv.setFitWidth(maxWidth);
         //this.iv.setFitHeight(maxHeight);
     }
-
-//    public void playAllImages(Image[] images) {
-//        for(int i = 0; i < images.length; i++) {
-//            this.iv.setImage(images[i]);
-//        }
-//    }
 
     public void setMax(double imageWidth, double imageHeight) {
         this.maxWidth = imageWidth;

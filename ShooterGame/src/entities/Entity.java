@@ -21,17 +21,6 @@ public class Entity{
     private Sprite sprite;
     private Sprite spriteDefault;
 
-    public Entity() {}
-
-    public Entity(int positionX, int positionY) {
-        this.node = new Circle(5, 5, 5,Color.BROWN);
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.node.setTranslateX(positionX);
-        this.node.setTranslateY(positionY);
-        this.alive = true;
-    }
-
     public Entity(String filename, int positionX, int positionY) {
         this.iv = new ImageView();
         this.spriteDefault = new Sprite(this.iv, filename);

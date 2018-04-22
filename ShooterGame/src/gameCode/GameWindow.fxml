@@ -172,7 +172,7 @@
                      <children>
                         <ImageView fitHeight="44.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../resources/Art/Icon/circle_icon.png" />
+                              <Image url="@../resources/Art/Icon/Coin/coin_rotate_0.png" />
                            </image>
                         </ImageView>
                         <Text fx:id="score" strokeType="OUTSIDE" strokeWidth="0.0" text="00000" textAlignment="RIGHT" wrappingWidth="87.6708984375">

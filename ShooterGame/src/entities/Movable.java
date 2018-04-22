@@ -14,35 +14,10 @@ public class Movable extends Entity {
 
     private AudioClip[] basicSounds;
     private AudioClip[] audioClips;
-
     private Direction direction;
-
-    public Movable() { }
-
-    public Movable(int positionX, int positionY) {
-        super(positionX, positionY);
-    }
-
-    public Movable(String filename, int positionX, int positionY) {
-        super(filename, positionX, positionY);
-    }
-
-    public Movable(int positionX, int positionY, double movementSpeed) {
-        super(positionX, positionY);
-        this.movementSpeed= movementSpeed;
-        this.velocityX = 0;
-        this.velocityY = 0;
-    }
 
     public Movable(String filename, int positionX, int positionY, double movementSpeed) {
         super(filename, positionX, positionY);
-        this.movementSpeed = movementSpeed;
-        this.velocityX = 0;
-        this.velocityY = 0;
-    }
-
-    public Movable(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints, double movementSpeed) {
-        super(filename, extension, numberImages, positionX, positionY, healthPoints);
         this.movementSpeed = movementSpeed;
         this.velocityX = 0;
         this.velocityY = 0;
