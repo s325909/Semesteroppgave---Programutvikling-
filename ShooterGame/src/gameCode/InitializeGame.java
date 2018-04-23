@@ -122,7 +122,10 @@ public class InitializeGame implements Initializable{
             if (e.getCode() == KeyCode.F12) {
                 changeFullScreen();
 
-            } else if (e.getCode() == KeyCode.ESCAPE) {
+            }else if (e.getCode() == KeyCode.P){
+                game.pauseGame();
+
+            }else if (e.getCode() == KeyCode.ESCAPE) {
                 game.pauseGame();
                 showMenu(true);
 
@@ -163,6 +166,8 @@ public class InitializeGame implements Initializable{
         } else {
             gameState.setText("GAME IS PAUSED");
             gameState.setTextFill(Color.WHITE);
+            pressKey.setVisible(true);
+            pressKey.setText("Press ESC to pop up in-game Menu");
         }
     }
 
