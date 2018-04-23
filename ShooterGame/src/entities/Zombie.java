@@ -2,6 +2,8 @@ package entities;
 
 import javafx.scene.media.AudioClip;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,12 +12,14 @@ public class Zombie extends Movable {
     private Direction walkDirection;
     private int walkDistance;
     private Sprite[] allAnimation;
-    private AudioClip[] audioClips;
+    private Queue<SpritePair> animationQueue;
+    private long waitTime;
 
     public Zombie(Sprite[] allAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints) {
-        super(allAnimation[0], positionX, positionY, healthPoints, 1.0);
+        super(allAnimation[0], audioClips, positionX, positionY, healthPoints, 1.0);
         this.allAnimation = allAnimation;
-        this.audioClips = audioClips;
+        this.animationQueue = new LinkedList<SpritePair>();
+        this.waitTime = 0;
     }
 
     /***
@@ -29,7 +33,7 @@ public class Zombie extends Movable {
         double angle = 180 + Math.atan2(diffy, diffx) * (180 / Math.PI);
         double distance = Math.sqrt(Math.pow(diffx, 2) + Math.pow(diffy, 2));
 
-        if(distance > 0 && distance < 1000 && this.walkDistance <= 0) {
+        if(distance > 50 && distance < 1000 && this.walkDistance <= 0) {
             if (angle > 340 && angle <= 25) {
                 this.walkDirection = Direction.WEST;
                 this.walkDistance = 10;
@@ -55,6 +59,10 @@ public class Zombie extends Movable {
                 this.walkDirection = Direction.SOUTHWEST;
                 this.walkDistance = 10;
             }
+        }
+
+        if(distance <= 50 && this.walkDistance <= 0) {
+            attack();
         }
 
         if (this.walkDistance <= 0) {
@@ -124,22 +132,39 @@ public class Zombie extends Movable {
         }
     }
 
-    public void playIdle() {
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                setAudio(0);
+    public void attack() {
+        setAnimation(2);
+    }
+
+    /**
+     *
+     * @param i
+     */
+    private void setAnimation(int i) {
+        long time = 0;
+        if(i == 2) {
+            time = 500;
+        }
+        animationQueue.add(new SpritePair(this.allAnimation[i], time));
+    }
+
+    /**
+     *
+     */
+    public void updateAnimation() {
+        long currentTime = System.currentTimeMillis();
+        SpritePair pair = animationQueue.peek();
+        if (pair != null) {
+            if (currentTime > this.waitTime) {
+                //System.out.println("Change animation!");
+                super.setSprite(animationQueue.peek().sprite);
+                this.waitTime = currentTime + animationQueue.peek().time;
+                animationQueue.remove();
             }
-        };
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(task, 0, 1000); //start immediately, 1000ms period
+        }
     }
 
-    public void setAnimation(int i) {
-        super.setSprite(this.allAnimation[i]);
-    }
-
-    public void setAudio(int i) {
-        super.playAudio(this.audioClips[i]);
-    }
+//    public void setAnimation(int i) {
+//        super.setSprite(this.allAnimation[i]);
+//    }
 }

@@ -13,6 +13,9 @@ public class Drop extends Entity {
         super(filename, positionX, positionY);
     }
 
+    public Drop(Sprite idleSprite, int positionX, int positionY) {
+        super(idleSprite, positionX, positionY);
+    }
 
     // WIP
     // Vil at den skal ha random egenskap om hva den gir spiller
