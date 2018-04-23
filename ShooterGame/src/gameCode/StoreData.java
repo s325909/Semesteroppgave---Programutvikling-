@@ -2,6 +2,7 @@ package gameCode;
 
 import entities.Player;
 import entities.Movable;
+import javafx.scene.control.Alert;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -108,10 +109,12 @@ public class StoreData {
             tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
+            File directory = new File("./Data/");
+            directory.mkdir();
+            File file = new File("./Data/Settings.xml");
+
             DOMSource source = new DOMSource(doc);
-
-            StreamResult result = new StreamResult(new File("./Data/Settings.xml"));
-
+            StreamResult result = new StreamResult(file);
             tr.transform(source, result);
         } catch (TransformerException e) {
             System.out.println("TransformerException");
@@ -178,7 +181,6 @@ public class StoreData {
      * @return Returns a boolean based on whether the savefile is created successfully, or an exception occurred.
      */
     public boolean createSaveFile(String fileName, GameConfiguration configuration) {
-
         DocumentBuilderFactory dbf;
         DocumentBuilder db;
         Document doc;
@@ -376,11 +378,12 @@ public class StoreData {
             tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
+            File directory = new File("./Data/Savegames/");
+            directory.mkdirs();
+            File file = new File("./Data/Savegames/" + fileName + ".xml");
+
             DOMSource source = new DOMSource(doc);
-
-            // Vil ikke lage ny mappe av seg selv, må få fikset
-            StreamResult result = new StreamResult(new File("Data" + File.separator + "Savegames" + File.separator + fileName + ".xml"));
-
+            StreamResult result = new StreamResult(file);
             tr.transform(source, result);
         } catch (TransformerException tre) {
             System.out.println("TransformerException");

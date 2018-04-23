@@ -2,11 +2,14 @@ package gameCode;
 
 import entities.*;
 import javafx.animation.AnimationTimer;
-import javafx.scene.control.Label;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Game {
 
@@ -246,7 +249,7 @@ public class Game {
 
     /**
      *
-     * @param filename
+     * @param filename f
      */
     public void saveTheGame(String filename) {
         StoreData.GameConfiguration gameCfg = new StoreData.GameConfiguration();
@@ -267,9 +270,9 @@ public class Game {
 
     /**
      *
-     * @param gameCfg
+     * @param gameCfg f
      */
-    public void retrieveData(StoreData.GameConfiguration gameCfg) {
+    private void retrieveData(StoreData.GameConfiguration gameCfg) {
         gameCfg.gameScore = getScoreNumber();
         gameCfg.player = retrievePlayerInfo();
         gameCfg.zombies = retrieveZombieInfo();
@@ -279,9 +282,9 @@ public class Game {
 
     /**
      *
-     * @return
+     * @return f
      */
-    public StoreData.Configuration retrievePlayerInfo() {
+    private StoreData.Configuration retrievePlayerInfo() {
         StoreData.Configuration playerCfg = new StoreData.Configuration();
         playerCfg.health = player.getHealthPoints();
         playerCfg.armor = player.getArmor();
@@ -372,8 +375,30 @@ public class Game {
             System.out.println("NbrZombies: " + gameCfg.zombies.size());
             loadGame(gameCfg);
         } else {
+            fileAlert();
             System.out.println("Could not load quicksave!");
         }
+    }
+
+    private void fileAlert() {
+        timer.stop();
+
+        ButtonType resume = new ButtonType("Resume", ButtonBar.ButtonData.OK_DONE);
+        ButtonType restart = new ButtonType("Restart", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Unable to load the savegame.\nIt's either lost, or corrupted.", restart, resume);
+
+        alert.setTitle("Loadgame Error");
+        alert.setHeaderText(null);
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == resume) {
+                timer.start();
+            } else if (response == restart) {
+                restartGame();
+            }
+        });
     }
 
     /**
@@ -551,37 +576,37 @@ public class Game {
         }
     }
 
-    public int getScoreNumber() {
+    private int getScoreNumber() {
         return scoreNumber;
     }
 
-    public void setScoreNumber(int scoreNumber) {
+    private void setScoreNumber(int scoreNumber) {
         this.scoreNumber = scoreNumber;
     }
 
-    public void startTimer() {
+    private void startTimer() {
         this.timer.start();
         setRunning(true);
     }
 
-    public void stopTimer() {
+    private void stopTimer() {
         this.timer.stop();
         setRunning(false);
     }
 
-    public boolean isRunning() {
+    private boolean isRunning() {
         return running;
     }
 
-    public void setRunning(boolean isRunning) {
+    private void setRunning(boolean isRunning) {
         this.running = isRunning;
     }
 
-    public boolean isGameOver() {
+    private boolean isGameOver() {
         return gameOver;
     }
 
-    public void setGameOver(boolean gameOver) {
+    private void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
     }
 
