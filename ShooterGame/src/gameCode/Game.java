@@ -68,7 +68,7 @@ public class Game {
         bullets = player.getBulletList();
 
         // Create Drop entities with random position
-        if (dropsExtra.size() < 10) {
+        if (dropsExtra.size() < 0) {
             int random = (int) Math.floor(Math.random() * 100);
             if (random < 4) {
                 int x = (int) Math.floor(Math.random() * gameWindow.getWidth());
@@ -90,17 +90,25 @@ public class Game {
         }
 
         // Draw bullets to the pane, adjust direction, and check collision with zombies
-        for (Bullet bullet : bullets) {
-            if (!bullet.isDrawn()) {
-                gameWindow.getChildren().addAll(bullet.getSprite().getImageView(), bullet.getNode());
+        for(Bullet bullet : bullets) {
+            if(!bullet.isDrawn()) {
+                if(initGame.isDEBUG())
+                    gameWindow.getChildren().add(bullet.getNode());
+                gameWindow.getChildren().add(bullet.getSprite().getImageView());
                 bullet.setDrawn();
             }
             bullet.bulletDirection();
             bullet.bulletCollision(zombies);
         }
 
-        // Check collision between drops and player
+        // Draw drops to the pane, and check for collision with player
         for (Drop drop : drops) {
+            if (!drop.isDrawn()) {
+                //if(initGame.isDEBUG())
+                    gameWindow.getChildren().add(drop.getNode());
+                gameWindow.getChildren().add(drop.getSprite().getImageView());
+                drop.setDrawn();
+            }
             if(drop.isColliding(player)) {
                 drop.setAlive(false);
             }
@@ -109,7 +117,8 @@ public class Game {
         // Draw dropsExtra to the pane, and check for collision with player
         for (Drop drop : dropsExtra) {
             if (!drop.isDrawn()) {
-                gameWindow.getChildren().add(drop.getNode());
+                //if(initGame.isDEBUG())
+                    gameWindow.getChildren().add(drop.getNode());
                 //gameWindow.getChildren().add(drop.getSprite().getImageView());
                 drop.setDrawn();
             }
@@ -129,13 +138,8 @@ public class Game {
             if(!zombie.isAlive()) {
                 this.scoreNumber += 100;
                 gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
-                Drop drop = new Drop("/resources/Art/Icon/circle_icon.png", zombie.getPositionX(), zombie.getPositionY());
+                Drop drop = new Drop(initGame.getHudIcons()[0], zombie.getPositionX(), zombie.getPositionY());
                 drops.add(drop);
-
-                if (!drop.isDrawn()) {
-                    gameWindow.getChildren().add(drop.getNode());
-                    drop.setDrawn();
-                }
             }
             zombie.updateAnimation();
             zombie.update(time);
@@ -144,20 +148,20 @@ public class Game {
         // Check if Bullet is dead, and remove if so
         for(Bullet bullet : bullets) {
             if(!bullet.isAlive())
-                gameWindow.getChildren().removeAll(bullet.getIv(), bullet.getNode());
+                gameWindow.getChildren().removeAll(bullet.getNode(), bullet.getSprite().getImageView());
             bullet.update(time);
         }
 
         // Check if Drop of drops is dead
         for(Drop drop : drops) {
             if(!drop.isAlive())
-              gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
+              gameWindow.getChildren().removeAll(drop.getNode(), drop.getSprite().getImageView());
         }
 
         // Check if Drop of dropsExtra is dead
         for(Drop drop : dropsExtra) {
             if(!drop.isAlive()) {
-                gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
+                gameWindow.getChildren().removeAll(drop.getNode(), drop.getSprite().getImageView());
             }
         }
 
@@ -238,7 +242,6 @@ public class Game {
         setGameOver(false);
         startTimer();
         setRunning(true);
-
     }
 
     /**
@@ -279,9 +282,7 @@ public class Game {
      * @return
      */
     public StoreData.Configuration retrievePlayerInfo() {
-
         StoreData.Configuration playerCfg = new StoreData.Configuration();
-
         playerCfg.health = player.getHealthPoints();
         playerCfg.armor = player.getArmor();
         playerCfg.posX = player.getPositionX();
@@ -293,49 +294,41 @@ public class Game {
         playerCfg.equipped = player.getEquippedWeapon();
         playerCfg.magPistol = player.getMagazinePistol().getNumberBullets();
         playerCfg.poolPistol = player.getMagazinePistol().getCurrentPool();
-        playerCfg.magPistol = player.getMagazinePistol().getNumberBullets();
-        playerCfg.poolPistol = player.getMagazinePistol().getCurrentPool();
-        playerCfg.magPistol = player.getMagazinePistol().getNumberBullets();
-        playerCfg.poolPistol = player.getMagazinePistol().getCurrentPool();
-
+        playerCfg.magRifle = player.getMagazineRifle().getNumberBullets();
+        playerCfg.poolRifle = player.getMagazineRifle().getCurrentPool();
+        playerCfg.magShotgun = player.getMagazineShotgun().getNumberBullets();
+        playerCfg.poolShotgun = player.getMagazineShotgun().getCurrentPool();
         return playerCfg;
     }
 
     /**
      *
-     * @return
+     * @return f
      */
-    public List <StoreData.Configuration> retrieveZombieInfo() {
-
+    private List <StoreData.Configuration> retrieveZombieInfo() {
         List<StoreData.Configuration> zombieList = new ArrayList<StoreData.Configuration>();
-
         for (int i = 0; i < zombies.size(); i++) {
             StoreData.Configuration zombieCfg = new StoreData.Configuration();
-
+            zombieCfg.health = zombies.get(i).getHealthPoints();
             zombieCfg.posX = zombies.get(i).getPositionX();
             zombieCfg.posY = zombies.get(i).getPositionY();
             zombieCfg.velX = zombies.get(i).getVelocityX();
             zombieCfg.velY = zombies.get(i).getVelocityY();
             zombieCfg.movementSpeed = zombies.get(i).getMovementSpeed();
             zombieCfg.direction = zombies.get(i).getDirection();
-
             zombieList.add(zombieCfg);
         }
-
         return zombieList;
     }
 
     /**
      *
-     * @return
+     * @return f
      */
-    public List <StoreData.Configuration> retrieveBulletInfo() {
-
+    private List <StoreData.Configuration> retrieveBulletInfo() {
         List<StoreData.Configuration> bulletList = new ArrayList<StoreData.Configuration>();
-
         for (int i = 0; i < bullets.size(); i++) {
             StoreData.Configuration bulletCfg = new StoreData.Configuration();
-
             bulletCfg.posX = bullets.get(i).getPositionX();
             bulletCfg.posY = bullets.get(i).getPositionY();
             bulletCfg.velX = bullets.get(i).getVelocityX();
@@ -343,30 +336,23 @@ public class Game {
             bulletCfg.movementSpeed = bullets.get(i).getMovementSpeed();
             bulletCfg.direction = bullets.get(i).getDirection();
             bulletCfg.damage = bullets.get(i).getDamage();
-
             bulletList.add(bulletCfg);
         }
-
         return bulletList;
     }
 
     /**
      *
-     * @return
+     * @return f
      */
-    public List <StoreData.Configuration> retrieveDropInfo() {
-
+    private List <StoreData.Configuration> retrieveDropInfo() {
         List<StoreData.Configuration> dropList = new ArrayList<StoreData.Configuration>();
-
         for (int i = 0; i < drops.size(); i++) {
             StoreData.Configuration dropCfg = new StoreData.Configuration();
-
             dropCfg.posX = drops.get(i).getPositionX();
             dropCfg.posY = drops.get(i).getPositionY();
-
             dropList.add(dropCfg);
         }
-
         return dropList;
     }
 
@@ -384,7 +370,6 @@ public class Game {
             System.out.println("Player X: " + gameCfg.player.posX);
             System.out.println("Player Y: " + gameCfg.player.posY);
             System.out.println("NbrZombies: " + gameCfg.zombies.size());
-
             loadGame(gameCfg);
         } else {
             System.out.println("Could not load quicksave!");
@@ -399,7 +384,6 @@ public class Game {
         setScoreNumber(gameCfg.gameScore);
         loadPlayer(gameCfg.player);
         loadZombies(gameCfg.zombies);
-        //setZombies(this.zombies); // Nødvendig? er vel alt satt i laodZombies?
         loadBullets(gameCfg.bullets);
         loadDrops(gameCfg.drops);
     }
@@ -411,7 +395,7 @@ public class Game {
     private void loadPlayer(StoreData.Configuration playerCfg) {
         player.setHealthPoints(playerCfg.health);
         player.setArmor(playerCfg.armor);
-        player.setPosition( playerCfg.posX, playerCfg.posY);
+        player.setPosition(playerCfg.posX, playerCfg.posY);
         player.setTranslateNode(playerCfg.posX, playerCfg.posY);
         player.setVelocity(playerCfg.velX, playerCfg.velY);
         player.setMovementSpeed(playerCfg.movementSpeed);
@@ -443,13 +427,15 @@ public class Game {
         }
 
         for (Zombie zombie : this.zombies) {
-            gameWindow.getChildren().addAll(zombie.getNode(), zombie.getSprite().getImageView());
+            if(initGame.isDEBUG())
+                gameWindow.getChildren().add(zombie.getSprite().getImageView());
+            gameWindow.getChildren().add(zombie.getSprite().getImageView());
         }
     }
 
     /**
      *
-     * @param bulletList
+     * @param bulletList f
      */
     private void loadBullets(List<StoreData.Configuration> bulletList) {
         removeBullets();
@@ -462,13 +448,15 @@ public class Game {
         }
 
         for (Bullet bullet : this.bullets) {
-            gameWindow.getChildren().addAll(bullet.getSprite().getImageView(), bullet.getNode());
+            if(initGame.isDEBUG())
+                gameWindow.getChildren().add(bullet.getNode());
+            gameWindow.getChildren().add(bullet.getSprite().getImageView());
         }
     }
 
     /**
      *
-     * @param dropsList
+     * @param dropsList f
      */
     private void loadDrops(List<StoreData.Configuration> dropsList) {
         removeDrops();
@@ -481,7 +469,9 @@ public class Game {
         }
 
         for (Drop drop : this.drops) {
-            gameWindow.getChildren().addAll(drop.getNode(), drop.getSprite().getImageView());
+            if(initGame.isDEBUG())
+                gameWindow.getChildren().add(drop.getNode());
+            gameWindow.getChildren().add(drop.getSprite().getImageView());
         }
     }
 
@@ -552,7 +542,8 @@ public class Game {
             }
 
             for (Zombie zombie : zombies) {
-                gameWindow.getChildren().addAll(zombie.getNode());
+                if(initGame.isDEBUG())
+                    gameWindow.getChildren().addAll(zombie.getNode());
                 gameWindow.getChildren().addAll(zombie.getSprite().getImageView());
             }
         } catch (Exception e) {

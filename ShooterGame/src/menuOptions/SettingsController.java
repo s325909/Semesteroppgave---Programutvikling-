@@ -1,5 +1,6 @@
 package menuOptions;
 
+import gameCode.StoreData;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,8 +26,8 @@ public class SettingsController implements Initializable {
     @FXML private RadioButton select720, select1080, select1440;
     @FXML private TextField userWidth, userHeight;
 
-    Stage window_GameMenu;
-    Parent root_GameMenu;
+    private Stage window_GameMenu;
+    private Parent root_GameMenu;
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {

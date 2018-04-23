@@ -87,10 +87,6 @@ public class Entity{
         return sprite;
     }
 
-    public void playAudio(AudioClip audioClip) {
-        audioClip.play();
-    }
-
     public boolean isDead() {
         return !alive;
     }

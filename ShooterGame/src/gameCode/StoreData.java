@@ -224,15 +224,15 @@ public class StoreData {
         playerInfo.appendChild(playerPosY);
 
         Element playerVelX = doc.createElement("VelocityX");
-        playerVelX.appendChild(doc.createTextNode(String.valueOf(configuration.player.posX)));
+        playerVelX.appendChild(doc.createTextNode(String.valueOf(configuration.player.velX)));
         playerInfo.appendChild(playerVelX);
 
         Element playerVelY = doc.createElement("VelocityY");
-        playerVelY.appendChild(doc.createTextNode(String.valueOf(configuration.player.posY)));
+        playerVelY.appendChild(doc.createTextNode(String.valueOf(configuration.player.velY)));
         playerInfo.appendChild(playerVelY);
 
         Element playerMovement = doc.createElement("MovementSpeed");
-        playerMovement.appendChild(doc.createTextNode(String.valueOf(configuration.player.posX)));
+        playerMovement.appendChild(doc.createTextNode(String.valueOf(configuration.player.movementSpeed)));
         playerInfo.appendChild(playerMovement);
 
         Element playerDirection = doc.createElement("Direction");

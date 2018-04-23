@@ -49,13 +49,13 @@ public class InitializeGame implements Initializable{
     private Sprite[] bulletImages;
     private Sprite[] coin;
 
-    final private boolean DEBUG = true;
+    final private boolean DEBUG = false;
 
     /***
      * Method which will create every Entity and add these to the gameWindow.
      * Method will also initialize the first soundtrack.
-     * @param location
-     * @param resources
+     * @param location f
+     * @param resources f
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -230,10 +230,7 @@ public class InitializeGame implements Initializable{
         loadZombiesAssets(nbrZombies);
 
         ImageView iv = new ImageView();
-        Sprite[] coin = {
-                new Sprite(iv,"/resources/Art/Icon/Coin/coin_rotate_", ".png", 6)};
-
-        this.coin = coin;
+        this.coin = new Sprite[]{new Sprite(iv,"/resources/Art/Icon/Coin/coin_rotate_", ".png", 6)};
 
         String[] hudIcons = {
                 "/resources/Art/Icon/hp_icon.png",
@@ -309,14 +306,14 @@ public class InitializeGame implements Initializable{
 
     /**
      *
-     * @param images g
+     * @param files g
      * @return g
      */
-    private Sprite[] loadSingleSprites(String[] images) {
-        Sprite[] sprites = new Sprite[images.length];
+    private Sprite[] loadSingleSprites(String[] files) {
+        Sprite[] sprites = new Sprite[files.length];
         for(int i = 0; i < sprites.length; i++) {
             ImageView iv = new ImageView();
-            sprites[i] = new Sprite(iv, images[i]);
+            sprites[i] = new Sprite(iv, files[i]);
         }
         return sprites;
     }
@@ -337,8 +334,8 @@ public class InitializeGame implements Initializable{
 
     /**
      *
-     * @param audioFiles
-     * @return
+     * @param audioFiles f
+     * @return f
      */
     private AudioClip[] loadAudio(String[] audioFiles) {
         AudioClip[] clips = new AudioClip[audioFiles.length];
@@ -352,7 +349,7 @@ public class InitializeGame implements Initializable{
     /***
      * Method which will change the FullScreen state of the application.
      */
-    public void changeFullScreen() {
+    private void changeFullScreen() {
         Stage stage = (Stage) gameWindow.getScene().getWindow();
         if(stage.isFullScreen()) {
             stage.setFullScreen(false);
@@ -369,11 +366,11 @@ public class InitializeGame implements Initializable{
         System.exit(0);
     }
 
-    public boolean isMenuVisible() {
+    private boolean isMenuVisible() {
         return menuVisible;
     }
 
-    public void setMenuVisible(boolean menuVisible) {
+    private void setMenuVisible(boolean menuVisible) {
         this.menuVisible = menuVisible;
     }
 
@@ -415,6 +412,10 @@ public class InitializeGame implements Initializable{
 
     public Sprite[] getCoin() {
         return coin;
+    }
+
+    public boolean isDEBUG() {
+        return DEBUG;
     }
 
     /***

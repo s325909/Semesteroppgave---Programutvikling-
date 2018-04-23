@@ -226,8 +226,7 @@ public class Player extends Movable {
                     magazinePistol.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
-                    System.out.println("Pistol fired");
-                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 20, this.getDirection());
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX()+50, getPositionY()+50, 10, 50, this.getDirection());
                     this.bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
@@ -238,9 +237,8 @@ public class Player extends Movable {
                     magazineRifle.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
-                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 10, this.getDirection());
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 30, this.getDirection());
                     this.bulletList.add(bullet);
-                    System.out.println("Rifle fired");
                 } else {
                     playWeaponSounds(7);
                 }
@@ -250,9 +248,8 @@ public class Player extends Movable {
                     magazineShotgun.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
-                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 5, this.getDirection());
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 20, this.getDirection());
                     this.bulletList.add(bullet);
-                    System.out.println("Shotgun fired");
                 } else {
                     playWeaponSounds(7);
                 }
@@ -292,11 +289,10 @@ public class Player extends Movable {
         }
     }
 
-
     /**
      *
-     * @param i
-     * @param j
+     * @param i fg
+     * @param j fg
      */
     private void setAnimation(int i, int j) {
         long time = 0;
@@ -314,7 +310,6 @@ public class Player extends Movable {
         SpritePair pair = animationQueue.peek();
         if (pair != null) {
             if (currentTime > this.waitTime) {
-                //System.out.println("Change animation!");
                 super.setSprite(animationQueue.peek().sprite);
                 this.waitTime = currentTime + animationQueue.peek().time;
                 animationQueue.remove();
