@@ -21,8 +21,8 @@ public class Game {
     private int timer;
 
     private InitializeGame initGame;
-    private boolean holdingButtonR;
-    private boolean isRunning;
+    private boolean running;
+    private boolean gameOver;
 
     private StoreData storeData;
 
@@ -39,7 +39,7 @@ public class Game {
         this.hudScore = hudScore;
         this.hudTimer = hudTimer;
         this.storeData = new StoreData();
-        this.isRunning = true;
+        this.running = true;
         this.scoreNumber = 0;
 
         final long startNanoTime = System.nanoTime();
@@ -55,7 +55,7 @@ public class Game {
     }
 
     /***
-     * Method which continuously run as long as isRunning is set to true.
+     * Method which continuously run as long as running is set to true.
      * Method will keep updating all Entities' positions and check for collision.
      * Method is affected by pauseGame() method.
      * @param time Requires a double value which here continuously gets updated via the
@@ -63,16 +63,12 @@ public class Game {
      */
     private void onUpdate(double time) {
         timer = (int)time;
-        if (initGame.isLabelActive() && holdingButtonR){
-            restartGame();
-            initGame.showGameLabel(false, false);
-        }
-        if (isRunning) {
+        if (isRunning()) {
 
             bullets = player.getBulletList();
 
             // Create Drop entities with random position
-            if (dropsExtra.size() < 10) {
+            if (dropsExtra.size() < 0) {
                 int random = (int) Math.floor(Math.random() * 100);
                 if (random < 4) {
                     int x = (int) Math.floor(Math.random() * gameWindow.getWidth());
@@ -88,7 +84,7 @@ public class Game {
                 if (player.isColliding(zombie)) {
                     player.receivedDamage(10);
                     if (!player.stillAlive()) {
-                        //gameOver();
+                        gameOver();
                     }
                 }
             }
@@ -182,7 +178,7 @@ public class Game {
         String magazineLevel = String.valueOf(player.getMagazineCount());
         String poolLevel = String.format("%02d", player.getAmmoPool());
         String score = String.format("%05d", this.getScoreNumber());
-        String timer = String.format("%03d", this.timer);
+        String timer = String.valueOf(this.timer);
 
         this.hudHP.setText(hpLevel);
         this.hudArmor.setText(armorLevel);
@@ -190,20 +186,22 @@ public class Game {
         this.hudMag.setText(magazineLevel);
         this.hudPool.setText(poolLevel);
         this.hudScore.setText(score);
-        this.hudTimer.setText("Survival time: " + timer);
+        this.hudTimer.setText(timer);
     }
 
     /***
-     * Method for changing the boolean isRunning.
+     * Method for changing the boolean running.
      * Method affects the onUdate() function.
      */
     public void pauseGame() {
-        if (isRunning) {
-            setRunning(false);
-            initGame.showGameLabel(false, true);
-        } else {
-            setRunning(true);
-            initGame.showGameLabel(false, false);
+        if(!isGameOver()) {
+            if (isRunning()) {
+                setRunning(false);
+                initGame.showGameLabel(true, false);
+            } else {
+                setRunning(true);
+                initGame.showGameLabel(false, false);
+            }
         }
     }
 
@@ -213,6 +211,7 @@ public class Game {
      */
     public void gameOver() {
         setRunning(false);
+        setGameOver(true);
         initGame.showGameLabel(true, true);
     }
 
@@ -222,8 +221,8 @@ public class Game {
      * Then set the player's position equals to the player's original start position,
      * as well as resetting the player's hp, armor and score to it's original value.
      * The method will then try to respawn all the zombies.
-     * Then set both "isRunning" and "createDrops" equals "true"
-     * as well as setting both "isGameOver" and "gameIsPaused" equals "false",
+     * Then set both "running" and "createDrops" equals "true"
+     * as well as setting both "gameOver" and "gameIsPaused" equals "false",
      * which allows this method to run again after restarting the game
      */
     protected void restartGame() {
@@ -233,9 +232,17 @@ public class Game {
         player.resetPlayer();
         setScoreNumber(0);
         createZombies(initGame.getNbrZombies());
+        initGame.showGameLabel(false, false);
+        initGame.showMenu(false);
+        setGameOver(false);
         setRunning(true);
+
     }
 
+    /**
+     *
+     * @param filename
+     */
     public void saveTheGame(String filename) {
         StoreData.GameConfiguration gameCfg = new StoreData.GameConfiguration();
         retrieveData(gameCfg);
@@ -253,6 +260,10 @@ public class Game {
         }
     }
 
+    /**
+     *
+     * @param gameCfg
+     */
     public void retrieveData(StoreData.GameConfiguration gameCfg) {
         gameCfg.gameScore = getScoreNumber();
         gameCfg.player = retrievePlayerInfo();
@@ -261,6 +272,10 @@ public class Game {
         gameCfg.drops = retrieveDropInfo();
     }
 
+    /**
+     *
+     * @return
+     */
     public StoreData.Configuration retrievePlayerInfo() {
 
         StoreData.Configuration playerCfg = new StoreData.Configuration();
@@ -284,6 +299,10 @@ public class Game {
         return playerCfg;
     }
 
+    /**
+     *
+     * @return
+     */
     public List <StoreData.Configuration> retrieveZombieInfo() {
 
         List<StoreData.Configuration> zombieList = new ArrayList<StoreData.Configuration>();
@@ -304,6 +323,10 @@ public class Game {
         return zombieList;
     }
 
+    /**
+     *
+     * @return
+     */
     public List <StoreData.Configuration> retrieveBulletInfo() {
 
         List<StoreData.Configuration> bulletList = new ArrayList<StoreData.Configuration>();
@@ -325,6 +348,10 @@ public class Game {
         return bulletList;
     }
 
+    /**
+     *
+     * @return
+     */
     public List <StoreData.Configuration> retrieveDropInfo() {
 
         List<StoreData.Configuration> dropList = new ArrayList<StoreData.Configuration>();
@@ -420,6 +447,10 @@ public class Game {
         }
     }
 
+    /**
+     *
+     * @param bulletList
+     */
     private void loadBullets(List<StoreData.Configuration> bulletList) {
         removeBullets();
 
@@ -435,6 +466,10 @@ public class Game {
         }
     }
 
+    /**
+     *
+     * @param dropsList
+     */
     private void loadDrops(List<StoreData.Configuration> dropsList) {
         removeDrops();
         removeDropsExtra();
@@ -533,12 +568,20 @@ public class Game {
         this.scoreNumber = scoreNumber;
     }
 
-    public void setRunning(boolean isRunning) {
-        this.isRunning = isRunning;
+    public boolean isRunning() {
+        return running;
     }
 
-    public void setHoldingButtonR(boolean holdingButtonR) {
-        this.holdingButtonR = holdingButtonR;
+    public void setRunning(boolean isRunning) {
+        this.running = isRunning;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 
     public void setInitGame(InitializeGame initGame) {

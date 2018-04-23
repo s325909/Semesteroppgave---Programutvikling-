@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -24,7 +25,9 @@ import java.util.ResourceBundle;
 public class InitializeGame implements Initializable{
 
     @FXML private Pane gameWindow;
-    @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, gameState, pressKey, pressKey2, pressKey3;
+    @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, gameState, pressKey;
+
+    @FXML private VBox gamePaused, ingameMenu;
 
     private Stage stage = new Stage();
 
@@ -33,7 +36,7 @@ public class InitializeGame implements Initializable{
     private int nbrZombies;
     private Game game;
     private MusicPlayer musicPlayer;
-    private boolean labelActive;
+    private boolean menuVisible;
 
     private SceneSizeChangeListener sceneChange;
 
@@ -119,11 +122,9 @@ public class InitializeGame implements Initializable{
             if (e.getCode() == KeyCode.F12) {
                 changeFullScreen();
 
-            } else if (e.getCode() == (KeyCode.P) || e.getCode() == KeyCode.ESCAPE) {
+            } else if (e.getCode() == KeyCode.ESCAPE) {
                 game.pauseGame();
-
-            } else if (e.getCode() == KeyCode.R) {
-                game.setHoldingButtonR(true);
+                showMenu(true);
 
             } else if (e.getCode() == KeyCode.M) {
                 musicPlayer.muteVolume();
@@ -137,9 +138,42 @@ public class InitializeGame implements Initializable{
         });
         gameWindow.getScene().setOnKeyReleased(e -> {
             player.releasedPlayer(e);
-            if (e.getCode() == KeyCode.R)
-                game.setHoldingButtonR(false);
         });
+    }
+
+    /**
+     * Method which will display a message to the player upon pausing the game, or if the game ends normally.
+     * What message is displayed is dependent on which of these two states are present.
+     */
+    protected void showGameLabel(boolean show, boolean gameOver) {
+        if(show) {
+            gamePaused.setVisible(true);
+            gameState.setVisible(true);
+        } else {
+            gamePaused.setVisible(false);
+            gameState.setVisible(false);
+            pressKey.setVisible(false);
+        }
+
+        if (gameOver) {
+            gameState.setText("GAME OVER!");
+            gameState.setTextFill(Color.INDIANRED);
+            pressKey.setVisible(true);
+            pressKey.setText("Press ESC to continue");
+        } else {
+            gameState.setText("GAME IS PAUSED");
+            gameState.setTextFill(Color.WHITE);
+        }
+    }
+
+    protected void showMenu(boolean show) {
+        if(show && !isMenuVisible()) {
+            ingameMenu.setVisible(true);
+            setMenuVisible(true);
+        } else {
+            ingameMenu.setVisible(false);
+            setMenuVisible(false);
+        }
     }
 
     /**
@@ -293,42 +327,6 @@ public class InitializeGame implements Initializable{
         return clips;
     }
 
-    /**
-     * Method which will display a message to the player upon pausing the game, or if the game ends normally.
-     * What message is displayed is dependent on which of these two states are present.
-     * @param isGameOver Requires a boolean which will decide whether to display a message regarding
-     *                   pause, or a message regarding the end of the game, commonly "game over".
-     * @param visible Requires a boolean which will decide whether to display these messages.
-     */
-    protected void showGameLabel(Boolean isGameOver, boolean visible) {
-        if(visible) {
-            setLabelActive(true);
-            gameState.setVisible(true);
-            pressKey.setVisible(true);
-            pressKey2.setVisible(true);
-            pressKey3.setVisible(true);
-        } else {
-            setLabelActive(false);
-            gameState.setVisible(false);
-            pressKey.setVisible(false);
-            pressKey2.setVisible(false);
-            pressKey3.setVisible(false);
-        }
-
-        if (isGameOver) {
-            gameState.setText("GAME OVER!");
-            gameState.setTextFill(Color.INDIANRED);
-            pressKey.setText("Press R to Restart");
-            pressKey2.setText("Press ESC to pop up in game Menu...IDK");
-        } else {
-            gameState.setText("GAME IS PAUSED");
-            gameState.setTextFill(Color.WHITE);
-            pressKey.setText("Press P to Continue");
-            pressKey2.setText("Press R to Restart");
-            pressKey3.setText("Press ESC to pop up in game Menu...IDK");
-        }
-    }
-
     /***
      * Method which will change the FullScreen state of the application.
      */
@@ -349,12 +347,12 @@ public class InitializeGame implements Initializable{
         System.exit(0);
     }
 
-    public boolean isLabelActive() {
-        return labelActive;
+    public boolean isMenuVisible() {
+        return menuVisible;
     }
 
-    public void setLabelActive(boolean labelActive) {
-        this.labelActive = labelActive;
+    public void setMenuVisible(boolean menuVisible) {
+        this.menuVisible = menuVisible;
     }
 
     public int getNbrZombies() {

@@ -8,3 +8,20 @@
     -fx-background-color: gray;
     -fx-border-color: black;
 }
+
+.button{
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+    -fx-text-fill: white;
+    -fx-font-size: 36;
+    -fx-pref-width: 360;
+    -fx-pref-height: 75;
+}
+
+.button:hover {
+    -fx-background-color: black;
+}
+
+.button:pressed {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}

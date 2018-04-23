@@ -1,5 +1,6 @@
 package menuOptions;
 
+import gameCode.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,45 +49,25 @@ public class LoadingController implements Initializable {
     @FXML
     public void loadGame(ActionEvent event) {
 
-            try{
-                Stage stage = (Stage) loadBtn1.getScene().getWindow();
-                Parent root = FXMLLoader.load(getClass().getResource("../gameCode/GameWindow.fxml"));
-                Scene scene = new Scene(root);
-                scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
-                stage.setScene(scene);
-                stage.show();
+//            try{
+//                Stage stage = (Stage) loadBtn1.getScene().getWindow();
+//                Parent root = FXMLLoader.load(getClass().getResource("../gameCode/GameWindow.fxml"));
+//                Scene scene = new Scene(root);
+//                scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
+//                stage.setScene(scene);
+//                stage.show();
+//
+//            }catch (IOException io){
+//                io.printStackTrace();
+//            }
 
-                if (event.getSource() == loadBtn1 || event.getSource() == loadBtn2 || event.getSource() == loadBtn3) {
-
-                }
-
-
-            }catch (IOException io){
-                io.printStackTrace();
+            if (event.getSource() == loadBtn1) {
+                System.out.println("Button 1");
+            } else if (event.getSource() == loadBtn2) {
+                System.out.println("Button 2");
+            } else if (event.getSource() == loadBtn3) {
+                System.out.println("Button 3");
             }
-
-//            try{
-//                SaveLoadManager.load("game1.save");
-//            } catch(Exception e) {
-//                System.out.println("Couldn't load saved data");
-//            }
-
-//
-//        loadBtn2.setOnAction(event->{
-//            try{
-//                SaveLoadManager.load("game2.save");
-//            } catch(Exception e) {
-//                System.out.println("Couldn't load saved data");
-//            }
-//        });
-//
-//        loadBtn3.setOnAction(event->{
-//            try{
-//                SaveLoadManager.load("game3.save");
-//            } catch(Exception e) {
-//                System.out.println("Couldn't load saved data");
-//            }
-//        });
     }
 
 }

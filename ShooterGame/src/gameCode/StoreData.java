@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StoreData {
+
     public static class GameConfiguration {
         public int gameScore;
         Configuration player;
@@ -48,21 +49,133 @@ public class StoreData {
         public int poolShotgun;
     }
 
-    /**
-     * Method for creating a save file.
-     * Requests the current information about the game and all entities, such as score, healthpoints, positions,
-     * and so on, and stores these systematically in a .xml file.
-     * @param fileName Requires a fileName of String type, which will be used as the name for .xml file.
-     * @param isQuick Requires a boolean to define whether this is the quicksave slot. If true, fileName
-     *                gets set to "quicksave", regardless of parameter input, and is saved as quicksave.xml.
-     */
+    public static class GameSettings {
+        Settings audio;
+        Settings video;
+    }
+
+    public static class Settings {
+        public int soundVolume;
+        public int musicVolume;
+        public int windowWidth;
+        public int windowHeight;
+    }
+
+    public boolean createSettingsFile(GameSettings settings) {
+        DocumentBuilderFactory dbf;
+        DocumentBuilder db;
+        Document doc;
+        try {
+            dbf = DocumentBuilderFactory.newInstance();
+            db = dbf.newDocumentBuilder();
+            doc = db.newDocument();
+        } catch (ParserConfigurationException pce) {
+            //System.out.println("Caught ParserConfigurationException when reading file: " + pce.getMessage());
+            return false;
+        }
+
+        Element gameSettings = doc.createElement("GameSettings");
+        doc.appendChild(gameSettings);
+
+        Element volume = doc.createElement("Volume");
+        gameSettings.appendChild(volume);
+
+        Element sound = doc.createElement("Sound");
+        sound.appendChild(doc.createTextNode(String.valueOf(settings.audio.soundVolume)));
+        volume.appendChild(sound);
+
+        Element music = doc.createElement("Music");
+        music.appendChild(doc.createTextNode(String.valueOf(settings.audio.musicVolume)));
+        volume.appendChild(music);
+
+        Element window = doc.createElement("Size");
+        gameSettings.appendChild(window);
+
+        Element width = doc.createElement("Width");
+        width.appendChild(doc.createTextNode(String.valueOf(settings.video.windowWidth)));
+        window.appendChild(width);
+
+        Element height = doc.createElement("Height");
+        height.appendChild(doc.createTextNode(String.valueOf(settings.video.windowHeight)));
+        window.appendChild(height);
+
+        try {
+            TransformerFactory trf = TransformerFactory.newInstance();
+            Transformer tr = trf.newTransformer();
+
+            tr.setOutputProperty(OutputKeys.INDENT, "yes");
+            tr.setOutputProperty(OutputKeys.METHOD, "xml");
+            tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+            DOMSource source = new DOMSource(doc);
+
+            StreamResult result = new StreamResult(new File("./Data/Settings.xml"));
+
+            tr.transform(source, result);
+        } catch (TransformerException e) {
+            System.out.println("TransformerException");
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean readSettingsFile(GameSettings settings) {
+        DocumentBuilderFactory dbf;
+        DocumentBuilder db;
+        Document doc;
+        try {
+            dbf = DocumentBuilderFactory.newInstance();
+            db = dbf.newDocumentBuilder();
+            doc = db.parse("./Data/Settings.xml");
+        } catch (IOException ioe) {
+            System.out.println("Caught IOException when reading file: " + ioe.getMessage());
+            return false;
+        } catch (SAXException sax) {
+            System.out.println("Caught SAXException when reading file: " + sax.getMessage());
+            return false;
+        } catch (ParserConfigurationException pce) {
+            System.out.println("Caught ParserConfigurationException when reading file: " + pce.getMessage());
+            return false;
+        }
+
+        doc.getDocumentElement().normalize();
+
+        //Parse volume settings
+        NodeList volumeList = doc.getElementsByTagName("Volume");
+        Node volumeNode = volumeList.item(0);
+        if (volumeNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element volumeElement = (Element)volumeNode;
+            settings.audio.soundVolume = Integer.valueOf(volumeElement.getElementsByTagName("Sound").item(0).getTextContent());
+            settings.audio.musicVolume = Integer.valueOf(volumeElement.getElementsByTagName("Music").item(0).getTextContent());
+        } else {
+            return false;
+        }
+
+        //Parse window size settings
+        NodeList windowList = doc.getElementsByTagName("Size");
+        Node windowNode = windowList.item(0);
+        if (windowNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element windowElement = (Element)windowNode;
+            settings.video.windowWidth = Integer.valueOf(windowElement.getElementsByTagName("Width").item(0).getTextContent());
+            settings.video.windowWidth = Integer.valueOf(windowElement.getElementsByTagName("Height").item(0).getTextContent());
+        } else {
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * Method for creating a .xml save file.
-     * Requests
+     * Turns the data retrieved during saveTheGame() method in Game class into a structured .xml file.
+     * Each field corresponds to the values of the same name for each Entity, and are turned into String
+     * values before storing.
      * @param fileName Requires a filename of type String, which in turn will be the name for .xml file.
-     * @param configuration Requires a
-     * @return Returns a boolean based on whether the savefile is created successfully.
+     * @param configuration Requires an object of type GameConfiguration, which in turn contains all
+     *                      the retrieved data for each type of Entity.
+     * @return Returns a boolean based on whether the savefile is created successfully, or an exception occurred.
      */
     public boolean createSaveFile(String fileName, GameConfiguration configuration) {
 
@@ -74,7 +187,7 @@ public class StoreData {
             db = dbf.newDocumentBuilder();
             doc = db.newDocument();
         } catch (ParserConfigurationException pce) {
-            System.out.println("Caught ParserConfigurationException when reading file: " + pce.getMessage());
+            //System.out.println("Caught ParserConfigurationException when reading file: " + pce.getMessage());
             return false;
         }
 
@@ -265,21 +378,26 @@ public class StoreData {
 
             DOMSource source = new DOMSource(doc);
 
-            StreamResult result = new StreamResult(new File("./savegame/" + fileName + ".xml"));
+            // Vil ikke lage ny mappe av seg selv, må få fikset
+            StreamResult result = new StreamResult(new File("Data" + File.separator + "Savegames" + File.separator + fileName + ".xml"));
 
             tr.transform(source, result);
-        } catch (TransformerException e) {
+        } catch (TransformerException tre) {
             System.out.println("TransformerException");
+            System.out.println(tre.getMessage());
             return false;
         }
         return true;
     }
 
     /**
-     *
-     * @param fileName
-     * @param configuration
-     * @return
+     * Method for reading a .xml save file.
+     * It goes through each requested line in the file, takes the String value and transforms it into the appropriate
+     * variable type, and finally adds this value to the corresponding variable of each Configuration object.
+     * @param fileName Requires a String value that represents the name of the file to read.
+     * @param configuration Requires an object of type GameConfiguration, which in turn contains all the retrieved
+     *                      data for each type of Entity.
+     * @return Returns a boolean value based on whether there were any exceptions during file search, read, or parsing.
      */
     public boolean readSaveFile(String fileName, GameConfiguration configuration) {
         DocumentBuilderFactory dbf;
@@ -288,7 +406,7 @@ public class StoreData {
         try {
             dbf = DocumentBuilderFactory.newInstance();
             db = dbf.newDocumentBuilder();
-            doc = db.parse("./savegame/" + fileName + ".xml");
+            doc = db.parse("./Data/Savegames/" + fileName + ".xml");
         } catch (IOException ioe) {
             System.out.println("Caught IOException when reading file: " + ioe.getMessage());
             return false;

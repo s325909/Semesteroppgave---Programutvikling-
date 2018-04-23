@@ -2,6 +2,7 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -88,10 +89,10 @@
             </FlowPane>
          </bottom>
          <center>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <VBox fx:id="gamePaused" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
 
-                  <Label fx:id="gameState" textFill="#850c0c" visible="false">
+                  <Label fx:id="gameState" text="Game Over" textFill="#850c0c" visible="false">
                      <font>
                         <Font name="Copperplate Gothic Bold" size="100.0" />
                      </font>
@@ -99,63 +100,69 @@
                         <Insets bottom="15.0" top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="pressKey" alignment="CENTER" textFill="WHITE" visible="false">
+                  <Label fx:id="pressKey" text="Press ESC to continue" textFill="WHITE" visible="false">
                      <font>
-                        <Font name="Copperplate Gothic Light" size="36.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="15.0" top="15.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Label fx:id="pressKey2" alignment="CENTER" textFill="WHITE" visible="false">
-                     <font>
-                        <Font name="Copperplate Gothic Light" size="36.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="15.0" top="15.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Label fx:id="pressKey3" alignment="CENTER" textFill="WHITE" visible="false">
-                     <font>
-                        <Font name="Copperplate Gothic Light" size="36.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="15.0" top="15.0" />
-                     </VBox.margin>
-                  </Label>
-                  <HBox prefHeight="188.0" prefWidth="1142.0" />
+                        <Font name="Copperplate Gothic Bold" size="50.0" />
+                     </font></Label>
                </children>
             </VBox>
          </center>
          <top>
-            <FlowPane fx:id="topBar" alignment="CENTER" prefHeight="40.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+            <FlowPane fx:id="topBar" alignment="CENTER" prefHeight="0.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox fx:id="hudTimerBackground" prefHeight="45.0" prefWidth="239.0">
+                  <HBox fx:id="hudTimerBackground" alignment="CENTER" prefHeight="40.0" prefWidth="125.0">
                      <children>
-                        <Label fx:id="hudTimer" alignment="CENTER" prefHeight="45.0" prefWidth="240.0" text="Survival time: 000" textFill="#170101">
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/Art/Icon/watch.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="hudTimer" alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="77.0" text="0" textFill="#170101">
                            <font>
                               <Font size="30.0" />
                            </font>
                         </Label>
                      </children></HBox>
-                  <HBox prefHeight="45.0" prefWidth="912.0" />
-                  <HBox fx:id="hudScoreBackground" alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="124.0">
+                  <HBox prefHeight="47.0" prefWidth="1020.0" />
+                  <HBox fx:id="hudScoreBackground" alignment="CENTER" prefHeight="40.0" prefWidth="135.0">
                      <children>
+                        <Label fx:id="hudScore" prefHeight="45.0" prefWidth="86.0" text="00000" textAlignment="CENTER" textFill="#140101">
+                           <font>
+                              <Font size="30.0" />
+                           </font></Label>
                         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/Art/Icon/Coin/coin_rotate_0.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="hudScore" alignment="CENTER" prefHeight="40.0" prefWidth="83.0" text="0000" textAlignment="CENTER" textFill="#140101">
-                           <font>
-                              <Font size="30.0" />
-                           </font></Label>
                      </children>
                   </HBox>
                </children>
             </FlowPane>
          </top>
       </BorderPane>
+      <GridPane prefHeight="722.0" prefWidth="1280.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="638.0" minWidth="10.0" prefWidth="305.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="973.0" minWidth="10.0" prefWidth="610.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="973.0" minWidth="10.0" prefWidth="305.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox fx:id="ingameMenu" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#restartGame" text="Restart Game" />
+                  <Button mnemonicParsing="false" text="Load Game" />
+                  <Button mnemonicParsing="false" text="How to Play" />
+                  <Button mnemonicParsing="false" text="Settings" />
+                  <Button mnemonicParsing="false" onAction="#exitGame" text="Exit Game" />
+                  <Button mnemonicParsing="false" text="Resume Game" />
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
    </children>
    <columnConstraints>
       <ColumnConstraints hgrow="ALWAYS" />
