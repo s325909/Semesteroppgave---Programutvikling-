@@ -40,13 +40,14 @@ public class InitializeGame implements Initializable{
 
     private SceneSizeChangeListener sceneChange;
 
-    private AudioClip[] weapon;
+    private AudioClip[] weaponSounds;
     private AudioClip[] basicSounds;
     private Sprite[][] playerAnimation;
     private AudioClip[] zombieAudioClips;
     private Sprite[][] zombieAnimation;
-    private String[] hudIcons;
-    private String[] bulletImages;
+    private Sprite[] hudIcons;
+    private Sprite[] bulletImages;
+    private Sprite[] coin;
 
     final private boolean DEBUG = true;
 
@@ -66,12 +67,12 @@ public class InitializeGame implements Initializable{
 //            System.out.println("Error: Could not find sound file");
 //        }
 
-        setNbrZombies(10);
+        setNbrZombies(5);
         loadAssets(nbrZombies);
 
         // Create the Player upon starting a new game
         try {
-            player = new Player(this.playerAnimation, this.weapon, this.basicSounds, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
+            player = new Player(this.playerAnimation, this.basicSounds, this.weaponSounds, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
             player.setWeaponTypeFromString("knife");
         } catch (Exception e) {
             for (StackTraceElement element : e.getStackTrace()) {
@@ -149,20 +150,19 @@ public class InitializeGame implements Initializable{
         if(show) {
             gamePaused.setVisible(true);
             gameState.setVisible(true);
+            if(gameOver) {
+                gameState.setText("GAME OVER!");
+                gameState.setTextFill(Color.INDIANRED);
+                pressKey.setVisible(true);
+                pressKey.setText("Press ESC to continue");
+            } else {
+                gameState.setText("GAME IS PAUSED");
+                gameState.setTextFill(Color.WHITE);
+            }
         } else {
             gamePaused.setVisible(false);
             gameState.setVisible(false);
             pressKey.setVisible(false);
-        }
-
-        if (gameOver) {
-            gameState.setText("GAME OVER!");
-            gameState.setTextFill(Color.INDIANRED);
-            pressKey.setVisible(true);
-            pressKey.setText("Press ESC to continue");
-        } else {
-            gameState.setText("GAME IS PAUSED");
-            gameState.setTextFill(Color.WHITE);
         }
     }
 
@@ -221,8 +221,16 @@ public class InitializeGame implements Initializable{
         SpriteParam[][] all = {knife, pistol, rifle, shotgun};
 
         this.basicSounds = loadAudio(playerSounds);
-        this.weapon = loadAudio(weaponSounds);
+        this.weaponSounds = loadAudio(weaponSounds);
         this.playerAnimation = loadSprites(all);
+
+        loadZombiesAssets(nbrZombies);
+
+        ImageView iv = new ImageView();
+        Sprite[] coin = {
+                new Sprite(iv,"/resources/Art/Icon/Coin/coin_rotate_", ".png", 6)};
+
+        this.coin = coin;
 
         String[] hudIcons = {
                 "/resources/Art/Icon/hp_icon.png",
@@ -231,12 +239,12 @@ public class InitializeGame implements Initializable{
                 "/resources/Art/Icon/pool_icon.png",
                 "/resources/Art/Icon/speed_boost.png"};
 
-        //this.hudIcons = ;
+        this.hudIcons = loadSingleSprites(hudIcons);
 
         String[] bulletImages = {
                 "/resources/Art/pistol_bullet.png"};
 
-        loadZombiesAssets(nbrZombies);
+        this.bulletImages = loadSingleSprites(bulletImages);
     }
 
     /**
@@ -258,6 +266,7 @@ public class InitializeGame implements Initializable{
         this.zombieAudioClips = loadAudio(zombieSounds);
         this.zombieAnimation = loadSprites(nbrZombies, zombieAnimations);
     }
+
     /***
      * Method which is used for loading all of Player's animations.
      * It takes in a 2-dimensional array of type SpriteParam and combines
@@ -295,9 +304,19 @@ public class InitializeGame implements Initializable{
         return outerSprite;
     }
 
-//    private Sprite[] loadSingleSprites(String[] images) {
-//        Sprite[] sprites =
-//    }
+    /**
+     *
+     * @param images g
+     * @return g
+     */
+    private Sprite[] loadSingleSprites(String[] images) {
+        Sprite[] sprites = new Sprite[images.length];
+        for(int i = 0; i < sprites.length; i++) {
+            ImageView iv = new ImageView();
+            sprites[i] = new Sprite(iv, images[i]);
+        }
+        return sprites;
+    }
 
     /**
      * Method which is used for turning a SpriteParam array and ImageView into a Sprite array.
@@ -379,8 +398,20 @@ public class InitializeGame implements Initializable{
         return playerAnimation;
     }
 
-    public AudioClip[] getWeapon() {
-        return weapon;
+    public AudioClip[] getWeaponSounds() {
+        return weaponSounds;
+    }
+
+    public Sprite[] getHudIcons() {
+        return hudIcons;
+    }
+
+    public Sprite[] getBulletImages() {
+        return bulletImages;
+    }
+
+    public Sprite[] getCoin() {
+        return coin;
     }
 
     /***

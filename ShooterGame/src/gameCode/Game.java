@@ -17,13 +17,14 @@ public class Game {
     private List<Drop> dropsExtra = new ArrayList<>();
     private Pane gameWindow;
     private Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer;
-    private int scoreNumber;
-    private int timer;
 
+    private int scoreNumber;
+    private int secondsCounter;
+
+    private AnimationTimer timer;
     private InitializeGame initGame;
     private boolean running;
     private boolean gameOver;
-
     private StoreData storeData;
 
     public Game(Player player, List <Zombie> zombies, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag,Label hudPool, Label hudScore, Label hudTimer){
@@ -52,6 +53,7 @@ public class Game {
             }
         };
         timer.start();
+        this.timer = timer;
     }
 
     /***
@@ -62,109 +64,108 @@ public class Game {
      *             the AnimationTimer
      */
     private void onUpdate(double time) {
-        timer = (int)time;
-        if (isRunning()) {
+        secondsCounter = (int)time;
+        bullets = player.getBulletList();
 
-            bullets = player.getBulletList();
+        // Create Drop entities with random position
+        if (dropsExtra.size() < 10) {
+            int random = (int) Math.floor(Math.random() * 100);
+            if (random < 4) {
+                int x = (int) Math.floor(Math.random() * gameWindow.getWidth());
+                int y = (int) Math.floor(Math.random() * gameWindow.getHeight());
 
-            // Create Drop entities with random position
-            if (dropsExtra.size() < 0) {
-                int random = (int) Math.floor(Math.random() * 100);
-                if (random < 4) {
-                    int x = (int) Math.floor(Math.random() * gameWindow.getWidth());
-                    int y = (int) Math.floor(Math.random() * gameWindow.getHeight());
+                dropsExtra.add(new Drop(initGame.getCoin()[0], x, y));
+            }
+        }
 
-                    dropsExtra.add(new Drop("/resources/Art/Icon/Coin/coin_rotate_", ".png", 1, x, y));
+        // Check collision between zombies and player
+        for (Zombie zombie : zombies) {
+            zombie.movement(player);
+            if (player.isColliding(zombie)) {
+                player.receivedDamage(10);
+                if (!player.stillAlive()) {
+                    //gameOver();
                 }
             }
+        }
 
-            // Check collision between zombies and player
-            for (Zombie zombie : zombies) {
-                zombie.movement(player);
-                if (player.isColliding(zombie)) {
-                    player.receivedDamage(10);
-                    if (!player.stillAlive()) {
-                        gameOver();
-                    }
-                }
+        // Draw bullets to the pane, adjust direction, and check collision with zombies
+        for (Bullet bullet : bullets) {
+            if (!bullet.isDrawn()) {
+                gameWindow.getChildren().addAll(bullet.getSprite().getImageView(), bullet.getNode());
+                bullet.setDrawn();
             }
+            bullet.bulletDirection();
+            bullet.bulletCollision(zombies);
+        }
 
-            // Draw bullets to the pane, adjust direction, and check collision with zombies
-            for (Bullet bullet : bullets) {
-                if (!bullet.isDrawn()) {
-                    gameWindow.getChildren().addAll(bullet.getSprite().getImageView(), bullet.getNode());
-                    bullet.setDrawn();
-                }
-                bullet.bulletDirection();
-                bullet.bulletCollision(zombies);
+        // Check collision between drops and player
+        for (Drop drop : drops) {
+            if(drop.isColliding(player)) {
+                drop.setAlive(false);
             }
+        }
 
-            // Check collision between drops and player
-            for (Drop drop : drops) {
-                if(drop.isColliding(player)) {
-                    drop.setAlive(false);
-                }
+        // Draw dropsExtra to the pane, and check for collision with player
+        for (Drop drop : dropsExtra) {
+            if (!drop.isDrawn()) {
+                gameWindow.getChildren().add(drop.getNode());
+                //gameWindow.getChildren().add(drop.getSprite().getImageView());
+                drop.setDrawn();
             }
+            if (drop.isColliding(player)) {
+                drop.setAlive(false);
+                scoreNumber += 25;
+            }
+        }
 
-            // Draw dropsExtra to the pane, and check for collision with player
-            for (Drop drop : dropsExtra) {
+        // Update animation, position and velocity of player
+        player.updateAnimation();
+        player.update(time);
+
+        // Update zombie position and velocity.
+        // Check if zombie is alive. If dead, create and draw a Drop entity
+        for(Zombie zombie : zombies) {
+            if(!zombie.isAlive()) {
+                this.scoreNumber += 100;
+                gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
+                Drop drop = new Drop("/resources/Art/Icon/circle_icon.png", zombie.getPositionX(), zombie.getPositionY());
+                drops.add(drop);
+
                 if (!drop.isDrawn()) {
-                    gameWindow.getChildren().addAll(drop.getSprite().getImageView(), drop.getNode());
+                    gameWindow.getChildren().add(drop.getNode());
                     drop.setDrawn();
                 }
-                if (drop.isColliding(player)) {
-                    drop.setAlive(false);
-                    scoreNumber += 25;
-                }
             }
-
-            // Update animation, position and velocity of player
-            player.updateAnimation();
-            player.update(time);
-
-            // Update zombie position and velocity.
-            // Check if zombie is alive. If dead, create and draw a Drop entity
-            for(Zombie zombie : zombies) {
-                if(!zombie.isAlive()) {
-                    this.scoreNumber += 100;
-                    gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
-                    Drop drop = new Drop("/resources/Art/Icon/circle_icon.png", zombie.getPositionX(), zombie.getPositionY());
-                    drops.add(drop);
-
-                    if (!drop.isDrawn()) {
-                        gameWindow.getChildren().add(drop.getNode());
-                        drop.setDrawn();
-                    }
-                }
-                zombie.update(time);
-            }
-
-            // Check if Bullet is dead, and remove if so
-            for(Bullet bullet : bullets) {
-                if(!bullet.isAlive())
-                    gameWindow.getChildren().removeAll(bullet.getIv(), bullet.getNode());
-                bullet.update(time);
-            }
-
-            // Check if Drop of drops is dead
-            for(Drop drop : drops) {
-                if(!drop.isAlive())
-                  gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
-            }
-
-            // Check if Drop of dropsExtra is dead
-            for(Drop drop : dropsExtra) {
-                if(!drop.isAlive()) {
-                    gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
-                }
-            }
-
-            // Remove every dead Entity object from the ArrayLists
-            bullets.removeIf(Bullet::isDead);
-            zombies.removeIf(Zombie::isDead);
-            drops.removeIf(Drop::isDead);
-            dropsExtra.removeIf(Drop::isDead);
+            zombie.updateAnimation();
+            zombie.update(time);
         }
+
+        // Check if Bullet is dead, and remove if so
+        for(Bullet bullet : bullets) {
+            if(!bullet.isAlive())
+                gameWindow.getChildren().removeAll(bullet.getIv(), bullet.getNode());
+            bullet.update(time);
+        }
+
+        // Check if Drop of drops is dead
+        for(Drop drop : drops) {
+            if(!drop.isAlive())
+              gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
+        }
+
+        // Check if Drop of dropsExtra is dead
+        for(Drop drop : dropsExtra) {
+            if(!drop.isAlive()) {
+                gameWindow.getChildren().removeAll(drop.getNode(), drop.getIv());
+            }
+        }
+
+        // Remove every dead Entity object from the ArrayLists
+        bullets.removeIf(Bullet::isDead);
+        zombies.removeIf(Zombie::isDead);
+        drops.removeIf(Drop::isDead);
+        dropsExtra.removeIf(Drop::isDead);
     }
 
     /**
@@ -178,7 +179,7 @@ public class Game {
         String magazineLevel = String.valueOf(player.getMagazineCount());
         String poolLevel = String.format("%02d", player.getAmmoPool());
         String score = String.format("%05d", this.getScoreNumber());
-        String timer = String.valueOf(this.timer);
+        String timer = String.valueOf(this.secondsCounter);
 
         this.hudHP.setText(hpLevel);
         this.hudArmor.setText(armorLevel);
@@ -196,10 +197,10 @@ public class Game {
     public void pauseGame() {
         if(!isGameOver()) {
             if (isRunning()) {
-                setRunning(false);
+                stopTimer();
                 initGame.showGameLabel(true, false);
             } else {
-                setRunning(true);
+                startTimer();
                 initGame.showGameLabel(false, false);
             }
         }
@@ -210,7 +211,7 @@ public class Game {
      * point where the game is over.
      */
     public void gameOver() {
-        setRunning(false);
+        stopTimer();
         setGameOver(true);
         initGame.showGameLabel(true, true);
     }
@@ -235,6 +236,7 @@ public class Game {
         initGame.showGameLabel(false, false);
         initGame.showMenu(false);
         setGameOver(false);
+        startTimer();
         setRunning(true);
 
     }
@@ -407,9 +409,9 @@ public class Game {
      * @param playerCfg Requires
      */
     private void loadPlayer(StoreData.Configuration playerCfg) {
-        Player player = new Player(initGame.getPlayerAnimation(), initGame.getWeapon(), initGame.getBasicSounds(),
-                playerCfg.posX, playerCfg.posY, playerCfg.health, playerCfg.armor);
-
+        player.setHealthPoints(playerCfg.health);
+        player.setArmor(playerCfg.armor);
+        player.setPosition( playerCfg.posX, playerCfg.posY);
         player.setTranslateNode(playerCfg.posX, playerCfg.posY);
         player.setVelocity(playerCfg.velX, playerCfg.velY);
         player.setMovementSpeed(playerCfg.movementSpeed);
@@ -421,8 +423,6 @@ public class Game {
         player.getMagazineRifle().setCurrentPool(playerCfg.poolRifle);
         player.getMagazineShotgun().setNumberBullets(playerCfg.magShotgun);
         player.getMagazineShotgun().setCurrentPool(playerCfg.poolShotgun);
-
-        this.player = player;
     }
 
     /**
@@ -456,13 +456,13 @@ public class Game {
 
         this.bullets = new ArrayList<>();
         for (int i = 0; i < bulletList.size(); i++) {
-            Bullet bullet = new Bullet("animation", bulletList.get(i).posX, bulletList.get(i).posY, bulletList.get(i).movementSpeed, bulletList.get(i).damage, bulletList.get(i).direction);
+            Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", bulletList.get(i).posX, bulletList.get(i).posY, bulletList.get(i).movementSpeed, bulletList.get(i).damage, bulletList.get(i).direction);
             bullet.setVelocity(bulletList.get(i).velX, bulletList.get(i).velY);
             this.bullets.add(bullet);
         }
 
         for (Bullet bullet : this.bullets) {
-            gameWindow.getChildren().addAll(bullet.getNode(), bullet.getSprite().getImageView());
+            gameWindow.getChildren().addAll(bullet.getSprite().getImageView(), bullet.getNode());
         }
     }
 
@@ -566,6 +566,16 @@ public class Game {
 
     public void setScoreNumber(int scoreNumber) {
         this.scoreNumber = scoreNumber;
+    }
+
+    public void startTimer() {
+        this.timer.start();
+        setRunning(true);
+    }
+
+    public void stopTimer() {
+        this.timer.stop();
+        setRunning(false);
     }
 
     public boolean isRunning() {

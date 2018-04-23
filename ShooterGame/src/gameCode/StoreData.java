@@ -332,7 +332,7 @@ public class StoreData {
             bulletVelY.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).velY)));
             bulletInfo.appendChild(bulletVelY);
 
-            Element bulletMovement = doc.createElement("PosX");
+            Element bulletMovement = doc.createElement("MovementSpeed");
             bulletMovement.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).movementSpeed)));
             bulletInfo.appendChild(bulletMovement);
 

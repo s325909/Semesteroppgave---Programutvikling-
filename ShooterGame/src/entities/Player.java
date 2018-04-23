@@ -17,8 +17,7 @@ public class Player extends Movable {
 
     private WeaponTypes equippedWeapon;
     private int armor;
-    private AudioClip[] weapon;
-    private AudioClip[] basicSounds;
+    private AudioClip[] weaponSounds;
     private Sprite[][] allAnimation;
     private Magazine magazinePistol;
     private Magazine magazineRifle;
@@ -27,15 +26,14 @@ public class Player extends Movable {
     private Queue<SpritePair> animationQueue;
     private long waitTime;
 
-    public Player(Sprite[][] allAnimation, AudioClip[] weapon, AudioClip[] basicSounds, int positionX, int positionY, int healthPoints, int armor) {
-        super(allAnimation[0][0], positionX, positionY, healthPoints, 5.0);
+    public Player(Sprite[][] allAnimation, AudioClip[] basicSounds, AudioClip[] weaponSounds, int positionX, int positionY, int healthPoints, int armor) {
+        super(allAnimation[0][0], basicSounds, positionX, positionY, healthPoints, 5.0);
         this.allAnimation = allAnimation;
-        this.weapon = weapon;
-        this.basicSounds = basicSounds;
+        this.weaponSounds = weaponSounds;
         this.animationQueue = new LinkedList<SpritePair>();
         this.waitTime = 0;
 
-        setWeaponTypeFromString("knife");
+        setEquippedWeapon(WeaponTypes.KNIFE);
         setAnimation(0,0);
 
         magazinePistol = new Magazine(15, 30);
@@ -46,7 +44,7 @@ public class Player extends Movable {
     }
 
     /***
-     * Method which will switch between which set of weapon animations that should be used based on a String value.
+     * Method which will switch between which set of weaponSounds animations that should be used based on a String value.
      * @param weaponType Requires a String value which is later compared in order to change equippedWeapon.
      */
     public void setWeaponTypeFromString(String weaponType) {
@@ -229,7 +227,7 @@ public class Player extends Movable {
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
                     System.out.println("Pistol fired");
-                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 20, super.getDirection());
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 20, this.getDirection());
                     this.bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
@@ -240,7 +238,7 @@ public class Player extends Movable {
                     magazineRifle.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
-                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 10, super.getDirection());
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 10, this.getDirection());
                     this.bulletList.add(bullet);
                     System.out.println("Rifle fired");
                 } else {
@@ -252,7 +250,7 @@ public class Player extends Movable {
                     magazineShotgun.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
-                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 5, super.getDirection());
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 5, this.getDirection());
                     this.bulletList.add(bullet);
                     System.out.println("Shotgun fired");
                 } else {
@@ -294,15 +292,46 @@ public class Player extends Movable {
         }
     }
 
+
+    /**
+     *
+     * @param i
+     * @param j
+     */
+    private void setAnimation(int i, int j) {
+        long time = 0;
+        if(j == 4) {
+            time = 250;
+        }
+        animationQueue.add(new SpritePair(this.allAnimation[i][j], time));
+    }
+
+    /**
+     *
+     */
+    public void updateAnimation() {
+        long currentTime = System.currentTimeMillis();
+        SpritePair pair = animationQueue.peek();
+        if (pair != null) {
+            if (currentTime > this.waitTime) {
+                //System.out.println("Change animation!");
+                super.setSprite(animationQueue.peek().sprite);
+                this.waitTime = currentTime + animationQueue.peek().time;
+                animationQueue.remove();
+            }
+        }
+    }
+
     /**
      * Method which will reset the Player's stats.
-     * These include position, healthpoints, armor, and ammunition of each weapon.
+     * These include position, healthpoints, armor, and ammunition of each weaponSounds.
      */
     public void resetPlayer() {
         setPosition(1280/2,720/2);
         setTranslateNode(1280/2, 720/2);
         setHealthPoints(100);
         setArmor(50);
+        setEquippedWeapon(WeaponTypes.KNIFE);
         getMagazinePistol().setNumberBullets(15);
         getMagazinePistol().setCurrentPool(15);
         getMagazineRifle().setNumberBullets(30);
@@ -361,38 +390,9 @@ public class Player extends Movable {
             this.setArmor(200);
     }
 
-    /**
-     *
-     * @param i
-     * @param j
-     */
-    private void setAnimation(int i, int j) {
-        long time = 0;
-        if(j == 4) {
-            time = 500;
-        }
-        animationQueue.add(new SpritePair(this.allAnimation[i][j], time));
-    }
-
-    /**
-     *
-     */
-    public void updateAnimation() {
-        long currentTime = System.currentTimeMillis();
-        SpritePair pair = animationQueue.peek();
-        if (pair != null) {
-            if (currentTime > this.waitTime) {
-                //System.out.println("Change animation!");
-                super.setSprite(animationQueue.peek().sprite);
-                this.waitTime = currentTime + animationQueue.peek().time;
-                animationQueue.remove();
-            }
-        }
-    }
-
     /***
-     * Method to get the current number of bullets in the magazine of each weapon.
-     * @return Returns the getNumberBullets() value associated with specific weapon.
+     * Method to get the current number of bullets in the magazine of each weaponSounds.
+     * @return Returns the getNumberBullets() value associated with specific weaponSounds.
      */
     public int getMagazineCount() {
         switch (this.equippedWeapon) {
@@ -408,8 +408,8 @@ public class Player extends Movable {
     }
 
     /***
-     * Method to get the current number of bullets in the pool for each weapon.
-     * @return Returns the getCurrentPool() value associated with specific weapon.
+     * Method to get the current number of bullets in the pool for each weaponSounds.
+     * @return Returns the getCurrentPool() value associated with specific weaponSounds.
      */
     public int getAmmoPool() {
         switch (this.equippedWeapon) {
@@ -437,11 +437,7 @@ public class Player extends Movable {
     }
 
     public void playWeaponSounds(int i) {
-        this.weapon[i].play();
-    }
-
-    public void playBasicSounds(int i) {
-        this.basicSounds[i].play();
+        this.weaponSounds[i].play();
     }
 
     public List<Bullet> getBulletList() {
@@ -468,22 +464,9 @@ public class Player extends Movable {
         this.equippedWeapon = equippedWeapon;
     }
 
-    /**
-     * Inner class for handling
-     */
-    private class SpritePair {
-        Sprite sprite;
-        long time;
-
-        private SpritePair(Sprite sprite, long time) {
-            this.sprite = sprite;
-            this.time = time;
-        }
-    }
-
     /***
      * Inner class for handling magazine count and ammunition pool for the Player.
-     * Controls whether a new Bullet can be created when a weapon is fired.
+     * Controls whether a new Bullet can be created when a weaponSounds is fired.
      */
     public class Magazine {
         private int maxSize;

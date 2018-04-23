@@ -9,7 +9,6 @@ import javafx.scene.shape.Rectangle;
 
 public class Entity{
 
-    private int healthPoints;
     private int positionX;
     private int positionY;
 
@@ -23,8 +22,7 @@ public class Entity{
 
     public Entity(String filename, int positionX, int positionY) {
         this.iv = new ImageView();
-        this.spriteDefault = new Sprite(this.iv, filename);
-        this.sprite = this.spriteDefault;
+        this.sprite = new Sprite(this.iv, filename);
         this.node = new Rectangle(25, 25, Color.GREEN);
         this.positionX = positionX;
         this.positionY = positionY;
@@ -37,7 +35,7 @@ public class Entity{
         this.iv = new ImageView();
         this.spriteDefault = new Sprite(this.iv, filename, extension, numberImages);
         this.sprite = this.spriteDefault;
-        this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.BLUE);
+        this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.RED);
         this.positionX = positionX;
         this.positionY = positionY;
         this.node.setTranslateX(positionX);
@@ -45,20 +43,7 @@ public class Entity{
         this.alive = true;
     }
 
-    public Entity(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
-        this.iv = new ImageView();
-        this.spriteDefault = new Sprite(this.iv, filename, extension, numberImages);
-        this.sprite = this.spriteDefault;
-        this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.BLUE);
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.node.setTranslateX(positionX);
-        this.node.setTranslateY(positionY);
-        this.healthPoints = healthPoints;
-        this.alive = true;
-    }
-
-    public Entity(Sprite idleSprite, int positionX, int positionY, int healthPoints) {
+    public Entity(Sprite idleSprite, int positionX, int positionY) {
         this.iv = idleSprite.getImageView();
         this.sprite = idleSprite;
         this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.BLUE);
@@ -66,7 +51,6 @@ public class Entity{
         this.positionY = positionY;
         this.node.setTranslateX(positionX);
         this.node.setTranslateY(positionY);
-        this.healthPoints = healthPoints;
         this.alive = true;
     }
 
@@ -107,14 +91,6 @@ public class Entity{
         audioClip.play();
     }
 
-    public boolean stillAlive() {
-        if (this.healthPoints <= 0) {
-            setAlive(false);
-            return false;
-        }
-        return true;
-    }
-
     public boolean isDead() {
         return !alive;
     }
@@ -125,14 +101,6 @@ public class Entity{
 
     public void setAlive(boolean alive) {
         this.alive = alive;
-    }
-
-    public int getHealthPoints() {
-        return this.healthPoints;
-    }
-
-    public void setHealthPoints(int health) {
-        this.healthPoints = health;
     }
 
     public int getPositionX() {

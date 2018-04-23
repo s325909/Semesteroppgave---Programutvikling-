@@ -8,11 +8,11 @@ public class Movable extends Entity {
         IDLE, NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST
     }
 
+    private int healthPoints;
     private double velocityX;
     private double velocityY;
     private double movementSpeed;
 
-    private AudioClip[] basicSounds;
     private AudioClip[] audioClips;
     private Direction direction;
 
@@ -24,8 +24,10 @@ public class Movable extends Entity {
         this.direction = Direction.IDLE;
     }
 
-    public Movable(Sprite idleSprite, int positionX, int positionY, int healthPoints, double movementSpeed) {
-        super(idleSprite, positionX, positionY, healthPoints);
+    public Movable(Sprite idleSprite, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed) {
+        super(idleSprite, positionX, positionY);
+        this.audioClips = audioClips;
+        this.healthPoints = healthPoints;
         this.movementSpeed = movementSpeed;
         this.velocityX = 0;
         this.velocityY = 0;
@@ -120,6 +122,26 @@ public class Movable extends Entity {
         }
     }
 
+    public boolean stillAlive() {
+        if (this.healthPoints <= 0) {
+            setAlive(false);
+            return false;
+        }
+        return true;
+    }
+
+    public void playAudioClip(int i) {
+        this.audioClips[i].play();
+    }
+
+    public int getHealthPoints() {
+        return this.healthPoints;
+    }
+
+    public void setHealthPoints(int health) {
+        this.healthPoints = health;
+    }
+
     public double getVelocityX() {
         return velocityX;
     }
@@ -149,14 +171,6 @@ public class Movable extends Entity {
         this.movementSpeed = movementSpeed;
     }
 
-    public AudioClip[] getBasicSounds() {
-        return basicSounds;
-    }
-
-    public void setBasicSounds(AudioClip[] basicSounds) {
-        this.basicSounds = basicSounds;
-    }
-
     public Direction getDirection() {
         return direction;
     }
@@ -165,26 +179,16 @@ public class Movable extends Entity {
         this.direction = direction;
     }
 
-    public Direction getDirecitonFromString(String direction) {
-        switch(direction) {
-            case "north":
-                return Direction.NORTH;
-            case "northeast":
-                return Direction.NORTHEAST;
-            case "east":
-                return Direction.EAST;
-            case "southeast":
-                return Direction.SOUTHEAST;
-            case "south":
-                return Direction.SOUTH;
-            case "southwest":
-                return Direction.SOUTHWEST;
-            case "west":
-                return Direction.WEST;
-            case "northwest":
-                return Direction.NORTHWEST;
-            default:
-                return Direction.NORTH;
+    /**
+     * Inner class for handling
+     */
+    public class SpritePair {
+        Sprite sprite;
+        long time;
+
+        public SpritePair(Sprite sprite, long time) {
+            this.sprite = sprite;
+            this.time = time;
         }
     }
 }
