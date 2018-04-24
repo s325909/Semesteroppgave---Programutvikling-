@@ -153,12 +153,12 @@
          <children>
             <VBox fx:id="ingameMenu" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
                <children>
+                  <Button mnemonicParsing="false" onAction="#resumeGame" text="Resume Game" />
                   <Button mnemonicParsing="false" onAction="#restartGame" text="Restart Game" />
                   <Button mnemonicParsing="false" text="Load Game" />
-                  <Button mnemonicParsing="false" text="How to Play" />
-                  <Button mnemonicParsing="false" text="Settings" />
+                  <Button fx:id="howToPlay" mnemonicParsing="false" onAction="#showHelp" text="How to Play" />
+                  <Button fx:id="settings" mnemonicParsing="false" onAction="#showSettings" text="Settings" />
                   <Button mnemonicParsing="false" onAction="#exitGame" text="Exit Game" />
-                  <Button mnemonicParsing="false" text="Resume Game" />
                </children>
             </VBox>
          </children>

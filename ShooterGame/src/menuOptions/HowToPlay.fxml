@@ -25,7 +25,7 @@
    <children>
       <VBox fx:id="howToPlayBackground" alignment="CENTER" prefHeight="310.0" prefWidth="744.0">
          <children>
-            <Label text="WASD to move" textFill="RED">
+            <Label text="WASD/ArrowKeys to move" textFill="RED">
                <font>
                   <Font size="40.0" />
                </font></Label>

@@ -4,8 +4,13 @@ import entities.Player;
 import entities.Zombie;
 import entities.Sprite;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -27,6 +32,8 @@ public class GameInitializer implements Initializable{
     @FXML private Pane gameWindow;
     @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, gameState, pressKey;
     @FXML private VBox gamePaused, ingameMenu;
+
+    @FXML private Button howToPlay, settings;
 
     private Stage stage = new Stage();
 
@@ -377,8 +384,57 @@ public class GameInitializer implements Initializable{
         }
     }
 
+    public void resumeGame(){
+        game.pauseGame();
+        showMenu();
+    }
+
     public void restartGame() {
         game.restartGame();
+    }
+
+    /*
+    public void showHelp(ActionEvent event) {
+        //Parent rootHowToPlay;
+        //Stage windowHowToPlay;
+        try {
+            if (event.getSource() == howToPlay){
+                Stage windowHowToPlay = (Stage) howToPlay.getScene().getWindow();
+                Parent rootHowToPlay = FXMLLoader.load(getClass().getResource("../menuOptions/HowToPlay.fxml"));
+                Scene howToPlayScene = new Scene(rootHowToPlay, 1280, 720);
+                windowHowToPlay.setScene(howToPlayScene);
+                windowHowToPlay.show();
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    */
+
+    public void showHelp() {
+        Parent root;
+        try {
+            Stage helpMenu = new Stage();
+            root = FXMLLoader.load(getClass().getResource("../menuOptions/HowToPlay.fxml"));
+            helpMenu.setScene(new Scene(root, 720, 720));
+            helpMenu.show();
+        }catch (Exception e){
+            System.out.println("Error" + e.getMessage());
+        }
+    }
+
+    public void showSettings(ActionEvent event) {
+        try {
+            if (event.getSource() == settings){
+                Stage windowSettings = (Stage) settings.getScene().getWindow();
+                Parent rootHowToPlay = FXMLLoader.load(getClass().getResource("../menuOptions/Settings.fxml"));
+                Scene howToPlayScene = new Scene(rootHowToPlay, 1280, 720);
+                windowSettings.setScene(howToPlayScene);
+                windowSettings.show();
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void exitGame() {
