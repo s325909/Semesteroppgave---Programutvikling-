@@ -34,7 +34,7 @@ public class InitializeGame implements Initializable{
 
     @FXML private VBox gamePaused, ingameMenu;
 
-    @FXML private Button howToPlay;
+    @FXML private Button howToPlay, settings;
 
     private Stage stage = new Stage();
 
@@ -391,7 +391,20 @@ public class InitializeGame implements Initializable{
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
+    }
 
+    public void showSettings(ActionEvent event) {
+        try {
+            if (event.getSource() == settings){
+                Stage windowSettings = (Stage) settings.getScene().getWindow();
+                Parent rootHowToPlay = FXMLLoader.load(getClass().getResource("../menuOptions/Settings.fxml"));
+                Scene howToPlayScene = new Scene(rootHowToPlay, 1280, 720);
+                windowSettings.setScene(howToPlayScene);
+                windowSettings.show();
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void exitGame() {
