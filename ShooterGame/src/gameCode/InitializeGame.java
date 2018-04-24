@@ -377,6 +377,7 @@ public class InitializeGame implements Initializable{
         game.restartGame();
     }
 
+    /*
     public void showHelp(ActionEvent event) {
         //Parent rootHowToPlay;
         //Stage windowHowToPlay;
@@ -390,6 +391,19 @@ public class InitializeGame implements Initializable{
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
+        }
+    }
+    */
+
+    public void showHelp() {
+        Parent root;
+        try {
+            Stage helpMenu = new Stage();
+            root = FXMLLoader.load(getClass().getResource("../menuOptions/HowToPlay.fxml"));
+            helpMenu.setScene(new Scene(root, 720, 720));
+            helpMenu.show();
+        }catch (Exception e){
+            System.out.println("Error" + e.getMessage());
         }
     }
 
