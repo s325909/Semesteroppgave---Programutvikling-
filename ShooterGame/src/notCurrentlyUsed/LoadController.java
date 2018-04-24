@@ -52,7 +52,7 @@ public class LoadController implements Initializable {
         try {
             if (event.getSource() == backBTN) {
                 loadWindow = (Stage) backBTN.getScene().getWindow();
-                root = FXMLLoader.load(getClass().getResource("StartupMenu.fxml"));
+                root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
             }
             }catch (Exception e){
             System.out.println("Error");

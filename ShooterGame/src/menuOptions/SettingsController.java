@@ -1,6 +1,5 @@
 package menuOptions;
 
-import gameCode.StoreData;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,7 +52,7 @@ public class SettingsController implements Initializable {
         try {
             if (event.getSource() == returnToMenu) {
                 window_GameMenu = (Stage) returnToMenu.getScene().getWindow();
-                root_GameMenu = FXMLLoader.load(getClass().getResource("../main/StartupMenu.fxml"));
+                root_GameMenu = FXMLLoader.load(getClass().getResource("../main/MainMenu.fxml"));
             }
         } catch (Exception e){
             System.out.println(e.getMessage());

@@ -1,6 +1,5 @@
 package menuOptions;
 
-import gameCode.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +29,7 @@ public class LoadingController implements Initializable {
         try {
             if (event.getSource() == returnToMenu) {
                 window_GameMenu = (Stage) returnToMenu.getScene().getWindow();
-                root_GameMenu = FXMLLoader.load(getClass().getResource("../main/StartupMenu.fxml"));
+                root_GameMenu = FXMLLoader.load(getClass().getResource("../main/MainMenu.fxml"));
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -49,25 +48,26 @@ public class LoadingController implements Initializable {
     @FXML
     public void loadGame(ActionEvent event) {
 
-//            try{
-//                Stage stage = (Stage) loadBtn1.getScene().getWindow();
-//                Parent root = FXMLLoader.load(getClass().getResource("../gameCode/GameWindow.fxml"));
-//                Scene scene = new Scene(root);
-//                scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
-//                stage.setScene(scene);
-//                stage.show();
-//
-//            }catch (IOException io){
-//                io.printStackTrace();
-//            }
+        try{
+            Stage stage = (Stage) loadBtn1.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gameCode/GameWindow.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
+            stage.setScene(scene);
+            stage.show();
 
-            if (event.getSource() == loadBtn1) {
-                System.out.println("Button 1");
-            } else if (event.getSource() == loadBtn2) {
-                System.out.println("Button 2");
-            } else if (event.getSource() == loadBtn3) {
-                System.out.println("Button 3");
-            }
+        }catch (IOException io){
+            io.printStackTrace();
+        }
+
+        if (event.getSource() == loadBtn1) {
+            System.out.println("Button 1");
+        } else if (event.getSource() == loadBtn2) {
+            System.out.println("Button 2");
+        } else if (event.getSource() == loadBtn3) {
+            System.out.println("Button 3");
+        }
     }
 
 }

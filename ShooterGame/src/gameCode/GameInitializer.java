@@ -22,11 +22,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
-public class InitializeGame implements Initializable{
+public class GameInitializer implements Initializable{
 
     @FXML private Pane gameWindow;
     @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, gameState, pressKey;
-
     @FXML private VBox gamePaused, ingameMenu;
 
     private Stage stage = new Stage();
@@ -53,8 +52,7 @@ public class InitializeGame implements Initializable{
     final private boolean DEBUG = false;
 
     /***
-     * Method which will create every Entity and add these to the gameWindow.
-     * Method will also initialize the first soundtrack.
+     * Method which will create all the initial Entities and other objects to present when a new game starts.
      * @param location f
      * @param resources f
      */
@@ -68,6 +66,7 @@ public class InitializeGame implements Initializable{
 //            System.out.println("Error: Could not find sound file");
 //        }
 
+        // Select number of zombies to create, and load all assets
         setNbrZombies(5);
         loadAssets(nbrZombies);
 
@@ -92,8 +91,8 @@ public class InitializeGame implements Initializable{
             System.out.println("Error: Enemies did not load correctly");
         }
 
-        // Simple debug tool which adds the Node of every Entity to the gameWindow upon a new game
-        if (DEBUG) {
+        // Create the Node representation of these entities to the gameWindow if DEBUG is set to true
+        if (isDEBUG()) {
             gameWindow.getChildren().add(player.getNode());
             for (Zombie zombie : zombies)
                 gameWindow.getChildren().add(zombie.getNode());
@@ -107,7 +106,7 @@ public class InitializeGame implements Initializable{
 
         // Initialize the Game object, and thus start the game
         game = new Game(player, zombies, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
-        game.setInitGame(this);
+        game.setGameInitializer(this);
         Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
@@ -115,7 +114,8 @@ public class InitializeGame implements Initializable{
 
     /***
      * Method which takes in user keyboard input.
-     * Some input is handled in the movePlayer() method.
+     * movePlayer() method in Player is called in order to transfer input into
+     * movement of the Player object.
      */
     private void getKeyPressed(){
 
@@ -146,41 +146,11 @@ public class InitializeGame implements Initializable{
         });
     }
 
-    /**
-     * Method which will display a message to the player upon pausing the game, or if the game ends normally.
-     * What message is displayed is dependent on which of these two states are present.
-     */
-    protected void showGameLabel() {
-        if(!isLabelVisible()) {
-            gamePaused.setVisible(true);
-            gameState.setVisible(true);
-            setLabelVisible(true);
-            if(game.isGameOver()) {
-                gameState.setText("GAME OVER!");
-                gameState.setTextFill(Color.INDIANRED);
-                pressKey.setVisible(true);
-                pressKey.setText("Press ESC to continue");
-            } else {
-                gameState.setText("GAME IS PAUSED");
-                gameState.setTextFill(Color.WHITE);
-            }
-        } else {
-            gamePaused.setVisible(false);
-            gameState.setVisible(false);
-            pressKey.setVisible(false);
-            setLabelVisible(false);
-        }
+    @FXML
+    public void getMessage() {
+        System.out.println("test");
     }
 
-    protected void showMenu() {
-        if(!isMenuVisible()) {
-            ingameMenu.setVisible(true);
-            setMenuVisible(true);
-        } else {
-            ingameMenu.setVisible(false);
-            setMenuVisible(false);
-        }
-    }
 
     /**
      * Method which finds and loads all necessary assets from disk only once.
@@ -189,6 +159,8 @@ public class InitializeGame implements Initializable{
      * @param nbrZombies Requires the number of Zombie objects to create.
      */
     private void loadAssets(int nbrZombies) {
+
+        // Load all Player sounds and animations
         String[] playerSounds = {
                 "/resources/Sound/Sound Effects/Player/player_breathing_calm.wav",
                 "/resources/Sound/Sound Effects/Player/footsteps_single.wav"};
@@ -230,20 +202,24 @@ public class InitializeGame implements Initializable{
         this.weaponSounds = loadAudio(weaponSounds);
         this.playerAnimation = loadSprites(all);
 
+        // Load all Zombie animations
         loadZombiesAssets(nbrZombies);
 
+        // Load coin Drop animation
         ImageView iv = new ImageView();
         this.coin = new Sprite[]{new Sprite(iv,"/resources/Art/Icon/Coin/coin_rotate_", ".png", 6)};
 
-        String[] hudIcons = {
+        // Load all Drop images
+        String[] dropImages = {
                 "/resources/Art/Icon/hp_icon.png",
                 "/resources/Art/Icon/armor_icon.png",
                 "/resources/Art/Icon/mag_icon.png",
                 "/resources/Art/Icon/pool_icon.png",
                 "/resources/Art/Icon/speed_boost.png"};
 
-        this.hudIcons = loadSingleSprites(hudIcons);
+        this.hudIcons = loadSingleSprites(dropImages);
 
+        // Load all Bullet images
         String[] bulletImages = {
                 "/resources/Art/pistol_bullet.png"};
 
@@ -349,6 +325,46 @@ public class InitializeGame implements Initializable{
         return clips;
     }
 
+    /**
+     * Method which will display a message to the Player upon pausing the game or game over.
+     */
+    protected void showGameLabel() {
+        if(!isLabelVisible()) {
+            gamePaused.setVisible(true);
+            gameState.setVisible(true);
+            setLabelVisible(true);
+            if(game.isGameOver()) {
+                gameState.setText("GAME OVER!");
+                gameState.setTextFill(Color.INDIANRED);
+                pressKey.setVisible(true);
+                pressKey.setText("Press ESC to continue");
+            } else {
+                gameState.setText("GAME IS PAUSED");
+                gameState.setTextFill(Color.WHITE);
+            }
+        } else {
+            gamePaused.setVisible(false);
+            gameState.setVisible(false);
+            pressKey.setVisible(false);
+            setLabelVisible(false);
+        }
+    }
+
+    /**
+     * Method which will display the in-game menu.
+     * Simply sets an object of type VBox to visible, and this VBox contains the
+     * menu in form av buttons to interact with.
+     */
+    protected void showMenu() {
+        if(!isMenuVisible()) {
+            ingameMenu.setVisible(true);
+            setMenuVisible(true);
+        } else {
+            ingameMenu.setVisible(false);
+            setMenuVisible(false);
+        }
+    }
+
     /***
      * Method which will change the FullScreen state of the application.
      */
@@ -429,9 +445,10 @@ public class InitializeGame implements Initializable{
         return DEBUG;
     }
 
-    /***
-     * Inner class used for taking smaller portions of Sprites
-     * and combine these into a larger 2-dimensional array of type Sprite.
+    /**
+     * Inner class used in conjunction with creating a 2-dimensional array of type Sprite.
+     * Used to create smaller portions of the array, which then are combined with an
+     * ImageView in order to create an object of type Sprite.
      */
     private class SpriteParam {
         String filename;
