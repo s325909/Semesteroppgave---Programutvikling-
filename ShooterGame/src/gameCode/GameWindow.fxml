@@ -156,7 +156,7 @@
                   <Button mnemonicParsing="false" onAction="#resumeGame" text="Resume Game" />
                   <Button mnemonicParsing="false" onAction="#restartGame" text="Restart Game" />
                   <Button mnemonicParsing="false" text="Load Game" />
-                  <Button mnemonicParsing="false" text="How to Play" />
+                  <Button fx:id="howToPlay" mnemonicParsing="false" onAction="#showHelp" text="How to Play" />
                   <Button mnemonicParsing="false" text="Settings" />
                   <Button mnemonicParsing="false" onAction="#exitGame" text="Exit Game" />
                </children>
