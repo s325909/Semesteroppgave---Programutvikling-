@@ -205,10 +205,10 @@ public class Game {
         if(!isGameOver()) {
             if (isRunning()) {
                 stopTimer();
-                initGame.showGameLabel(true, false);
+                initGame.showGameLabel();
             } else {
                 startTimer();
-                initGame.showGameLabel(false, false);
+                initGame.showGameLabel();
             }
         }
     }
@@ -220,7 +220,7 @@ public class Game {
     public void gameOver() {
         stopTimer();
         setGameOver(true);
-        initGame.showGameLabel(true, true);
+        initGame.showGameLabel();
     }
 
     /***
@@ -240,8 +240,8 @@ public class Game {
         player.resetPlayer();
         setScoreNumber(0);
         createZombies(initGame.getNbrZombies());
-        initGame.showGameLabel(false, false);
-        initGame.showMenu(false);
+        initGame.showGameLabel();
+        initGame.showMenu();
         setGameOver(false);
         startTimer();
         setRunning(true);
@@ -602,7 +602,7 @@ public class Game {
         this.running = isRunning;
     }
 
-    private boolean isGameOver() {
+    public boolean isGameOver() {
         return gameOver;
     }
 

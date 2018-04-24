@@ -37,6 +37,7 @@ public class InitializeGame implements Initializable{
     private Game game;
     private MusicPlayer musicPlayer;
     private boolean menuVisible;
+    private boolean labelVisible;
 
     private SceneSizeChangeListener sceneChange;
 
@@ -128,7 +129,7 @@ public class InitializeGame implements Initializable{
 
             }else if (e.getCode() == KeyCode.ESCAPE) {
                 game.pauseGame();
-                showMenu(true);
+                showMenu();
 
             } else if (e.getCode() == KeyCode.M) {
                 musicPlayer.muteVolume();
@@ -149,11 +150,12 @@ public class InitializeGame implements Initializable{
      * Method which will display a message to the player upon pausing the game, or if the game ends normally.
      * What message is displayed is dependent on which of these two states are present.
      */
-    protected void showGameLabel(boolean show, boolean gameOver) {
-        if(show) {
+    protected void showGameLabel() {
+        if(!isLabelVisible()) {
             gamePaused.setVisible(true);
             gameState.setVisible(true);
-            if(gameOver) {
+            setLabelVisible(true);
+            if(game.isGameOver()) {
                 gameState.setText("GAME OVER!");
                 gameState.setTextFill(Color.INDIANRED);
                 pressKey.setVisible(true);
@@ -166,11 +168,12 @@ public class InitializeGame implements Initializable{
             gamePaused.setVisible(false);
             gameState.setVisible(false);
             pressKey.setVisible(false);
+            setLabelVisible(false);
         }
     }
 
-    protected void showMenu(boolean show) {
-        if(show && !isMenuVisible()) {
+    protected void showMenu() {
+        if(!isMenuVisible()) {
             ingameMenu.setVisible(true);
             setMenuVisible(true);
         } else {
@@ -372,6 +375,14 @@ public class InitializeGame implements Initializable{
 
     private void setMenuVisible(boolean menuVisible) {
         this.menuVisible = menuVisible;
+    }
+
+    public boolean isLabelVisible() {
+        return labelVisible;
+    }
+
+    public void setLabelVisible(boolean labelVisible) {
+        this.labelVisible = labelVisible;
     }
 
     public int getNbrZombies() {
