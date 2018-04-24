@@ -361,6 +361,11 @@ public class InitializeGame implements Initializable{
         }
     }
 
+    public void resumeGame(){
+        game.pauseGame();
+        showMenu();
+    }
+
     public void restartGame() {
         game.restartGame();
     }
