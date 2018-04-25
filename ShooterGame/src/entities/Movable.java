@@ -34,6 +34,16 @@ public class Movable extends Entity {
         this.direction = Direction.IDLE;
     }
 
+    public Movable(AnimationHandler idleAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed) {
+        super(idleAnimation, positionX, positionY);
+        this.audioClips = audioClips;
+        this.healthPoints = healthPoints;
+        this.movementSpeed = movementSpeed;
+        this.velocityX = 0;
+        this.velocityY = 0;
+        this.direction = Direction.IDLE;
+    }
+
     public void update(double time) {
         this.getSprite().setFrame(time);
 
@@ -188,6 +198,15 @@ public class Movable extends Entity {
 
         public SpritePair(Sprite sprite, long time) {
             this.sprite = sprite;
+            this.time = time;
+        }
+    }
+    public class SpritePair2 {
+        int i;
+        long time;
+
+        public SpritePair2(int i, long time) {
+            this.i = i;
             this.time = time;
         }
     }

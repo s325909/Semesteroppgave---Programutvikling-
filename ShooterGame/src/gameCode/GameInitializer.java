@@ -1,5 +1,6 @@
 package gameCode;
 
+import entities.AnimationHandler;
 import entities.Player;
 import entities.Zombie;
 import entities.Sprite;
@@ -12,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -52,11 +54,13 @@ public class GameInitializer implements Initializable{
     private Sprite[][] playerAnimation;
     private AudioClip[] zombieAudioClips;
     private Sprite[][] zombieAnimation;
+    private AnimationHandler[] zombieAnimationer;
+    private Image[][] zombieImages;
     private String[] dropImages;
     private Sprite[] bulletImages;
     private Sprite[] coin;
 
-    final private boolean DEBUG = true;
+    final private boolean DEBUG = false;
 
     /***
      * Method which will create all the initial Entities and other objects to present when a new game starts.
@@ -92,7 +96,7 @@ public class GameInitializer implements Initializable{
         try {
             zombies = new ArrayList<>();
             for (int i = 0; i < nbrZombies; i++) {
-                zombies.add(new Zombie(this.zombieAnimation[i], this.zombieAudioClips, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+                zombies.add(new Zombie(this.zombieAnimationer[i], this.zombieAudioClips, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
             }
         } catch (Exception e) {
             System.out.println("Error: Enemies did not load correctly");
@@ -108,7 +112,7 @@ public class GameInitializer implements Initializable{
         // Add the ImageView of every Entity to the gameWindow pane
         gameWindow.getChildren().add(player.getSprite().getImageView());
         for (Zombie zombie : zombies) {
-            gameWindow.getChildren().add(zombie.getSprite().getImageView());
+            gameWindow.getChildren().add(zombie.getAnimationHandler().getImageView());
         }
 
         // Initialize the Game object, and thus start the game
@@ -235,6 +239,32 @@ public class GameInitializer implements Initializable{
         this.bulletImages = loadSingleSprites(bulletImages);
     }
 
+    private Image[][] loadAnimation(SpriteParam[] sprites) {
+        Image[][] images = new Image[sprites.length][];
+        for (int i = 0; i < sprites.length; ++i) {
+            images[i] = new Image[sprites[i].numberImages];
+            for (int j = 0; j < sprites[i].numberImages; ++j) {
+                try {
+                    String filename = sprites[i].filename + Integer.toString(j) + sprites[i].extension;
+                    String resource = getClass().getResource(filename).toURI().toString();
+                    images[i][j] = new Image(resource, 75, 75, true, false);
+                } catch (Exception e) {
+                    System.out.println(sprites[i].filename + Integer.toString(j) + sprites[i].extension);
+                    System.out.println("Error: Unable to find requested file(s) and the array Sprite.frames couldn't be created");
+                }
+            }
+        }
+        return images;
+    }
+
+    private AnimationHandler[] loadAnimations(Image[][] images, int nbr) {
+        AnimationHandler[] animationHandler = new AnimationHandler[nbr];
+        for (int i = 0; i < nbr; i++) {
+            animationHandler[i] = new AnimationHandler(images);
+        }
+        return animationHandler;
+    }
+
     /**
      * Method which finds and loads all necessary Zombie assets from disk only once.
      * Once found and loaded into memory, these sets of assets are then turned
@@ -252,7 +282,9 @@ public class GameInitializer implements Initializable{
                 new SpriteParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
 
         this.zombieAudioClips = loadAudio(zombieSounds);
-        this.zombieAnimation = loadSprites(nbrZombies, zombieAnimations);
+        this.zombieImages = loadAnimation(zombieAnimations);
+        this.zombieAnimationer = loadAnimations(this.zombieImages, nbrZombies);
+        //this.zombieAnimation = loadSprites(nbrZombies, zombieAnimations);
     }
 
     /***

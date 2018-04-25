@@ -1,8 +1,10 @@
 package gameCode;
 
+import entities.AnimationHandler;
 import entities.Sprite;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
 
@@ -16,6 +18,8 @@ public class Assets implements Initializable {
     private Sprite[][] playerAnimation;
     private AudioClip[] zombieAudioClips;
     private Sprite[][] zombieAnimation;
+    private AnimationHandler[] zombieAnimationer;
+    private Image[][] zombieImages;
     private String[] dropImages;
     private Sprite[] bulletImages;
     private Sprite[] coin;
@@ -126,7 +130,36 @@ public class Assets implements Initializable {
         };
 
         this.zombieAudioClips = loadAudio(zombieSounds);
-        this.zombieAnimation = loadSprites(nbrZombies, zombieAnimations);
+        this.zombieImages = loadAnimation(zombieAnimations);
+        this.zombieAnimationer = loadAnimations(this.zombieImages, nbrZombies);
+        //this.zombieAnimation = loadSprites(this.zombieImages, nbrZombies);
+
+    }
+
+    private Image[][] loadAnimation(SpriteParam[] sprites) {
+        Image[][] images = new Image[sprites.length][];
+        for (int i = 0; i < sprites.length; ++i) {
+            images[i] = new Image[sprites[i].numberImages];
+            for (int j = 0; j < sprites[i].numberImages; ++j) {
+                try {
+                    String filename = sprites[i].filename + Integer.toString(j) + sprites[i].extension;
+                    String resource = getClass().getResource(filename).toURI().toString();
+                    images[i][j] = new Image(resource, 75, 75, true, false);
+                } catch (Exception e) {
+                    System.out.println(sprites[i].filename + Integer.toString(j) + sprites[i].extension);
+                    System.out.println("Error: Unable to find requested file(s) and the array Sprite.frames couldn't be created");
+                }
+            }
+        }
+        return images;
+    }
+
+    private AnimationHandler[] loadAnimations(Image[][] images, int nbr) {
+        AnimationHandler[] animationHandler = new AnimationHandler[nbr];
+        for (int i = 0; i < nbr; i++) {
+            animationHandler[i] = new AnimationHandler(images);
+        }
+        return animationHandler;
     }
 
     /***
@@ -226,6 +259,10 @@ public class Assets implements Initializable {
 
     public Sprite[][] getZombieAnimation() {
         return zombieAnimation;
+    }
+
+    public AnimationHandler[] getZombieAnimationer() {
+        return zombieAnimationer;
     }
 
     public String[] getDropImages() {

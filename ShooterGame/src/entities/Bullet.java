@@ -1,5 +1,8 @@
 package entities;
 
+import gameCode.DataHandler;
+
+import javax.xml.crypto.Data;
 import java.util.List;
 
 public class Bullet extends Movable {
@@ -71,5 +74,17 @@ public class Bullet extends Movable {
 
     public void setDamage(int damage) {
         this.damage = damage;
+    }
+
+    public DataHandler.Configuration getConfiguration() {
+        DataHandler.Configuration bulletCfg = new DataHandler.Configuration();
+        bulletCfg.posX = this.getPositionX();
+        bulletCfg.posY = this.getPositionY();
+        bulletCfg.velX = this.getVelocityX();
+        bulletCfg.velY = this.getVelocityY();
+        bulletCfg.movementSpeed = this.getMovementSpeed();
+        bulletCfg.direction = this.getDirection();
+        bulletCfg.damage = this.getDamage();
+        return bulletCfg;
     }
 }

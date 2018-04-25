@@ -2,7 +2,6 @@ package gameCode;
 
 import entities.Player;
 import entities.Movable;
-import javafx.scene.control.Alert;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -31,23 +30,23 @@ public class DataHandler {
         List<Configuration> dropsExtra;
     }
 
-    static class Configuration {
-        int health;
-        int armor;
-        int posX;
-        int posY;
-        double velX;
-        double velY;
-        double movementSpeed;
-        Movable.Direction direction;
-        Player.WeaponTypes equipped;
-        int damage;
-        int magPistol;
-        int poolPistol;
-        int magRifle;
-        int poolRifle;
-        int magShotgun;
-        int poolShotgun;
+    public static class Configuration {
+        public int health;
+        public int armor;
+        public int posX;
+        public int posY;
+        public double velX;
+        public double velY;
+        public double movementSpeed;
+        public Movable.Direction direction;
+        public Player.WeaponTypes equipped;
+        public int damage;
+        public int magPistol;
+        public int poolPistol;
+        public int magRifle;
+        public int poolRifle;
+        public int magShotgun;
+        public int poolShotgun;
     }
 
     public static class GameSettings {

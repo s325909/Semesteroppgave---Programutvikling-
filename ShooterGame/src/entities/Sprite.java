@@ -26,6 +26,7 @@ public class Sprite {
         }
         this.width = this.frames[0].getWidth();
         this.height = this.frames[0].getHeight();
+        this.iv.setImage(frames[0]);
     }
 
     public Sprite(ImageView iv, String spriteFileName, String extension, int numberImages) {
@@ -46,6 +47,7 @@ public class Sprite {
         this.duration = 0.032;
         this.maxWidth = this.width;
         this.maxHeight = this.height;
+        this.iv.setImage(frames[0]);
     }
 
     /***
@@ -53,10 +55,8 @@ public class Sprite {
      * @param time
      */
     protected void setFrame(double time) {
-        int index = (int)((time % (frames.length * duration)) / duration);
+        int index = (int) ((time % (frames.length * duration)) / duration);
         this.iv.setImage(frames[index]);
-        //this.iv.setFitWidth(maxWidth);
-        //this.iv.setFitHeight(maxHeight);
     }
 
     public void setMax(double imageWidth, double imageHeight) {

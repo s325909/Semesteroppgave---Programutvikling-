@@ -1,5 +1,6 @@
 package entities;
 
+import gameCode.DataHandler;
 import gameCode.Game;
 
 public class Drop extends Entity {
@@ -29,5 +30,12 @@ public class Drop extends Entity {
         } else if (randomNumber <= 9) {
             //player.setMovementSpeed(player.getMovementSpeed() + 5);
         }
+    }
+
+    public DataHandler.Configuration getConfiguration() {
+        DataHandler.Configuration dropCfg = new DataHandler.Configuration();
+        dropCfg.posX = this.getPositionX();
+        dropCfg.posY = this.getPositionY();
+        return dropCfg;
     }
 }

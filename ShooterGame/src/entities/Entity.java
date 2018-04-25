@@ -18,6 +18,7 @@ public class Entity{
     private Node node;
     private ImageView iv;
     private Sprite sprite;
+    private AnimationHandler idleAnimation;
 
     public Entity(String filename, int positionX, int positionY) {
         this.iv = new ImageView();
@@ -27,6 +28,8 @@ public class Entity{
         this.positionY = positionY;
         this.node.setTranslateX(positionX);
         this.node.setTranslateY(positionY);
+        this.sprite.getImageView().setTranslateX(positionX);
+        this.sprite.getImageView().setTranslateY(positionY);
         this.alive = true;
     }
 
@@ -34,6 +37,17 @@ public class Entity{
         this.iv = idleSprite.getImageView();
         this.sprite = idleSprite;
         this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.BLUE);
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.node.setTranslateX(positionX);
+        this.node.setTranslateY(positionY);
+        this.alive = true;
+    }
+
+    public Entity(AnimationHandler idleAnimation, int positionX, int positionY) {
+        this.iv = idleAnimation.getImageView();
+        this.idleAnimation = idleAnimation;
+        this.node = new Circle(this.idleAnimation.getWidth()/2, this.idleAnimation.getHeight()/2, 2*this.idleAnimation.getHeight()/5, Color.BLUE);
         this.positionX = positionX;
         this.positionY = positionY;
         this.node.setTranslateX(positionX);
@@ -91,6 +105,10 @@ public class Entity{
 
     public Sprite getSprite() {
         return sprite;
+    }
+
+    public AnimationHandler getAnimationHandler() {
+        return idleAnimation;
     }
 
     public void setSprite(Sprite sprite) {

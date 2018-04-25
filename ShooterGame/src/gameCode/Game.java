@@ -27,7 +27,7 @@ public class Game {
     private boolean gameOver;
     private DataHandler dataHandler;
 
-    private SaveGame saveGame;
+    //private SaveGame saveGame;
 
     public Game(Player player, List <Zombie> zombies, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag,Label hudPool, Label hudScore, Label hudTimer){
 
@@ -85,7 +85,7 @@ public class Game {
             zombie.movement(player);
             if (player.isColliding(zombie)) {
                 player.receivedDamage(10);
-                if (!player.stillAlive()) {
+                if (!player.isAlive()) {
                     //gameOver();
                 }
             }
@@ -106,7 +106,7 @@ public class Game {
         // Draw drops to the pane, and check for collision with player
         for (Drop drop : drops) {
             if (!drop.isDrawn()) {
-                //if(gameInitializer.isDEBUG())
+                if(gameInitializer.isDEBUG())
                     gameWindow.getChildren().add(drop.getNode());
                 gameWindow.getChildren().add(drop.getSprite().getImageView());
                 drop.setDrawn();
@@ -120,7 +120,7 @@ public class Game {
         // Draw dropsExtra to the pane, and check for collision with player
         for (Drop drop : dropsExtra) {
             if (!drop.isDrawn()) {
-                //if(gameInitializer.isDEBUG())
+                if(gameInitializer.isDEBUG())
                     gameWindow.getChildren().add(drop.getNode());
                 gameWindow.getChildren().add(drop.getSprite().getImageView());
                 drop.setDrawn();
@@ -249,12 +249,43 @@ public class Game {
     }
 
     public void saveGame() {
-        saveGame = new SaveGame(this.player, this, this.zombies, this.bullets, this.drops, this.dropsExtra);
-        saveGame.save("testsave");
+        //saveGame = new SaveGame(this.player, this, this.zombies, this.bullets, this.drops, this.dropsExtra);
+        //saveGame.save("testsave");
+        SaveGame saveGame = new SaveGame();
+        DataHandler.GameConfiguration gameCfg = getGameConfiguration();
+        saveGame.save("testsave", gameCfg);
+    }
+
+    private DataHandler.GameConfiguration getGameConfiguration() {
+        DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
+        gameCfg.gameScore = this.getScoreNumber();
+        gameCfg.player = this.player.getConfiguration();
+
+        List<DataHandler.Configuration> zombieCfg = new ArrayList<>();
+        for (Zombie zombie : this.zombies)
+            zombieCfg.add(zombie.getConfiguration());
+        gameCfg.zombies = zombieCfg;
+
+        List<DataHandler.Configuration> bulletCfg = new ArrayList<>();
+        for (Bullet bullet : this.player.getBulletList())
+            bulletCfg.add(bullet.getConfiguration());
+        gameCfg.bullets = bulletCfg;
+
+        List<DataHandler.Configuration> dropCfg = new ArrayList<>();
+        for (Drop drop : this.drops)
+            dropCfg.add(drop.getConfiguration());
+        gameCfg.drops = dropCfg;
+
+        List<DataHandler.Configuration> dropExtraCfg = new ArrayList<>();
+        for (Drop dropExtra : this.dropsExtra)
+            dropExtraCfg.add(dropExtra.getConfiguration());
+        gameCfg.dropsExtra = dropExtraCfg;
+
+        return gameCfg;
     }
 
     public void loadGame() {
-        saveGame = new SaveGame(this.player, this, this.zombies, this.bullets, this.drops, this.dropsExtra);
+        SaveGame saveGame = new SaveGame(this.player, this, this.zombies, this.bullets, this.drops, this.dropsExtra);
         saveGame.load("testsave");
     }
 

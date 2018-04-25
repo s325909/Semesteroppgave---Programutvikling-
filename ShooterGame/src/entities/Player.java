@@ -1,5 +1,6 @@
 package entities;
 
+import gameCode.DataHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
@@ -15,7 +16,12 @@ public class Player extends Movable {
         KNIFE, PISTOL, RIFLE, SHOTGUN
     }
 
+    public enum State {
+        NORMAL, DAMAGED
+    }
+
     private WeaponTypes equippedWeapon;
+    private State playerState;
     private int armor;
     private AudioClip[] weaponSounds;
     private Sprite[][] allAnimation;
@@ -25,9 +31,11 @@ public class Player extends Movable {
     private List<Bullet> bulletList;
     private Queue<SpritePair> animationQueue;
     private long waitTime;
+    private long invTime;
+    private long fireWaitTime;
 
     public Player(Sprite[][] allAnimation, AudioClip[] basicSounds, AudioClip[] weaponSounds, int positionX, int positionY, int healthPoints, int armor) {
-        super(allAnimation[0][0], basicSounds, positionX, positionY, healthPoints, 5.0);
+        super(allAnimation[0][0], basicSounds, positionX, positionY, healthPoints, 1.0);
         this.allAnimation = allAnimation;
         this.weaponSounds = weaponSounds;
         this.animationQueue = new LinkedList<SpritePair>();
@@ -41,6 +49,7 @@ public class Player extends Movable {
         magazineShotgun = new Magazine(8,32);
         this.armor = armor;
         this.bulletList = new ArrayList<Bullet>();
+        playerState = State.NORMAL;
     }
 
     /***
@@ -106,33 +115,38 @@ public class Player extends Movable {
      * @param keyEvent Handles user input via the pressing of a key.
      */
     public void movePlayer(KeyEvent keyEvent){
-        int i,j, audioAction, audioReload;
+        int i,j, audioAction, audioReload, fireRate;
 
         switch (this.equippedWeapon) {
             case KNIFE:
                 i = 0;
                 audioAction = 0;
                 audioReload = 0;
+                fireRate = 1000;
                 break;
             case PISTOL:
                 i = 1;
                 audioAction = 1;
                 audioReload = 2;
+                fireRate = 1000;
                 break;
             case RIFLE:
                 i = 2;
                 audioAction = 3;
                 audioReload = 4;
+                fireRate = 1000;
                 break;
             case SHOTGUN:
                 i = 3;
                 audioAction = 5;
                 audioReload = 6;
+                fireRate = 1000;
                 break;
             default:
                 i = 0;
                 audioAction = 0;
                 audioReload = 0;
+                fireRate = 1000;
         }
 
         if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
@@ -156,7 +170,7 @@ public class Player extends Movable {
             playWeaponSounds(audioAction);
         } else if (keyEvent.getCode() == KeyCode.SPACE && equippedWeapon != WeaponTypes.KNIFE) {
             j = 3;
-            fire(i, j, audioAction);
+            fire(audioAction, fireRate);
         } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != WeaponTypes.KNIFE) {
             j = 4;
             reload(i, j, audioReload);
@@ -219,41 +233,76 @@ public class Player extends Movable {
      * reloadMagazine() method will be run.
      * @param audioAction Requires an int value in order to select the correct sound clip via playWeaponSounds()
      */
-    private void fire(int i, int j, int audioAction) {
-        switch (this.equippedWeapon) {
-            case PISTOL:
-                if (!magazinePistol.isMagazineEmpty()) {
-                    magazinePistol.changeBulletNumber(-1);
-                    playWeaponSounds(audioAction);
-                    setAnimation(i, j);
-                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX()+50, getPositionY()+50, 10, 50, this.getDirection());
-                    this.bulletList.add(bullet);
-                } else {
-                    playWeaponSounds(7);
-                }
-                break;
-            case RIFLE:
-                if (!magazineRifle.isMagazineEmpty()) {
-                    magazineRifle.changeBulletNumber(-1);
-                    playWeaponSounds(audioAction);
-                    setAnimation(i, j);
-                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 30, this.getDirection());
-                    this.bulletList.add(bullet);
-                } else {
-                    playWeaponSounds(7);
-                }
-                break;
-            case SHOTGUN:
-                if (!magazineShotgun.isMagazineEmpty()) {
-                    magazineShotgun.changeBulletNumber(-1);
-                    playWeaponSounds(audioAction);
-                    setAnimation(i, j);
-                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 20, this.getDirection());
-                    this.bulletList.add(bullet);
-                } else {
-                    playWeaponSounds(7);
-                }
-                break;
+    private void fire(int audioAction, int fireRate) {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime > this.fireWaitTime) {
+            playWeaponSounds(audioAction);
+
+            int posX = getPositionX();
+            int posY = getPositionY();
+            switch (this.getDirection()) {
+                case EAST:
+                    posX += this.getSprite().getImageView().getImage().getWidth();
+                    posY += (this.getSprite().getImageView().getImage().getHeight() - 20);
+                    break;
+                case NORTHEAST:
+                    posX += this.getSprite().getImageView().getImage().getWidth();
+                    break;
+                case WEST:
+                    posY += 10;
+                    break;
+                case NORTHWEST:
+                    posX += 10;
+                    break;
+                case NORTH:
+                    posX += (this.getSprite().getImageView().getImage().getWidth() - 20);
+                    break;
+                case SOUTH:
+                    posX += 10;
+                    posY += this.getSprite().getImageView().getImage().getHeight();
+                    break;
+                case SOUTHEAST:
+                    posX += this.getSprite().getImageView().getImage().getWidth();
+                    posY += this.getSprite().getImageView().getImage().getHeight();
+                    break;
+                case SOUTHWEST:
+                    posX -= 10;
+                    posY += this.getSprite().getImageView().getImage().getHeight();
+                    break;
+                case IDLE:
+                    break;
+            }
+
+            switch (this.equippedWeapon) {
+                case PISTOL:
+                    if (!magazinePistol.isMagazineEmpty()) {
+                        magazinePistol.changeBulletNumber(-1);
+                        Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", posX, posY, 10, 50, this.getDirection());
+                        this.bulletList.add(bullet);
+                    } else {
+                        playWeaponSounds(7);
+                    }
+                    break;
+                case RIFLE:
+                    if (!magazineRifle.isMagazineEmpty()) {
+                        magazineRifle.changeBulletNumber(-1);
+                        Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", posX, posY, 10, 30, this.getDirection());
+                        this.bulletList.add(bullet);
+                    } else {
+                        playWeaponSounds(7);
+                    }
+                    break;
+                case SHOTGUN:
+                    if (!magazineShotgun.isMagazineEmpty()) {
+                        magazineShotgun.changeBulletNumber(-1);
+                        Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", posX, posY, 10, 20, this.getDirection());
+                        this.bulletList.add(bullet);
+                    } else {
+                        playWeaponSounds(7);
+                    }
+                    break;
+            }
+            this.fireWaitTime = currentTime + fireRate;
         }
     }
 
@@ -296,10 +345,21 @@ public class Player extends Movable {
      */
     private void setAnimation(int i, int j) {
         long time = 0;
+        boolean queue = true;
         if(j == 4) {
             time = 250;
         }
-        animationQueue.add(new SpritePair(this.allAnimation[i][j], time));
+        if(j == 2) {
+            time = 500;
+        }
+        if(j == 3) {
+            time = 500;
+            long currentTime = System.currentTimeMillis();
+            if (currentTime < this.fireWaitTime)
+                queue = false;
+        }
+        if (queue)
+            animationQueue.add(new SpritePair(this.allAnimation[i][j], time));
     }
 
     /**
@@ -343,20 +403,25 @@ public class Player extends Movable {
      *               which in turn will adjust Player healthpoints and armor.
      */
     public void receivedDamage(int damage) {
-        if (this.getArmor() > 0) {
-            this.setArmor(this.getArmor() - damage);
-            this.setHealthPoints(this.getHealthPoints() - damage / 2);
-        } else {
-            this.setHealthPoints(this.getHealthPoints() - damage);
+        long currentTime = System.currentTimeMillis();
+        if (currentTime > this.invTime) {
+            int diffArmor = this.getArmor() - damage;
+            if (diffArmor < 0) {
+                this.setArmor(0);
+                int diffHealth = this.getHealthPoints() - damage;
+                if (diffHealth < 0) {
+                    this.setHealthPoints(0);
+                    this.setAlive(false);
+                } else {
+                    this.setHealthPoints(this.getHealthPoints() - Math.abs(diffArmor));
+                }
+            } else {
+                this.setArmor(diffArmor);
+                this.setHealthPoints(this.getHealthPoints() - (damage/2));
+            }
+            playerState = State.DAMAGED;
+            this.invTime = currentTime + 1000;
         }
-
-        if (this.getArmor() < 0)
-            this.setArmor(0);
-
-        if (this.getHealthPoints() > 0)
-            this.setHealthPoints(this.getHealthPoints());
-        else
-            this.setHealthPoints(0);
     }
 
     /**
@@ -457,6 +522,26 @@ public class Player extends Movable {
 
     public void setEquippedWeapon(WeaponTypes equippedWeapon) {
         this.equippedWeapon = equippedWeapon;
+    }
+
+    public DataHandler.Configuration getConfiguration() {
+        DataHandler.Configuration playerCfg = new DataHandler.Configuration();
+        playerCfg.health = this.getHealthPoints();
+        playerCfg.armor = this.getArmor();
+        playerCfg.posX = this.getPositionX();
+        playerCfg.posY = this.getPositionY();
+        playerCfg.velX = this.getVelocityX();
+        playerCfg.velY = this.getVelocityY();
+        playerCfg.movementSpeed = this.getMovementSpeed();
+        playerCfg.direction = this.getDirection();
+        playerCfg.equipped = this.getEquippedWeapon();
+        playerCfg.magPistol = this.getMagazinePistol().getNumberBullets();
+        playerCfg.poolPistol = this.getMagazinePistol().getCurrentPool();
+        playerCfg.magRifle = this.getMagazineRifle().getNumberBullets();
+        playerCfg.poolRifle = this.getMagazineRifle().getCurrentPool();
+        playerCfg.magShotgun = this.getMagazineShotgun().getNumberBullets();
+        playerCfg.poolShotgun = this.getMagazineShotgun().getCurrentPool();
+        return playerCfg;
     }
 
     /***

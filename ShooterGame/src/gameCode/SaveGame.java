@@ -32,6 +32,8 @@ public class SaveGame {
         this.dataHandler = new DataHandler();
     }
 
+    public SaveGame() {this.dataHandler = new DataHandler();};
+
     /**
      *
      * @param filename f
@@ -51,6 +53,23 @@ public class SaveGame {
             System.out.println("Player X: " + player.getPositionX());
             System.out.println("Player Y: " + player.getPositionY());
             System.out.println("NbrZombies: " + zombies.size());
+        } else {
+            System.out.println("Could not save the game");
+        }
+    }
+
+    public void save(String filename, DataHandler.GameConfiguration gameCfg) {
+        System.out.println("Retrieve successful");
+        System.out.println(gameCfg.player.posX);
+
+        if (dataHandler.createSaveFile(filename, gameCfg)) {
+            System.out.println("Save game");
+            System.out.println("GameScore: " + gameCfg.gameScore);
+            System.out.println("Player HP: " + gameCfg.player.health);
+            System.out.println("Player Armor: " + gameCfg.player.armor);
+            System.out.println("Player X: " + gameCfg.player.posX);
+            System.out.println("Player Y: " + gameCfg.player.posY);
+            System.out.println("NbrZombies: " + gameCfg.zombies.size());
         } else {
             System.out.println("Could not save the game");
         }
