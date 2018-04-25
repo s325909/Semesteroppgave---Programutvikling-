@@ -400,11 +400,13 @@ public class GameInitializer implements Initializable{
     public void hideHelp(){
         ingameHelp.setVisible(false);
         ingameMenu.setVisible(true);
+        setLabelVisible(true);
     }
     
     public void showHelp() {
         if (!helpVisible){
             ingameMenu.setVisible(false);
+            setLabelVisible(false);
             ingameHelp.setVisible(true);
         }else {
             hideHelp();
