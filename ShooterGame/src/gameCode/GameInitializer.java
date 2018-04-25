@@ -410,16 +410,16 @@ public class GameInitializer implements Initializable{
         }
     }
 
-    public void showSettings(ActionEvent event) {
+    public void showSettings() {
+
+        Parent root;
+
         try {
-            if (event.getSource() == settings){
-                Stage windowSettings = (Stage) settings.getScene().getWindow();
-                Parent rootHowToPlay = FXMLLoader.load(getClass().getResource("../menuOptions/Settings.fxml"));
-                Scene howToPlayScene = new Scene(rootHowToPlay, 1280, 720);
-                windowSettings.setScene(howToPlayScene);
-                windowSettings.show();
-            }
-        } catch (Exception e){
+            Stage windowSettings = new Stage();
+            root = FXMLLoader.load(getClass().getResource("../menuOptions/Settings.fxml"));
+            windowSettings.setScene(new Scene(root, 500, 500));
+            windowSettings.show();
+        }catch (Exception e){
             System.out.println(e.getMessage());
         }
     }

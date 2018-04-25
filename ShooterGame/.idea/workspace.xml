@@ -20,7 +20,7 @@
       <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gameCode/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5292">
+            <state relative-caret-position="0">
               <caret line="198" column="41" lean-forward="false" selection-start-line="198" selection-start-column="41" selection-end-line="198" selection-end-column="41" />
               <folding>
                 <marker date="1524661558180" expanded="false" signature="21950:21956" ph=" }" />
@@ -34,13 +34,16 @@
       <file leaf-file-name="GameWindow.fxml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gameCode/GameWindow.fxml">
           <provider editor-type-id="text-editor">
-            <state relative-caret-position="686">
-              <caret line="213" column="26" lean-forward="false" selection-start-line="213" selection-start-column="26" selection-end-line="213" selection-end-column="26" />
+            <state relative-caret-position="389">
+              <caret line="216" column="19" lean-forward="false" selection-start-line="216" selection-start-column="19" selection-end-line="216" selection-end-column="19" />
               <folding>
-                <marker date="1524664057759" expanded="true" signature="8801:11232" ph="..." />
-                <marker date="1524664057759" expanded="true" signature="8827:11212" ph="..." />
-                <marker date="1524664057759" expanded="true" signature="11309:11376" ph="..." />
-                <marker date="1524664057759" expanded="true" signature="11396:11457" ph="..." />
+                <marker date="1524665137997" expanded="true" signature="11212:11232" ph="..." />
+                <marker date="1524665137997" expanded="true" signature="11212:11253" ph="..." />
+                <marker date="1524665137997" expanded="true" signature="11212:11271" ph="..." />
+                <marker date="1524665137997" expanded="true" signature="11212:11286" ph="..." />
+                <marker date="1524665137997" expanded="true" signature="11212:11469" ph="..." />
+                <marker date="1524665137997" expanded="true" signature="11309:11376" ph="..." />
+                <marker date="1524665137997" expanded="true" signature="11396:11457" ph="..." />
               </folding>
             </state>
           </provider>
@@ -52,9 +55,42 @@
       <file leaf-file-name="GameInitializer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/gameCode/GameInitializer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="402" column="4" lean-forward="false" selection-start-line="402" selection-start-column="4" selection-end-line="402" selection-end-column="4" />
-              <folding />
+            <state relative-caret-position="324">
+              <caret line="421" column="9" lean-forward="false" selection-start-line="421" selection-start-column="9" selection-end-line="421" selection-end-column="9" />
+              <folding>
+                <marker date="1524665448368" expanded="false" signature="16549:16560" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="16575:16581" ph=" }" />
+                <marker date="1524665448368" expanded="false" signature="16618:16629" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="16648:16654" ph=" }" />
+                <marker date="1524665448368" expanded="false" signature="16708:16719" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="16750:16756" ph=" }" />
+                <marker date="1524665448368" expanded="false" signature="16793:16804" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="16824:16830" ph=" }" />
+                <marker date="1524665448368" expanded="false" signature="16885:16896" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="16929:16935" ph=" }" />
+                <marker date="1524665448368" expanded="false" signature="16967:16978" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="16996:17002" ph=" }" />
+                <marker date="1524665448368" expanded="false" signature="17049:17060" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="17089:17095" ph=" }" />
+                <marker date="1524665448368" expanded="false" signature="17139:17150" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="17173:17179" ph=" }" />
+                <marker date="1524665448368" expanded="false" signature="17225:17236" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="17260:17266" ph=" }" />
+                <marker date="1524665448368" expanded="false" signature="17307:17318" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="17337:17343" ph=" }" />
+                <marker date="1524665448368" expanded="false" signature="17387:17398" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="17421:17427" ph=" }" />
+                <marker date="1524665448368" expanded="false" signature="17469:17480" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="17500:17506" ph=" }" />
+                <marker date="1524665448368" expanded="false" signature="17541:17552" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="17568:17574" ph=" }" />
+                <marker date="1524665448368" expanded="false" signature="17613:17624" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="17644:17650" ph=" }" />
+                <marker date="1524665448368" expanded="false" signature="17681:17692" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="17704:17710" ph=" }" />
+                <marker date="1524665448368" expanded="false" signature="17740:17751" ph=" { " />
+                <marker date="1524665448368" expanded="false" signature="17764:17770" ph=" }" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -62,33 +98,10 @@
       <file leaf-file-name="MainController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/MainController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1944">
+            <state relative-caret-position="225">
               <caret line="82" column="0" lean-forward="false" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
               <folding />
             </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HowToPlayController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/menuOptions/HowToPlayController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="810">
-              <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HowToPlay.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/menuOptions/HowToPlay.fxml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="27" column="12" lean-forward="false" selection-start-line="27" selection-start-column="12" selection-end-line="70" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="JavaFX-Scene-Builder">
-            <state />
           </provider>
         </entry>
       </file>
@@ -405,7 +418,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39274000" />
+    <option name="totallyTimeSpent" value="39621000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
@@ -424,7 +437,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.165625" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.165625" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -447,6 +460,7 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32617038" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -553,13 +567,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/javafx.graphics/javafx/scene/shape/Shape.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="124" column="22" lean-forward="false" selection-start-line="124" selection-start-column="22" selection-end-line="124" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/loadMenu/LoadGame.java" />
     <entry file="file://$PROJECT_DIR$/src/gameCode/SceneSizeChangeListener.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -671,7 +678,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/StartupMenu.fxml" />
     <entry file="file://$PROJECT_DIR$/src/main/MainController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1944">
+        <state relative-caret-position="225">
           <caret line="82" column="0" lean-forward="false" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
           <folding />
         </state>
@@ -687,7 +694,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gameCode/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5292">
+        <state relative-caret-position="0">
           <caret line="198" column="41" lean-forward="false" selection-start-line="198" selection-start-column="41" selection-end-line="198" selection-end-column="41" />
           <folding>
             <marker date="1524661558180" expanded="false" signature="21950:21956" ph=" }" />
@@ -702,7 +709,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
           <caret line="27" column="12" lean-forward="false" selection-start-line="27" selection-start-column="12" selection-end-line="70" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder">
@@ -711,13 +717,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gameCode/GameWindow.fxml">
       <provider editor-type-id="text-editor">
-        <state relative-caret-position="686">
-          <caret line="213" column="26" lean-forward="false" selection-start-line="213" selection-start-column="26" selection-end-line="213" selection-end-column="26" />
+        <state relative-caret-position="389">
+          <caret line="216" column="19" lean-forward="false" selection-start-line="216" selection-start-column="19" selection-end-line="216" selection-end-column="19" />
           <folding>
-            <marker date="1524664057759" expanded="true" signature="8801:11232" ph="..." />
-            <marker date="1524664057759" expanded="true" signature="8827:11212" ph="..." />
-            <marker date="1524664057759" expanded="true" signature="11309:11376" ph="..." />
-            <marker date="1524664057759" expanded="true" signature="11396:11457" ph="..." />
+            <marker date="1524665137997" expanded="true" signature="11212:11232" ph="..." />
+            <marker date="1524665137997" expanded="true" signature="11212:11253" ph="..." />
+            <marker date="1524665137997" expanded="true" signature="11212:11271" ph="..." />
+            <marker date="1524665137997" expanded="true" signature="11212:11286" ph="..." />
+            <marker date="1524665137997" expanded="true" signature="11212:11469" ph="..." />
+            <marker date="1524665137997" expanded="true" signature="11309:11376" ph="..." />
+            <marker date="1524665137997" expanded="true" signature="11396:11457" ph="..." />
           </folding>
         </state>
       </provider>
@@ -727,10 +736,54 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gameCode/GameInitializer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="402" column="4" lean-forward="false" selection-start-line="402" selection-start-column="4" selection-end-line="402" selection-end-column="4" />
+        <state relative-caret-position="324">
+          <caret line="421" column="9" lean-forward="false" selection-start-line="421" selection-start-column="9" selection-end-line="421" selection-end-column="9" />
+          <folding>
+            <marker date="1524665448368" expanded="false" signature="16549:16560" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="16575:16581" ph=" }" />
+            <marker date="1524665448368" expanded="false" signature="16618:16629" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="16648:16654" ph=" }" />
+            <marker date="1524665448368" expanded="false" signature="16708:16719" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="16750:16756" ph=" }" />
+            <marker date="1524665448368" expanded="false" signature="16793:16804" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="16824:16830" ph=" }" />
+            <marker date="1524665448368" expanded="false" signature="16885:16896" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="16929:16935" ph=" }" />
+            <marker date="1524665448368" expanded="false" signature="16967:16978" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="16996:17002" ph=" }" />
+            <marker date="1524665448368" expanded="false" signature="17049:17060" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="17089:17095" ph=" }" />
+            <marker date="1524665448368" expanded="false" signature="17139:17150" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="17173:17179" ph=" }" />
+            <marker date="1524665448368" expanded="false" signature="17225:17236" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="17260:17266" ph=" }" />
+            <marker date="1524665448368" expanded="false" signature="17307:17318" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="17337:17343" ph=" }" />
+            <marker date="1524665448368" expanded="false" signature="17387:17398" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="17421:17427" ph=" }" />
+            <marker date="1524665448368" expanded="false" signature="17469:17480" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="17500:17506" ph=" }" />
+            <marker date="1524665448368" expanded="false" signature="17541:17552" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="17568:17574" ph=" }" />
+            <marker date="1524665448368" expanded="false" signature="17613:17624" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="17644:17650" ph=" }" />
+            <marker date="1524665448368" expanded="false" signature="17681:17692" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="17704:17710" ph=" }" />
+            <marker date="1524665448368" expanded="false" signature="17740:17751" ph=" { " />
+            <marker date="1524665448368" expanded="false" signature="17764:17770" ph=" }" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/menuOptions/Settings.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="23" column="8" lean-forward="true" selection-start-line="23" selection-start-column="8" selection-end-line="141" selection-end-column="32" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
   </component>
