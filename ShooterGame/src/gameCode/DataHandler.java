@@ -20,10 +20,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoreData {
+public class DataHandler {
 
-    public static class GameConfiguration {
-        public int gameScore;
+    static class GameConfiguration {
+        int gameScore;
         Configuration player;
         List<Configuration> zombies;
         List<Configuration> bullets;
@@ -31,23 +31,23 @@ public class StoreData {
         List<Configuration> dropsExtra;
     }
 
-    public static class Configuration {
-        public int health;
-        public int armor;
-        public int posX;
-        public int posY;
-        public double velX;
-        public double velY;
-        public double movementSpeed;
-        public Movable.Direction direction;
-        public Player.WeaponTypes equipped;
-        public int damage;
-        public int magPistol;
-        public int poolPistol;
-        public int magRifle;
-        public int poolRifle;
-        public int magShotgun;
-        public int poolShotgun;
+    static class Configuration {
+        int health;
+        int armor;
+        int posX;
+        int posY;
+        double velX;
+        double velY;
+        double movementSpeed;
+        Movable.Direction direction;
+        Player.WeaponTypes equipped;
+        int damage;
+        int magPistol;
+        int poolPistol;
+        int magRifle;
+        int poolRifle;
+        int magShotgun;
+        int poolShotgun;
     }
 
     public static class GameSettings {
@@ -55,11 +55,11 @@ public class StoreData {
         Settings video;
     }
 
-    public static class Settings {
-        public int soundVolume;
-        public int musicVolume;
-        public int windowWidth;
-        public int windowHeight;
+    static class Settings {
+        int soundVolume;
+        int musicVolume;
+        int windowWidth;
+        int windowHeight;
     }
 
     public boolean createSettingsFile(GameSettings settings) {
@@ -172,7 +172,7 @@ public class StoreData {
 
     /**
      * Method for creating a .xml save file.
-     * Turns the data retrieved during saveTheGame() method in Game class into a structured .xml file.
+     * Turns the data retrieved during save() method in Game class into a structured .xml file.
      * Each field corresponds to the values of the same name for each Entity, and are turned into String
      * values before storing.
      * @param fileName Requires a filename of type String, which in turn will be the name for .xml file.
@@ -180,7 +180,7 @@ public class StoreData {
      *                      the retrieved data for each type of Entity.
      * @return Returns a boolean based on whether the savefile is created successfully, or an exception occurred.
      */
-    public boolean createSaveFile(String fileName, GameConfiguration configuration) {
+    boolean createSaveFile(String fileName, GameConfiguration configuration) {
         DocumentBuilderFactory dbf;
         DocumentBuilder db;
         Document doc;
@@ -402,7 +402,7 @@ public class StoreData {
      *                      data for each type of Entity.
      * @return Returns a boolean value based on whether there were any exceptions during file search, read, or parsing.
      */
-    public boolean readSaveFile(String fileName, GameConfiguration configuration) {
+    boolean readSaveFile(String fileName, GameConfiguration configuration) {
         DocumentBuilderFactory dbf;
         DocumentBuilder db;
         Document doc;
@@ -460,7 +460,7 @@ public class StoreData {
 
         //Parse zombies
         NodeList zombieList = doc.getElementsByTagName("Zombie");
-        configuration.zombies = new ArrayList<Configuration>();
+        configuration.zombies = new ArrayList<>();
         for (int i = 0; i < zombieList.getLength(); i++) {
             Node zombieNode = zombieList.item(i);
             if (zombieNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -481,7 +481,7 @@ public class StoreData {
 
         //Parse bullets
         NodeList bulletList = doc.getElementsByTagName("Bullet");
-        configuration.bullets = new ArrayList<Configuration>();
+        configuration.bullets = new ArrayList<>();
         for (int i = 0; i < bulletList.getLength(); i++) {
             Node bulletNode = bulletList.item(i);
             if (bulletNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -502,7 +502,7 @@ public class StoreData {
 
         //Parse drops
         NodeList dropList = doc.getElementsByTagName("Drop");
-        configuration.drops = new ArrayList<Configuration>();
+        configuration.drops = new ArrayList<>();
         for (int i = 0; i < dropList.getLength(); i++) {
             Node dropsNode = dropList.item(i);
             if (dropsNode.getNodeType() == Node.ELEMENT_NODE) {

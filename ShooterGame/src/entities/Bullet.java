@@ -54,12 +54,13 @@ public class Bullet extends Movable {
     }
 
     public void bulletCollision(List<Zombie> zombieList) {
-        for(Zombie zombie : zombieList)
-        if (isColliding(zombie)) {
-            this.setAlive(false);
-            zombie.setHealthPoints(zombie.getHealthPoints() - this.getDamage());
-            if (!zombie.stillAlive()) {
-                zombie.setAlive(false);
+        for(Zombie zombie : zombieList) {
+            if (isColliding(zombie)) {
+                this.setAlive(false);
+                zombie.setHealthPoints(zombie.getHealthPoints() - this.getDamage());
+                if (!zombie.stillAlive()) {
+                    zombie.setAlive(false);
+                }
             }
         }
     }

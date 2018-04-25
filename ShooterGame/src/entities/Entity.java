@@ -18,24 +18,11 @@ public class Entity{
     private Node node;
     private ImageView iv;
     private Sprite sprite;
-    private Sprite spriteDefault;
 
     public Entity(String filename, int positionX, int positionY) {
         this.iv = new ImageView();
         this.sprite = new Sprite(this.iv, filename);
         this.node = new Rectangle(25, 25, Color.GREEN);
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.node.setTranslateX(positionX);
-        this.node.setTranslateY(positionY);
-        this.alive = true;
-    }
-
-    public Entity(String filename, String extension, int numberImages, int positionX, int positionY) {
-        this.iv = new ImageView();
-        this.spriteDefault = new Sprite(this.iv, filename, extension, numberImages);
-        this.sprite = this.spriteDefault;
-        this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.RED);
         this.positionX = positionX;
         this.positionY = positionY;
         this.node.setTranslateX(positionX);
@@ -76,15 +63,6 @@ public class Entity{
     public void setSpriteSize(int width, int height) {
         this.sprite.setWidth(width);
         this.sprite.setHeight(height);
-    }
-
-    public Sprite[] loadSprite(String[] filename) {
-        Sprite[] sprite = new Sprite[filename.length];
-        for(int i = 0; i < sprite.length; i++) {
-            sprite[i] = new Sprite(this.iv, filename[i]);
-        }
-        System.out.println("Success");
-        return sprite;
     }
 
     public boolean isDead() {

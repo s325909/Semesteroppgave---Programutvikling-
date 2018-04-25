@@ -52,11 +52,11 @@ public class GameInitializer implements Initializable{
     private Sprite[][] playerAnimation;
     private AudioClip[] zombieAudioClips;
     private Sprite[][] zombieAnimation;
-    private Sprite[] hudIcons;
+    private String[] dropImages;
     private Sprite[] bulletImages;
     private Sprite[] coin;
 
-    final private boolean DEBUG = false;
+    final private boolean DEBUG = true;
 
     /***
      * Method which will create all the initial Entities and other objects to present when a new game starts.
@@ -142,10 +142,12 @@ public class GameInitializer implements Initializable{
                 musicPlayer.muteVolume();
 
             } else if (e.getCode() == KeyCode.F5){
-                game.saveTheGame("quicksave");
+                game.saveGame();
+                //game.save("quicksave");
 
             } else if (e.getCode() == KeyCode.F9) {
-                game.loadTheGame("quicksave");
+                game.loadGame();
+                //game.load("quicksave");
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {
@@ -217,14 +219,14 @@ public class GameInitializer implements Initializable{
         this.coin = new Sprite[]{new Sprite(iv,"/resources/Art/Icon/Coin/coin_rotate_", ".png", 6)};
 
         // Load all Drop images
-        String[] dropImages = {
+        this.dropImages = new String[] {
                 "/resources/Art/Icon/hp_icon.png",
                 "/resources/Art/Icon/armor_icon.png",
                 "/resources/Art/Icon/mag_icon.png",
                 "/resources/Art/Icon/pool_icon.png",
-                "/resources/Art/Icon/speed_boost.png"};
+                "/resources/Art/Icon/speed_boost.png",
+                "/resources/Art/Icon/Coin/coin_rotate_0.png"};
 
-        this.hudIcons = loadSingleSprites(dropImages);
 
         // Load all Bullet images
         String[] bulletImages = {
@@ -297,8 +299,8 @@ public class GameInitializer implements Initializable{
      */
     private Sprite[] loadSingleSprites(String[] files) {
         Sprite[] sprites = new Sprite[files.length];
+        ImageView iv = new ImageView();
         for(int i = 0; i < sprites.length; i++) {
-            ImageView iv = new ImageView();
             sprites[i] = new Sprite(iv, files[i]);
         }
         return sprites;
@@ -441,11 +443,11 @@ public class GameInitializer implements Initializable{
         System.exit(0);
     }
 
-    private boolean isMenuVisible() {
+    public boolean isMenuVisible() {
         return menuVisible;
     }
 
-    private void setMenuVisible(boolean menuVisible) {
+    public void setMenuVisible(boolean menuVisible) {
         this.menuVisible = menuVisible;
     }
 
@@ -485,8 +487,8 @@ public class GameInitializer implements Initializable{
         return weaponSounds;
     }
 
-    public Sprite[] getHudIcons() {
-        return hudIcons;
+    public String[] getDropImages() {
+        return dropImages;
     }
 
     public Sprite[] getBulletImages() {
