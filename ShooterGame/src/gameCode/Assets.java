@@ -25,7 +25,9 @@ public class Assets implements Initializable {
         // Load all Player sounds and animations
         String[] playerSounds = {
                 "/resources/Sound/Sound Effects/Player/player_breathing_calm.wav",
-                "/resources/Sound/Sound Effects/Player/footsteps_single.wav"};
+                "/resources/Sound/Sound Effects/Player/footsteps_single.wav"
+        };
+
         String[] weaponSounds = {
                 "/resources/Sound/Sound Effects/Player/Knife/knife_swish.mp3",
                 "/resources/Sound/Sound Effects/Player/Pistol/pistol_shot.wav",
@@ -34,31 +36,45 @@ public class Assets implements Initializable {
                 "/resources/Sound/Sound Effects/Player/Rifle/rifle_reload.mp3",
                 "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_shot.wav",
                 "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_reload.wav",
-                "/resources/Sound/Sound Effects/Player/Pistol/pistol_empty.mp3"};
+                "/resources/Sound/Sound Effects/Player/Pistol/pistol_empty.mp3"
+        };
 
         SpriteParam[] knife = {
                 new SpriteParam("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20),
                 new SpriteParam("/resources/Art/Player/knife/move/survivor-move_knife_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_", ".png", 15)};
+                new SpriteParam("/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_", ".png", 15)
+        };
+
         SpriteParam[] pistol = {
                 new SpriteParam("/resources/Art/Player/handgun/idle/survivor-idle_handgun_", ".png", 20),
                 new SpriteParam("/resources/Art/Player/handgun/move/survivor-move_handgun_", ".png", 20),
                 new SpriteParam("/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15),
                 new SpriteParam("/resources/Art/Player/handgun/shoot/survivor-shoot_handgun_", ".png", 3),
-                new SpriteParam("/resources/Art/Player/handgun/reload/survivor-reload_handgun_", ".png", 15)};
+                new SpriteParam("/resources/Art/Player/handgun/reload/survivor-reload_handgun_", ".png", 15)
+        };
+
         SpriteParam[] rifle = {
                 new SpriteParam("/resources/Art/Player/rifle/idle/survivor-idle_rifle_", ".png", 20),
                 new SpriteParam("/resources/Art/Player/rifle/move/survivor-move_rifle_", ".png", 20),
                 new SpriteParam("/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_", ".png", 15),
                 new SpriteParam("/resources/Art/Player/rifle/shoot/survivor-shoot_rifle_", ".png", 3),
-                new SpriteParam("/resources/Art/Player/rifle/reload/survivor-reload_rifle_", ".png", 20)};
+                new SpriteParam("/resources/Art/Player/rifle/reload/survivor-reload_rifle_", ".png", 20)
+        };
+
         SpriteParam[] shotgun = {
                 new SpriteParam("/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_", ".png", 20),
                 new SpriteParam("/resources/Art/Player/shotgun/move/survivor-move_shotgun_", ".png", 20),
                 new SpriteParam("/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_", ".png", 15),
                 new SpriteParam("/resources/Art/Player/shotgun/shoot/survivor-shoot_shotgun_", ".png", 3),
-                new SpriteParam("/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_", ".png", 20)};
-        SpriteParam[][] all = {knife, pistol, rifle, shotgun};
+                new SpriteParam("/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_", ".png", 20)
+        };
+
+        SpriteParam[][] all = {
+                knife,
+                pistol,
+                rifle,
+                shotgun
+        };
 
         this.basicSounds = loadAudio(playerSounds);
         this.weaponSounds = loadAudio(weaponSounds);
@@ -78,12 +94,14 @@ public class Assets implements Initializable {
                 "/resources/Art/Icon/mag_icon.png",
                 "/resources/Art/Icon/pool_icon.png",
                 "/resources/Art/Icon/speed_boost.png",
-                "/resources/Art/Icon/Coin/coin_rotate_0.png"};
+                "/resources/Art/Icon/Coin/coin_rotate_0.png"
+        };
 
 
         // Load all Bullet images
         String[] bulletImages = {
-                "/resources/Art/pistol_bullet.png"};
+                "/resources/Art/pistol_bullet.png"
+        };
 
         this.bulletImages = loadSingleSprites(bulletImages);
     }
@@ -98,12 +116,14 @@ public class Assets implements Initializable {
     public void loadZombiesAssets(int nbrZombies) {
         String[] zombieSounds = {
                 "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
-                "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"};
+                "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"
+        };
 
         SpriteParam[] zombieAnimations = {
                 new SpriteParam("/resources/Art/Zombie/skeleton-idle_", ".png", 17),
                 new SpriteParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
-                new SpriteParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
+                new SpriteParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)
+        };
 
         this.zombieAudioClips = loadAudio(zombieSounds);
         this.zombieAnimation = loadSprites(nbrZombies, zombieAnimations);
