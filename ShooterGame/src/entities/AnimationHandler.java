@@ -31,11 +31,13 @@ public class AnimationHandler {
     }
 
     public void setI(int i) {
-        this.activeI = i;
+        if (i < frames.length)
+            this.activeI = i;
     }
 
     public void setJ(int j) {
-        this.activeJ = j;
+        if (j < frames[this.activeI].length)
+            this.activeJ = j;
     }
 
     /***
@@ -45,6 +47,10 @@ public class AnimationHandler {
     protected void setFrame(double time) {
         int index = (int) ((time % (frames[this.activeI].length * duration)) / duration);
         this.iv.setImage(frames[this.activeI][index]);
+    }
+
+    protected void setFrame() {
+        this.iv.setImage(frames[this.activeI][this.activeJ]);
     }
 
     public ImageView getImageView() {

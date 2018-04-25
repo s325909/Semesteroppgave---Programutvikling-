@@ -27,8 +27,6 @@ public class Game {
     private boolean gameOver;
     private DataHandler dataHandler;
 
-    //private SaveGame saveGame;
-
     public Game(Player player, List <Zombie> zombies, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag,Label hudPool, Label hudScore, Label hudTimer){
 
         this.player = player;

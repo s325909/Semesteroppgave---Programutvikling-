@@ -9,6 +9,10 @@ public class Drop extends Entity {
         super(filename, positionX, positionY);
     }
 
+    public Drop(AnimationHandler animationHandler, int positionX, int positionY) {
+        super(animationHandler, positionX, positionY);
+    }
+
     public Drop(Sprite idleSprite, int positionX, int positionY) {
         super(idleSprite, positionX, positionY);
     }
