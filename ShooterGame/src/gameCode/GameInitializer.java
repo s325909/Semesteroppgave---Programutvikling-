@@ -33,7 +33,7 @@ public class GameInitializer implements Initializable{
     @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, gameState, pressKey;
     @FXML private VBox gamePaused, ingameMenu, ingameHelp;
 
-    @FXML private Button howToPlay, settings;
+    @FXML private Button back_Help, settings;
 
     private Stage stage = new Stage();
 
@@ -396,13 +396,17 @@ public class GameInitializer implements Initializable{
     }
 
 
+    public void hideHelp(){
+        ingameHelp.setVisible(false);
+        ingameMenu.setVisible(true);
+    }
+    
     public void showHelp() {
         if (!helpVisible){
             ingameMenu.setVisible(false);
             ingameHelp.setVisible(true);
         }else {
-            ingameHelp.setVisible(false);
-            ingameMenu.setVisible(true);
+            hideHelp();
         }
     }
 
