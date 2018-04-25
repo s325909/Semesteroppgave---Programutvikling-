@@ -375,6 +375,13 @@ public class GameInitializer implements Initializable{
     }
 
 
+    public void hideHelp(){
+        ingameHelp.setVisible(false);
+        ingameMenu.setVisible(true);
+        gameState.setVisible(true);
+    }
+
+
     /***
      * Method which will change the FullScreen state of the application.
      */
@@ -395,18 +402,11 @@ public class GameInitializer implements Initializable{
     public void restartGame() {
         game.restartGame();
     }
-
-
-    public void hideHelp(){
-        ingameHelp.setVisible(false);
-        ingameMenu.setVisible(true);
-        setLabelVisible(true);
-    }
     
     public void showHelp() {
         if (!helpVisible){
             ingameMenu.setVisible(false);
-            setLabelVisible(false);
+            gameState.setVisible(false);
             ingameHelp.setVisible(true);
         }else {
             hideHelp();
@@ -423,7 +423,7 @@ public class GameInitializer implements Initializable{
             root = loader.load();
             SettingsController controller = loader.getController();
             controller.showBack();
-            windowSettings.setScene(new Scene(root, 500, 500));
+            windowSettings.setScene(new Scene(root, 360, 640));
             windowSettings.show();
         }catch (Exception e){
             System.out.println(e.getMessage());
