@@ -31,7 +31,7 @@ public class GameInitializer implements Initializable{
 
     @FXML private Pane gameWindow;
     @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, gameState, pressKey;
-    @FXML private VBox gamePaused, ingameMenu;
+    @FXML private VBox gamePaused, ingameMenu, ingameHelp;
 
     @FXML private Button howToPlay, settings;
 
@@ -43,6 +43,7 @@ public class GameInitializer implements Initializable{
     private Game game;
     private MusicPlayer musicPlayer;
     private boolean menuVisible;
+    private boolean helpVisible;
     private boolean labelVisible;
 
     private SceneSizeChangeListener sceneChange;
@@ -372,6 +373,7 @@ public class GameInitializer implements Initializable{
         }
     }
 
+
     /***
      * Method which will change the FullScreen state of the application.
      */
@@ -393,33 +395,14 @@ public class GameInitializer implements Initializable{
         game.restartGame();
     }
 
-    /*
-    public void showHelp(ActionEvent event) {
-        //Parent rootHowToPlay;
-        //Stage windowHowToPlay;
-        try {
-            if (event.getSource() == howToPlay){
-                Stage windowHowToPlay = (Stage) howToPlay.getScene().getWindow();
-                Parent rootHowToPlay = FXMLLoader.load(getClass().getResource("../menuOptions/HowToPlay.fxml"));
-                Scene howToPlayScene = new Scene(rootHowToPlay, 1280, 720);
-                windowHowToPlay.setScene(howToPlayScene);
-                windowHowToPlay.show();
-            }
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
-    */
 
     public void showHelp() {
-        Parent root;
-        try {
-            Stage helpMenu = new Stage();
-            root = FXMLLoader.load(getClass().getResource("../menuOptions/HowToPlay.fxml"));
-            helpMenu.setScene(new Scene(root, 720, 720));
-            helpMenu.show();
-        }catch (Exception e){
-            System.out.println("Error" + e.getMessage());
+        if (!helpVisible){
+            ingameMenu.setVisible(false);
+            ingameHelp.setVisible(true);
+        }else {
+            ingameHelp.setVisible(false);
+            ingameMenu.setVisible(true);
         }
     }
 

@@ -161,6 +161,60 @@
                   <Button mnemonicParsing="false" onAction="#exitGame" text="Exit Game" />
                </children>
             </VBox>
+            <VBox fx:id="ingameHelp" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
+               <children>
+                  <Label layoutX="89.0" layoutY="71.0" text="HOW TO PLAY" textFill="RED">
+                     <font>
+                        <Font size="96.0" />
+                     </font>
+                  </Label>
+                  <Label text="WASD/ArrowKeys to move" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font></Label>
+                  <Label layoutX="515.0" layoutY="341.0" text="Space to shoot" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="515.0" layoutY="370.0" text="R to reload" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="515.0" layoutY="399.0" text="1, 2, 3, 4/f to switch weapons" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="395.0" layoutY="428.0" text="F12 for fullscreen" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="395.0" layoutY="457.0" text="F5 to quick save, F9 to quick load" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="395.0" layoutY="428.0" text="P to pause" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="557.0" layoutY="515.0" text="M to mute" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="557.0" layoutY="544.0" text="ESC for menu/pause" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Back" />
+               </children>
+            </VBox>
          </children>
       </GridPane>
    </children>
