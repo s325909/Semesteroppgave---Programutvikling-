@@ -28,6 +28,8 @@ public class SettingsController implements Initializable {
     private Stage window_GameMenu;
     private Parent root_GameMenu;
 
+    private boolean backVisible;
+
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
         musicVolumeSlider.valueProperty().addListener(new javafx.beans.value.ChangeListener<Number>() {
@@ -45,6 +47,10 @@ public class SettingsController implements Initializable {
                         String.valueOf((int) soundVolumeSlider.getValue()));
             }
         });
+    }
+
+    public void showBack(){
+        returnToMenu.setVisible(false);
     }
 
     @FXML

@@ -19,6 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import menuOptions.SettingsController;
 
 import java.net.URL;
 import java.lang.*;
@@ -416,7 +417,10 @@ public class GameInitializer implements Initializable{
 
         try {
             Stage windowSettings = new Stage();
-            root = FXMLLoader.load(getClass().getResource("../menuOptions/Settings.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Settings.fxml"));
+            root = loader.load();
+            SettingsController controller = loader.getController();
+            controller.showBack();
             windowSettings.setScene(new Scene(root, 500, 500));
             windowSettings.show();
         }catch (Exception e){
