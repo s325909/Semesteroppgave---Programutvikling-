@@ -133,10 +133,10 @@ public class GameInitializer implements Initializable{
             if (e.getCode() == KeyCode.F12) {
                 changeFullScreen();
 
-            }else if (e.getCode() == KeyCode.P){
+            } else if (e.getCode() == KeyCode.P) {
                 game.pauseGame();
 
-            }else if (e.getCode() == KeyCode.ESCAPE) {
+            } else if (e.getCode() == KeyCode.ESCAPE) {
                 game.pauseGame();
                 showMenu();
 
@@ -422,11 +422,11 @@ public class GameInitializer implements Initializable{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Settings.fxml"));
             root = loader.load();
             SettingsController controller = loader.getController();
-            controller.showBack();
-            windowSettings.setScene(new Scene(root, 360, 640));
+            controller.showReturnToMenu(false);
+            windowSettings.setScene(new Scene(root, 450, 450));
             windowSettings.show();
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("Error" + e.getMessage());
         }
     }
 
