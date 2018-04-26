@@ -1,245 +1,99 @@
 package entities;
 
-import gameCode.Game;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-
-import gameCode.Game;
+import java.util.Queue;
 
 public class Player extends Movable {
 
-    private enum WeaponTypes {
+    public enum WeaponTypes {
         KNIFE, PISTOL, RIFLE, SHOTGUN
     }
 
     private WeaponTypes equippedWeapon;
     private int armor;
-    private AudioClip[] weapon;
-    private AudioClip[] basicSounds;
+    private AudioClip[] weaponSounds;
     private Sprite[][] allAnimation;
-
     private Magazine magazinePistol;
     private Magazine magazineRifle;
     private Magazine magazineShotgun;
+    private List<Bullet> bulletList;
+    private Queue<SpritePair> animationQueue;
+    private long waitTime;
 
-    private List<Bullet> bulletList = new ArrayList<>();
+    public Player(Sprite[][] allAnimation, AudioClip[] basicSounds, AudioClip[] weaponSounds, int positionX, int positionY, int healthPoints, int armor) {
+        super(allAnimation[0][0], basicSounds, positionX, positionY, healthPoints, 5.0);
+        this.allAnimation = allAnimation;
+        this.weaponSounds = weaponSounds;
+        this.animationQueue = new LinkedList<SpritePair>();
+        this.waitTime = 0;
 
-    public Player(){}
-
-    public Player(int positionX, int positionY) {
-        super(positionX, positionY);
-    }
-
-    public Player(String filename, int positionX, int positionY) {
-        super(filename, positionX, positionY);
-    }
-
-    public Player(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints, int armor) {
-        super(filename, extension, numberImages, positionX, positionY, healthPoints, 5.0);
-
-        String[] playerSounds = {
-                "/resources/Sound/Sound Effects/Player/player_breathing_calm.wav",
-                "/resources/Sound/Sound Effects/Player/footsteps_single.wav"};
-        String[] weaponSounds = {
-                "/resources/Sound/Sound Effects/Player/Knife/knife_swish.mp3",
-                "/resources/Sound/Sound Effects/Player/Pistol/pistol_shot.wav",
-                "/resources/Sound/Sound Effects/Player/Pistol/pistol_reload.mp3",
-                "/resources/Sound/Sound Effects/Player/Rifle/rifle_shot.wav",
-                "/resources/Sound/Sound Effects/Player/Rifle/rifle_reload.mp3",
-                "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_shot.wav",
-                "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_reload.wav",
-                "/resources/Sound/Sound Effects/Player/Pistol/pistol_empty.mp3"};
-
-        SpriteParam[] knife = {
-                new SpriteParam("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/knife/move/survivor-move_knife_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_", ".png", 15)};
-        SpriteParam[] pistol = {
-                new SpriteParam("/resources/Art/Player/handgun/idle/survivor-idle_handgun_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/handgun/move/survivor-move_handgun_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15),
-                new SpriteParam("/resources/Art/Player/handgun/shoot/survivor-shoot_handgun_", ".png", 3),
-                new SpriteParam("/resources/Art/Player/handgun/reload/survivor-reload_handgun_", ".png", 15)};
-        SpriteParam[] rifle = {
-                new SpriteParam("/resources/Art/Player/rifle/idle/survivor-idle_rifle_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/rifle/move/survivor-move_rifle_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_", ".png", 15),
-                new SpriteParam("/resources/Art/Player/rifle/shoot/survivor-shoot_rifle_", ".png", 3),
-                new SpriteParam("/resources/Art/Player/rifle/reload/survivor-reload_rifle_", ".png", 20)};
-        SpriteParam[] shotgun = {
-                new SpriteParam("/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/shotgun/move/survivor-move_shotgun_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_", ".png", 15),
-                new SpriteParam("/resources/Art/Player/shotgun/shoot/survivor-shoot_shotgun_", ".png", 3),
-                new SpriteParam("/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_", ".png", 20)};
-        SpriteParam[][] all = {knife, pistol, rifle, shotgun};
-
-        loadBasicSounds(playerSounds);
-        loadWeaponSounds(weaponSounds);
-        loadWeaponSprite(all);
-
-        playerAnimation("knife");
+        setEquippedWeapon(WeaponTypes.KNIFE);
         setAnimation(0,0);
 
         magazinePistol = new Magazine(15, 30);
         magazineRifle = new Magazine(30,90);
         magazineShotgun = new Magazine(8,32);
         this.armor = armor;
-    }
-
-    public int[] getPlayerInfo() {
-        int[] info = {
-                getPositionX(),
-                getPositionY(),
-                getHealthPoints(),
-                getArmor(),
-                getMagazinePistol().getNumberBullets(),
-                getMagazinePistol().getCurrentPool(),
-                getMagazineRifle().getNumberBullets(),
-                getMagazineRifle().getCurrentPool(),
-                getMagazineShotgun().getNumberBullets(),
-                getMagazineShotgun().getCurrentPool()};
-        return info;
-    }
-
-    public void resetPlayer() {
-        int[] values = {0,0,100,50,15,15,30,30,8,8};
-        setPlayerInfo(values);
-    }
-
-    public void setPlayerInfo(int[] playerInfo) {
-        setPosition(playerInfo[0], playerInfo[1]);
-        setTranslateNode(playerInfo[0], playerInfo[1]);
-        setHealthPoints(playerInfo[2]);
-        setArmor(playerInfo[3]);
-        getMagazinePistol().setNumberBullets(playerInfo[4]);
-        getMagazinePistol().setCurrentPool(playerInfo[5]);
-        getMagazineRifle().setNumberBullets(playerInfo[6]);
-        getMagazineRifle().setCurrentPool(playerInfo[7]);
-        getMagazineShotgun().setNumberBullets(playerInfo[8]);
-        getMagazineShotgun().setCurrentPool(playerInfo[9]);
+        this.bulletList = new ArrayList<Bullet>();
     }
 
     /***
-     * Method which is used for loading all the various weapon sprites into a 2-dimensional array.
-     * @param sprites Requires a 2-dimensional array of type Sprite
+     * Method which will switch between which set of weaponSounds animations that should be used based on a String value.
+     * @param weaponType Requires a String value which is later compared in order to change equippedWeapon.
      */
-    private void loadWeaponSprite(SpriteParam[][] sprites) {
-        Sprite[][] outerSprite = new Sprite[sprites.length][];
-
-        for (int i = 0; i < sprites.length; i++) {
-            outerSprite[i] = loadSprites(sprites[i]);
+    public void setWeaponTypeFromString(String weaponType) {
+        switch(weaponType) {
+            case "knife":
+                this.equippedWeapon = WeaponTypes.KNIFE;
+                break;
+            case "pistol":
+                this.equippedWeapon = WeaponTypes.PISTOL;
+                break;
+            case "rifle":
+                this.equippedWeapon = WeaponTypes.RIFLE;
+                break;
+            case "shotgun":
+                this.equippedWeapon = WeaponTypes.SHOTGUN;
+                break;
+            default:
+                this.equippedWeapon = WeaponTypes.KNIFE;
         }
-
-        this.allAnimation = outerSprite;
-
-//        double maxWidth = -1;
-//        double maxHeight = -1;
-//
-//        for(int i = 0; i < this.allAnimation.length; i++) {
-//            for (int j = 0; j < this.allAnimation[i].length; j++) {
-//                if (this.allAnimation[i][j].getWidth() > maxWidth && this.allAnimation[i][j].getHeight() > maxHeight) {
-//                    maxWidth = this.allAnimation[i][j].getWidth();
-//                    maxHeight = this.allAnimation[i][j].getHeight();
-//                }
-//            }
-//        }
-//
-//        for(int i = 0; i < this.allAnimation.length; i++) {
-//            for (int j = 0; j < this.allAnimation[i].length; j++) {
-//                this.allAnimation[i][j].setMax(maxWidth, maxHeight);
-//            }
-//        }
-//
-//        super.getSprite().setMax(maxWidth,maxHeight);
-//        //System.out.println(maxWidth);
-//        //System.out.println(maxHeight);
     }
 
-    public void setAnimation(int i, int j) {
-        super.setSprite(this.allAnimation[i][j]);
-    }
-
-    public Sprite[][] getAllAnimation() {
-        return allAnimation;
-    }
-
-
-    /***
-     * Method which will switch between which set of weapon animations that should be used based on a String value.
-     * @param animationWanted Requires a String value which is later compared in order to change equippedWeapon.
-     */
-    public void playerAnimation(String animationWanted) {
-        if (animationWanted == "knife")
-            this.equippedWeapon = WeaponTypes.KNIFE;
-        else if (animationWanted == "pistol")
-            this.equippedWeapon = WeaponTypes.PISTOL;
-        else if (animationWanted == "rifle")
-            this.equippedWeapon = WeaponTypes.RIFLE;
-        else if (animationWanted == "shotgun")
-            this.equippedWeapon = WeaponTypes.SHOTGUN;
-        else
-            this.equippedWeapon = WeaponTypes.KNIFE;
-    }
-
-    public void damage(int damage) {
-        if (this.getArmor() > 0) {
-            this.setArmor(this.getArmor() - damage);
-            this.setHealthPoints(this.getHealthPoints() - damage / 2);
-        } else {
-            this.setHealthPoints(this.getHealthPoints() - damage);
+    public String getWeaponTypeToString() {
+        switch(this.equippedWeapon) {
+            case KNIFE:
+                return "knife";
+            case PISTOL:
+                return "pistol";
+            case RIFLE:
+                return "rifle";
+            case SHOTGUN:
+                return "shotgun";
+            default:
+                return "knife";
         }
-
-        if (this.getArmor() < 0)
-            this.setArmor(0);
-
-        if (this.getHealthPoints() > 0)
-            this.setHealthPoints(this.getHealthPoints());
-        else
-            this.setHealthPoints(0);
     }
 
-    public void healthPickup(int hpChange) {
-        if (this.getHealthPoints() + hpChange <= 100)
-            this.setHealthPoints(this.getHealthPoints() + hpChange);
-        else
-            this.setHealthPoints(100);
-    }
-
-    public void armorPickup(int armorChange) {
-        if (this.getArmor() + armorChange <= 200)
-            this.setArmor(this.getArmor() + armorChange);
-        else
-            this.setArmor(200);
-    }
-
-    public void loadBasicSounds(String[] audioFiles) {
-        this.basicSounds = loadAudio(audioFiles);
-    }
-
-    public void loadWeaponSounds(String[] audioFiles) {
-        this.weapon = loadAudio(audioFiles);
-    }
-
-    public void playWeaponSounds(int i) {
-        this.weapon[i].play();
-    }
-
-    public void playBasicSounds(int i) {
-        this.basicSounds[i].play();
-    }
-
-    public WeaponTypes getEquippedWeapon() {
-        return equippedWeapon;
-    }
-
-    public void setEquippedWeapon(WeaponTypes equippedWeapon) {
-        this.equippedWeapon = equippedWeapon;
+    public WeaponTypes getWeaponTypeFromString(String weaponType) {
+        switch(weaponType) {
+            case "knife":
+                return WeaponTypes.KNIFE;
+            case "pistol":
+                return WeaponTypes.PISTOL;
+            case "rifle":
+                return WeaponTypes.RIFLE;
+            case "shotgun":
+                return WeaponTypes.SHOTGUN;
+            default:
+                return WeaponTypes.KNIFE;
+        }
     }
 
     /***
@@ -284,19 +138,15 @@ public class Player extends Movable {
         if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
             j = 1;
             goLeft();
-            playBasicSounds(1);
         } else if (keyEvent.getCode() == KeyCode.RIGHT || keyEvent.getCode() == KeyCode.D) {
             j = 1;
             goRight();
-            playBasicSounds(1);
         } else if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W) {
             j = 1;
             goUp();
-            playBasicSounds(1);
         } else if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
             j = 1;
             goDown();
-            playBasicSounds(1);
         } else {
             j = 0;
         }
@@ -306,10 +156,12 @@ public class Player extends Movable {
             playWeaponSounds(audioAction);
         } else if (keyEvent.getCode() == KeyCode.SPACE && equippedWeapon != WeaponTypes.KNIFE) {
             j = 3;
-            fire(i,j, audioAction);
+            fire(i, j, audioAction);
         } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != WeaponTypes.KNIFE) {
             j = 4;
-            reload(i,j, audioReload);
+            reload(i, j, audioReload);
+        } else if (keyEvent.getCode() == KeyCode.F) {
+            setEquippedWeapon(WeaponTypes.KNIFE);
         }
 
         if (keyEvent.getCode() == KeyCode.DIGIT1)
@@ -367,16 +219,15 @@ public class Player extends Movable {
      * reloadMagazine() method will be run.
      * @param audioAction Requires an int value in order to select the correct sound clip via playWeaponSounds()
      */
-    public void fire(int i, int j, int audioAction) {
+    private void fire(int i, int j, int audioAction) {
         switch (this.equippedWeapon) {
             case PISTOL:
                 if (!magazinePistol.isMagazineEmpty()) {
                     magazinePistol.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
-                    System.out.println("Pistol fired");
-                    Bullet bullet = new Bullet(getPositionX(), getPositionY(), 20, 20);
-                    bulletList.add(bullet);
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX()+50, getPositionY()+50, 10, 50, this.getDirection());
+                    this.bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
                 }
@@ -386,7 +237,8 @@ public class Player extends Movable {
                     magazineRifle.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
-                    System.out.println("Rifle fired");
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 30, this.getDirection());
+                    this.bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
                 }
@@ -396,7 +248,8 @@ public class Player extends Movable {
                     magazineShotgun.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
-                    System.out.println("Shotgun fired");
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 20, this.getDirection());
+                    this.bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
                 }
@@ -410,7 +263,7 @@ public class Player extends Movable {
      * This check ensures to correctly perform the method for changing the number and playing the appropriate sound.
      * @param audioReload Requires an int value in order to select the correct sound clip via playWeaponSounds()
      */
-    public void reload(int i, int j, int audioReload) {
+    private void reload(int i, int j, int audioReload) {
         switch (this.equippedWeapon) {
             case PISTOL:
                 if (!magazinePistol.isPoolEmpty() && !magazinePistol.isMagazineFull()) {
@@ -436,9 +289,105 @@ public class Player extends Movable {
         }
     }
 
+    /**
+     *
+     * @param i fg
+     * @param j fg
+     */
+    private void setAnimation(int i, int j) {
+        long time = 0;
+        if(j == 4) {
+            time = 250;
+        }
+        animationQueue.add(new SpritePair(this.allAnimation[i][j], time));
+    }
+
+    /**
+     *
+     */
+    public void updateAnimation() {
+        long currentTime = System.currentTimeMillis();
+        SpritePair pair = animationQueue.peek();
+        if (pair != null) {
+            if (currentTime > this.waitTime) {
+                super.setSprite(animationQueue.peek().sprite);
+                this.waitTime = currentTime + animationQueue.peek().time;
+                animationQueue.remove();
+            }
+        }
+    }
+
+    /**
+     * Method which will reset the Player's stats.
+     * These include position, healthpoints, armor, and ammunition of each weaponSounds.
+     */
+    public void resetPlayer() {
+        setPosition(1280/2,720/2);
+        setTranslateNode(1280/2, 720/2);
+        setHealthPoints(100);
+        setArmor(50);
+        setEquippedWeapon(WeaponTypes.KNIFE);
+        getMagazinePistol().setNumberBullets(15);
+        getMagazinePistol().setCurrentPool(15);
+        getMagazineRifle().setNumberBullets(30);
+        getMagazineRifle().setCurrentPool(30);
+        getMagazineShotgun().setNumberBullets(8);
+        getMagazineShotgun().setCurrentPool(8);
+    }
+
+    /**
+     * Method which will handle damage towards the Player.
+     * This method will adjust Player's armor, whereas the armor will reduce the damage to healthpoints by half.
+     * Method will ensure that both healthpoints and armor can not go below 0 points.
+     * @param damage Requires a positive integer to represent damage received,
+     *               which in turn will adjust Player healthpoints and armor.
+     */
+    public void receivedDamage(int damage) {
+        if (this.getArmor() > 0) {
+            this.setArmor(this.getArmor() - damage);
+            this.setHealthPoints(this.getHealthPoints() - damage / 2);
+        } else {
+            this.setHealthPoints(this.getHealthPoints() - damage);
+        }
+
+        if (this.getArmor() < 0)
+            this.setArmor(0);
+
+        if (this.getHealthPoints() > 0)
+            this.setHealthPoints(this.getHealthPoints());
+        else
+            this.setHealthPoints(0);
+    }
+
+    /**
+     * Method which will handle Player healthpoints upon picking up health booster in the game.
+     * Method ensures that the Player's healthpoints can not exceed 100 points through pickups.
+     * @param hpChange Requires a positive integer to represent the amount of
+     *                 healthpoints that the Player has picked up.
+     */
+    public void healthPickup(int hpChange) {
+        if (this.getHealthPoints() + hpChange <= 100)
+            this.setHealthPoints(this.getHealthPoints() + hpChange);
+        else
+            this.setHealthPoints(100);
+    }
+
+    /**
+     * Method which will handle Player armor upon picking up armor booster in the game.
+     * Method ensures that the Player's armor can not exceed 200 points through pickups.
+     * @param armorChange Requires a positive integer to represent the amount of
+     *                    armor that the Player has picked up.
+     */
+    public void armorPickup(int armorChange) {
+        if (this.getArmor() + armorChange <= 200)
+            this.setArmor(this.getArmor() + armorChange);
+        else
+            this.setArmor(200);
+    }
+
     /***
-     * Method to get the current number of bullets in the magazine of each weapon.
-     * @return Returns the getNumberBullets() value associated with specific weapon.
+     * Method to get the current number of bullets in the magazine of each weaponSounds.
+     * @return Returns the getNumberBullets() value associated with specific weaponSounds.
      */
     public int getMagazineCount() {
         switch (this.equippedWeapon) {
@@ -454,8 +403,8 @@ public class Player extends Movable {
     }
 
     /***
-     * Method to get the current number of bullets in the pool for each weapon.
-     * @return Returns the getCurrentPool() value associated with specific weapon.
+     * Method to get the current number of bullets in the pool for each weaponSounds.
+     * @return Returns the getCurrentPool() value associated with specific weaponSounds.
      */
     public int getAmmoPool() {
         switch (this.equippedWeapon) {
@@ -470,8 +419,24 @@ public class Player extends Movable {
         }
     }
 
+    public int getArmor() {
+        return armor;
+    }
+
+    public void setArmor(int armor) {
+        this.armor = armor;
+    }
+
+    public Sprite[][] getAllAnimation() {
+        return allAnimation;
+    }
+
+    public void playWeaponSounds(int i) {
+        this.weaponSounds[i].play();
+    }
+
     public List<Bullet> getBulletList() {
-        return bulletList;
+        return this.bulletList;
     }
 
     public Magazine getMagazinePistol() {
@@ -486,17 +451,17 @@ public class Player extends Movable {
         return magazineShotgun;
     }
 
-    public int getArmor() {
-        return armor;
+    public WeaponTypes getEquippedWeapon() {
+        return equippedWeapon;
     }
 
-    public void setArmor(int armor) {
-        this.armor = armor;
+    public void setEquippedWeapon(WeaponTypes equippedWeapon) {
+        this.equippedWeapon = equippedWeapon;
     }
 
     /***
      * Inner class for handling magazine count and ammunition pool for the Player.
-     * Controls whether a new Bullet can be created when a weapon is fired.
+     * Controls whether a new Bullet can be created when a weaponSounds is fired.
      */
     public class Magazine {
         private int maxSize;
@@ -504,7 +469,7 @@ public class Player extends Movable {
         private int maxPool;
         private int currentPool;
 
-        public Magazine(int magazineSize, int maxPool) {
+        private Magazine(int magazineSize, int maxPool) {
             this.maxSize = magazineSize;
             this.numberBullets = this.maxSize;
             this.maxPool = maxPool;
@@ -539,7 +504,7 @@ public class Player extends Movable {
          * larger than the maximum size of the magazine. If so, return the extra bullets to the pool and fill the magazine.
          * If not, then simply set the ammunition pool to zero, whilst the magazine already equals the accumulated value.
          */
-        public void reloadMagazine() {
+        private void reloadMagazine() {
             if (getCurrentPool() > maxSize) {
                 setCurrentPool(getCurrentPool() - (maxSize - getNumberBullets()));
                 setNumberBullets(maxSize);
@@ -554,19 +519,19 @@ public class Player extends Movable {
             }
         }
 
-        public boolean isMagazineEmpty() {
+        private boolean isMagazineEmpty() {
             return this.numberBullets <= 0;
         }
 
-        public boolean isMagazineFull() {
+        private boolean isMagazineFull() {
             return this.numberBullets >= this.maxSize;
         }
 
-        public boolean isPoolEmpty() {
+        private boolean isPoolEmpty() {
             return this.currentPool <= 0;
         }
 
-        public boolean isPoolFull() {
+        private boolean isPoolFull() {
             return this.currentPool >= this.maxPool;
         }
 

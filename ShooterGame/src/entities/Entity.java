@@ -9,33 +9,21 @@ import javafx.scene.shape.Rectangle;
 
 public class Entity{
 
-    private int healthPoints;
     private int positionX;
     private int positionY;
 
     private boolean alive;
+    private boolean drawn;
 
     private Node node;
     private ImageView iv;
     private Sprite sprite;
     private Sprite spriteDefault;
 
-    public Entity() {}
-
-    public Entity(int positionX, int positionY) {
-        this.node = new Circle(5, 5, 5,Color.BROWN);
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.node.setTranslateX(positionX);
-        this.node.setTranslateY(positionY);
-        this.alive = true;
-    }
-
     public Entity(String filename, int positionX, int positionY) {
         this.iv = new ImageView();
-        this.spriteDefault = new Sprite(this.iv, filename);
-        this.sprite = this.spriteDefault;
-        this.node = new Rectangle(positionX, positionY, Color.GREEN);
+        this.sprite = new Sprite(this.iv, filename);
+        this.node = new Rectangle(25, 25, Color.GREEN);
         this.positionX = positionX;
         this.positionY = positionY;
         this.node.setTranslateX(positionX);
@@ -43,16 +31,26 @@ public class Entity{
         this.alive = true;
     }
 
-    public Entity(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
+    public Entity(String filename, String extension, int numberImages, int positionX, int positionY) {
         this.iv = new ImageView();
         this.spriteDefault = new Sprite(this.iv, filename, extension, numberImages);
         this.sprite = this.spriteDefault;
+        this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.RED);
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.node.setTranslateX(positionX);
+        this.node.setTranslateY(positionY);
+        this.alive = true;
+    }
+
+    public Entity(Sprite idleSprite, int positionX, int positionY) {
+        this.iv = idleSprite.getImageView();
+        this.sprite = idleSprite;
         this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.BLUE);
         this.positionX = positionX;
         this.positionY = positionY;
         this.node.setTranslateX(positionX);
         this.node.setTranslateY(positionY);
-        this.healthPoints = healthPoints;
         this.alive = true;
     }
 
@@ -80,14 +78,6 @@ public class Entity{
         this.sprite.setHeight(height);
     }
 
-    public Sprite[] loadSprites(SpriteParam[] spriteParam) {
-        Sprite[] sprites = new Sprite[spriteParam.length];
-        for(int i = 0; i < sprites.length; i++) {
-            sprites[i] = new Sprite(this.iv, spriteParam[i].filename, spriteParam[i].extension, spriteParam[i].numberImages);
-        }
-        return sprites;
-    }
-
     public Sprite[] loadSprite(String[] filename) {
         Sprite[] sprite = new Sprite[filename.length];
         for(int i = 0; i < sprite.length; i++) {
@@ -95,28 +85,6 @@ public class Entity{
         }
         System.out.println("Success");
         return sprite;
-    }
-
-    public AudioClip[] loadAudio(String[] audioFiles) {
-        AudioClip[] clips = new AudioClip[audioFiles.length];
-        for(int i = 0; i < clips.length; i++) {
-            clips[i] = new AudioClip(this.getClass().getResource(audioFiles[i]).toExternalForm());
-            clips[i].setVolume(0.1);
-        }
-
-        return clips;
-    }
-
-    public void playAudio(AudioClip audioClip) {
-        audioClip.play();
-    }
-
-    public boolean stillAlive() {
-        if (this.healthPoints <= 0) {
-            setAlive(false);
-            return false;
-        }
-        return true;
     }
 
     public boolean isDead() {
@@ -131,29 +99,17 @@ public class Entity{
         this.alive = alive;
     }
 
-    public int getHealthPoints() {
-        return this.healthPoints;
-    }
-
-    public void setHealthPoints(int health) {
-        this.healthPoints = health;
-    }
-
     public int getPositionX() {
         return positionX;
     }
 
-    public void setPositionX(int positionX) {
-        this.positionX = positionX;
-    }
+    public void setPositionX(int positionX) { this.positionX = positionX; }
 
     public int getPositionY() {
         return positionY;
     }
 
-    public void setPositionY(int positionY) {
-        this.positionY = positionY;
-    }
+    public void setPositionY(int positionY) { this.positionY = positionY; }
 
     public Sprite getSprite() {
         return sprite;
@@ -179,18 +135,7 @@ public class Entity{
         this.iv = iv;
     }
 
-    /***
-     * Inner class used in combination with creating a 2-dimensional Sprite array.
-     */
-    public class SpriteParam {
-        String filename;
-        String extension;
-        int numberImages;
+    public boolean isDrawn() { return drawn; };
 
-        public SpriteParam(String filename, String extension, int numberImages) {
-            this.filename = filename;
-            this.extension = extension;
-            this.numberImages = numberImages;
-        }
-    }
+    public void setDrawn() { drawn = true; };
 }

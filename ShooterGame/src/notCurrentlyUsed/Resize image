@@ -1,0 +1,23 @@
+
+    // For resizing the images, might use
+    //        double maxWidth = -1;
+//        double maxHeight = -1;
+//
+//        for(int i = 0; i < this.allAnimation.length; i++) {
+//            for (int j = 0; j < this.allAnimation[i].length; j++) {
+//                if (this.allAnimation[i][j].getWidth() > maxWidth && this.allAnimation[i][j].getHeight() > maxHeight) {
+//                    maxWidth = this.allAnimation[i][j].getWidth();
+//                    maxHeight = this.allAnimation[i][j].getHeight();
+//                }
+//            }
+//        }
+//
+//        for(int i = 0; i < this.allAnimation.length; i++) {
+//            for (int j = 0; j < this.allAnimation[i].length; j++) {
+//                this.allAnimation[i][j].setMax(maxWidth, maxHeight);
+//            }
+//        }
+//
+//        super.getSprite().setMax(maxWidth,maxHeight);
+//        //System.out.println(maxWidth);
+//        //System.out.println(maxHeight);

@@ -14,12 +14,11 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable{
 
-    Stage loadWindow, optionWindow, helpWindow;
-    Scene loadScene, optionsScene, helpScene;
-    Parent loadRoot, optionsRoot, helpRoot;
+    private Stage windowLoading, windowSettings, windowHowToPlay;
+    private Parent rootLoading, rootSettings, rootHowToPlay;
 
     @FXML
-    Button newGame, loadGame, options, help, exit;
+    Button newGame, loadGame, options, howToPlay, exit;
 
 
 
@@ -31,9 +30,9 @@ public class MainController implements Initializable{
     public void launchGame(){
         try{
             Stage stage = (Stage) newGame.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../gameCode/GameWindow.fxml"));/* Exception */
+            Parent root = FXMLLoader.load(getClass().getResource("../gameCode/GameWindow.fxml"));
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("../gameCode/StyleGameWindow.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
             stage.setScene(scene);
             stage.show();
 
@@ -47,48 +46,49 @@ public class MainController implements Initializable{
 
         try {
             if(event.getSource() == loadGame) {
-                loadWindow = (Stage) loadGame.getScene().getWindow();
-                loadRoot = FXMLLoader.load(getClass().getResource("../gameCode/loadGame.fxml"));
+                windowLoading = (Stage) loadGame.getScene().getWindow();
+                rootLoading = FXMLLoader.load(getClass().getResource("../menuOptions/Loading.fxml"));
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
 
-        loadScene = new Scene(loadRoot, 1280, 720);
-        loadWindow.setScene(loadScene);
-        loadWindow.show();
+        Scene loadScene = new Scene(rootLoading, 1280, 720);
+        windowLoading.setScene(loadScene);
+        windowLoading.show();
     }
 
-    public void openOptionsMenu(ActionEvent event) throws IOException{
+    public void openSettings(ActionEvent event) throws IOException{
 
         try {
             if (event.getSource() == options){
-                optionWindow = (Stage) options.getScene().getWindow();
-                optionsRoot = FXMLLoader.load(getClass().getResource("../menuOptions/optionsMenu.fxml"));
+                windowSettings = (Stage) options.getScene().getWindow();
+                rootSettings = FXMLLoader.load(getClass().getResource("../menuOptions/Settings.fxml"));
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
 
-        optionsScene = new Scene(optionsRoot, 1280, 720);
-        optionWindow.setScene(optionsScene);
-        optionWindow.show();
+        Scene settingsScene = new Scene(rootSettings, 1280, 720);
+        windowSettings.setScene(settingsScene);
+        windowSettings.show();
     }
 
-    public void openHelpMenu(ActionEvent event) throws IOException{
+    public void openHowToPlay(ActionEvent event) throws IOException{
 
         try {
-            if (event.getSource() == help){
-                helpWindow = (Stage) help.getScene().getWindow();
-                helpRoot = FXMLLoader.load(getClass().getResource("../menuOptions/helpMenu.fxml"));
+            if (event.getSource() == howToPlay){
+                windowHowToPlay = (Stage) howToPlay.getScene().getWindow();
+                rootHowToPlay = FXMLLoader.load(getClass().getResource("../menuOptions/HowToPlay.fxml"));
+
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
 
-        helpScene = new Scene(helpRoot, 1280, 720);
-        helpWindow.setScene(helpScene);
-        helpWindow.show();
+        Scene howToPlayScene = new Scene(rootHowToPlay, 1280, 720);
+        windowHowToPlay.setScene(howToPlayScene);
+        windowHowToPlay.show();
     }
 
     public void exitGame(){

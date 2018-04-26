@@ -83,4 +83,12 @@ public class MusicPlayer {
             }
         });
     }
+
+    public double getVolume() {
+        return this.getVolume();
+    }
+
+    public void setVolume(double volume) {
+        this.setVolume(volume);
+    }
 }

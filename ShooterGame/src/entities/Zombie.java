@@ -2,74 +2,24 @@ package entities;
 
 import javafx.scene.media.AudioClip;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Zombie extends Movable {
 
-    Sprite[] animations;
-
     private Direction walkDirection;
     private int walkDistance;
-    private Sprite[] animation;
-    private AudioClip[] audioClips;
+    private Sprite[] allAnimation;
+    private Queue<SpritePair> animationQueue;
+    private long waitTime;
 
-    public Zombie(){}
-
-    public Zombie(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints) {
-        super(filename, extension, numberImages, positionX, positionY, healthPoints, 1.0);
-        loadZombieAssets();
-    }
-
-    public void loadZombieAssets() {
-        String[] zombieSounds = {
-                "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
-                "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"};
-
-        SpriteParam[] zombieAnimations = {
-                new SpriteParam("/resources/Art/Zombie/skeleton-idle_", ".png", 17),
-                new SpriteParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
-                new SpriteParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
-
-        this.audioClips = super.loadAudio(zombieSounds);
-        this.animation = loadSprites(zombieAnimations);
-    }
-
-    public void setAnimation(int i) {
-        super.setSprite(this.animation[i]);
-    }
-
-    public void setAudio(int i) {
-        super.playAudio(this.audioClips[i]);
-    }
-
-    public void playIdle() {
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                setAudio(0);
-            }
-        };
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(task, 0, 1000); //start immediately, 1000ms period
-    }
-
-    public int[] getZombieInfo() {
-        int[] info = {
-                getPositionX(),
-                getPositionY(),
-                getHealthPoints()};
-        return info;
-    }
-
-    public void resetZombie(int randomX, int randomY) {
-        int[] values = {randomX, randomY, 100};
-        setZombieInfo(values);
-    }
-
-    public void setZombieInfo(int[] zombieInfo) {
-        setPosition(zombieInfo[0], zombieInfo[1]);
-        setHealthPoints(zombieInfo[2]);
+    public Zombie(Sprite[] allAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints) {
+        super(allAnimation[0], audioClips, positionX, positionY, healthPoints, 1.0);
+        this.allAnimation = allAnimation;
+        this.animationQueue = new LinkedList<SpritePair>();
+        this.waitTime = 0;
     }
 
     /***
@@ -83,7 +33,7 @@ public class Zombie extends Movable {
         double angle = 180 + Math.atan2(diffy, diffx) * (180 / Math.PI);
         double distance = Math.sqrt(Math.pow(diffx, 2) + Math.pow(diffy, 2));
 
-        if(distance > 0 && distance < 1000 && this.walkDistance <= 0) {
+        if(distance > 50 && distance < 1000 && this.walkDistance <= 0) {
             if (angle > 340 && angle <= 25) {
                 this.walkDirection = Direction.WEST;
                 this.walkDistance = 10;
@@ -111,6 +61,10 @@ public class Zombie extends Movable {
             }
         }
 
+        if(distance <= 50 && this.walkDistance <= 0) {
+            attack();
+        }
+
         if (this.walkDistance <= 0) {
             this.walkDirection = Direction.IDLE;
             this.walkDistance = 0;
@@ -119,73 +73,98 @@ public class Zombie extends Movable {
             case IDLE:
                 stopX();
                 stopY();
-                setIdle();
                 this.walkDistance = 0;
                 setAnimation(0);
-                //playIdle();
                 break;
             case NORTH:
                 goUp();
                 stopX();
-                setMoving();
                 this.walkDistance--;
                 setAnimation(1);
                 break;
             case NORTHEAST:
                 goUp();
-                goRight();
-                setMoving();
+                goRight();;
                 this.walkDistance--;
                 setAnimation(1);
                 break;
             case EAST:
                 goRight();
                 stopY();
-                setMoving();
                 this.walkDistance--;
                 setAnimation(1);
                 break;
             case SOUTHEAST:
                 goDown();
                 goRight();
-                setMoving();
                 this.walkDistance--;
                 setAnimation(1);
                 break;
             case SOUTH:
                 goDown();
                 stopX();
-                setMoving();
                 this.walkDistance--;
                 setAnimation(1);
                 break;
             case SOUTHWEST:
                 goDown();
                 goLeft();
-                setMoving();
                 this.walkDistance--;
                 setAnimation(1);
                 break;
             case WEST:
                 goLeft();
                 stopY();
-                setMoving();
                 this.walkDistance--;
                 setAnimation(1);
                 break;
             case NORTHWEST:
                 goUp();
                 goLeft();
-                setMoving();
                 this.walkDistance--;
                 setAnimation(1);
                 break;
             default:
                 stopX();
                 stopY();
-                setIdle();
                 this.walkDistance = 0;
                 setAnimation(0);
         }
     }
+
+    public void attack() {
+        setAnimation(2);
+    }
+
+    /**
+     *
+     * @param i
+     */
+    private void setAnimation(int i) {
+        long time = 0;
+        if(i == 2) {
+            time = 500;
+        }
+        animationQueue.add(new SpritePair(this.allAnimation[i], time));
+    }
+
+    /**
+     *
+     */
+    public void updateAnimation() {
+        long currentTime = System.currentTimeMillis();
+        SpritePair pair = animationQueue.peek();
+        if (pair != null) {
+            if (currentTime > this.waitTime) {
+                //System.out.println("Change animation!");
+                super.setSprite(animationQueue.peek().sprite);
+                this.waitTime = currentTime + animationQueue.peek().time;
+                animationQueue.remove();
+            }
+        }
+    }
+
+//    public void setAnimation(int i) {
+//        super.setSprite(this.allAnimation[i]);
+//    }
 }

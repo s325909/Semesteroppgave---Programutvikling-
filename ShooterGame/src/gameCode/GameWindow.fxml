@@ -2,11 +2,8 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -18,112 +15,84 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<GridPane alignment="center" hgap="10" prefHeight="720.0" prefWidth="1280.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameCode.InitializeGame">
-    <stylesheets><URL value="@StyleGameWindow.css" /></stylesheets>
+<GridPane alignment="center" hgap="10" prefHeight="720.0" prefWidth="1280.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameCode.GameInitializer">
+    <stylesheets><URL value="@StylesGameWindow.css" /></stylesheets>
 
     <children>
         <Pane fx:id="gameWindow" prefHeight="700.0" prefWidth="1280.0" />
       <BorderPane prefHeight="509.0" prefWidth="589.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
-         <top>
-            <MenuBar fx:id="topbar" nodeOrientation="LEFT_TO_RIGHT" prefHeight="8.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
-              <menus>
-                  <Menu mnemonicParsing="false" text="File">
-                      <items>
-                          <MenuItem mnemonicParsing="false" text="New Game" />
-                          <MenuItem mnemonicParsing="false" onAction="#loadGame" text="Load Game" />
-                          <MenuItem mnemonicParsing="false" onAction="#saveGame" text="Save Game" />
-                          <MenuItem mnemonicParsing="false" text="Custom Game" />
-                          <SeparatorMenuItem mnemonicParsing="false" />
-                          <MenuItem mnemonicParsing="false" text="Credits" />
-                          <SeparatorMenuItem mnemonicParsing="false" />
-                          <MenuItem mnemonicParsing="false" onAction="#exitGame" text="Exit Game" />
-                      </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Quicksaving">
-                      <items>
-                          <MenuItem mnemonicParsing="false" text="Quicksave F5" />
-                          <MenuItem mnemonicParsing="false" text="Quicksave F9" />
-                      </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Fullscreen (F12)">
-                      <items>
-                          <MenuItem mnemonicParsing="false" onAction="#changeFullScreen" text="Fullscreen" />
-                      </items>
-                  </Menu>
-              </menus>
-            </MenuBar>
-         </top>
          <bottom>
-            <FlowPane alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="1280.0" rowValignment="TOP" style="-fx-background-color: Gray; -fx-border-color: Black;" BorderPane.alignment="CENTER">
+            <FlowPane fx:id="bottomBar" alignment="CENTER" prefHeight="0.0" prefWidth="1280.0" rowValignment="TOP" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="13.0" prefWidth="19.0" />
-                  <HBox prefHeight="10.0" prefWidth="108.0">
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="100.0">
                      <children>
-                        <ImageView fitHeight="63.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/Art/Icon/hp_icon.png" />
                            </image>
                         </ImageView>
-                        <Text fx:id="playerHP" strokeType="OUTSIDE" strokeWidth="0.0" text="100" textAlignment="CENTER" wrappingWidth="66.13671875">
+                        <Label fx:id="hudHP" alignment="CENTER" prefHeight="40.0" prefWidth="72.0" text="100">
                            <font>
                               <Font size="30.0" />
-                           </font>
-                        </Text>
+                           </font></Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="30.0" prefWidth="99.0">
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="100.0">
                      <children>
-                        <ImageView fitHeight="43.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/Art/Icon/armor_icon.png" />
                            </image>
                         </ImageView>
-                        <Text fx:id="playerArmor" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="58.5625">
+                        <Label fx:id="hudArmor" alignment="CENTER" prefHeight="40.0" prefWidth="58.0" text="50">
                            <font>
                               <Font size="30.0" />
-                           </font>
-                        </Text>
+                           </font></Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="41.0" prefWidth="840.0" />
-                  <HBox prefHeight="18.0" prefWidth="105.0">
+                  <HBox alignment="CENTER" prefHeight="45.0" prefWidth="869.0">
                      <children>
-                        <ImageView fitHeight="42.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                        <Label fx:id="hudWeapon" alignment="CENTER" prefHeight="40.0" text="WEAPON">
+                           <font>
+                              <Font size="30.0" />
+                           </font></Label>
+                     </children></HBox>
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="100.0">
+                     <children>
+                        <Label fx:id="hudMag" alignment="CENTER" prefHeight="40.0" prefWidth="73.0" text="0">
+                           <font>
+                              <Font size="30.0" />
+                           </font></Label>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/Art/Icon/mag_icon.png" />
                            </image>
                         </ImageView>
-                        <Text fx:id="magazineSize" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="44.13671875">
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="100.0">
+                     <children>
+                        <Label fx:id="hudPool" alignment="CENTER" prefHeight="40.0" prefWidth="51.0" text="00">
                            <font>
                               <Font size="30.0" />
                            </font>
-                        </Text>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="20.0" prefWidth="84.0">
-                     <children>
-                        <ImageView fitHeight="41.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                        </Label>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/Art/Icon/pool_icon.png" />
                            </image>
                         </ImageView>
-                        <Text fx:id="poolSize" strokeType="OUTSIDE" strokeWidth="0.0" text="00" textAlignment="CENTER" wrappingWidth="47.171875">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Text>
                      </children>
                   </HBox>
                </children>
             </FlowPane>
          </bottom>
          <center>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <VBox fx:id="gamePaused" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
 
-                  <Label fx:id="gameState" textFill="#850c0c" visible="false">
+                  <Label fx:id="gameState" text="Game Over" textFill="#850c0c" visible="false">
                      <font>
                         <Font name="Copperplate Gothic Bold" size="100.0" />
                      </font>
@@ -131,55 +100,123 @@
                         <Insets bottom="15.0" top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="pressKey" alignment="CENTER" textFill="WHITE" visible="false">
+                  <Label fx:id="pressKey" text="Press ESC to continue" textFill="WHITE" visible="false">
                      <font>
-                        <Font name="Copperplate Gothic Light" size="36.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="15.0" top="15.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Label fx:id="pressKey2" alignment="CENTER" textFill="WHITE" visible="false">
-                     <font>
-                        <Font name="Copperplate Gothic Light" size="36.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="15.0" top="15.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Label fx:id="pressKey3" alignment="CENTER" textFill="WHITE" visible="false">
-                     <font>
-                        <Font name="Copperplate Gothic Light" size="36.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="15.0" top="15.0" />
-                     </VBox.margin>
-                  </Label>
+                        <Font name="Copperplate Gothic Bold" size="50.0" />
+                     </font></Label>
                </children>
             </VBox>
          </center>
-         <right>
-            <FlowPane prefHeight="687.0" prefWidth="89.0" BorderPane.alignment="CENTER">
+         <top>
+            <FlowPane fx:id="topBar" alignment="CENTER" prefHeight="0.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="36.0" prefWidth="138.0" style="-fx-background-color: Gray; -fx-border-color: Black;">
+                  <HBox fx:id="hudTimerBackground" alignment="CENTER" prefHeight="40.0" prefWidth="125.0">
                      <children>
-                        <ImageView fitHeight="44.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../resources/Art/Icon/circle_icon.png" />
+                              <Image url="@../resources/Art/Icon/watch.png" />
                            </image>
                         </ImageView>
-                        <Text fx:id="score" strokeType="OUTSIDE" strokeWidth="0.0" text="00000" textAlignment="RIGHT" wrappingWidth="87.6708984375">
+                        <Label fx:id="hudTimer" alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="77.0" text="0" textFill="#170101">
                            <font>
                               <Font size="30.0" />
                            </font>
-                        </Text>
+                        </Label>
+                     </children></HBox>
+                  <HBox prefHeight="47.0" prefWidth="1020.0" />
+                  <HBox fx:id="hudScoreBackground" alignment="CENTER" prefHeight="40.0" prefWidth="135.0">
+                     <children>
+                        <Label fx:id="hudScore" prefHeight="45.0" prefWidth="86.0" text="00000" textAlignment="CENTER" textFill="#140101">
+                           <font>
+                              <Font size="30.0" />
+                           </font></Label>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/Art/Icon/Coin/coin_rotate_0.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </HBox>
                </children>
             </FlowPane>
-         </right>
-
+         </top>
       </BorderPane>
+      <GridPane prefHeight="722.0" prefWidth="1280.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="638.0" minWidth="10.0" prefWidth="305.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="973.0" minWidth="10.0" prefWidth="610.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="973.0" minWidth="10.0" prefWidth="305.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox fx:id="ingameMenu" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#resumeGame" text="Resume Game" />
+                  <Button mnemonicParsing="false" onAction="#restartGame" text="Restart Game" />
+                  <Button mnemonicParsing="false" text="Load Game" />
+                  <Button fx:id="howToPlay" mnemonicParsing="false" onAction="#showHelp" text="How to Play" />
+                  <Button fx:id="settings" mnemonicParsing="false" onAction="#showSettings" text="Settings" />
+                  <Button mnemonicParsing="false" onAction="#exitGame" text="Exit Game" />
+               </children>
+            </VBox>
+            <VBox fx:id="ingameHelp" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
+               <children>
+                  <Label layoutX="89.0" layoutY="71.0" text="HOW TO PLAY" textFill="RED">
+                     <font>
+                        <Font size="96.0" />
+                     </font>
+                  </Label>
+                  <Label text="WASD/ArrowKeys to move" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font></Label>
+                  <Label layoutX="515.0" layoutY="341.0" text="Space to shoot" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="515.0" layoutY="370.0" text="R to reload" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="515.0" layoutY="399.0" text="1, 2, 3, 4/f to switch weapons" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="395.0" layoutY="428.0" text="F12 for fullscreen" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="395.0" layoutY="457.0" text="F5 to quick save, F9 to quick load" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="395.0" layoutY="428.0" text="P to pause" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="557.0" layoutY="515.0" text="M to mute" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="557.0" layoutY="544.0" text="ESC for menu/pause" textFill="RED">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="back_Help" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#hideHelp" text="Back" />
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
    </children>
    <columnConstraints>
       <ColumnConstraints hgrow="ALWAYS" />

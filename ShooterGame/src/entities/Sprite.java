@@ -7,9 +7,8 @@ public class Sprite {
 
     private double width;
     private double height;
-    private ImageView iv;
 
-    private Image singleImage;
+    private ImageView iv;
     private Image[] frames;
     private double duration;
 
@@ -18,14 +17,15 @@ public class Sprite {
 
     public Sprite(ImageView iv, String spriteFileName) {
         this.iv = iv;
+        this.frames = new Image[1];
         try {
             String resource = getClass().getResource(spriteFileName).toURI().toString();
-            this.singleImage = new Image(resource, 25, 25, true, true);
+            this.frames[0] = new Image(resource, 25, 25, true, true);
         } catch (Exception e) {
             System.out.println("Error: Unable to find requested file and SingleImage couldn't be created");
         }
-        this.width = this.singleImage.getWidth();
-        this.height = this.singleImage.getHeight();
+        this.width = this.frames[0].getWidth();
+        this.height = this.frames[0].getHeight();
     }
 
     public Sprite(ImageView iv, String spriteFileName, String extension, int numberImages) {
@@ -52,18 +52,12 @@ public class Sprite {
      * Method for determining how quickly the array of Sprites should cycle
      * @param time
      */
-    public void setFrame(double time) {
+    protected void setFrame(double time) {
         int index = (int)((time % (frames.length * duration)) / duration);
         this.iv.setImage(frames[index]);
         //this.iv.setFitWidth(maxWidth);
         //this.iv.setFitHeight(maxHeight);
     }
-
-//    public void playAllImages(Image[] images) {
-//        for(int i = 0; i < images.length; i++) {
-//            this.iv.setImage(images[i]);
-//        }
-//    }
 
     public void setMax(double imageWidth, double imageHeight) {
         this.maxWidth = imageWidth;

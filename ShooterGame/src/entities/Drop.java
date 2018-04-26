@@ -2,60 +2,43 @@ package entities;
 
 public class Drop extends Entity {
 
-    private boolean drawn;
-    private Sprite[] sprites;
-
-    public Drop() {
-    }
-
-    public Drop(int positionX, int positionY) {
-        super(positionX, positionY);
-    }
+    private int scorePickup;
+    private int healthPickup;
+    private int armorPickup;
+    private int pistolAmmoPickup;
+    private int rifleAmmoPickup;
+    private int shotgunAmmoPickup;
 
     public Drop(String filename, int positionX, int positionY) {
         super(filename, positionX, positionY);
-        loadPowerupImages();
     }
 
-    public void loadPowerupImages() {
-        String[] imageFiles = {
-                "/resources/Art/Icon/hp_icon.png",
-                "/resources/Art/Icon/armor_icon.png",
-                "/resources/Art/Icon/mag_icon.png",
-                "/resources/Art/Icon/pool_icon.png",
-                "/resources/Art/Icon/speed_icon.png"};
-
-        this.sprites = loadSprite(imageFiles);
+    public Drop(Sprite idleSprite, int positionX, int positionY) {
+        super(idleSprite, positionX, positionY);
     }
 
-    public void setSprite(int i) {
-        super.setSprite(this.sprites[i]);
-    }
+    // WIP
+    // Vil at den skal ha random egenskap om hva den gir spiller
+    // og da må også ikonet endre seg til tilsvarende egenskap
+    // Evt. ha score += 25 som standard for de som spawner random
+    public Drop(String filename, String extension, int numberImages, int positionX, int positionY) {
+        super(filename, extension, numberImages, positionX, positionY);
 
-    public void randomPickup(Player player) {
-        int randomNumber = (int)(Math.random()*10) % 10;
+        this.scorePickup = 25;
+
+        int randomNumber = (int)(Math.random()*10) & 10;
         if (randomNumber < 2) {
-            setSprite(0);
-            player.healthPickup(25);
+            this.healthPickup = 25;
         } else if (randomNumber < 4) {
-            setSprite(2);
-            player.getMagazinePistol().changeBulletNumber(player.getMagazinePistol().getMaxSize());
+            this.armorPickup = 25;
         } else if (randomNumber < 5) {
-            setSprite(3);
-            player.getMagazineRifle().changeBulletNumber(player.getMagazineRifle().getMaxSize());
+            this.pistolAmmoPickup = 15;
         } else if (randomNumber < 6) {
-            setSprite(3);
-            player.getMagazineShotgun().changeBulletNumber(player.getMagazineShotgun().getMaxSize());
+            this.rifleAmmoPickup = 30;
         } else if (randomNumber < 8) {
-            setSprite(1);
-            player.armorPickup(25);
+            this.shotgunAmmoPickup = 8;
         } else if (randomNumber <= 9) {
-            setSprite(4);
             //player.setMovementSpeed(player.getMovementSpeed() + 5);
         }
     }
-
-    public boolean isDrawn() { return drawn; };
-
-    public void setDrawn() { drawn = true; };
 }

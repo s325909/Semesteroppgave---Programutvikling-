@@ -8,49 +8,32 @@ public class Movable extends Entity {
         IDLE, NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST
     }
 
+    private int healthPoints;
     private double velocityX;
     private double velocityY;
-
-    private boolean idleSet = false;
-    private Sprite spriteIdle;
-    private boolean moveSet = false;
-    private Sprite spriteMoving;
-    private boolean meleeSet = false;
-    private Sprite spriteMelee;
-
-    private Direction direction;
-
     private double movementSpeed;
 
-    private AudioClip[] basicSounds;
     private AudioClip[] audioClips;
-
-    public Movable() { }
-
-    public Movable(int positionX, int positionY) {
-        super(positionX, positionY);
-    }
-
-    public Movable(String filename, int positionX, int positionY) {
-        super(filename, positionX, positionY);
-    }
-
-    public Movable(int positionX, int positionY, double movementSpeed) {
-        super(positionX, positionY);
-        this.movementSpeed= movementSpeed;
-    }
+    private Direction direction;
 
     public Movable(String filename, int positionX, int positionY, double movementSpeed) {
         super(filename, positionX, positionY);
         this.movementSpeed = movementSpeed;
+        this.velocityX = 0;
+        this.velocityY = 0;
+        this.direction = Direction.IDLE;
     }
 
-    public Movable(String filename, String extension, int numberImages, int positionX, int positionY, int healthPoints, double movementSpeed) {
-        super(filename, extension, numberImages, positionX, positionY, healthPoints);
+    public Movable(Sprite idleSprite, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed) {
+        super(idleSprite, positionX, positionY);
+        this.audioClips = audioClips;
+        this.healthPoints = healthPoints;
         this.movementSpeed = movementSpeed;
+        this.velocityX = 0;
+        this.velocityY = 0;
+        this.direction = Direction.IDLE;
     }
 
-    //public void update(List<Entity> entityList, double time) {
     public void update(double time) {
         this.getSprite().setFrame(time);
 
@@ -78,7 +61,7 @@ public class Movable extends Entity {
             }
         } else if (getVelocityX() < 0) {
             if (getVelocityY() < 0) {
-                this.getSprite().getImageView().setRotate(225);
+               this.getSprite().getImageView().setRotate(225);
                 this.direction = Direction.NORTHWEST;
             } else if (getVelocityY() > 0) {
                 this.getSprite().getImageView().setRotate(135);
@@ -95,6 +78,8 @@ public class Movable extends Entity {
                 this.getSprite().getImageView().setRotate(90);
                 this.direction = Direction.SOUTH;
             }
+        } else if (getVelocityX() == 0 && getVelocityY() == 0) {
+            this.direction = Direction.IDLE;
         }
 
         // Check for collision between entities and update position and/or velocity
@@ -105,46 +90,6 @@ public class Movable extends Entity {
 //            }
 //        }
     }
-
-    // Functions for changing entity velocity
-//    public void move(Direction direction) {
-//        double left = 0;
-//        double right = 0;
-//        double up = 0;
-//        double down = 0;
-//
-//        if (direction == Direction.NORTH)
-//            up = -movementSpeed;
-//        else if (direction == Direction.SOUTH)
-//            down = movementSpeed;
-//        else if (direction == Direction.EAST)
-//            right = movementSpeed;
-//        else if (direction == Direction.WEST)
-//            left = -movementSpeed;
-//
-//        setVelocityX(right + left);
-//        setVelocityY(up + down);
-//    }
-//
-//    public void stop(Direction direction) {
-//        double left = 0;
-//        double right = 0;
-//        double up = 0;
-//        double down = 0;
-//
-//        if (direction == Direction.NORTH)
-//            up = 0;
-//        else if (direction == Direction.SOUTH)
-//            down = 0;
-//        else if (direction == Direction.EAST)
-//            right = 0;
-//        else if (direction == Direction.WEST)
-//            left = 0;
-//
-//        setVelocityX(right + left);
-//        setVelocityY(up + down);
-//    }
-
 
     public void goLeft() {
         setVelocityX(-movementSpeed);
@@ -170,61 +115,31 @@ public class Movable extends Entity {
         setVelocityY(0.0);
     }
 
-    public void setSpriteIdle(String spriteFileName, String extension, int numberImages) {
-        this.idleSet = true;
-        this.spriteIdle = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
-    }
-
-    public void setSpriteMoving(String spriteFileName, String extension, int numberImages) {
-        this.moveSet = true;
-        this.spriteMoving = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
-    }
-
-    public void setSpriteMelee(String spriteFileName, String extension, int numberImages) {
-        this.meleeSet = true;
-        this.spriteMelee = new Sprite(super.getIv(), spriteFileName, extension, numberImages);
-    }
-
-    public void setIdle() {
-        if (this.idleSet)
-            super.setSprite(this.spriteIdle);
-    }
-
-    public void setMoving() {
-        if (this.moveSet)
-            super.setSprite(this.spriteMoving);
-    }
-
     public void playIdleSound(double time, int everyNthSecond) {
         int dur = (int)(time % everyNthSecond);
         System.out.println(dur);
         if (dur == 0) {
-
         }
     }
 
-    public AudioClip[] getBasicSounds() {
-        return basicSounds;
+    public void playAudioClip(int i) {
+        this.audioClips[i].play();
     }
 
-    public void setBasicSounds(AudioClip[] basicSounds) {
-        this.basicSounds = basicSounds;
+    public boolean stillAlive() {
+        if (this.healthPoints <= 0) {
+            setAlive(false);
+            return false;
+        }
+        return true;
     }
 
-    public Direction getDirection() {
-        return direction;
+    public int getHealthPoints() {
+        return this.healthPoints;
     }
 
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
-
-    public double getMovementSpeed() {
-        return movementSpeed;
-    }
-
-    public void setMovementSpeed(double movementSpeed) {
-        this.movementSpeed = movementSpeed;
+    public void setHealthPoints(int health) {
+        this.healthPoints = health;
     }
 
     public double getVelocityX() {
@@ -241,5 +156,39 @@ public class Movable extends Entity {
 
     public void setVelocityY(double velocityY) {
         this.velocityY = velocityY;
+    }
+
+    public void setVelocity(double velocityX, double velocityY) {
+        this.velocityX = velocityX;
+        this.velocityY = velocityY;
+    }
+
+    public double getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    public void setMovementSpeed(double movementSpeed) {
+        this.movementSpeed = movementSpeed;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    /**
+     * Inner class for handling
+     */
+    public class SpritePair {
+        Sprite sprite;
+        long time;
+
+        public SpritePair(Sprite sprite, long time) {
+            this.sprite = sprite;
+            this.time = time;
+        }
     }
 }
