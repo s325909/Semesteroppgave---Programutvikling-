@@ -423,7 +423,7 @@ public class GameInitializer implements Initializable{
             root = loader.load();
             SettingsController controller = loader.getController();
             controller.showReturnToMenu(false);
-            windowSettings.setScene(new Scene(root, 450, 450));
+            windowSettings.setScene(new Scene(root, 500, 500));
             windowSettings.show();
         }catch (Exception e){
             System.out.println("Error" + e.getMessage());
