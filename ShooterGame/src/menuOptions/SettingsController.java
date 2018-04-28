@@ -1,5 +1,7 @@
 package menuOptions;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,9 +13,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -28,8 +33,29 @@ public class SettingsController implements Initializable {
     private Stage window_GameMenu;
     private Parent root_GameMenu;
 
+    private Media media;
+    private MediaPlayer mediaPlayer;
+
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        String path = new File("src/resources/Sound/Soundtrack/Doom2.mp3").getAbsolutePath();
+        media = new Media(new File(path).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+
+        musicVolumeSlider.setValue(mediaPlayer.getVolume() * 100);
+        musicVolumeSlider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                mediaPlayer.setVolume(musicVolumeSlider.getValue() / 100);
+            }
+        });
+
+
+
+
+        /*
         musicVolumeSlider.valueProperty().addListener(new javafx.beans.value.ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -45,6 +71,7 @@ public class SettingsController implements Initializable {
                         String.valueOf((int) soundVolumeSlider.getValue()));
             }
         });
+        */
     }
 
     public void showReturnToMenu(boolean visible){

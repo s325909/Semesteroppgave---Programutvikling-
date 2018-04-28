@@ -69,11 +69,13 @@ public class GameInitializer implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         //Create an object of MusicPlayer, which includes what file to play and automatically starts playing
+        /*
         try {
             musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
         } catch (Exception e) {
             System.out.println("Error: Could not find sound file");
-      }
+        }
+        */
 
         // Select number of zombies to create, and load all assets
         setNbrZombies(5);
@@ -141,7 +143,7 @@ public class GameInitializer implements Initializable{
                 showMenu();
 
             } else if (e.getCode() == KeyCode.M) {
-                musicPlayer.muteVolume();
+                //musicPlayer.muteVolume();
 
             } else if (e.getCode() == KeyCode.F5){
                 game.saveTheGame("quicksave");

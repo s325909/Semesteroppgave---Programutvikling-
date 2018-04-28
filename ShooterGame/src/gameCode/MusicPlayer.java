@@ -9,6 +9,8 @@ import java.io.File;
 
 public class MusicPlayer {
 
+    /*
+
     private File file;
     private Media media;
     private MediaPlayer mediaPlayer;
@@ -91,4 +93,5 @@ public class MusicPlayer {
     public void setVolume(double volume) {
         this.setVolume(volume);
     }
+    */
 }
