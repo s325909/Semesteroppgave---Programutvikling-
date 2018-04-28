@@ -26,7 +26,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Settings.fxml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Settings.fxml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/menuOptions/Settings.fxml">
           <provider editor-type-id="text-editor" />
           <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
@@ -97,11 +97,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SettingsController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SettingsController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/menuOptions/SettingsController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
-              <caret line="50" column="72" selection-start-line="50" selection-start-column="72" selection-end-line="50" selection-end-column="72" />
+            <state relative-caret-position="236">
+              <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
             </state>
           </provider>
         </entry>
@@ -160,8 +160,8 @@
         <option value="$PROJECT_DIR$/src/gameCode/GameWindow.fxml" />
         <option value="$PROJECT_DIR$/src/gameCode/MusicPlayer.java" />
         <option value="$PROJECT_DIR$/src/gameCode/GameInitializer.java" />
-        <option value="$PROJECT_DIR$/src/menuOptions/SettingsController.java" />
         <option value="$PROJECT_DIR$/src/menuOptions/Settings.fxml" />
+        <option value="$PROJECT_DIR$/src/menuOptions/SettingsController.java" />
       </list>
     </option>
   </component>
@@ -379,7 +379,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46012000" />
+    <option name="totallyTimeSpent" value="46264000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
@@ -688,16 +688,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/menuOptions/SettingsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="50" column="72" selection-start-line="50" selection-start-column="72" selection-end-line="50" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/menuOptions/Settings.fxml">
       <provider editor-type-id="text-editor" />
       <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/menuOptions/SettingsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
+        </state>
+      </provider>
     </entry>
   </component>
   <component name="masterDetails">

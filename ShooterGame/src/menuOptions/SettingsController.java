@@ -49,8 +49,12 @@ public class SettingsController implements Initializable {
             @Override
             public void invalidated(Observable observable) {
                 mediaPlayer.setVolume(musicVolumeSlider.getValue() / 100);
+                musicVolumeNumber.textProperty().setValue(
+                        String.valueOf((int) musicVolumeSlider.getValue()));
             }
         });
+
+        
 
 
 
