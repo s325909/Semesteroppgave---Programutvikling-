@@ -4,6 +4,7 @@ import entities.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,8 @@ public class Game {
     private void onUpdate(double time) {
         secondsCounter = (int)time;
         bullets = player.getBulletList();
+
+        //if (player.getNode().intersects(Shape.intersect(gameInitializer.getStone())))
 
         // Create Drop entities with random position
         if (dropsExtra.size() < 0) {

@@ -18,6 +18,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import menuOptions.SettingsController;
 
@@ -35,6 +37,8 @@ public class GameInitializer implements Initializable{
     @FXML private VBox gamePaused, ingameMenu, ingameHelp;
 
     @FXML private Button back_Help, settings;
+
+    @FXML private Circle stone, stone2;
 
     private Stage stage = new Stage();
 
@@ -60,6 +64,8 @@ public class GameInitializer implements Initializable{
 
     final private boolean DEBUG = false;
 
+    private ArrayList<Shape> nodes;
+
     /***
      * Method which will create all the initial Entities and other objects to present when a new game starts.
      * @param location f
@@ -67,6 +73,10 @@ public class GameInitializer implements Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        nodes = new ArrayList<>();
+        nodes.add(stone);
+
 
         //Create an object of MusicPlayer, which includes what file to play and automatically starts playing
         try {
@@ -126,6 +136,13 @@ public class GameInitializer implements Initializable{
      * movePlayer() method in Player is called in order to transfer input into
      * movement of the Player object.
      */
+
+    /*
+    public boolean intersects(Player player){
+        return this.stone.intersects(player);
+    }
+    */
+
     private void getKeyPressed(){
 
         gameWindow.getScene().setOnKeyPressed(e -> {
@@ -493,6 +510,8 @@ public class GameInitializer implements Initializable{
     public boolean isDEBUG() {
         return DEBUG;
     }
+
+
 
     /**
      * Inner class used in conjunction with creating a 2-dimensional array of type Sprite.
