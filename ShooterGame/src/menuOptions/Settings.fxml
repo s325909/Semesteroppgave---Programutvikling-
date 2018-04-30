@@ -46,8 +46,8 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Slider fx:id="musicVolumeSlider" majorTickUnit="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="258.0" snapToTicks="true" />
-                        <Text fx:id="musicVolumeNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="100" wrappingWidth="56.13671875">
+                        <Slider fx:id="musicVolumeSlider" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="258.0" snapToTicks="true" />
+                        <Text fx:id="musicVolumeNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="10" wrappingWidth="56.13671875">
                            <font>
                               <Font size="20.0" />
                            </font>

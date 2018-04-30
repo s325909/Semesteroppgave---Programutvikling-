@@ -1,5 +1,6 @@
 package menuOptions;
 
+import gameCode.MusicPlayer;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
@@ -39,18 +40,23 @@ public class SettingsController implements Initializable {
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+
+
         String path = new File("src/resources/Sound/Soundtrack/Doom2.mp3").getAbsolutePath();
         media = new Media(new File(path).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
 
-        musicVolumeSlider.setValue(mediaPlayer.getVolume() * 100);
+
+
+        musicVolumeSlider.setValue(mediaPlayer.getVolume() * 99);
         musicVolumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                mediaPlayer.setVolume(musicVolumeSlider.getValue() / 100);
+                mediaPlayer.setVolume(musicVolumeSlider.getValue() / 99);
                 musicVolumeNumber.textProperty().setValue(
-                        String.valueOf((int) musicVolumeSlider.getValue()));
+                        String.valueOf((int) musicVolumeSlider.getValue())
+                );
             }
         });
 
