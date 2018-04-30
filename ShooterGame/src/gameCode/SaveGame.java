@@ -22,16 +22,6 @@ public class SaveGame {
     private List<Drop> drops;
     private List<Drop> dropsExtra;
 
-    public SaveGame(Player player, Game game, List<Zombie> zombies, List<Bullet> bullets, List<Drop> drops, List<Drop> dropsExtra) {
-        this.player = player;
-        this.game = game;
-        this.zombies = zombies;
-        this.bullets = bullets;
-        this.drops = drops;
-        this.dropsExtra = dropsExtra;
-        this.dataHandler = new DataHandler();
-    }
-
     public SaveGame() {this.dataHandler = new DataHandler();};
 
     /**
