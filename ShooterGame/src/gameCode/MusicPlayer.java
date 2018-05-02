@@ -5,15 +5,14 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
+import javax.naming.Context;
 import java.io.File;
 
 public class MusicPlayer {
 
-    /*
-
     private File file;
     private Media media;
-    private MediaPlayer mediaPlayer;
+    public static MediaPlayer mediaPlayer;
 
     private boolean paused = false;
     private boolean muted = false;
@@ -23,7 +22,6 @@ public class MusicPlayer {
         this.file = new File(filename);
         this.media = new Media(this.file.toURI().toString());
         this.mediaPlayer = new MediaPlayer(this.media);
-        //this.mediaPlayer.setVolume(0.1);
         this.mediaPlayer.setAutoPlay(true);
     }
 
@@ -94,6 +92,6 @@ public class MusicPlayer {
         this.setVolume(volume);
     }
 
-    */
+
 
 }

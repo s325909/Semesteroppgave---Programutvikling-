@@ -34,28 +34,25 @@ public class SettingsController implements Initializable {
     private Stage window_GameMenu;
     private Parent root_GameMenu;
 
-    private Media media, media2;
-    private MediaPlayer mediaPlayer, mediaPlayer2;
+
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        String path = new File("src/resources/Sound/Soundtrack/Doom2.mp3").getAbsolutePath();
-        media = new Media(new File(path).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
 
-        musicVolumeSlider.setValue(mediaPlayer.getVolume() * 10);
+
+        musicVolumeSlider.setValue(MusicPlayer.mediaPlayer.getVolume() * 10);
         musicVolumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                mediaPlayer.setVolume(musicVolumeSlider.getValue() / 10);
+                MusicPlayer.mediaPlayer.setVolume(musicVolumeSlider.getValue() / 10);
                 musicVolumeNumber.textProperty().setValue(
                         String.valueOf((int) musicVolumeSlider.getValue())
                 );
             }
         });
 
+        /*
         String path2 = new File("src/resources/Sound/Sound Effects/Player/player_breathing_calm.wav").getAbsolutePath();
         media2 = new Media(new File(path2).toURI().toString());
         mediaPlayer2 = new MediaPlayer(media2);
@@ -71,6 +68,7 @@ public class SettingsController implements Initializable {
                 );
             }
         });
+        */
     }
 
     public void showReturnToMenu(boolean visible){
