@@ -39,6 +39,11 @@ public class SettingsController implements Initializable {
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        try {
+            MusicPlayer musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
+        } catch (Exception e) {
+            System.out.println("Error: Could not find sound file");
+        }
 
 
         musicVolumeSlider.setValue(MusicPlayer.mediaPlayer.getVolume() * 10);
