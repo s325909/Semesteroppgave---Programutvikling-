@@ -61,8 +61,8 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Slider fx:id="soundVolumeSlider" majorTickUnit="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="260.0" snapToTicks="true" value="50.0" />
-                        <Text fx:id="soundVolumeNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="50">
+                        <Slider fx:id="soundVolumeSlider" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="260.0" snapToTicks="true" />
+                        <Text fx:id="soundVolumeNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="10">
                            <font>
                               <Font size="20.0" />
                            </font>

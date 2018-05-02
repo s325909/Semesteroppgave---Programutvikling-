@@ -49,30 +49,17 @@ public class SettingsController implements Initializable {
 
 
 
-        musicVolumeSlider.setValue(mediaPlayer.getVolume() * 99);
+        musicVolumeSlider.setValue(mediaPlayer.getVolume() * 10);
         musicVolumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                mediaPlayer.setVolume(musicVolumeSlider.getValue() / 99);
+                mediaPlayer.setVolume(musicVolumeSlider.getValue() / 10);
                 musicVolumeNumber.textProperty().setValue(
                         String.valueOf((int) musicVolumeSlider.getValue())
                 );
             }
         });
 
-        
-
-
-
-
-        /*
-        musicVolumeSlider.valueProperty().addListener(new javafx.beans.value.ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                musicVolumeNumber.textProperty().setValue(
-                        String.valueOf((int) musicVolumeSlider.getValue()));
-            }
-        });
 
         soundVolumeSlider.valueProperty().addListener(new javafx.beans.value.ChangeListener<Number>() {
             @Override
@@ -81,7 +68,6 @@ public class SettingsController implements Initializable {
                         String.valueOf((int) soundVolumeSlider.getValue()));
             }
         });
-        */
     }
 
     public void showReturnToMenu(boolean visible){
