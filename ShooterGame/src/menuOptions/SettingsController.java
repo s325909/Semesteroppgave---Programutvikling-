@@ -34,20 +34,16 @@ public class SettingsController implements Initializable {
     private Stage window_GameMenu;
     private Parent root_GameMenu;
 
-    private Media media;
-    private MediaPlayer mediaPlayer;
+    private Media media, media2;
+    private MediaPlayer mediaPlayer, mediaPlayer2;
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
 
         String path = new File("src/resources/Sound/Soundtrack/Doom2.mp3").getAbsolutePath();
         media = new Media(new File(path).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
-
-
 
         musicVolumeSlider.setValue(mediaPlayer.getVolume() * 10);
         musicVolumeSlider.valueProperty().addListener(new InvalidationListener() {
@@ -60,12 +56,19 @@ public class SettingsController implements Initializable {
             }
         });
 
+        String path2 = new File("src/resources/Sound/Sound Effects/Player/player_breathing_calm.wav").getAbsolutePath();
+        media2 = new Media(new File(path2).toURI().toString());
+        mediaPlayer2 = new MediaPlayer(media2);
+        mediaPlayer2.setAutoPlay(true);
 
-        soundVolumeSlider.valueProperty().addListener(new javafx.beans.value.ChangeListener<Number>() {
+        soundVolumeSlider.setValue(mediaPlayer2.getVolume() * 10);
+        soundVolumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+            public void invalidated(Observable observable) {
+                mediaPlayer2.setVolume(soundVolumeSlider.getValue() / 10);
                 soundVolumeNumber.textProperty().setValue(
-                        String.valueOf((int) soundVolumeSlider.getValue()));
+                        String.valueOf((int) soundVolumeSlider.getValue())
+                );
             }
         });
     }
