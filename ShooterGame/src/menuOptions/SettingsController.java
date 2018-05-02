@@ -82,6 +82,9 @@ public class SettingsController implements Initializable {
 
     @FXML
     public void returnToMenu(ActionEvent event) {
+
+        MusicPlayer.mediaPlayer.stop();
+
         try {
             if (event.getSource() == returnToMenu) {
                 window_GameMenu = (Stage) returnToMenu.getScene().getWindow();
