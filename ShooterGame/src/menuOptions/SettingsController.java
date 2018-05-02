@@ -1,5 +1,6 @@
 package menuOptions;
 
+import gameCode.GameInitializer;
 import gameCode.MusicPlayer;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -40,12 +41,13 @@ public class SettingsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         /*
+
         try {
             MusicPlayer musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
         } catch (Exception e) {
             System.out.println("Error: Could not find sound file");
         }
-        */
+
 
 
         musicVolumeSlider.setValue(MusicPlayer.mediaPlayer.getVolume() * 10);
@@ -59,23 +61,39 @@ public class SettingsController implements Initializable {
             }
         });
 
-        /*
-        String path2 = new File("src/resources/Sound/Sound Effects/Player/player_breathing_calm.wav").getAbsolutePath();
-        media2 = new Media(new File(path2).toURI().toString());
-        mediaPlayer2 = new MediaPlayer(media2);
-        mediaPlayer2.setAutoPlay(true);
+        */
 
-        soundVolumeSlider.setValue(mediaPlayer2.getVolume() * 10);
+
+        soundVolumeSlider.setValue(GameInitializer.weaponSounds[0].getVolume() * 10);
+        soundVolumeSlider.setValue(GameInitializer.weaponSounds[1].getVolume() * 10);
+        soundVolumeSlider.setValue(GameInitializer.weaponSounds[2].getVolume() * 10);
+        soundVolumeSlider.setValue(GameInitializer.weaponSounds[3].getVolume() * 10);
+        soundVolumeSlider.setValue(GameInitializer.weaponSounds[4].getVolume() * 10);
+        soundVolumeSlider.setValue(GameInitializer.weaponSounds[5].getVolume() * 10);
+        soundVolumeSlider.setValue(GameInitializer.weaponSounds[6].getVolume() * 10);
+        soundVolumeSlider.setValue(GameInitializer.weaponSounds[7].getVolume() * 10);
+
+
+
+
         soundVolumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                mediaPlayer2.setVolume(soundVolumeSlider.getValue() / 10);
+                GameInitializer.weaponSounds[0].setVolume(soundVolumeSlider.getValue() / 10);
+                GameInitializer.weaponSounds[1].setVolume(soundVolumeSlider.getValue() / 10);
+                GameInitializer.weaponSounds[2].setVolume(soundVolumeSlider.getValue() / 10);
+                GameInitializer.weaponSounds[3].setVolume(soundVolumeSlider.getValue() / 10);
+                GameInitializer.weaponSounds[4].setVolume(soundVolumeSlider.getValue() / 10);
+                GameInitializer.weaponSounds[5].setVolume(soundVolumeSlider.getValue() / 10);
+                GameInitializer.weaponSounds[6].setVolume(soundVolumeSlider.getValue() / 10);
+                GameInitializer.weaponSounds[7].setVolume(soundVolumeSlider.getValue() / 10);
+
                 soundVolumeNumber.textProperty().setValue(
                         String.valueOf((int) soundVolumeSlider.getValue())
                 );
             }
         });
-        */
+
     }
 
     public void showReturnToMenu(boolean visible){
