@@ -4,8 +4,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class AnimationHandler {
-    ImageView iv;
-    Image[][] frames;
+    private ImageView iv;
+    private Image[] frame;
+    private Image[][] frames;
 
     int activeI;
     int activeJ;
@@ -16,6 +17,12 @@ public class AnimationHandler {
     private double maxHeight;
 
     private double duration;
+
+    public AnimationHandler(Image[] allImages) {
+        this.iv = new ImageView();
+        this.frame = allImages;
+        this.duration = 0.032;
+    }
 
     public AnimationHandler(Image[][] allImages) {
         this.iv = new ImageView();

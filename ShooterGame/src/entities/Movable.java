@@ -136,14 +136,6 @@ public class Movable extends Entity {
         this.audioClips[i].play();
     }
 
-    public boolean stillAlive() {
-        if (this.healthPoints <= 0) {
-            setAlive(false);
-            return false;
-        }
-        return true;
-    }
-
     public int getHealthPoints() {
         return this.healthPoints;
     }

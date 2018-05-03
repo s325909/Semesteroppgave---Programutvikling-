@@ -35,7 +35,7 @@ public class Player extends Movable {
     private long fireWaitTime;
 
     public Player(Sprite[][] allAnimation, AudioClip[] basicSounds, AudioClip[] weaponSounds, int positionX, int positionY, int healthPoints, int armor) {
-        super(allAnimation[0][0], basicSounds, positionX, positionY, healthPoints, 1.0);
+        super(allAnimation[0][0], basicSounds, positionX, positionY, healthPoints, 5.0);
         this.allAnimation = allAnimation;
         this.weaponSounds = weaponSounds;
         this.animationQueue = new LinkedList<SpritePair>();
@@ -484,6 +484,48 @@ public class Player extends Movable {
         }
     }
 
+    /**
+     * Method for retrieving information about the Player object and turning these to appropriate
+     * variables of type DataHandler.Configuration, for further use during saving.
+     * @return Returns an object of type DataHandler.Configuration
+     */
+    public DataHandler.Configuration getConfiguration() {
+        DataHandler.Configuration playerCfg = new DataHandler.Configuration();
+        playerCfg.health = this.getHealthPoints();
+        playerCfg.armor = this.getArmor();
+        playerCfg.posX = this.getPositionX();
+        playerCfg.posY = this.getPositionY();
+        playerCfg.velX = this.getVelocityX();
+        playerCfg.velY = this.getVelocityY();
+        playerCfg.movementSpeed = this.getMovementSpeed();
+        playerCfg.direction = this.getDirection();
+        playerCfg.equipped = this.getEquippedWeapon();
+        playerCfg.magPistol = this.getMagazinePistol().getNumberBullets();
+        playerCfg.poolPistol = this.getMagazinePistol().getCurrentPool();
+        playerCfg.magRifle = this.getMagazineRifle().getNumberBullets();
+        playerCfg.poolRifle = this.getMagazineRifle().getCurrentPool();
+        playerCfg.magShotgun = this.getMagazineShotgun().getNumberBullets();
+        playerCfg.poolShotgun = this.getMagazineShotgun().getCurrentPool();
+        return playerCfg;
+    }
+
+    public void setConfiguration(DataHandler.Configuration playerCfg) {
+        this.setHealthPoints(playerCfg.health);
+        this.setArmor(playerCfg.armor);
+        this.setPosition(playerCfg.posX, playerCfg.posY);
+        this.setTranslateNode(playerCfg.posX, playerCfg.posY);
+        this.setVelocity(playerCfg.velX, playerCfg.velY);
+        this.setMovementSpeed(playerCfg.movementSpeed);
+        this.setDirection(playerCfg.direction);
+        this.setEquippedWeapon(playerCfg.equipped);
+        this.getMagazinePistol().setNumberBullets(playerCfg.magPistol);
+        this.getMagazinePistol().setCurrentPool(playerCfg.poolPistol);
+        this.getMagazineRifle().setNumberBullets(playerCfg.magRifle);
+        this.getMagazineRifle().setCurrentPool(playerCfg.poolRifle);
+        this.getMagazineShotgun().setNumberBullets(playerCfg.magShotgun);
+        this.getMagazineShotgun().setCurrentPool(playerCfg.poolShotgun);
+    }
+
     public int getArmor() {
         return armor;
     }
@@ -522,26 +564,6 @@ public class Player extends Movable {
 
     public void setEquippedWeapon(WeaponTypes equippedWeapon) {
         this.equippedWeapon = equippedWeapon;
-    }
-
-    public DataHandler.Configuration getConfiguration() {
-        DataHandler.Configuration playerCfg = new DataHandler.Configuration();
-        playerCfg.health = this.getHealthPoints();
-        playerCfg.armor = this.getArmor();
-        playerCfg.posX = this.getPositionX();
-        playerCfg.posY = this.getPositionY();
-        playerCfg.velX = this.getVelocityX();
-        playerCfg.velY = this.getVelocityY();
-        playerCfg.movementSpeed = this.getMovementSpeed();
-        playerCfg.direction = this.getDirection();
-        playerCfg.equipped = this.getEquippedWeapon();
-        playerCfg.magPistol = this.getMagazinePistol().getNumberBullets();
-        playerCfg.poolPistol = this.getMagazinePistol().getCurrentPool();
-        playerCfg.magRifle = this.getMagazineRifle().getNumberBullets();
-        playerCfg.poolRifle = this.getMagazineRifle().getCurrentPool();
-        playerCfg.magShotgun = this.getMagazineShotgun().getNumberBullets();
-        playerCfg.poolShotgun = this.getMagazineShotgun().getCurrentPool();
-        return playerCfg;
     }
 
     /***

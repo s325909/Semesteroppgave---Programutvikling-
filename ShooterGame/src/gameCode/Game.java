@@ -247,28 +247,132 @@ public class Game {
     }
 
     public void saveGame(String filename) {
-        SaveGame saveGame = new SaveGame();
         DataHandler.GameConfiguration gameCfg = getGameConfiguration();
-        saveGame.save(filename, gameCfg);
+
+        if (dataHandler.createSaveFile(filename, gameCfg)) {
+            System.out.println("Save game");
+            System.out.println("GameScore: " + gameCfg.gameScore);
+            System.out.println("Player HP: " + gameCfg.player.health);
+            System.out.println("Player Armor: " + gameCfg.player.armor);
+            System.out.println("Player X: " + gameCfg.player.posX);
+            System.out.println("Player Y: " + gameCfg.player.posY);
+            System.out.println("NbrZombies: " + gameCfg.zombies.size());
+        } else {
+            fileAlert(false);
+        }
     }
 
-    public void loadGame() {
-        SaveGame saveGame = new SaveGame();
-        saveGame.load("testsave");
+    public void loadGame(String filename) {
+        DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
+
+        if (dataHandler.readSaveFile(filename, gameCfg)) {
+            System.out.println("Load game");
+            System.out.println("GameScore: " + gameCfg.gameScore);
+            System.out.println("Player HP: " + gameCfg.player.health);
+            System.out.println("Player Armor: " + player.getArmor());
+            System.out.println("Player X: " + gameCfg.player.posX);
+            System.out.println("Player Y: " + gameCfg.player.posY);
+            System.out.println("NbrZombies: " + gameCfg.zombies.size());
+
+            setGameConfiguration(gameCfg);
+        } else {
+            fileAlert(true);
+        }
     }
 
+    private void fileAlert(boolean loadGame) {
+        this.stopTimer();
+
+        ButtonType resume = new ButtonType("Resume", ButtonBar.ButtonData.OK_DONE);
+        ButtonType restart = new ButtonType("Restart", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.getButtonTypes().setAll(restart, resume);
+        alert.setHeaderText(null);
+
+        if (loadGame) {
+            alert.contentTextProperty().set("Unable to load the savegame.\nIt's either lost, or corrupted.");
+            alert.setTitle("Loadgame Error");
+        } else {
+            alert.contentTextProperty().set("Unable to save the game.");
+            alert.setTitle("Savegame Error");
+        }
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == resume) {
+                this.startTimer();
+            } else if (response == restart) {
+                this.restartGame();
+            }
+        });
+    }
+
+    /**
+     * Method for retrieving all information about all objects in the gameWindow and parsing these over to
+     * DataHandler.GameConfiguration for use during saving.
+     * @return Returns an object of type DataHandler.GameConfiguration.
+     */
+    private DataHandler.GameConfiguration getGameConfiguration() {
+        DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
+        gameCfg.gameScore = this.getScoreNumber();
+        gameCfg.player = this.player.getConfiguration();
+
+        List<DataHandler.Configuration> zombieCfg = new ArrayList<>();
+        for (Zombie zombie : this.zombies)
+            zombieCfg.add(zombie.getConfiguration());
+        gameCfg.zombies = zombieCfg;
+
+        List<DataHandler.Configuration> bulletCfg = new ArrayList<>();
+        for (Bullet bullet : this.player.getBulletList())
+            bulletCfg.add(bullet.getConfiguration());
+        gameCfg.bullets = bulletCfg;
+
+        List<DataHandler.Configuration> dropCfg = new ArrayList<>();
+        for (Drop drop : this.drops)
+            dropCfg.add(drop.getConfiguration());
+        gameCfg.drops = dropCfg;
+
+        List<DataHandler.Configuration> dropExtraCfg = new ArrayList<>();
+        for (Drop dropExtra : this.dropsExtra)
+            dropExtraCfg.add(dropExtra.getConfiguration());
+        gameCfg.dropsExtra = dropExtraCfg;
+
+        return gameCfg;
+    }
+
+    private void setGameConfiguration(DataHandler.GameConfiguration gameCfg) {
+        this.setScoreNumber(gameCfg.gameScore);
+        this.player.setConfiguration(gameCfg.player);
+
+        removeZombies();
+        for (int i = 0; i < gameCfg.zombies.size(); i++) {
+            Zombie zombie = new Zombie(this.getGameInitializer().getZombieAnimationer()[i], this.getGameInitializer().getZombieAudioClips(),
+                    gameCfg.zombies.get(i).posX, gameCfg.zombies.get(i).posY, gameCfg.zombies.get(i).health);
+            zombie.setConfiguration(gameCfg.zombies.get(i));
+            this.zombies.add(zombie);
+
+            if(this.getGameInitializer().isDEBUG())
+                gameWindow.getChildren().add(zombie.getNode());
+            gameWindow.getChildren().add(zombie.getAllAnimationer().getImageView());
+        }
+
+        removeBullets();
+        for (int i = 0; i < gameCfg.bullets.size(); i++) {
+            //Bullet bullet = new Bullet()
+        }
+
+        removeDrops();
+    }
 
     /**
      * Method for removing all Zombies in the Game.
      */
     public void removeZombies() {
         for (Zombie zombie : this.zombies) {
-            gameWindow.getChildren().removeAll(zombie.getSprite().getImageView(), zombie.getNode());
-        }
-
-        for (Zombie zombie : this.zombies) {
+            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getAllAnimationer().getImageView());
             zombie.setAlive(false);
         }
+
         this.zombies.removeIf(Zombie::isDead);
     }
 
@@ -342,34 +446,6 @@ public class Game {
     public void stopTimer() {
         this.timer.stop();
         setRunning(false);
-    }
-
-    private DataHandler.GameConfiguration getGameConfiguration() {
-        DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
-        gameCfg.gameScore = this.getScoreNumber();
-        gameCfg.player = this.player.getConfiguration();
-
-        List<DataHandler.Configuration> zombieCfg = new ArrayList<>();
-        for (Zombie zombie : this.zombies)
-            zombieCfg.add(zombie.getConfiguration());
-        gameCfg.zombies = zombieCfg;
-
-        List<DataHandler.Configuration> bulletCfg = new ArrayList<>();
-        for (Bullet bullet : this.player.getBulletList())
-            bulletCfg.add(bullet.getConfiguration());
-        gameCfg.bullets = bulletCfg;
-
-        List<DataHandler.Configuration> dropCfg = new ArrayList<>();
-        for (Drop drop : this.drops)
-            dropCfg.add(drop.getConfiguration());
-        gameCfg.drops = dropCfg;
-
-        List<DataHandler.Configuration> dropExtraCfg = new ArrayList<>();
-        for (Drop dropExtra : this.dropsExtra)
-            dropExtraCfg.add(dropExtra.getConfiguration());
-        gameCfg.dropsExtra = dropExtraCfg;
-
-        return gameCfg;
     }
 
     public Pane getGameWindow() {

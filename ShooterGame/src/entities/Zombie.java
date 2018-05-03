@@ -244,7 +244,24 @@ public class Zombie extends Movable {
         return zombieCfg;
     }
 
-//    public void setAnimation(int i) {
+    public void setConfiguration(DataHandler.Configuration zombieCfg) {
+        this.setPosition(zombieCfg.posX, zombieCfg.posY);
+        this.setTranslateNode(zombieCfg.posX, zombieCfg.posY);
+        this.setHealthPoints(zombieCfg.health);
+        this.setVelocity(zombieCfg.velX, zombieCfg.velY);
+        this.setMovementSpeed(zombieCfg.movementSpeed);
+        this.setDirection(zombieCfg.direction);
+    }
+
+    public AnimationHandler getAllAnimationer() {
+        return allAnimationer;
+    }
+
+    public void setAllAnimationer(AnimationHandler allAnimationer) {
+        this.allAnimationer = allAnimationer;
+    }
+
+    //    public void setAnimation(int i) {
 //        super.setSprite(this.allAnimation[i]);
 //    }
 }

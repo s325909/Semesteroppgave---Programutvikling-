@@ -1,13 +1,21 @@
-package gameCode;
+package notCurrentlyUsed;
 
 import entities.AnimationHandler;
 import entities.Sprite;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -23,6 +31,9 @@ public class Assets implements Initializable {
     private String[] dropImages;
     private Sprite[] bulletImages;
     private Sprite[] coin;
+
+    @FXML
+    Button continueToGame;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -108,6 +119,21 @@ public class Assets implements Initializable {
         };
 
         this.bulletImages = loadSingleSprites(bulletImages);
+    }
+
+    @FXML
+    public void continueToGame() {
+        try{
+            Stage stage = (Stage) continueToGame.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("../gameCode/GameWindow.fxml"));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
+            stage.setScene(scene);
+            stage.show();
+
+        }catch (IOException io){
+            io.printStackTrace();
+        }
     }
 
     /**

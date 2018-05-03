@@ -61,19 +61,11 @@ public class Bullet extends Movable {
             if (isColliding(zombie)) {
                 this.setAlive(false);
                 zombie.setHealthPoints(zombie.getHealthPoints() - this.getDamage());
-                if (!zombie.stillAlive()) {
+                if (zombie.getHealthPoints() <= 0) {
                     zombie.setAlive(false);
                 }
             }
         }
-    }
-
-    public int getDamage() {
-        return damage;
-    }
-
-    public void setDamage(int damage) {
-        this.damage = damage;
     }
 
     public DataHandler.Configuration getConfiguration() {
@@ -86,5 +78,22 @@ public class Bullet extends Movable {
         bulletCfg.direction = this.getDirection();
         bulletCfg.damage = this.getDamage();
         return bulletCfg;
+    }
+
+    public void setConfiguration(DataHandler.Configuration bulletCfg) {
+        this.setPosition(bulletCfg.posX, bulletCfg.posY);
+        this.setTranslateNode(bulletCfg.posX, bulletCfg.posY);
+        this.setVelocity(bulletCfg.velX, bulletCfg.velY);
+        this.setMovementSpeed(bulletCfg.movementSpeed);
+        this.setDirection(bulletCfg.direction);
+        this.setDamage(bulletCfg.damage);
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 }

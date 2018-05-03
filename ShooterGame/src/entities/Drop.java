@@ -42,4 +42,9 @@ public class Drop extends Entity {
         dropCfg.posY = this.getPositionY();
         return dropCfg;
     }
+
+    public void setConfiguration(DataHandler.Configuration dropCfg) {
+        this.setPosition(dropCfg.posX, dropCfg.posY);
+        this.setTranslateNode(dropCfg.posX, dropCfg.posY);
+    }
 }
