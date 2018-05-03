@@ -40,7 +40,6 @@ public class SettingsController implements Initializable {
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        /*
 
         try {
             MusicPlayer musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
@@ -49,8 +48,15 @@ public class SettingsController implements Initializable {
         }
 
 
-
+        //Multiply by 10 to get values between 1-10 instead of 0.1-1 to match the slider
         musicVolumeSlider.setValue(MusicPlayer.mediaPlayer.getVolume() * 10);
+
+        //Shows the value of the musicVolumeSlider in text-format
+        musicVolumeNumber.textProperty().setValue(
+                String.valueOf((int) musicVolumeSlider.getValue())
+        );
+
+        //Changes the music volume based on the value of the slider
         musicVolumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
@@ -61,32 +67,24 @@ public class SettingsController implements Initializable {
             }
         });
 
-        */
 
+        //Loops ArrayList for weaponSound and multiplies each soundclip by 10 to match the slider
+        for (int i = 0; i < GameInitializer.weaponSounds.length; i++){
+            soundVolumeSlider.setValue(GameInitializer.weaponSounds[i].getVolume() * 10);
+        }
 
-        soundVolumeSlider.setValue(GameInitializer.weaponSounds[0].getVolume() * 10);
-        soundVolumeSlider.setValue(GameInitializer.weaponSounds[1].getVolume() * 10);
-        soundVolumeSlider.setValue(GameInitializer.weaponSounds[2].getVolume() * 10);
-        soundVolumeSlider.setValue(GameInitializer.weaponSounds[3].getVolume() * 10);
-        soundVolumeSlider.setValue(GameInitializer.weaponSounds[4].getVolume() * 10);
-        soundVolumeSlider.setValue(GameInitializer.weaponSounds[5].getVolume() * 10);
-        soundVolumeSlider.setValue(GameInitializer.weaponSounds[6].getVolume() * 10);
-        soundVolumeSlider.setValue(GameInitializer.weaponSounds[7].getVolume() * 10);
+        //Shows the value of the soundVolumeSlider in text-format
+        soundVolumeNumber.textProperty().setValue(
+                String.valueOf((int) soundVolumeSlider.getValue())
+        );
 
-
-
-
+        //Changes the sound volume based on the value of the slider
         soundVolumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                GameInitializer.weaponSounds[0].setVolume(soundVolumeSlider.getValue() / 10);
-                GameInitializer.weaponSounds[1].setVolume(soundVolumeSlider.getValue() / 10);
-                GameInitializer.weaponSounds[2].setVolume(soundVolumeSlider.getValue() / 10);
-                GameInitializer.weaponSounds[3].setVolume(soundVolumeSlider.getValue() / 10);
-                GameInitializer.weaponSounds[4].setVolume(soundVolumeSlider.getValue() / 10);
-                GameInitializer.weaponSounds[5].setVolume(soundVolumeSlider.getValue() / 10);
-                GameInitializer.weaponSounds[6].setVolume(soundVolumeSlider.getValue() / 10);
-                GameInitializer.weaponSounds[7].setVolume(soundVolumeSlider.getValue() / 10);
+                for (int i = 0; i < GameInitializer.weaponSounds.length; i++){
+                    GameInitializer.weaponSounds[i].setVolume(soundVolumeSlider.getValue() / 10);
+                }
 
                 soundVolumeNumber.textProperty().setValue(
                         String.valueOf((int) soundVolumeSlider.getValue())
