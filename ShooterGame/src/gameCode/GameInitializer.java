@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import menuOptions.SettingsController;
 
+import java.io.IOException;
 import java.net.URL;
 import java.lang.*;
 import java.util.ArrayList;
@@ -414,9 +415,31 @@ public class GameInitializer implements Initializable{
         }
     }
 
-    public void showSettings() {
+
+
+    Stage windowSettings;
+    Parent rootSettings;
+    Scene sceneSettings;
+
+    public void showSettings(ActionEvent event) throws IOException {
 
         musicPlayer.muteVolume();
+
+        try {
+            if (event.getSource() == settings){
+                windowSettings = (Stage) settings.getScene().getWindow();
+                rootSettings = FXMLLoader.load(getClass().getResource("../menuOptions/Settings.fxml"));
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        sceneSettings = new Scene(rootSettings, 1280, 720);
+        windowSettings.setScene(sceneSettings);
+        windowSettings.show();
+
+
+        /*
 
         Parent root;
 
@@ -431,6 +454,8 @@ public class GameInitializer implements Initializable{
         }catch (Exception e){
             System.out.println("Error" + e.getMessage());
         }
+
+        */
     }
 
     public void exitGame() {

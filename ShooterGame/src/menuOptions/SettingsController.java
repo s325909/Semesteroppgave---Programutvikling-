@@ -21,12 +21,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable {
 
-    @FXML private Button returnToMenu;
+    @FXML private Button returnToMenu, backGame;
     @FXML private Slider musicVolumeSlider, soundVolumeSlider;
     @FXML private Text musicVolumeNumber, soundVolumeNumber;
     @FXML private RadioButton select720, select1080, select1440;
@@ -101,6 +102,22 @@ public class SettingsController implements Initializable {
 
     public void showReturnToMenu(boolean visible){
         returnToMenu.setVisible(visible);
+    }
+
+
+    @FXML
+    public void backToGame(){
+        try{
+            Stage stage = (Stage) backGame.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("../gameCode/GameWindow.fxml"));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
+            stage.setScene(scene);
+            stage.show();
+
+        }catch (IOException io){
+            io.printStackTrace();
+        }
     }
 
     @FXML
