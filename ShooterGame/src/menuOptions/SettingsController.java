@@ -40,13 +40,7 @@ public class SettingsController implements Initializable {
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-
-        try {
-            MusicPlayer musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
-        } catch (Exception e) {
-            System.out.println("Error: Could not find sound file");
-        }
-
+        playMusic();
 
         //Multiply by 10 to get values between 1-10 instead of 0.1-1 to match the slider
         musicVolumeSlider.setValue(MusicPlayer.mediaPlayer.getVolume() * 10);
@@ -67,6 +61,7 @@ public class SettingsController implements Initializable {
             }
         });
 
+        /*
 
         //Loops ArrayList for weaponSound and multiplies each soundclip by 10 to match the slider
         for (int i = 0; i < GameInitializer.weaponSounds.length; i++){
@@ -92,6 +87,16 @@ public class SettingsController implements Initializable {
             }
         });
 
+        */
+
+    }
+
+    public void playMusic(){
+        try {
+            MusicPlayer musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
+        } catch (Exception e) {
+            System.out.println("Error: Could not find sound file");
+        }
     }
 
     public void showReturnToMenu(boolean visible){
