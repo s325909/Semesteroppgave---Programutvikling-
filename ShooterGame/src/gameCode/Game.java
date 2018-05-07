@@ -231,9 +231,7 @@ public class Game {
      * which allows this method to run again after restarting the game
      */
     protected void restartGame() {
-        removeZombies();
-        removeDrops();
-        removeDropsExtra();
+        clearGame();
         player.resetPlayer();
         setScoreNumber(0);
         createZombies(gameInitializer.getNbrZombies());
@@ -244,10 +242,9 @@ public class Game {
         setRunning(true);
     }
 
+
     public void restartGame2() {
-        removeZombies();
-        removeDrops();
-        removeDropsExtra();
+        clearGame();
         player.resetPlayer2();
         setScoreNumber(0);
         createZombies(gameInitializer.getNbrZombies());
@@ -259,9 +256,7 @@ public class Game {
     }
 
     public void restartGame3() {
-        removeZombies();
-        removeDrops();
-        removeDropsExtra();
+        clearGame();
         player.resetPlayer3();
         setScoreNumber(0);
         createZombies(gameInitializer.getNbrZombies());
@@ -270,6 +265,12 @@ public class Game {
         setGameOver(false);
         startTimer();
         setRunning(true);
+    }
+
+    public void clearGame() {
+        removeZombies();
+        removeDrops();
+        removeDropsExtra();
     }
 
 

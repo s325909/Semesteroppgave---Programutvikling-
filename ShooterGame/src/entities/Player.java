@@ -352,7 +352,7 @@ public class Player extends Movable {
     public void resetPlayer3() {
         setPosition(1280/2,720/2);
         setTranslateNode(1280/2, 720/2);
-        setHealthPoints(100);
+        setHealthPoints(50);
         setArmor(0);
         setEquippedWeapon(WeaponTypes.KNIFE);
         getMagazinePistol().setNumberBullets(0);
