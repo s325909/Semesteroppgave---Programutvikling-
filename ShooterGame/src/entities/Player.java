@@ -335,6 +335,34 @@ public class Player extends Movable {
         getMagazineShotgun().setCurrentPool(8);
     }
 
+    public void resetPlayer2() {
+        setPosition(1280/2,720/2);
+        setTranslateNode(1280/2, 720/2);
+        setHealthPoints(100);
+        setArmor(0);
+        setEquippedWeapon(WeaponTypes.KNIFE);
+        getMagazinePistol().setNumberBullets(15);
+        getMagazinePistol().setCurrentPool(15);
+        getMagazineRifle().setNumberBullets(0);
+        getMagazineRifle().setCurrentPool(0);
+        getMagazineShotgun().setNumberBullets(0);
+        getMagazineShotgun().setCurrentPool(0);
+    }
+
+    public void resetPlayer3() {
+        setPosition(1280/2,720/2);
+        setTranslateNode(1280/2, 720/2);
+        setHealthPoints(100);
+        setArmor(0);
+        setEquippedWeapon(WeaponTypes.KNIFE);
+        getMagazinePistol().setNumberBullets(0);
+        getMagazinePistol().setCurrentPool(0);
+        getMagazineRifle().setNumberBullets(0);
+        getMagazineRifle().setCurrentPool(0);
+        getMagazineShotgun().setNumberBullets(0);
+        getMagazineShotgun().setCurrentPool(0);
+    }
+
     /**
      * Method which will handle damage towards the Player.
      * This method will adjust Player's armor, whereas the armor will reduce the damage to healthpoints by half.

@@ -161,6 +161,18 @@
                   <Button mnemonicParsing="false" onAction="#exitGame" text="Exit Game" />
                </children>
             </VBox>
+            <VBox fx:id="ingameDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+               <children>
+                  <Label text="Choose Difficulty" textFill="DARKRED">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="58.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="normalDifficulty" mnemonicParsing="false" onAction="#launchNormalDifficulty" text="NORMAL" />
+                  <Button fx:id="hardDifficulty" mnemonicParsing="false" onAction="#launchHardDifficulty" text="HARD" />
+                  <Button fx:id="insaneDifficulty" mnemonicParsing="false" onAction="#launchInsaneDifficulty" text="HARDCORE" />
+               </children>
+            </VBox>
             <VBox fx:id="ingameHelp" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
                <children>
                   <Label layoutX="89.0" layoutY="71.0" text="HOW TO PLAY" textFill="RED">

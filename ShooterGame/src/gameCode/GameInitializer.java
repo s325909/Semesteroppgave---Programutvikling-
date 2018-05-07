@@ -33,9 +33,11 @@ public class GameInitializer implements Initializable{
 
     @FXML private Pane gameWindow;
     @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, gameState, pressKey;
-    @FXML private VBox gamePaused, ingameMenu, ingameHelp;
+    @FXML private VBox gamePaused, ingameMenu, ingameHelp, ingameDifficulty;
 
     @FXML private Button back_Help, settings;
+
+    @FXML private Button normalDifficulty, hardDifficulty, insaneDifficulty;
 
     private Stage stage = new Stage();
 
@@ -46,6 +48,7 @@ public class GameInitializer implements Initializable{
     private MusicPlayer musicPlayer;
     private boolean menuVisible;
     private boolean helpVisible;
+    private boolean difficultyVisible;
     private boolean labelVisible;
 
     private SceneSizeChangeListener sceneChange;
@@ -384,6 +387,19 @@ public class GameInitializer implements Initializable{
     }
 
 
+    public void launchNormalDifficulty(){
+        restartGame();
+    }
+
+    public void launchHardDifficulty(){
+        game.restartGame2();
+    }
+
+    public void launchInsaneDifficulty(){
+        game.restartGame3();
+    }
+
+
     /***
      * Method which will change the FullScreen state of the application.
      */
@@ -402,7 +418,15 @@ public class GameInitializer implements Initializable{
     }
 
     public void restartGame() {
+        showDifficulty();
         game.restartGame();
+    }
+
+
+    public void showDifficulty(){
+        if (!difficultyVisible){
+            ingameDifficulty.setVisible(true);
+        }
     }
     
     public void showHelp() {

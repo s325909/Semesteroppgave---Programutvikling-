@@ -244,6 +244,35 @@ public class Game {
         setRunning(true);
     }
 
+    public void restartGame2() {
+        removeZombies();
+        removeDrops();
+        removeDropsExtra();
+        player.resetPlayer2();
+        setScoreNumber(0);
+        createZombies(gameInitializer.getNbrZombies());
+        gameInitializer.showGameLabel();
+        gameInitializer.showMenu();
+        setGameOver(false);
+        startTimer();
+        setRunning(true);
+    }
+
+    public void restartGame3() {
+        removeZombies();
+        removeDrops();
+        removeDropsExtra();
+        player.resetPlayer3();
+        setScoreNumber(0);
+        createZombies(gameInitializer.getNbrZombies());
+        gameInitializer.showGameLabel();
+        gameInitializer.showMenu();
+        setGameOver(false);
+        startTimer();
+        setRunning(true);
+    }
+
+
     /**
      *
      * @param filename f
