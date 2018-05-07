@@ -118,6 +118,8 @@ public class GameInitializer implements Initializable{
             gameWindow.getChildren().add(zombie.getSprite().getImageView());
         }
 
+        showDifficulty();
+
         // Initialize the Game object, and thus start the game
         game = new Game(player, zombies, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
         game.setGameInitializer(this);
@@ -125,6 +127,30 @@ public class GameInitializer implements Initializable{
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
     }
+
+
+    public void launchNormalDifficulty(){
+        hideDifficulty();
+        restartGame();
+        ingameMenu.setVisible(false);
+        gameState.setVisible(false);
+    }
+
+    public void launchHardDifficulty(){
+        hideDifficulty();
+        game.restartGame2();
+        ingameMenu.setVisible(false);
+        gameState.setVisible(false);
+    }
+
+    public void launchInsaneDifficulty(){
+        hideDifficulty();
+        game.restartGame3();
+        ingameMenu.setVisible(false);
+        gameState.setVisible(false);
+    }
+
+
 
     /***
      * Method which takes in user keyboard input.
@@ -386,17 +412,10 @@ public class GameInitializer implements Initializable{
         gameState.setVisible(true);
     }
 
-
-    public void launchNormalDifficulty(){
-        restartGame();
-    }
-
-    public void launchHardDifficulty(){
-        game.restartGame2();
-    }
-
-    public void launchInsaneDifficulty(){
-        game.restartGame3();
+    public void hideDifficulty() {
+        ingameDifficulty.setVisible(false);
+        ingameMenu.setVisible(true);
+        gameState.setVisible(true);
     }
 
 
@@ -418,8 +437,9 @@ public class GameInitializer implements Initializable{
     }
 
     public void restartGame() {
+        ingameMenu.setVisible(false);
+        gameState.setVisible(false);
         showDifficulty();
-        game.restartGame();
     }
 
 

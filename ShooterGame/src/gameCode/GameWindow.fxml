@@ -161,7 +161,7 @@
                   <Button mnemonicParsing="false" onAction="#exitGame" text="Exit Game" />
                </children>
             </VBox>
-            <VBox fx:id="ingameDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+            <VBox fx:id="ingameDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
                <children>
                   <Label text="Choose Difficulty" textFill="DARKRED">
                      <font>
