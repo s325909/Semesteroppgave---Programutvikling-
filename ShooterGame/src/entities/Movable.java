@@ -1,6 +1,10 @@
 package entities;
 
+import javafx.geometry.Bounds;
 import javafx.scene.media.AudioClip;
+import javafx.scene.shape.Rectangle;
+
+import java.util.List;
 
 public class Movable extends Entity {
 
@@ -15,16 +19,18 @@ public class Movable extends Entity {
 
     private AudioClip[] audioClips;
     private Direction direction;
+    private List<Rock> rocks;
 
-    public Movable(String filename, int positionX, int positionY, double movementSpeed) {
+    public Movable(String filename, int positionX, int positionY, double movementSpeed, List<Rock> rocks) {
         super(filename, positionX, positionY);
         this.movementSpeed = movementSpeed;
         this.velocityX = 0;
         this.velocityY = 0;
         this.direction = Direction.IDLE;
+        this.rocks = rocks;
     }
 
-    public Movable(Sprite idleSprite, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed) {
+    public Movable(Sprite idleSprite, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed, List<Rock> rocks) {
         super(idleSprite, positionX, positionY);
         this.audioClips = audioClips;
         this.healthPoints = healthPoints;
@@ -32,6 +38,7 @@ public class Movable extends Entity {
         this.velocityX = 0;
         this.velocityY = 0;
         this.direction = Direction.IDLE;
+        this.rocks = rocks;
     }
 
     public void update(double time) {
@@ -45,8 +52,19 @@ public class Movable extends Entity {
         //Also, need to replace position if window is resized.
         double newX = this.getNode().getTranslateX() + velocityX;
         double newY = this.getNode().getTranslateY() + velocityY;
+
+        //Returning since we collide with border:
         if(newX < 0 || newY < 0)
             return;
+
+        //Checking if new bounds is colliding before updating actual movement.
+        Bounds oldBounds = this.getNode().getBoundsInParent();
+        Bounds newBounds = new Rectangle(newX,newY,oldBounds.getWidth(),oldBounds.getHeight()).getLayoutBounds();
+        for (Rock rock : rocks) {
+            if(rock.isColliding(newBounds)) {
+                return;
+            }
+        }
 
         // Update position of the visible representation of the object (Node and Sprite)
         this.getNode().setTranslateX(newX);

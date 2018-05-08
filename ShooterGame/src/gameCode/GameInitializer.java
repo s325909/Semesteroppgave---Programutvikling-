@@ -90,9 +90,6 @@ public class GameInitializer implements Initializable{
         loadAssets(nbrZombies);
 
         this.rocks = new ArrayList<Rock>();
-        //TODO: change to: "resources/Art/rock.png"
-        String[] rockImage = { "/resources/Art/rock.png" };
-        loadSingleSprites(rockImage);
         rocks.add(new Rock("/resources/Art/rock.png", 0, 0));
         rocks.add(new Rock("/resources/Art/rock.png", 10, 10));
         rocks.add(new Rock("/resources/Art/rock.png", 151, 151));
@@ -100,7 +97,7 @@ public class GameInitializer implements Initializable{
 
         // Create the Player upon starting a new game
         try {
-            player = new Player(this.playerAnimation, this.basicSounds, this.weaponSounds, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
+            player = new Player(this.playerAnimation, this.basicSounds, this.weaponSounds, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50, this.rocks);
             player.setWeaponTypeFromString("knife");
         } catch (Exception e) {
             for (StackTraceElement element : e.getStackTrace()) {
@@ -124,16 +121,14 @@ public class GameInitializer implements Initializable{
             gameWindow.getChildren().add(player.getNode());
             for (Zombie zombie : zombies)
                 gameWindow.getChildren().add(zombie.getNode());
+            for (Rock rock : rocks)
+                gameWindow.getChildren().add(rock.getSprite().getImageView());
         }
 
         // Add the ImageView of every Entity to the gameWindow pane
         gameWindow.getChildren().add(player.getSprite().getImageView());
         for (Zombie zombie : zombies) {
             gameWindow.getChildren().add(zombie.getSprite().getImageView());
-        }
-
-        for (Rock rock : rocks) {
-            gameWindow.getChildren().add(rock.getSprite().getImageView());
         }
 
         // Initialize the Game object, and thus start the game
@@ -151,13 +146,6 @@ public class GameInitializer implements Initializable{
 
         game.clearGame();
     }
-
-    /*public void intersects (ImageView rock1, ImageView rock2, ImageView rock3, ImageView rock4, ImageView rock5, ImageView rock6, ImageView rock7, ImageView rock8){
-        return this.player.intersects(rock1, rock2, rock3, rock4, rock5, rock6, rock7, rock8);
-
-
-    }*/
-
 
     public void launchNormalDifficulty(){
         hideDifficulty();

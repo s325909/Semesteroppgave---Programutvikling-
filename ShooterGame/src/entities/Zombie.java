@@ -12,14 +12,12 @@ public class Zombie extends Movable {
     private Sprite[] allAnimation;
     private Queue<SpritePair> animationQueue;
     private long waitTime;
-    private List<Rock> rocks;
 
     public Zombie(Sprite[] allAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, List<Rock> rocks) {
-        super(allAnimation[0], audioClips, positionX, positionY, healthPoints, 1.0);
+        super(allAnimation[0], audioClips, positionX, positionY, healthPoints, 1.0, rocks);
         this.allAnimation = allAnimation;
         this.animationQueue = new LinkedList<SpritePair>();
         this.waitTime = 0;
-        this.rocks = rocks;
     }
 
     /***
@@ -58,13 +56,6 @@ public class Zombie extends Movable {
             } else if (angle > 295 && angle <= 340) {
                 this.walkDirection = Direction.SOUTHWEST;
                 this.walkDistance = 10;
-            }
-        }
-
-        for (Rock rock : rocks) {
-            //TODO: collide with new position... must test x or Y first.
-            if(rock.isColliding(this)) {
-                //
             }
         }
 

@@ -25,9 +25,10 @@ public class Player extends Movable {
     private List<Bullet> bulletList;
     private Queue<SpritePair> animationQueue;
     private long waitTime;
+    private List<Rock> rocks;
 
-    public Player(Sprite[][] allAnimation, AudioClip[] basicSounds, AudioClip[] weaponSounds, int positionX, int positionY, int healthPoints, int armor) {
-        super(allAnimation[0][0], basicSounds, positionX, positionY, healthPoints, 5.0);
+    public Player(Sprite[][] allAnimation, AudioClip[] basicSounds, AudioClip[] weaponSounds, int positionX, int positionY, int healthPoints, int armor, List<Rock> rocks) {
+        super(allAnimation[0][0], basicSounds, positionX, positionY, healthPoints, 5.0, rocks);
         this.allAnimation = allAnimation;
         this.weaponSounds = weaponSounds;
         this.animationQueue = new LinkedList<SpritePair>();
@@ -41,6 +42,7 @@ public class Player extends Movable {
         magazineShotgun = new Magazine(8,32);
         this.armor = armor;
         this.bulletList = new ArrayList<Bullet>();
+        this.rocks = rocks;
     }
 
     /***
@@ -226,7 +228,7 @@ public class Player extends Movable {
                     magazinePistol.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
-                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX()+50, getPositionY()+50, 10, 50, this.getDirection());
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX()+50, getPositionY()+50, 10, 50, this.getDirection(), this.rocks);
                     this.bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
@@ -237,7 +239,7 @@ public class Player extends Movable {
                     magazineRifle.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
-                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 30, this.getDirection());
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 30, this.getDirection(), this.rocks);
                     this.bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);
@@ -248,7 +250,7 @@ public class Player extends Movable {
                     magazineShotgun.changeBulletNumber(-1);
                     playWeaponSounds(audioAction);
                     setAnimation(i, j);
-                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 20, this.getDirection());
+                    Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", getPositionX(), getPositionY(), 10, 20, this.getDirection(), this.rocks);
                     this.bulletList.add(bullet);
                 } else {
                     playWeaponSounds(7);

@@ -82,16 +82,9 @@ public class Game {
             }
         }
 
-        //TODO: Add collison with rock
-        /*
-        if(player.isColliding(rocks))
-            dont do move!
-        * */
-
         // Check collision between zombies and player
         for (Zombie zombie : zombies) {
             zombie.movement(player);
-            //TODO: IF zombie hits rock... continue...
 
             if (player.isColliding(zombie)) {
                 player.receivedDamage(10);
@@ -123,6 +116,15 @@ public class Game {
             }
             if(drop.isColliding(player)) {
                 drop.setAlive(false);
+            }
+        }
+
+        for (Rock rock : rocks) {
+            if (!rock.isDrawn()) {
+                //if(gameInitializer.isDEBUG())
+                    gameWindow.getChildren().add(rock.getNode());
+                gameWindow.getChildren().add(rock.getSprite().getImageView());
+                rock.setDrawn();
             }
         }
 
@@ -521,7 +523,7 @@ public class Game {
 
         this.bullets = new ArrayList<>();
         for (int i = 0; i < bulletList.size(); i++) {
-            Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", bulletList.get(i).posX, bulletList.get(i).posY, bulletList.get(i).movementSpeed, bulletList.get(i).damage, bulletList.get(i).direction);
+            Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", bulletList.get(i).posX, bulletList.get(i).posY, bulletList.get(i).movementSpeed, bulletList.get(i).damage, bulletList.get(i).direction, this.rocks);
             bullet.setVelocity(bulletList.get(i).velX, bulletList.get(i).velY);
             this.bullets.add(bullet);
         }

@@ -7,8 +7,8 @@ public class Bullet extends Movable {
     private int damage;
     private Direction direction;
 
-    public Bullet(String filename, int positionX, int positionY, double movementSpeed, int damage, Direction direction) {
-        super(filename, positionX, positionY, movementSpeed);
+    public Bullet(String filename, int positionX, int positionY, double movementSpeed, int damage, Direction direction, List<Rock> rocks) {
+        super(filename, positionX, positionY, movementSpeed, rocks);
         this.damage = damage;
         this.direction = direction;
     }
