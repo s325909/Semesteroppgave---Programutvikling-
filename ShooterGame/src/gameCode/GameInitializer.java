@@ -174,7 +174,7 @@ public class GameInitializer implements Initializable{
             } else if (e.getCode() == KeyCode.P) {
                 game.pauseGame();
 
-            } else if (e.getCode() == KeyCode.ESCAPE) {
+            } else if (e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.E) {
                 game.pauseGame();
                 showMenu();
 
