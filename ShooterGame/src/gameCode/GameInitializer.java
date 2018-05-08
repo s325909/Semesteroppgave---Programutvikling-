@@ -118,7 +118,7 @@ public class GameInitializer implements Initializable{
             gameWindow.getChildren().add(zombie.getSprite().getImageView());
         }
 
-        showDifficulty();
+        //showDifficulty();
 
         // Initialize the Game object, and thus start the game
         game = new Game(player, zombies, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
@@ -126,26 +126,28 @@ public class GameInitializer implements Initializable{
         Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
+
+        restartGame();
     }
 
 
     public void launchNormalDifficulty(){
         hideDifficulty();
-        restartGame();
+        game.restartNormalGame();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
     }
 
     public void launchHardDifficulty(){
         hideDifficulty();
-        game.restartGame2();
+        game.restartHardGame();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
     }
 
     public void launchInsaneDifficulty(){
         hideDifficulty();
-        game.restartGame3();
+        game.restartInsaneGame();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
     }
@@ -439,6 +441,7 @@ public class GameInitializer implements Initializable{
     public void restartGame() {
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
+        game.clearGame();
         showDifficulty();
     }
 

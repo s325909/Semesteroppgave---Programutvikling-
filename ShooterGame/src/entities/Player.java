@@ -321,6 +321,7 @@ public class Player extends Movable {
      * Method which will reset the Player's stats.
      * These include position, healthpoints, armor, and ammunition of each weaponSounds.
      */
+
     public void resetPlayer() {
         setPosition(1280/2,720/2);
         setTranslateNode(1280/2, 720/2);
@@ -335,7 +336,21 @@ public class Player extends Movable {
         getMagazineShotgun().setCurrentPool(8);
     }
 
-    public void resetPlayer2() {
+    public void resetNormalPlayer() {
+        setPosition(1280/2,720/2);
+        setTranslateNode(1280/2, 720/2);
+        setHealthPoints(100);
+        setArmor(50);
+        setEquippedWeapon(WeaponTypes.KNIFE);
+        getMagazinePistol().setNumberBullets(15);
+        getMagazinePistol().setCurrentPool(15);
+        getMagazineRifle().setNumberBullets(30);
+        getMagazineRifle().setCurrentPool(30);
+        getMagazineShotgun().setNumberBullets(8);
+        getMagazineShotgun().setCurrentPool(8);
+    }
+
+    public void resetHardPlayer() {
         setPosition(1280/2,720/2);
         setTranslateNode(1280/2, 720/2);
         setHealthPoints(100);
@@ -349,7 +364,7 @@ public class Player extends Movable {
         getMagazineShotgun().setCurrentPool(0);
     }
 
-    public void resetPlayer3() {
+    public void resetInsanePlayer() {
         setPosition(1280/2,720/2);
         setTranslateNode(1280/2, 720/2);
         setHealthPoints(50);

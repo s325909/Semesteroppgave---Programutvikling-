@@ -230,6 +230,8 @@ public class Game {
      * as well as setting both "gameOver" and "gameIsPaused" equals "false",
      * which allows this method to run again after restarting the game
      */
+
+
     protected void restartGame() {
         clearGame();
         player.resetPlayer();
@@ -243,9 +245,9 @@ public class Game {
     }
 
 
-    public void restartGame2() {
+    public void restartNormalGame() {
         clearGame();
-        player.resetPlayer2();
+        player.resetNormalPlayer();
         setScoreNumber(0);
         createZombies(gameInitializer.getNbrZombies());
         gameInitializer.showGameLabel();
@@ -255,9 +257,21 @@ public class Game {
         setRunning(true);
     }
 
-    public void restartGame3() {
+    public void restartHardGame() {
         clearGame();
-        player.resetPlayer3();
+        player.resetHardPlayer();
+        setScoreNumber(0);
+        createZombies(gameInitializer.getNbrZombies());
+        gameInitializer.showGameLabel();
+        gameInitializer.showMenu();
+        setGameOver(false);
+        startTimer();
+        setRunning(true);
+    }
+
+    public void restartInsaneGame() {
+        clearGame();
+        player.resetInsanePlayer();
         setScoreNumber(0);
         createZombies(gameInitializer.getNbrZombies());
         gameInitializer.showGameLabel();
@@ -271,6 +285,7 @@ public class Game {
         removeZombies();
         removeDrops();
         removeDropsExtra();
+        stopTimer();
     }
 
 
