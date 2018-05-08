@@ -22,31 +22,31 @@
     <children>
         <Pane fx:id="gameWindow" prefHeight="700.0" prefWidth="1280.0">
          <children>
-            <ImageView layoutX="657.0" layoutY="307.0">
+            <ImageView fx:id="rock1" layoutX="657.0" layoutY="307.0">
                <image>
                   <Image url="@../resources/Art/rock.png" />
                </image></ImageView>
-            <ImageView layoutX="492.0" layoutY="550.0">
+            <ImageView fx:id="rock2" layoutX="492.0" layoutY="550.0">
                <image>
                   <Image url="@../resources/Art/rock.png" />
                </image></ImageView>
-            <ImageView layoutX="180.0" layoutY="500.0">
+            <ImageView fx:id="rock3" layoutX="180.0" layoutY="500.0">
                <image>
                   <Image url="@../resources/Art/rock.png" />
                </image></ImageView>
-            <ImageView layoutX="151.0" layoutY="251.0">
+            <ImageView fx:id="rock4" layoutX="151.0" layoutY="251.0">
                <image>
                   <Image url="@../resources/Art/rock.png" />
                </image></ImageView>
-            <ImageView layoutX="533.0" layoutY="151.0">
+            <ImageView fx:id="rock5" layoutX="533.0" layoutY="151.0">
                <image>
                   <Image url="@../resources/Art/rock.png" />
                </image></ImageView>
-            <ImageView layoutX="943.0" layoutY="157.0">
+            <ImageView fx:id="rock6" layoutX="943.0" layoutY="157.0">
                <image>
                   <Image url="@../resources/Art/rock.png" />
                </image></ImageView>
-            <ImageView layoutX="849.0" layoutY="549.0">
+            <ImageView fx:id="rock7" layoutX="849.0" layoutY="549.0">
                <image>
                   <Image url="@../resources/Art/rock.png" />
                </image></ImageView>

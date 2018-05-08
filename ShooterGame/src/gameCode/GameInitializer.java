@@ -42,6 +42,8 @@ public class GameInitializer implements Initializable{
 
     @FXML private Button normalDifficulty, hardDifficulty, insaneDifficulty;
 
+    @FXML private ImageView rock1, rock2, rock3, rock4, rock5, rock6, rock7, rock8;
+
     private Stage stage = new Stage();
 
     private Player player;
