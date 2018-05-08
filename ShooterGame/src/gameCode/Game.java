@@ -3,6 +3,7 @@ package gameCode;
 import entities.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Game {
     private List<Bullet> bullets;
     private List<Drop> drops = new ArrayList<>();
     private List<Drop> dropsExtra = new ArrayList<>();
+    private List<Rock> rocks;
     private Pane gameWindow;
     private Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer;
 
@@ -28,7 +30,7 @@ public class Game {
     private boolean chooseDiffculty;
     private StoreData storeData;
 
-    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag,Label hudPool, Label hudScore, Label hudTimer){
+    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer, List<Rock> rocks){
 
         this.player = player;
         this.zombies = zombies;
@@ -43,6 +45,7 @@ public class Game {
         this.storeData = new StoreData();
         this.running = true;
         this.scoreNumber = 0;
+        this.rocks = rocks;
 
         final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
@@ -79,9 +82,17 @@ public class Game {
             }
         }
 
+        //TODO: Add collison with rock
+        /*
+        if(player.isColliding(rocks))
+            dont do move!
+        * */
+
         // Check collision between zombies and player
         for (Zombie zombie : zombies) {
             zombie.movement(player);
+            //TODO: IF zombie hits rock... continue...
+
             if (player.isColliding(zombie)) {
                 player.receivedDamage(10);
                 if (!player.stillAlive()) {
@@ -487,7 +498,7 @@ public class Game {
 
         this.zombies = new ArrayList<>();
         for (int i = 0; i < zombieList.size(); i++) {
-            Zombie zombie = new Zombie(gameInitializer.getZombieAnimation()[i], gameInitializer.getZombieAudioClips(), zombieList.get(i).posX, zombieList.get(i).posY, zombieList.get(i).health);
+            Zombie zombie = new Zombie(gameInitializer.getZombieAnimation()[i], gameInitializer.getZombieAudioClips(), zombieList.get(i).posX, zombieList.get(i).posY, zombieList.get(i).health, rocks);
             zombie.setVelocity(zombieList.get(i).velX, zombieList.get(i).velY);
             zombie.setMovementSpeed(zombieList.get(i).movementSpeed);
             zombie.setDirection(zombieList.get(i).direction);
@@ -605,7 +616,7 @@ public class Game {
         try {
             this.zombies = new ArrayList<>();
             for (int i = 0; i < nbrZombies; i++) {
-                Zombie zombie = new Zombie(gameInitializer.getZombieAnimation()[i], gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1280), (int) (Math.random() * 720), 100);
+                Zombie zombie = new Zombie(gameInitializer.getZombieAnimation()[i], gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1280), (int) (Math.random() * 720), 100, rocks);
                 this.zombies.add(zombie);
             }
 

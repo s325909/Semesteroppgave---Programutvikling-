@@ -1,6 +1,7 @@
 package gameCode;
 
 import entities.Player;
+import entities.Rock;
 import entities.Zombie;
 import entities.Sprite;
 import javafx.application.Platform;
@@ -8,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -42,12 +44,11 @@ public class GameInitializer implements Initializable{
 
     @FXML private Button normalDifficulty, hardDifficulty, insaneDifficulty;
 
-    @FXML private ImageView rock1, rock2, rock3, rock4, rock5, rock6, rock7, rock8;
-
     private Stage stage = new Stage();
 
     private Player player;
     private List<Zombie> zombies;
+    private List<Rock> rocks;
     private int nbrZombies;
     private Game game;
     private MusicPlayer musicPlayer;
@@ -84,10 +85,18 @@ public class GameInitializer implements Initializable{
             System.out.println("Error: Could not find sound file");
         }
 
-
         // Select number of zombies to create, and load all assets
         setNbrZombies(5);
         loadAssets(nbrZombies);
+
+        this.rocks = new ArrayList<Rock>();
+        //TODO: change to: "resources/Art/rock.png"
+        String[] rockImage = { "/resources/Art/rock.png" };
+        loadSingleSprites(rockImage);
+        rocks.add(new Rock("/resources/Art/rock.png", 0, 0));
+        rocks.add(new Rock("/resources/Art/rock.png", 10, 10));
+        rocks.add(new Rock("/resources/Art/rock.png", 151, 151));
+        rocks.add(new Rock("/resources/Art/rock.png", 500, 500));
 
         // Create the Player upon starting a new game
         try {
@@ -104,7 +113,7 @@ public class GameInitializer implements Initializable{
         try {
             zombies = new ArrayList<>();
             for (int i = 0; i < nbrZombies; i++) {
-                zombies.add(new Zombie(this.zombieAnimation[i], this.zombieAudioClips, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+                zombies.add(new Zombie(this.zombieAnimation[i], this.zombieAudioClips, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100, rocks));
             }
         } catch (Exception e) {
             System.out.println("Error: Enemies did not load correctly");
@@ -123,8 +132,12 @@ public class GameInitializer implements Initializable{
             gameWindow.getChildren().add(zombie.getSprite().getImageView());
         }
 
+        for (Rock rock : rocks) {
+            gameWindow.getChildren().add(rock.getSprite().getImageView());
+        }
+
         // Initialize the Game object, and thus start the game
-        game = new Game(player, zombies, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
+        game = new Game(player, zombies, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, rocks);
         game.setGameInitializer(this);
         //Platform.runLater(this::getKeyPressed);
 
@@ -138,6 +151,12 @@ public class GameInitializer implements Initializable{
 
         game.clearGame();
     }
+
+    /*public void intersects (ImageView rock1, ImageView rock2, ImageView rock3, ImageView rock4, ImageView rock5, ImageView rock6, ImageView rock7, ImageView rock8){
+        return this.player.intersects(rock1, rock2, rock3, rock4, rock5, rock6, rock7, rock8);
+
+
+    }*/
 
 
     public void launchNormalDifficulty(){
