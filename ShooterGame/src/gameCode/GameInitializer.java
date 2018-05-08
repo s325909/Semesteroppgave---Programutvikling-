@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
@@ -33,7 +34,9 @@ public class GameInitializer implements Initializable{
 
     @FXML private Pane gameWindow;
     @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, gameState, pressKey;
-    @FXML private VBox gamePaused, ingameMenu, ingameHelp, ingameDifficulty;
+    @FXML private VBox gamePaused, ingameMenu, ingameHelp, ingameNormalDifficulty, ingameHardDifficulty, ingameInsaneDifficulty;
+
+    @FXML HBox ingameChooseDifficulty;
 
     @FXML private Button back_Help, settings;
 
@@ -415,7 +418,10 @@ public class GameInitializer implements Initializable{
     }
 
     public void hideDifficulty() {
-        ingameDifficulty.setVisible(false);
+        ingameChooseDifficulty.setVisible(false);
+        ingameNormalDifficulty.setVisible(false);
+        ingameHardDifficulty.setVisible(false);
+        ingameInsaneDifficulty.setVisible(false);
         ingameMenu.setVisible(true);
         gameState.setVisible(true);
     }
@@ -448,7 +454,10 @@ public class GameInitializer implements Initializable{
 
     public void showDifficulty(){
         if (!difficultyVisible){
-            ingameDifficulty.setVisible(true);
+            ingameChooseDifficulty.setVisible(true);
+            ingameNormalDifficulty.setVisible(true);
+            ingameHardDifficulty.setVisible(true);
+            ingameInsaneDifficulty.setVisible(true);
         }
     }
     
