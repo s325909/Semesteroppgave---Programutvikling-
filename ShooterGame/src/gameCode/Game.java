@@ -25,6 +25,7 @@ public class Game {
     private GameInitializer gameInitializer;
     private boolean running;
     private boolean gameOver;
+    private boolean chooseDiffculty;
     private StoreData storeData;
 
     public Game(Player player, List <Zombie> zombies, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag,Label hudPool, Label hudScore, Label hudTimer){

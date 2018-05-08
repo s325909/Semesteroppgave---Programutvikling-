@@ -121,8 +121,6 @@ public class GameInitializer implements Initializable{
             gameWindow.getChildren().add(zombie.getSprite().getImageView());
         }
 
-        //showDifficulty();
-
         // Initialize the Game object, and thus start the game
         game = new Game(player, zombies, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
         game.setGameInitializer(this);
@@ -130,7 +128,11 @@ public class GameInitializer implements Initializable{
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
 
-        restartGame();
+        game.restartGame();
+        gameState.setVisible(false);
+        ingameMenu.setVisible(false);
+
+        game.clearGame();
     }
 
 
