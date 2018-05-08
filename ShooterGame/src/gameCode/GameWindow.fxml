@@ -15,14 +15,23 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <GridPane alignment="center" hgap="10" prefHeight="720.0" prefWidth="1280.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameCode.GameInitializer">
     <stylesheets><URL value="@StylesGameWindow.css" /></stylesheets>
 
     <children>
-        <Pane fx:id="gameWindow" prefHeight="700.0" prefWidth="1280.0" />
+        <Pane fx:id="gameWindow" prefHeight="700.0" prefWidth="1280.0">
+         <children>
+            <Circle fill="DODGERBLUE" layoutX="657.0" layoutY="307.0" radius="57.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="DODGERBLUE" layoutX="492.0" layoutY="550.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="DODGERBLUE" layoutX="180.0" layoutY="500.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="DODGERBLUE" layoutX="151.0" layoutY="251.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="DODGERBLUE" layoutX="533.0" layoutY="151.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="DODGERBLUE" layoutX="943.0" layoutY="157.0" radius="57.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="DODGERBLUE" layoutX="849.0" layoutY="549.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="DODGERBLUE" layoutX="1165.0" layoutY="335.0" radius="65.0" stroke="BLACK" strokeType="INSIDE" />
+         </children></Pane>
       <BorderPane prefHeight="509.0" prefWidth="589.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
          <bottom>
             <FlowPane fx:id="bottomBar" alignment="CENTER" prefHeight="0.0" prefWidth="1280.0" rowValignment="TOP" BorderPane.alignment="CENTER">
@@ -142,106 +151,100 @@
                </children>
             </FlowPane>
          </top>
+         <left>
+            <GridPane prefHeight="722.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="638.0" minWidth="10.0" prefWidth="305.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="973.0" minWidth="10.0" prefWidth="610.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="973.0" minWidth="10.0" prefWidth="305.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <VBox fx:id="ingameMenu" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#resumeGame" text="Resume Game" />
+                        <Button mnemonicParsing="false" onAction="#restartGame" text="Restart Game" />
+                        <Button mnemonicParsing="false" text="Load Game" />
+                        <Button fx:id="howToPlay" mnemonicParsing="false" onAction="#showHelp" text="How to Play" />
+                        <Button fx:id="settings" mnemonicParsing="false" onAction="#showSettings" text="Settings" />
+                        <Button mnemonicParsing="false" onAction="#exitGame" text="Exit Game" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="ingameDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
+                     <children>
+                        <Label text="Choose Difficulty" textFill="DARKRED">
+                           <font>
+                              <Font name="Copperplate Gothic Light" size="58.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="normalDifficulty" mnemonicParsing="false" onAction="#launchNormalDifficulty" text="NORMAL" />
+                        <Button fx:id="hardDifficulty" mnemonicParsing="false" onAction="#launchHardDifficulty" text="HARD" />
+                        <Button fx:id="insaneDifficulty" mnemonicParsing="false" onAction="#launchInsaneDifficulty" text="HARDCORE" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="ingameHelp" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
+                     <children>
+                        <Label layoutX="89.0" layoutY="71.0" text="HOW TO PLAY" textFill="RED">
+                           <font>
+                              <Font size="96.0" />
+                           </font>
+                        </Label>
+                        <Label text="WASD/ArrowKeys to move" textFill="RED">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="515.0" layoutY="341.0" text="Space to shoot" textFill="RED">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="515.0" layoutY="370.0" text="R to reload" textFill="RED">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="515.0" layoutY="399.0" text="1, 2, 3, 4/f to switch weapons" textFill="RED">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="395.0" layoutY="428.0" text="F12 for fullscreen" textFill="RED">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="395.0" layoutY="457.0" text="F5 to quick save, F9 to quick load" textFill="RED">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="395.0" layoutY="428.0" text="P to pause" textFill="RED">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="557.0" layoutY="515.0" text="M to mute" textFill="RED">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="557.0" layoutY="544.0" text="ESC for menu/pause" textFill="RED">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="back_Help" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#hideHelp" text="Back" />
+                     </children>
+                  </VBox>
+
+      
+               </children>
+            </GridPane>
+         </left>
       </BorderPane>
-      <GridPane prefHeight="722.0" prefWidth="1280.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="638.0" minWidth="10.0" prefWidth="305.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="973.0" minWidth="10.0" prefWidth="610.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="973.0" minWidth="10.0" prefWidth="305.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <VBox fx:id="ingameMenu" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#resumeGame" text="Resume Game" />
-                  <Button mnemonicParsing="false" onAction="#restartGame" text="Restart Game" />
-                  <Button mnemonicParsing="false" text="Load Game" />
-                  <Button fx:id="howToPlay" mnemonicParsing="false" onAction="#showHelp" text="How to Play" />
-                  <Button fx:id="settings" mnemonicParsing="false" onAction="#showSettings" text="Settings" />
-                  <Button mnemonicParsing="false" onAction="#exitGame" text="Exit Game" />
-               </children>
-            </VBox>
-            <VBox fx:id="ingameDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
-               <children>
-                  <Label text="Choose Difficulty" textFill="DARKRED">
-                     <font>
-                        <Font name="Copperplate Gothic Light" size="58.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="normalDifficulty" mnemonicParsing="false" onAction="#launchNormalDifficulty" text="NORMAL" />
-                  <Button fx:id="hardDifficulty" mnemonicParsing="false" onAction="#launchHardDifficulty" text="HARD" />
-                  <Button fx:id="insaneDifficulty" mnemonicParsing="false" onAction="#launchInsaneDifficulty" text="HARDCORE" />
-               </children>
-            </VBox>
-            <VBox fx:id="ingameHelp" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
-               <children>
-                  <Label layoutX="89.0" layoutY="71.0" text="HOW TO PLAY" textFill="RED">
-                     <font>
-                        <Font size="96.0" />
-                     </font>
-                  </Label>
-                  <Label text="WASD/ArrowKeys to move" textFill="RED">
-                     <font>
-                        <Font size="40.0" />
-                     </font></Label>
-                  <Label layoutX="515.0" layoutY="341.0" text="Space to shoot" textFill="RED">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="515.0" layoutY="370.0" text="R to reload" textFill="RED">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="515.0" layoutY="399.0" text="1, 2, 3, 4/f to switch weapons" textFill="RED">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="395.0" layoutY="428.0" text="F12 for fullscreen" textFill="RED">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="395.0" layoutY="457.0" text="F5 to quick save, F9 to quick load" textFill="RED">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="395.0" layoutY="428.0" text="P to pause" textFill="RED">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="557.0" layoutY="515.0" text="M to mute" textFill="RED">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="557.0" layoutY="544.0" text="ESC for menu/pause" textFill="RED">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="back_Help" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#hideHelp" text="Back" />
-               </children>
-            </VBox>
-            <BorderPane fx:id="obstacles" prefHeight="200.0" prefWidth="200.0">
-               <left>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" stroke="BLACK" strokeType="INSIDE" width="100" BorderPane.alignment="CENTER" />
-               </left>
-               <top>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="83.0" stroke="BLACK" strokeType="INSIDE" width="113.0" BorderPane.alignment="CENTER" />
-               </top>
-               <center>
-                  <Circle fill="DODGERBLUE" radius="55.0" stroke="BLACK" strokeType="INSIDE" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-            <Circle fill="DODGERBLUE" radius="62.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" />
-         </children>
-      </GridPane>
    </children>
    <columnConstraints>
       <ColumnConstraints hgrow="ALWAYS" />
