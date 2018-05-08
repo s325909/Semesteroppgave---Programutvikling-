@@ -41,11 +41,18 @@ public class Movable extends Entity {
         setPositionX(getPositionX() + (int)getVelocityX());
         setPositionY(getPositionY() + (int)getVelocityY());
 
+        //TODO: Fix movement position. Only West and North now (SOUTH and EAST missing).
+        //Also, need to replace position if window is resized.
+        double newX = this.getNode().getTranslateX() + velocityX;
+        double newY = this.getNode().getTranslateY() + velocityY;
+        if(newX < 0 || newY < 0)
+            return;
+
         // Update position of the visible representation of the object (Node and Sprite)
-        this.getNode().setTranslateX(this.getNode().getTranslateX() + velocityX);
-        this.getNode().setTranslateY(this.getNode().getTranslateY() + velocityY);
-        this.getSprite().getImageView().setTranslateX(this.getNode().getTranslateX() + velocityX);
-        this.getSprite().getImageView().setTranslateY(this.getNode().getTranslateY() + velocityY);
+        this.getNode().setTranslateX(newX);
+        this.getNode().setTranslateY(newY);
+        this.getSprite().getImageView().setTranslateX(newX);
+        this.getSprite().getImageView().setTranslateY(newY);
 
         // Change sprite direction upon entity direction change based on user input
         if (getVelocityX() > 0) {
