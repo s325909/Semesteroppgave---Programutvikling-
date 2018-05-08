@@ -14,18 +14,24 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<<<<<<< HEAD
-=======
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Rectangle?>
->>>>>>> parent of 84562ae... changing some stuff
 <?import javafx.scene.text.Font?>
 
 <GridPane alignment="center" hgap="10" prefHeight="720.0" prefWidth="1280.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameCode.GameInitializer">
     <stylesheets><URL value="@StylesGameWindow.css" /></stylesheets>
 
     <children>
-        <Pane fx:id="gameWindow" prefHeight="700.0" prefWidth="1280.0" />
+        <Pane fx:id="gameWindow" prefHeight="700.0" prefWidth="1280.0">
+         <children>
+            <Circle fill="DODGERBLUE" layoutX="657.0" layoutY="307.0" radius="57.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="DODGERBLUE" layoutX="492.0" layoutY="550.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="DODGERBLUE" layoutX="180.0" layoutY="500.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="DODGERBLUE" layoutX="151.0" layoutY="251.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="DODGERBLUE" layoutX="533.0" layoutY="151.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="DODGERBLUE" layoutX="943.0" layoutY="157.0" radius="57.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="DODGERBLUE" layoutX="849.0" layoutY="549.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="DODGERBLUE" layoutX="1165.0" layoutY="335.0" radius="65.0" stroke="BLACK" strokeType="INSIDE" />
+         </children></Pane>
       <BorderPane prefHeight="509.0" prefWidth="589.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
          <bottom>
             <FlowPane fx:id="bottomBar" alignment="CENTER" prefHeight="0.0" prefWidth="1280.0" rowValignment="TOP" BorderPane.alignment="CENTER">
@@ -166,7 +172,6 @@
                   <Button mnemonicParsing="false" onAction="#exitGame" text="Exit Game" />
                </children>
             </VBox>
-<<<<<<< HEAD
             <HBox fx:id="ingameChooseDifficulty" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
                   <Label text="Choose Difficulty" textFill="DARKRED">
@@ -276,18 +281,6 @@
                         <Font name="Copperplate Gothic Light" size="24.0" />
                      </font>
                   </Label>
-=======
-            <VBox fx:id="ingameDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
-               <children>
-                  <Label text="Choose Difficulty" textFill="DARKRED">
-                     <font>
-                        <Font name="Copperplate Gothic Light" size="58.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="normalDifficulty" mnemonicParsing="false" onAction="#launchNormalDifficulty" text="NORMAL" />
-                  <Button fx:id="hardDifficulty" mnemonicParsing="false" onAction="#launchHardDifficulty" text="HARD" />
-                  <Button fx:id="insaneDifficulty" mnemonicParsing="false" onAction="#launchInsaneDifficulty" text="HARDCORE" />
->>>>>>> parent of 84562ae... changing some stuff
                </children>
             </VBox>
             <VBox fx:id="ingameHelp" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
@@ -342,7 +335,6 @@
                      </font>
                   </Label>
                   <Button fx:id="back_Help" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#hideHelp" text="Back" />
-<<<<<<< HEAD
          <left>
             <GridPane prefHeight="722.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
               <columnConstraints>
@@ -432,26 +424,10 @@
                      </children>
                   </VBox>
 
-=======
->>>>>>> 0cabbdf95df5a414892fcd29ecdcfedd0910e859
                </children>
-            </VBox>
-<<<<<<< HEAD
-=======
-            <BorderPane fx:id="obstacles" prefHeight="200.0" prefWidth="200.0">
-               <left>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" stroke="BLACK" strokeType="INSIDE" width="100" BorderPane.alignment="CENTER" />
-               </left>
-               <top>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="83.0" stroke="BLACK" strokeType="INSIDE" width="113.0" BorderPane.alignment="CENTER" />
-               </top>
-               <center>
-                  <Circle fill="DODGERBLUE" radius="55.0" stroke="BLACK" strokeType="INSIDE" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-            <Circle fill="DODGERBLUE" radius="62.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" />
->>>>>>> parent of 84562ae... changing some stuff
-         </children>
-      </GridPane>
+            </GridPane>
+         </left>
+      </BorderPane>
    </children>
    <columnConstraints>
       <ColumnConstraints hgrow="ALWAYS" />
