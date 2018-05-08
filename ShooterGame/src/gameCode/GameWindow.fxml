@@ -23,15 +23,16 @@
     <children>
         <Pane fx:id="gameWindow" prefHeight="700.0" prefWidth="1280.0">
          <children>
-            <Circle fill="DODGERBLUE" layoutX="657.0" layoutY="307.0" radius="57.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fill="DODGERBLUE" layoutX="492.0" layoutY="550.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fill="DODGERBLUE" layoutX="180.0" layoutY="500.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fill="DODGERBLUE" layoutX="151.0" layoutY="251.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fill="DODGERBLUE" layoutX="533.0" layoutY="151.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fill="DODGERBLUE" layoutX="943.0" layoutY="157.0" radius="57.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fill="DODGERBLUE" layoutX="849.0" layoutY="549.0" radius="51.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fill="DODGERBLUE" layoutX="1165.0" layoutY="335.0" radius="65.0" stroke="BLACK" strokeType="INSIDE" />
-         </children></Pane>
+            <ImageView layoutX="657.0" layoutY="307.0"/>
+            <ImageView layoutX="492.0" layoutY="550.0" />
+            <ImageView layoutX="180.0" layoutY="500.0" />
+            <ImageView layoutX="151.0" layoutY="251.0" />
+            <ImageView layoutX="533.0" layoutY="151.0" />
+            <ImageView layoutX="943.0" layoutY="157.0" />
+            <ImageView layoutX="849.0" layoutY="549.0" />
+            <ImageView layoutX="1165.0" layoutY="335.0" />
+         </children>
+        </Pane>
       <BorderPane prefHeight="509.0" prefWidth="589.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
          <bottom>
             <FlowPane fx:id="bottomBar" alignment="CENTER" prefHeight="0.0" prefWidth="1280.0" rowValignment="TOP" BorderPane.alignment="CENTER">
