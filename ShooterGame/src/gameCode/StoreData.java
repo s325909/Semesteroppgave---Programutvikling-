@@ -194,7 +194,6 @@ public class StoreData {
         }
 
 
-
         // Store player information in a XML structure
         Element savegame = doc.createElement("Savegame");
         doc.appendChild(savegame);

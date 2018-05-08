@@ -124,10 +124,12 @@ public class GameInitializer implements Initializable{
         // Initialize the Game object, and thus start the game
         game = new Game(player, zombies, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
         game.setGameInitializer(this);
-        Platform.runLater(this::getKeyPressed);
+        //Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
 
+
+        //Gjør dette for å riktig kunne trykke esc for ingameMenu...
         game.restartGame();
         gameState.setVisible(false);
         ingameMenu.setVisible(false);
@@ -141,6 +143,9 @@ public class GameInitializer implements Initializable{
         game.restartNormalGame();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
+
+        Platform.runLater(this::getKeyPressed);
+
     }
 
     public void launchHardDifficulty(){
@@ -148,6 +153,9 @@ public class GameInitializer implements Initializable{
         game.restartHardGame();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
+
+        Platform.runLater(this::getKeyPressed);
+
     }
 
     public void launchInsaneDifficulty(){
@@ -155,6 +163,9 @@ public class GameInitializer implements Initializable{
         game.restartInsaneGame();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
+
+        Platform.runLater(this::getKeyPressed);
+
     }
 
 
