@@ -151,7 +151,6 @@
                </children>
             </FlowPane>
          </top>
-<<<<<<< HEAD
       </BorderPane>
       <GridPane prefHeight="722.0" prefWidth="1280.0">
         <columnConstraints>
@@ -336,7 +335,6 @@
                      </font>
                   </Label>
                   <Button fx:id="back_Help" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#hideHelp" text="Back" />
-=======
          <left>
             <GridPane prefHeight="722.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
               <columnConstraints>
@@ -426,8 +424,6 @@
                      </children>
                   </VBox>
 
-      
->>>>>>> border
                </children>
             </GridPane>
          </left>
