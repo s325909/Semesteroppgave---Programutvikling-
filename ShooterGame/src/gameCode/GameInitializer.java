@@ -90,8 +90,8 @@ public class GameInitializer implements Initializable{
         loadAssets(nbrZombies);
 
         this.rocks = new ArrayList<Rock>();
-        rocks.add(new Rock("/resources/Art/rock.png", 0, 0));
-        rocks.add(new Rock("/resources/Art/rock.png", 10, 10));
+        rocks.add(new Rock("/resources/Art/rock.png", 240, 400));
+        rocks.add(new Rock("/resources/Art/rock.png", 300, 500));
         rocks.add(new Rock("/resources/Art/rock.png", 151, 151));
         rocks.add(new Rock("/resources/Art/rock.png", 500, 500));
 

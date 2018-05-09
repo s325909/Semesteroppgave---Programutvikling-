@@ -48,16 +48,18 @@ public class Movable extends Entity {
         setPositionX(getPositionX() + (int)getVelocityX());
         setPositionY(getPositionY() + (int)getVelocityY());
 
-        //TODO: Fix movement position. Only West and North now (SOUTH and EAST missing).
+
         //Also, need to replace position if window is resized.
+        //Calculates the new position on the screen
         double newX = this.getNode().getTranslateX() + velocityX;
         double newY = this.getNode().getTranslateY() + velocityY;
 
-        //Returning since we collide with border:
+        //TODO: Fix movement position. Have only managed left and top now (bottom and right missing).
+        //Exiting method because new position collides with border.
         if(newX < 0 || newY < 0)
             return;
 
-        //Checking if new bounds is colliding before updating actual movement.
+        //Checking if new bounds is colliding with objects before updating movement.
         Bounds oldBounds = this.getNode().getBoundsInParent();
         Bounds newBounds = new Rectangle(newX,newY,oldBounds.getWidth(),oldBounds.getHeight()).getLayoutBounds();
         for (Rock rock : rocks) {
