@@ -35,7 +35,7 @@ public class Zombie extends Movable {
         double angle = 180 + Math.atan2(diffy, diffx) * (180 / Math.PI);
         double distance = Math.sqrt(Math.pow(diffx, 2) + Math.pow(diffy, 2));
 
-        if(distance < 500 && distance >= 50) {
+        if(distance < 500 && distance >= 50 && this.walkDistance <= 0) {
             if (angle > 340 || angle <= 25) {
                 this.walkDirection = Direction.WEST;
                 this.walkDistance = 10;
@@ -63,8 +63,9 @@ public class Zombie extends Movable {
             }
         }
 
-        if(distance <= 50) {
+        if(distance <= 50 && this.walkDistance <= 0) {
             this.mode = State.ATTACK;
+            this.walkDistance = 10;
         } else {
             this.mode = State.NORMAL;
         }
@@ -80,70 +81,60 @@ public class Zombie extends Movable {
                 stopY();
                 this.walkDistance = 0;
                 action = 0;
-                //setAnimation(0);
                 break;
             case NORTH:
                 goUp();
                 stopX();
                 this.walkDistance--;
                 action = 1;
-                //setAnimation(1);
                 break;
             case NORTHEAST:
                 goUp();
                 goRight();;
                 this.walkDistance--;
                 action = 1;
-                //setAnimation(1);
                 break;
             case EAST:
                 goRight();
                 stopY();
                 this.walkDistance--;
                 action = 1;
-                //setAnimation(1);
                 break;
             case SOUTHEAST:
                 goDown();
                 goRight();
                 this.walkDistance--;
                 action = 1;
-                //setAnimation(1);
                 break;
             case SOUTH:
                 goDown();
                 stopX();
                 this.walkDistance--;
                 action = 1;
-                //setAnimation(1);
                 break;
             case SOUTHWEST:
                 goDown();
                 goLeft();
                 this.walkDistance--;
                 action = 1;
-                //setAnimation(1);
                 break;
             case WEST:
                 goLeft();
                 stopY();
                 this.walkDistance--;
                 action = 1;
-                //setAnimation(1);
                 break;
             case NORTHWEST:
                 goUp();
                 goLeft();
                 this.walkDistance--;
                 action = 1;
-                //setAnimation(1);
                 break;
             default:
                 stopX();
                 stopY();
                 this.walkDistance = 0;
                 action = 0;
-                //setAnimation(0);
         }
 
         switch (mode) {
@@ -151,11 +142,18 @@ public class Zombie extends Movable {
                 break;
             case ATTACK:
                 action = 2;
+                stopX();
+                stopY();
+                this.walkDistance = 0;
                 break;
             case DAMAGED:
                 break;
         }
         setAnimation(action);
+    }
+
+    public State getMode() {
+        return mode;
     }
 
     /**
@@ -164,8 +162,10 @@ public class Zombie extends Movable {
      */
     private void setAnimation(int animationAction) {
         long time = 0;
+        double duration = 0.064;
         if(animationAction == 2) {
             time = 200;
+            duration = 0.064;
         }
         boolean not = true;
         for (AnimationLengthPair pair : animationQueue) {
@@ -173,7 +173,7 @@ public class Zombie extends Movable {
                 not = false;
         }
         if (not)
-            animationQueue.add(new AnimationLengthPair(animationAction, time));
+            animationQueue.add(new AnimationLengthPair(animationAction, time, duration));
     }
 
     /**
@@ -186,29 +186,17 @@ public class Zombie extends Movable {
             if (currentTime > this.waitTime) {
                 getAnimationHandler().setImageAction(animationQueue.peek().action);
                 this.waitTime = currentTime + animationQueue.peek().time;
+                getAnimationHandler().setDuration(animationQueue.peek().duration);
                 animationQueue.remove();
             }
         }
     }
 
-    public DataHandler.Configuration getConfiguration() {
-        DataHandler.Configuration zombieCfg = new DataHandler.Configuration();
-        zombieCfg.health = this.getHealthPoints();
-        zombieCfg.posX = this.getPositionX();
-        zombieCfg.posY = this.getPositionY();
-        zombieCfg.velX = this.getVelocityX();
-        zombieCfg.velY = this.getVelocityY();
-        zombieCfg.movementSpeed = this.getMovementSpeed();
-        zombieCfg.direction = this.getDirection();
-        return zombieCfg;
+    public DataHandler.MovementConfiguration getZombieConfiguration() {
+        return super.getMovementConfiguration();
     }
 
-    public void setConfiguration(DataHandler.Configuration zombieCfg) {
-        this.setPosition(zombieCfg.posX, zombieCfg.posY);
-        this.setTranslateNode(zombieCfg.posX, zombieCfg.posY);
-        this.setHealthPoints(zombieCfg.health);
-        this.setVelocity(zombieCfg.velX, zombieCfg.velY);
-        this.setMovementSpeed(zombieCfg.movementSpeed);
-        this.setDirection(zombieCfg.direction);
+    public void setZombieConfiguration(DataHandler.MovementConfiguration zombieCfg) {
+        super.setMovementConfiguration(zombieCfg);
     }
 }

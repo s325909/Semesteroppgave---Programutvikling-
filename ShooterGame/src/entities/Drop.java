@@ -4,41 +4,53 @@ import gameCode.DataHandler;
 import gameCode.Game;
 import javafx.scene.image.Image;
 
+import static entities.Drop.DropType.*;
+
 public class Drop extends Entity {
-    public Drop(Image[] images, int positionX, int positionY) {
-        super(new AnimationHandler(images, 5), positionX, positionY);
+    public enum DropType {
+        SCORE, HP, ARMOR, PISTOLAMMO, RIFLEAMMO, SHOTGUNAMMO
+    }
+
+    private DropType dropType;
+
+    public Drop(Image[] images, int positionX, int positionY, DropType dropType) {
+        super(new AnimationHandler(images), positionX, positionY);
+        this.dropType = dropType;
         this.getAnimationHandler().getImageView().setTranslateX(this.getNode().getTranslateX());
         this.getAnimationHandler().getImageView().setTranslateY(this.getNode().getTranslateY());
+        getAnimationHandler().setDuration(0.256);
     }
 
     public void dropCollision(Player player, Game game) {
-        game.setScoreNumber(game.getScoreNumber() + 50);
-        int randomNumber = (int)(Math.random()*10) % 10;
-
-        if (randomNumber < 2) {
-            player.healthPickup(25);
-        } else if (randomNumber < 4) {
-            player.armorPickup(25);
-        } else if (randomNumber < 5) {
-            player.getMagazinePistol().changeBulletNumber(15);
-        } else if (randomNumber < 6) {
-            player.getMagazineRifle().changeBulletNumber(30);
-        } else if (randomNumber < 8) {
-            player.getMagazineShotgun().changeBulletNumber(8);
-        } else if (randomNumber <= 9) {
-            //player.setMovementSpeed(player.getMovementSpeed() + 5);
+        switch(dropType) {
+            case SCORE:
+                game.setScoreNumber(game.getScoreNumber() + 100);
+                break;
+            case HP:
+                player.healthPickup(25);
+                break;
+            case ARMOR:
+                player.armorPickup(25);
+                break;
+            case PISTOLAMMO:
+                player.getMagazinePistol().changeBulletNumber(15);
+                break;
+            case RIFLEAMMO:
+                player.getMagazineRifle().changeBulletNumber(30);
+                break;
+            case SHOTGUNAMMO:
+                player.getMagazineShotgun().changeBulletNumber(8);
+                break;
+            default:
+                game.setScoreNumber(game.getScoreNumber() + 100);
         }
     }
 
-    public DataHandler.Configuration getConfiguration() {
-        DataHandler.Configuration dropCfg = new DataHandler.Configuration();
-        dropCfg.posX = this.getPositionX();
-        dropCfg.posY = this.getPositionY();
-        return dropCfg;
+    public DataHandler.EntityConfiguration getDropConfiguration() {
+        return super.getEntityConfiguration();
     }
 
-    public void setConfiguration(DataHandler.Configuration dropCfg) {
-        this.setPosition(dropCfg.posX, dropCfg.posY);
-        this.setTranslateNode(dropCfg.posX, dropCfg.posY);
+    public void setDropConfiguration(DataHandler.EntityConfiguration dropCfg) {
+        super.setEntityConfiguration(dropCfg);
     }
 }

@@ -1,5 +1,6 @@
 package entities;
 
+import gameCode.DataHandler;
 import javafx.scene.media.AudioClip;
 
 public class Movable extends Entity {
@@ -30,8 +31,10 @@ public class Movable extends Entity {
         this.direction = Direction.IDLE;
     }
 
+    @Override
     public void update(double time) {
-        this.getAnimationHandler().setFrame(time);
+        super.update(time);
+        //getAnimationHandler().setFrame(time);
 
         // Update actual position of object
         setPositionX(getPositionX() + (int)getVelocityX());
@@ -47,31 +50,39 @@ public class Movable extends Entity {
         if (getVelocityX() > 0) {
             if (getVelocityY() < 0) {
                 this.getAnimationHandler().getImageView().setRotate(315);
+                this.getNode().setRotate(315);
                 this.direction = Direction.NORTHEAST;
             } else if (getVelocityY() > 0) {
                 this.getAnimationHandler().getImageView().setRotate(45);
+                this.getNode().setRotate(45);
                 this.direction = Direction.SOUTHEAST;
             } else {
                 this.getAnimationHandler().getImageView().setRotate(0);
+                this.getNode().setRotate(0);
                 this.direction = Direction.EAST;
             }
         } else if (getVelocityX() < 0) {
             if (getVelocityY() < 0) {
                this.getAnimationHandler().getImageView().setRotate(225);
+                this.getNode().setRotate(225);
                 this.direction = Direction.NORTHWEST;
             } else if (getVelocityY() > 0) {
                 this.getAnimationHandler().getImageView().setRotate(135);
+                this.getNode().setRotate(135);
                 this.direction = Direction.SOUTHWEST;
             } else {
                 this.getAnimationHandler().getImageView().setRotate(180);
+                this.getNode().setRotate(180);
                 this.direction = Direction.WEST;
             }
         } else if (getVelocityX() == 0) {
             if (getVelocityY() < 0) {
                 this.getAnimationHandler().getImageView().setRotate(270);
+                this.getNode().setRotate(270);
                 this.direction = Direction.NORTH;
             } else if (getVelocityY() > 0) {
                 this.getAnimationHandler().getImageView().setRotate(90);
+                this.getNode().setRotate(90);
                 this.direction = Direction.SOUTH;
             }
         } else if (getVelocityX() == 0 && getVelocityY() == 0) {
@@ -167,16 +178,38 @@ public class Movable extends Entity {
         this.direction = direction;
     }
 
+    public DataHandler.MovementConfiguration getMovementConfiguration() {
+        DataHandler.MovementConfiguration movementCfg = new DataHandler.MovementConfiguration();
+        movementCfg.entityCfg = super.getEntityConfiguration();
+        movementCfg.health = getHealthPoints();
+        movementCfg.velX = getVelocityX();
+        movementCfg.velY = getVelocityY();
+        movementCfg.movementSpeed = getMovementSpeed();
+        movementCfg.direction = getDirection();
+        return movementCfg;
+    }
+
+    public void setMovementConfiguration(DataHandler.MovementConfiguration movementCfg) {
+        super.setEntityConfiguration(movementCfg.entityCfg);
+        setHealthPoints(movementCfg.health);
+        setVelocity(movementCfg.velX, movementCfg.velY);
+        setMovementSpeed(movementCfg.movementSpeed);
+        setDirection(movementCfg.direction);
+    }
+
+
     /**
      * Inner class for handling length of animation
      */
     public class AnimationLengthPair {
         int action;
         long time;
+        double duration;
 
-        public AnimationLengthPair(int action, long time) {
+        public AnimationLengthPair(int action, long time, double duration) {
             this.action = action;
             this.time = time;
+            this.duration = duration;
         }
     }
 }

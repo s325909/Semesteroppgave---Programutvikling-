@@ -47,6 +47,7 @@ public class Player extends Movable {
         this.armor = armor;
         this.bulletList = new ArrayList<Bullet>();
         playerState = State.NORMAL;
+        setDirection(Direction.EAST);
     }
 
     /***
@@ -125,19 +126,19 @@ public class Player extends Movable {
                 i = 1;
                 audioAction = 1;
                 audioReload = 2;
-                fireRate = 1000;
+                fireRate = 350;
                 break;
             case RIFLE:
                 i = 2;
                 audioAction = 3;
                 audioReload = 4;
-                fireRate = 1000;
+                fireRate = 100;
                 break;
             case SHOTGUN:
                 i = 3;
                 audioAction = 5;
                 audioReload = 6;
-                fireRate = 1000;
+                fireRate = 500;
                 break;
             default:
                 i = 0;
@@ -164,13 +165,14 @@ public class Player extends Movable {
 
         if ((keyEvent.getCode() == KeyCode.E || keyEvent.getCode() == KeyCode.SPACE) && equippedWeapon == WeaponTypes.KNIFE) {
             j = 2;
-            playWeaponSounds(audioAction);
+            playWeaponSounds(audioAction, 1);
         } else if (keyEvent.getCode() == KeyCode.SPACE && equippedWeapon != WeaponTypes.KNIFE) {
             j = 3;
             fire(audioAction, fireRate);
         } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != WeaponTypes.KNIFE) {
             j = 4;
             reload(i, j, audioReload);
+            return;
         } else if (keyEvent.getCode() == KeyCode.F) {
             setEquippedWeapon(WeaponTypes.KNIFE);
         }
@@ -233,8 +235,6 @@ public class Player extends Movable {
     private void fire(int audioAction, int fireRate) {
         long currentTime = System.currentTimeMillis();
         if (currentTime > this.fireWaitTime) {
-            playWeaponSounds(audioAction);
-
             int posX = getPositionX();
             int posY = getPositionY();
             switch (this.getDirection()) {
@@ -276,8 +276,9 @@ public class Player extends Movable {
                         magazinePistol.changeBulletNumber(-1);
                         Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 50, this.getDirection());
                         this.bulletList.add(bullet);
+                        playWeaponSounds(audioAction, 1);
                     } else {
-                        playWeaponSounds(7);
+                        playWeaponSounds(7, 1);
                     }
                     break;
                 case RIFLE:
@@ -285,17 +286,77 @@ public class Player extends Movable {
                         magazineRifle.changeBulletNumber(-1);
                         Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 30, this.getDirection());
                         this.bulletList.add(bullet);
+                        playWeaponSounds(audioAction, 1);
                     } else {
-                        playWeaponSounds(7);
+                        playWeaponSounds(7, 1);
                     }
                     break;
                 case SHOTGUN:
                     if (!magazineShotgun.isMagazineEmpty()) {
                         magazineShotgun.changeBulletNumber(-1);
+
+                        double adjustVelX1 = 0, adjustVelY1 = 0;
+                        double adjustVelX2 = 0, adjustVelY2 = 0;
+                        switch (getDirection()) {
+                            case NORTHWEST:
+                                adjustVelX1 = 0.5;
+                                adjustVelY1 = -1;
+                                adjustVelX2 = -0.5;
+                                adjustVelY2 = -1;
+                                break;
+                            case SOUTHEAST:
+                                adjustVelX1 = 0.5;
+                                adjustVelY1 = 1;
+                                adjustVelX2 = -0.5;
+                                adjustVelY2 = 1;
+                                break;
+                            case SOUTHWEST:
+                                adjustVelX1 = 0.5;
+                                adjustVelY1 = 1;
+                                adjustVelX2 = -0.5;
+                                adjustVelY2 = 1;
+                                break;
+                            case NORTHEAST:
+                                adjustVelX1 = 0.5;
+                                adjustVelY1 = -1;
+                                adjustVelX2 = -0.5;
+                                adjustVelY2 = -1;
+                                break;
+                            case SOUTH:
+                                adjustVelX1 = 0.5;
+                                adjustVelY1 = 1;
+                                adjustVelX2 = -0.5;
+                                adjustVelY2 = 1;
+                                break;
+                            case NORTH:
+                                adjustVelX1 = 0.5;
+                                adjustVelY1 = -1;
+                                adjustVelX2 = -0.5;
+                                adjustVelY2 = -1;
+                                break;
+                            case WEST:
+                                adjustVelX1 = -0.5;
+                                adjustVelY1 = 1;
+                                adjustVelX2 = -0.5;
+                                adjustVelY2 = -1;
+                                break;
+                            case EAST:
+                                adjustVelX1 = 0.5;
+                                adjustVelY1 = 1;
+                                adjustVelX2 = 0.5;
+                                adjustVelY2 = -1;
+                                break;
+                        }
+
                         Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection());
                         this.bulletList.add(bullet);
+                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(), adjustVelX1, adjustVelY1);
+                        this.bulletList.add(bullet);
+                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(), adjustVelX2, adjustVelY2);
+                        this.bulletList.add(bullet);
+                        playWeaponSounds(audioAction, 1);
                     } else {
-                        playWeaponSounds(7);
+                        playWeaponSounds(7, 1);
                     }
                     break;
             }
@@ -314,21 +375,21 @@ public class Player extends Movable {
             case PISTOL:
                 if (!magazinePistol.isPoolEmpty() && !magazinePistol.isMagazineFull()) {
                     magazinePistol.reloadMagazine();
-                    playWeaponSounds(audioReload);
+                    playWeaponSounds(audioReload, 3);
                     setAnimation(i, j);
                 }
                 break;
             case RIFLE:
                 if (!magazineRifle.isPoolEmpty() && !magazineRifle.isMagazineFull()) {
                     magazineRifle.reloadMagazine();
-                    playWeaponSounds(audioReload);
+                    playWeaponSounds(audioReload, 3);
                     setAnimation(i, j);
                 }
                 break;
             case SHOTGUN:
                 if (!magazineShotgun.isPoolEmpty() && !magazineShotgun.isMagazineFull()) {
                     magazineShotgun.reloadMagazine();
-                    playWeaponSounds(audioReload);
+                    playWeaponSounds(audioReload, 3);
                     setAnimation(i, j);
                 }
                 break;
@@ -363,7 +424,7 @@ public class Player extends Movable {
         }
 
         if (queue)
-            animationQueue.add(new AnimationLengthPair(animationAction, time));
+            animationQueue.add(new AnimationLengthPair(animationAction, time, 0.032));
     }
 
     /**
@@ -493,16 +554,10 @@ public class Player extends Movable {
      * variables of type DataHandler.Configuration, for further use during saving.
      * @return Returns an object of type DataHandler.Configuration
      */
-    public DataHandler.Configuration getConfiguration() {
-        DataHandler.Configuration playerCfg = new DataHandler.Configuration();
-        playerCfg.health = this.getHealthPoints();
+    public DataHandler.PlayerConfiguration getPlayerConfiguration() {
+        DataHandler.PlayerConfiguration playerCfg = new DataHandler.PlayerConfiguration();
+        playerCfg.movementCfg = super.getMovementConfiguration();
         playerCfg.armor = this.getArmor();
-        playerCfg.posX = this.getPositionX();
-        playerCfg.posY = this.getPositionY();
-        playerCfg.velX = this.getVelocityX();
-        playerCfg.velY = this.getVelocityY();
-        playerCfg.movementSpeed = this.getMovementSpeed();
-        playerCfg.direction = this.getDirection();
         playerCfg.equipped = this.getEquippedWeapon();
         playerCfg.magPistol = this.getMagazinePistol().getNumberBullets();
         playerCfg.poolPistol = this.getMagazinePistol().getCurrentPool();
@@ -513,14 +568,9 @@ public class Player extends Movable {
         return playerCfg;
     }
 
-    public void setConfiguration(DataHandler.Configuration playerCfg) {
-        this.setHealthPoints(playerCfg.health);
+    public void setPlayerConfiguration(DataHandler.PlayerConfiguration playerCfg) {
+        super.setMovementConfiguration(playerCfg.movementCfg);
         this.setArmor(playerCfg.armor);
-        this.setPosition(playerCfg.posX, playerCfg.posY);
-        this.setTranslateNode(playerCfg.posX, playerCfg.posY);
-        this.setVelocity(playerCfg.velX, playerCfg.velY);
-        this.setMovementSpeed(playerCfg.movementSpeed);
-        this.setDirection(playerCfg.direction);
         this.setEquippedWeapon(playerCfg.equipped);
         this.getMagazinePistol().setNumberBullets(playerCfg.magPistol);
         this.getMagazinePistol().setCurrentPool(playerCfg.poolPistol);
@@ -538,7 +588,8 @@ public class Player extends Movable {
         this.armor = armor;
     }
 
-    public void playWeaponSounds(int i) {
+    public void playWeaponSounds(int i, double rate) {
+        this.weaponSounds[i].setRate(rate);
         this.weaponSounds[i].play();
     }
 

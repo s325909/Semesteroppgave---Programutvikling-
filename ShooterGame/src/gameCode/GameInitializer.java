@@ -54,9 +54,14 @@ public class GameInitializer implements Initializable{
     private Image[][][] playerImages;
     private AudioClip[] zombieAudioClips;
     private Image[][] zombieImages;
-    private Image[] dropImages;
+    private Image[] hpDropImages;
+    private Image[] armorDropImages;
+    private Image[] magDropImages;
+    private Image[] poolDropImages;
+    private Image[] speedDropImages;
+    private Image[] coinDropImages;
+    private Image[] coinDrop;
     private Image[] bulletImages;
-    private Image[] coin;
 
     final private boolean DEBUG = false;
 
@@ -76,7 +81,7 @@ public class GameInitializer implements Initializable{
 //        }
 
         // Select number of zombies to create, and load all assets
-        setNbrZombies(1);
+        setNbrZombies(0);
         loadAssets();
 
         // Create the Player upon starting a new game
@@ -231,6 +236,8 @@ public class GameInitializer implements Initializable{
         // Load coin Drop animation
         FileParam coin = new FileParam("/resources/Art/Icon/Coin/coin_rotate_", ".png", 6);
 
+        this.coinDrop = loadAnimation(coin);
+
         // Load all Drop images
         String[] dropImageStrings = new String[] {
                 "/resources/Art/Icon/hp_icon.png",
@@ -240,11 +247,7 @@ public class GameInitializer implements Initializable{
                 "/resources/Art/Icon/speed_boost.png",
                 "/resources/Art/Icon/Coin/coin_rotate_0.png"};
 
-        this.dropImages = new Image[dropImageStrings.length];
-
-        for(int i = 0; i < dropImageStrings.length; i++) {
-            this.dropImages[i] = new Image(dropImageStrings[i], 25, 25, true, false);
-        }
+        loadDropImages(dropImageStrings);
 
         // Load all Bullet images
         String[] bulletImageStrings = {
@@ -257,8 +260,62 @@ public class GameInitializer implements Initializable{
         }
     }
 
-    public Image[] getDropImages() {
-        return this.dropImages;
+    public void loadDropImages(String[] images) {
+        this.hpDropImages = new Image[1];
+        this.hpDropImages[0] = new Image(images[0], 25, 25, true, false);
+        this.armorDropImages = new Image[1];
+        this.armorDropImages[0] = new Image(images[1], 25, 25, true, false);
+        this.magDropImages = new Image[1];
+        this.magDropImages[0] = new Image(images[2], 25, 25, true, false);
+        this.poolDropImages = new Image[1];
+        this.poolDropImages[0] = new Image(images[3], 25, 25, true, false);
+        this.speedDropImages = new Image[1];
+        this.speedDropImages[0] = new Image(images[4], 25, 25, true, false);
+        this.coinDropImages = new Image[1];
+        this.coinDropImages[0] = new Image(images[5], 25, 25, true, false);
+    }
+
+    public Image[] getCoinDrop() {
+        return coinDrop;
+    }
+
+    public Image[] getHpDropImages() {
+        return hpDropImages;
+    }
+
+    public Image[] getArmorDropImages() {
+        return armorDropImages;
+    }
+
+    public Image[] getMagDropImages() {
+        return magDropImages;
+    }
+
+    public Image[] getPoolDropImages() {
+        return poolDropImages;
+    }
+
+    public Image[] getSpeedDropImages() {
+        return speedDropImages;
+    }
+
+    public Image[] getBulletImages() {
+        return bulletImages;
+    }
+
+    private Image[] loadAnimation(FileParam files) {
+        Image[] images = new Image[files.numberImages];
+        for(int i = 0; i < files.numberImages; i++) {
+            try {
+                String filename = files.filename + Integer.toString(i) + files.extension;
+                String resource = getClass().getResource(filename).toURI().toString();
+                images[i] = new Image(resource, 25, 25, true, false);
+            } catch (Exception e) {
+                System.out.println(files.filename + Integer.toString(i) + files.extension);
+                System.out.println("Error: Unable to find requested file(s) and the array Sprite.frames couldn't be created");
+            }
+        }
+        return images;
     }
 
     private Image[][] loadAnimation(FileParam[] files) {

@@ -1,10 +1,12 @@
 package entities;
 
+import gameCode.DataHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.Node;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
 public class Entity{
@@ -22,12 +24,16 @@ public class Entity{
     public Entity(AnimationHandler allAnimation, int positionX, int positionY) {
         this.iv = allAnimation.getImageView();
         this.animationhandler = allAnimation;
-        this.node = new Circle(this.animationhandler.getWidth()/2, this.animationhandler.getHeight()/2, 2*this.animationhandler.getHeight()/5, Color.BLUE);
+        this.node = new Circle(this.animationhandler.getWidth() / 2, this.animationhandler.getHeight() / 2, 2 * this.animationhandler.getHeight() / 5, Color.BLUE);
         this.positionX = positionX;
         this.positionY = positionY;
         this.node.setTranslateX(positionX);
         this.node.setTranslateY(positionY);
         this.alive = true;
+    }
+
+    public void update(double time) {
+        getAnimationHandler().setFrame(time);
     }
 
     public void setPosition(int positionX, int positionY) {
@@ -88,4 +94,16 @@ public class Entity{
     public boolean isDrawn() { return drawn; }
 
     public void setDrawn() { drawn = true; }
+
+    public DataHandler.EntityConfiguration getEntityConfiguration() {
+        DataHandler.EntityConfiguration entityCfg = new DataHandler.EntityConfiguration();
+        entityCfg.posX = getPositionX();
+        entityCfg.posY = getPositionY();
+        return entityCfg;
+    }
+
+    public void setEntityConfiguration(DataHandler.EntityConfiguration entityCfg) {
+        setPosition(entityCfg.posX, entityCfg.posY);
+        setTranslateNode(entityCfg.posX, entityCfg.posY);
+    }
 }

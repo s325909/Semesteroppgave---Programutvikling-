@@ -15,7 +15,7 @@ public class AnimationHandler {
 
     private double duration;
 
-    public AnimationHandler(Image[] allImages, int defaultImage) {
+    public AnimationHandler(Image[] allImages) {
         this.iv = new ImageView();
         this.frames = new Image[1][1][];
         this.frames[0][0] = allImages;
@@ -24,7 +24,7 @@ public class AnimationHandler {
         this.duration = 0.032;
         this.width = this.frames[imageType][imageAction][0].getWidth();
         this.height = this.frames[imageType][imageAction][0].getHeight();
-        this.iv.setImage(this.frames[this.imageType][this.imageAction][defaultImage]);
+        this.iv.setImage(this.frames[this.imageType][this.imageAction][0]);
     }
 
     public AnimationHandler(Image[][] allImages) {
@@ -79,5 +79,13 @@ public class AnimationHandler {
 
     public double getHeight() {
         return this.height;
+    }
+
+    public double getDuration() {
+        return duration;
+    }
+
+    public void setDuration(double duration) {
+        this.duration = duration;
     }
 }

@@ -74,18 +74,22 @@ public class Game {
                 int x = (int) Math.floor(Math.random() * gameWindow.getWidth());
                 int y = (int) Math.floor(Math.random() * gameWindow.getHeight());
 
-                dropsExtra.add(new Drop(gameInitializer.getDropImages(), x, y));
+                dropsExtra.add(new Drop(gameInitializer.getCoinDrop(), x, y, Drop.DropType.SCORE));
             }
         }
 
         // Check collision between zombies and player
         for (Zombie zombie : zombies) {
             zombie.movement(player);
-            if (player.isColliding(zombie)) {
-                player.receivedDamage(10);
-                if (!player.isAlive()) {
-                    //gameOver();
-                }
+//            if (player.isColliding(zombie)) {
+//                player.receivedDamage(0);
+//            }
+            if (zombie.getMode() == Zombie.State.ATTACK) {
+                player.receivedDamage(15);
+                System.out.println("hei");
+            }
+            if (!player.isAlive()) {
+                //gameOver();
             }
         }
 
@@ -127,6 +131,7 @@ public class Game {
                 drop.setAlive(false);
                 drop.dropCollision(player, this);
             }
+            drop.update(time);
         }
 
         // Update animation, position and velocity of player
@@ -139,8 +144,7 @@ public class Game {
             if(!zombie.isAlive()) {
                 this.scoreNumber += 100;
                 gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
-                Drop drop = new Drop(gameInitializer.getDropImages(), zombie.getPositionX(), zombie.getPositionY());
-                drops.add(drop);
+                drops.add(getRandomDropType(zombie));
             }
             zombie.updateAnimation();
             zombie.update(time);
@@ -171,6 +175,25 @@ public class Game {
         zombies.removeIf(Zombie::isDead);
         drops.removeIf(Drop::isDead);
         dropsExtra.removeIf(Drop::isDead);
+    }
+
+    public Drop getRandomDropType(Zombie zombie) {
+        int randomNumber = (int)(Math.random()*10) % 5;
+
+        switch(randomNumber) {
+            case 0:
+                return new Drop(gameInitializer.getHpDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.HP);
+            case 1:
+                return new Drop(gameInitializer.getArmorDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.ARMOR);
+            case 2:
+                return new Drop(gameInitializer.getMagDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.PISTOLAMMO);
+            case 3:
+                return new Drop(gameInitializer.getPoolDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.RIFLEAMMO);
+            case 4:
+                return new Drop(gameInitializer.getSpeedDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.SHOTGUNAMMO);
+            default:
+                return new Drop(gameInitializer.getCoinDrop(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.SCORE);
+        }
     }
 
     /**
@@ -252,10 +275,10 @@ public class Game {
         if (dataHandler.createSaveFile(filename, gameCfg)) {
             System.out.println("Save game");
             System.out.println("GameScore: " + gameCfg.gameScore);
-            System.out.println("Player HP: " + gameCfg.player.health);
+            System.out.println("Player HP: " + gameCfg.player.movementCfg.health);
             System.out.println("Player Armor: " + gameCfg.player.armor);
-            System.out.println("Player X: " + gameCfg.player.posX);
-            System.out.println("Player Y: " + gameCfg.player.posY);
+            System.out.println("Player X: " + gameCfg.player.movementCfg.entityCfg.posX);
+            System.out.println("Player Y: " + gameCfg.player.movementCfg.entityCfg.posY);
             System.out.println("NbrZombies: " + gameCfg.zombies.size());
         } else {
             fileAlert(false);
@@ -268,10 +291,10 @@ public class Game {
         if (dataHandler.readSaveFile(filename, gameCfg)) {
             System.out.println("Load game");
             System.out.println("GameScore: " + gameCfg.gameScore);
-            System.out.println("Player HP: " + gameCfg.player.health);
+            System.out.println("Player HP: " + gameCfg.player.movementCfg.health);
             System.out.println("Player Armor: " + player.getArmor());
-            System.out.println("Player X: " + gameCfg.player.posX);
-            System.out.println("Player Y: " + gameCfg.player.posY);
+            System.out.println("Player X: " + gameCfg.player.movementCfg.entityCfg.posX);
+            System.out.println("Player Y: " + gameCfg.player.movementCfg.entityCfg.posY);
             System.out.println("NbrZombies: " + gameCfg.zombies.size());
 
             setGameConfiguration(gameCfg);
@@ -315,26 +338,26 @@ public class Game {
     private DataHandler.GameConfiguration getGameConfiguration() {
         DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
         gameCfg.gameScore = this.getScoreNumber();
-        gameCfg.player = this.player.getConfiguration();
+        gameCfg.player = this.player.getPlayerConfiguration();
 
-        List<DataHandler.Configuration> zombieCfg = new ArrayList<>();
+        List<DataHandler.MovementConfiguration> zombieCfg = new ArrayList<>();
         for (Zombie zombie : this.zombies)
-            zombieCfg.add(zombie.getConfiguration());
+            zombieCfg.add(zombie.getZombieConfiguration());
         gameCfg.zombies = zombieCfg;
 
-        List<DataHandler.Configuration> bulletCfg = new ArrayList<>();
+        List<DataHandler.BulletConfiguration> bulletCfg = new ArrayList<>();
         for (Bullet bullet : this.player.getBulletList())
-            bulletCfg.add(bullet.getConfiguration());
+            bulletCfg.add(bullet.getBulletConfiguration());
         gameCfg.bullets = bulletCfg;
 
-        List<DataHandler.Configuration> dropCfg = new ArrayList<>();
+        List<DataHandler.EntityConfiguration> dropCfg = new ArrayList<>();
         for (Drop drop : this.drops)
-            dropCfg.add(drop.getConfiguration());
+            dropCfg.add(drop.getDropConfiguration());
         gameCfg.drops = dropCfg;
 
-        List<DataHandler.Configuration> dropExtraCfg = new ArrayList<>();
+        List<DataHandler.EntityConfiguration> dropExtraCfg = new ArrayList<>();
         for (Drop dropExtra : this.dropsExtra)
-            dropExtraCfg.add(dropExtra.getConfiguration());
+            dropExtraCfg.add(dropExtra.getDropConfiguration());
         gameCfg.dropsExtra = dropExtraCfg;
 
         return gameCfg;
@@ -342,13 +365,13 @@ public class Game {
 
     private void setGameConfiguration(DataHandler.GameConfiguration gameCfg) {
         this.setScoreNumber(gameCfg.gameScore);
-        this.player.setConfiguration(gameCfg.player);
+        this.player.setPlayerConfiguration(gameCfg.player);
 
         removeZombies();
         for (int i = 0; i < gameCfg.zombies.size(); i++) {
             Zombie zombie = new Zombie(this.getGameInitializer().getZombieImages(), this.getGameInitializer().getZombieAudioClips(),
-                    gameCfg.zombies.get(i).posX, gameCfg.zombies.get(i).posY, gameCfg.zombies.get(i).health);
-            zombie.setConfiguration(gameCfg.zombies.get(i));
+                    gameCfg.zombies.get(i).entityCfg.posX, gameCfg.zombies.get(i).entityCfg.posY, gameCfg.zombies.get(i).health);
+            zombie.setZombieConfiguration(gameCfg.zombies.get(i));
             this.zombies.add(zombie);
 
             if(this.getGameInitializer().isDEBUG())
@@ -357,8 +380,10 @@ public class Game {
         }
 
         removeBullets();
-        for (int i = 0; i < gameCfg.bullets.size(); i++) {
-            //Bullet bullet = new Bullet()
+        for (DataHandler.BulletConfiguration bulletCfg : gameCfg.bullets) {
+            //TO DO Fill in rotational angle?
+            Bullet bullet = new Bullet(getGameInitializer().getBulletImages(), bulletCfg.movementCfg.entityCfg.posX, bulletCfg.movementCfg.entityCfg.posY, bulletCfg.movementCfg.movementSpeed, bulletCfg.damage, bulletCfg.movementCfg.direction);
+            this.bullets.add(bullet);
         }
 
         removeDrops();
