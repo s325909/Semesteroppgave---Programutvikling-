@@ -4,19 +4,16 @@ import entities.AnimationHandler;
 import entities.Player;
 import entities.Rock;
 import entities.Zombie;
-import entities.Sprite;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -24,7 +21,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import menuOptions.SettingsController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -73,7 +69,8 @@ public class GameInitializer implements Initializable{
     private Image[] speedDropImages;
     private Image[] coinDropImages;
     private Image[] coinDrop;
-    private Image[] bulletImages;
+    private Image[] pistolBulletImaqe;
+    private Image[] rockImage;
 
     final private boolean DEBUG = false;
 
@@ -96,15 +93,19 @@ public class GameInitializer implements Initializable{
         setNbrZombies(0);
         loadAssets();
 
-        this.rocks = new ArrayList<Rock>();
-        rocks.add(new Rock("/resources/Art/rock.png", 240, 400));
-        rocks.add(new Rock("/resources/Art/rock.png", 300, 500));
-        rocks.add(new Rock("/resources/Art/rock.png", 151, 151));
-        rocks.add(new Rock("/resources/Art/rock.png", 500, 500));
+        try {
+            this.rocks = new ArrayList<Rock>();
+            rocks.add(new Rock(this.rockImage, 240, 400));
+            rocks.add(new Rock(this.rockImage, 300, 500));
+            rocks.add(new Rock(this.rockImage, 151, 151));
+            rocks.add(new Rock(this.rockImage, 500, 500));
+        } catch (Exception e) {
+            System.out.println("Error: Rocks did not load correctly");
+        }
 
         // Create the Player upon starting a new game
         try {
-            player = new Player(this.playerImages, this.basicSounds, this.weaponSounds, this.bulletImages, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50, this.rocks);
+            player = new Player(this.playerImages, this.basicSounds, this.weaponSounds, this.pistolBulletImaqe, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50, this.rocks);
             player.setWeaponTypeFromString("knife");
         } catch (Exception e) {
             for (StackTraceElement element : e.getStackTrace()) {
@@ -129,13 +130,16 @@ public class GameInitializer implements Initializable{
             for (Zombie zombie : zombies)
                 gameWindow.getChildren().add(zombie.getNode());
             for (Rock rock : rocks)
-                gameWindow.getChildren().add(rock.getSprite().getImageView());
+                gameWindow.getChildren().add(rock.getNode());
         }
 
         // Add the ImageView of every Entity to the gameWindow pane
         gameWindow.getChildren().add(player.getAnimationHandler().getImageView());
         for (Zombie zombie : zombies) {
             gameWindow.getChildren().add(zombie.getAnimationHandler().getImageView());
+        }
+        for (Rock rock : rocks) {
+            gameWindow.getChildren().add(rock.getAnimationHandler().getImageView());
         }
 
         // Initialize the Game object, and thus start the game
@@ -307,20 +311,26 @@ public class GameInitializer implements Initializable{
                 "/resources/Art/Icon/speed_boost.png",
                 "/resources/Art/Icon/Coin/coin_rotate_0.png"};
 
-        loadDropImages(dropImageStrings);
+        createDropImages(dropImageStrings);
 
         // Load all Bullet images
         String[] bulletImageStrings = {
-                "/resources/Art/pistol_bullet.png"};
+                "/resources/Art/pistol_bullet.png"
+        };
 
-        this.bulletImages = new Image[bulletImageStrings.length];
+        this.pistolBulletImaqe = new Image[1];
+        this.pistolBulletImaqe[0] = new Image(bulletImageStrings[0], 25, 25, true, false);
 
-        for (int i = 0; i < bulletImageStrings.length; i++) {
-            this.bulletImages[i] = new Image(bulletImageStrings[i], 25, 25, true, false);
-        }
+        // Load all Rock images
+        String[] rockImageStrings = {
+                "/resources/Art/rock.png"
+        };
+
+        this.rockImage = new Image[1];
+        this.rockImage[0] = new Image(rockImageStrings[0], 25, 25, true, false);
     }
 
-    public void loadDropImages(String[] images) {
+    public void createDropImages(String[] images) {
         this.hpDropImages = new Image[1];
         this.hpDropImages[0] = new Image(images[0], 25, 25, true, false);
         this.armorDropImages = new Image[1];
@@ -333,6 +343,10 @@ public class GameInitializer implements Initializable{
         this.speedDropImages[0] = new Image(images[4], 25, 25, true, false);
         this.coinDropImages = new Image[1];
         this.coinDropImages[0] = new Image(images[5], 25, 25, true, false);
+    }
+
+    public Image[] getPistolBulletImaqe() {
+        return pistolBulletImaqe;
     }
 
     public Image[] getCoinDrop() {
@@ -357,10 +371,6 @@ public class GameInitializer implements Initializable{
 
     public Image[] getSpeedDropImages() {
         return speedDropImages;
-    }
-
-    public Image[] getBulletImages() {
-        return bulletImages;
     }
 
     private Image[] loadAnimation(FileParam files) {

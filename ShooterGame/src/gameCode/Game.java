@@ -122,15 +122,15 @@ public class Game {
                 drop.dropCollision(player, this);
             }
         }
-
-        for (Rock rock : rocks) {
-            if (!rock.isDrawn()) {
-                //if(gameInitializer.isDEBUG())
-                    gameWindow.getChildren().add(rock.getNode());
-                gameWindow.getChildren().add(rock.getSprite().getImageView());
-                rock.setDrawn();
-            }
-        }
+//        Ikke nødvendig med mindre du skal legge til nye underveis
+//        for (Rock rock : rocks) {
+//            if (!rock.isDrawn()) {
+//                //if(gameInitializer.isDEBUG())
+//                    gameWindow.getChildren().add(rock.getNode());
+//                gameWindow.getChildren().add(rock.getSprite().getImageView());
+//                rock.setDrawn();
+//            }
+//        }
 
         // Draw dropsExtra to the pane, and check for collision with player
         for (Drop drop : dropsExtra) {
@@ -444,7 +444,7 @@ public class Game {
         removeBullets();
         for (DataHandler.BulletConfiguration bulletCfg : gameCfg.bullets) {
             //TO DO Fill in rotational angle?
-            Bullet bullet = new Bullet(getGameInitializer().getBulletImages(), bulletCfg.movementCfg.entityCfg.posX, bulletCfg.movementCfg.entityCfg.posY, bulletCfg.movementCfg.movementSpeed, bulletCfg.damage, bulletCfg.movementCfg.direction, this.rocks);
+            Bullet bullet = new Bullet(getGameInitializer().getPistolBulletImaqe(), bulletCfg.movementCfg.entityCfg.posX, bulletCfg.movementCfg.entityCfg.posY, bulletCfg.movementCfg.movementSpeed, bulletCfg.damage, bulletCfg.movementCfg.direction, this.rocks);
             this.bullets.add(bullet);
         }
 
