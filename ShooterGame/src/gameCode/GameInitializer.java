@@ -90,7 +90,7 @@ public class GameInitializer implements Initializable{
 //        }
 
         // Select number of zombies to create, and load all assets
-        setNbrZombies(0);
+        setNbrZombies(5);
         loadAssets();
 
         try {
@@ -327,7 +327,7 @@ public class GameInitializer implements Initializable{
         };
 
         this.rockImage = new Image[1];
-        this.rockImage[0] = new Image(rockImageStrings[0], 25, 25, true, false);
+        this.rockImage[0] = new Image(rockImageStrings[0], 50, 50, true, false);
     }
 
     public void createDropImages(String[] images) {

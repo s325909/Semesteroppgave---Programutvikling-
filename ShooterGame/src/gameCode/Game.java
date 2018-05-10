@@ -90,7 +90,6 @@ public class Game {
 //            }
             if (zombie.getMode() == Zombie.State.ATTACK) {
                 player.receivedDamage(15);
-                System.out.println("hei");
             }
             if (!player.isAlive()) {
                 //gameOver();
@@ -270,6 +269,7 @@ public class Game {
 
 
     protected void restartGame() {
+        //removeBullets();
         clearGame();
         player.resetPlayer();
         setScoreNumber(0);
@@ -319,7 +319,7 @@ public class Game {
 
     public void clearGame() {
         removeZombies();
-        removeBullets();
+        //removeBullets();
         removeDrops();
         removeDropsExtra();
         stopTimer();
@@ -332,7 +332,6 @@ public class Game {
      */
     public void saveGame(String filename) {
         DataHandler.GameConfiguration gameCfg = getGameConfiguration();
-        retrieveData(gameCfg);
 
         if (dataHandler.createSaveFile(filename, gameCfg)) {
             System.out.println("Save game");
