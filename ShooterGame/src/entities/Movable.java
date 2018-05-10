@@ -8,6 +8,10 @@ public class Movable extends Entity {
         IDLE, NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST
     }
 
+    public enum State {
+        NORMAL, DAMAGED, ATTACK
+    }
+
     private int healthPoints;
     private double velocityX;
     private double velocityY;
@@ -16,26 +20,8 @@ public class Movable extends Entity {
     private AudioClip[] audioClips;
     private Direction direction;
 
-    public Movable(String filename, int positionX, int positionY, double movementSpeed) {
-        super(filename, positionX, positionY);
-        this.movementSpeed = movementSpeed;
-        this.velocityX = 0;
-        this.velocityY = 0;
-        this.direction = Direction.IDLE;
-    }
-
-    public Movable(Sprite idleSprite, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed) {
-        super(idleSprite, positionX, positionY);
-        this.audioClips = audioClips;
-        this.healthPoints = healthPoints;
-        this.movementSpeed = movementSpeed;
-        this.velocityX = 0;
-        this.velocityY = 0;
-        this.direction = Direction.IDLE;
-    }
-
-    public Movable(AnimationHandler idleAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed) {
-        super(idleAnimation, positionX, positionY);
+    public Movable(AnimationHandler allAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed) {
+        super(allAnimation, positionX, positionY);
         this.audioClips = audioClips;
         this.healthPoints = healthPoints;
         this.movementSpeed = movementSpeed;
@@ -45,7 +31,7 @@ public class Movable extends Entity {
     }
 
     public void update(double time) {
-        this.getSprite().setFrame(time);
+        this.getAnimationHandler().setFrame(time);
 
         // Update actual position of object
         setPositionX(getPositionX() + (int)getVelocityX());
@@ -54,38 +40,38 @@ public class Movable extends Entity {
         // Update position of the visible representation of the object (Node and Sprite)
         this.getNode().setTranslateX(this.getNode().getTranslateX() + velocityX);
         this.getNode().setTranslateY(this.getNode().getTranslateY() + velocityY);
-        this.getSprite().getImageView().setTranslateX(this.getNode().getTranslateX() + velocityX);
-        this.getSprite().getImageView().setTranslateY(this.getNode().getTranslateY() + velocityY);
+        this.getAnimationHandler().getImageView().setTranslateX(this.getNode().getTranslateX() + velocityX);
+        this.getAnimationHandler().getImageView().setTranslateY(this.getNode().getTranslateY() + velocityY);
 
         // Change sprite direction upon entity direction change based on user input
         if (getVelocityX() > 0) {
             if (getVelocityY() < 0) {
-                this.getSprite().getImageView().setRotate(315);
+                this.getAnimationHandler().getImageView().setRotate(315);
                 this.direction = Direction.NORTHEAST;
             } else if (getVelocityY() > 0) {
-                this.getSprite().getImageView().setRotate(45);
+                this.getAnimationHandler().getImageView().setRotate(45);
                 this.direction = Direction.SOUTHEAST;
             } else {
-                this.getSprite().getImageView().setRotate(0);
+                this.getAnimationHandler().getImageView().setRotate(0);
                 this.direction = Direction.EAST;
             }
         } else if (getVelocityX() < 0) {
             if (getVelocityY() < 0) {
-               this.getSprite().getImageView().setRotate(225);
+               this.getAnimationHandler().getImageView().setRotate(225);
                 this.direction = Direction.NORTHWEST;
             } else if (getVelocityY() > 0) {
-                this.getSprite().getImageView().setRotate(135);
+                this.getAnimationHandler().getImageView().setRotate(135);
                 this.direction = Direction.SOUTHWEST;
             } else {
-                this.getSprite().getImageView().setRotate(180);
+                this.getAnimationHandler().getImageView().setRotate(180);
                 this.direction = Direction.WEST;
             }
         } else if (getVelocityX() == 0) {
             if (getVelocityY() < 0) {
-                this.getSprite().getImageView().setRotate(270);
+                this.getAnimationHandler().getImageView().setRotate(270);
                 this.direction = Direction.NORTH;
             } else if (getVelocityY() > 0) {
-                this.getSprite().getImageView().setRotate(90);
+                this.getAnimationHandler().getImageView().setRotate(90);
                 this.direction = Direction.SOUTH;
             }
         } else if (getVelocityX() == 0 && getVelocityY() == 0) {
@@ -182,23 +168,14 @@ public class Movable extends Entity {
     }
 
     /**
-     * Inner class for handling
+     * Inner class for handling length of animation
      */
-    public class SpritePair {
-        Sprite sprite;
+    public class AnimationLengthPair {
+        int action;
         long time;
 
-        public SpritePair(Sprite sprite, long time) {
-            this.sprite = sprite;
-            this.time = time;
-        }
-    }
-    public class SpritePair2 {
-        int i;
-        long time;
-
-        public SpritePair2(int i, long time) {
-            this.i = i;
+        public AnimationLengthPair(int action, long time) {
+            this.action = action;
             this.time = time;
         }
     }

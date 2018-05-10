@@ -2,19 +2,13 @@ package entities;
 
 import gameCode.DataHandler;
 import gameCode.Game;
+import javafx.scene.image.Image;
 
 public class Drop extends Entity {
-
-    public Drop(String filename, int positionX, int positionY) {
-        super(filename, positionX, positionY);
-    }
-
-    public Drop(AnimationHandler animationHandler, int positionX, int positionY) {
-        super(animationHandler, positionX, positionY);
-    }
-
-    public Drop(Sprite idleSprite, int positionX, int positionY) {
-        super(idleSprite, positionX, positionY);
+    public Drop(Image[] images, int positionX, int positionY) {
+        super(new AnimationHandler(images, 5), positionX, positionY);
+        this.getAnimationHandler().getImageView().setTranslateX(this.getNode().getTranslateX());
+        this.getAnimationHandler().getImageView().setTranslateY(this.getNode().getTranslateY());
     }
 
     public void dropCollision(Player player, Game game) {

@@ -51,10 +51,8 @@ public class GameInitializer implements Initializable{
 
     private AudioClip[] weaponSounds;
     private AudioClip[] basicSounds;
-    private Sprite[][] playerAnimation;
+    private Image[][][] playerImages;
     private AudioClip[] zombieAudioClips;
-    private Sprite[][] zombieAnimation;
-    private AnimationHandler[] zombieAnimationer;
     private Image[][] zombieImages;
     private Image[] dropImages;
     private Image[] bulletImages;
@@ -78,12 +76,12 @@ public class GameInitializer implements Initializable{
 //        }
 
         // Select number of zombies to create, and load all assets
-        setNbrZombies(5);
-        loadAssets(nbrZombies);
+        setNbrZombies(1);
+        loadAssets();
 
         // Create the Player upon starting a new game
         try {
-            player = new Player(this.playerAnimation, this.basicSounds, this.weaponSounds, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
+            player = new Player(this.playerImages, this.basicSounds, this.weaponSounds, this.bulletImages, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
             player.setWeaponTypeFromString("knife");
         } catch (Exception e) {
             for (StackTraceElement element : e.getStackTrace()) {
@@ -96,7 +94,7 @@ public class GameInitializer implements Initializable{
         try {
             zombies = new ArrayList<>();
             for (int i = 0; i < nbrZombies; i++) {
-                zombies.add(new Zombie(this.zombieAnimationer[i], this.zombieAudioClips, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+                zombies.add(new Zombie(this.zombieImages, this.zombieAudioClips, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
             }
         } catch (Exception e) {
             System.out.println("Error: Enemies did not load correctly");
@@ -110,7 +108,7 @@ public class GameInitializer implements Initializable{
         }
 
         // Add the ImageView of every Entity to the gameWindow pane
-        gameWindow.getChildren().add(player.getSprite().getImageView());
+        gameWindow.getChildren().add(player.getAnimationHandler().getImageView());
         for (Zombie zombie : zombies) {
             gameWindow.getChildren().add(zombie.getAnimationHandler().getImageView());
         }
@@ -147,11 +145,8 @@ public class GameInitializer implements Initializable{
 
             } else if (e.getCode() == KeyCode.F5){
                 game.saveGame("quicksave");
-                //game.save("quicksave");
-
             } else if (e.getCode() == KeyCode.F9) {
                 game.loadGame("quicksave");
-                //game.load("quicksave");
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {
@@ -169,9 +164,8 @@ public class GameInitializer implements Initializable{
      * Method which finds and loads all necessary assets from disk only once.
      * Once found and loaded into memory, these sets of assets are then turned
      * into usable arrays which allows easy access without re-reading from disk.
-     * @param nbrZombies Requires the number of Zombie objects to create.
      */
-    private void loadAssets(int nbrZombies) {
+    private void loadAssets() {
 
         // Load all Player sounds and animations
         String[] playerSounds = {
@@ -194,44 +188,48 @@ public class GameInitializer implements Initializable{
 
         this.weaponSounds = loadAudio(weaponSounds);
 
-        SpriteParam[] knife = {
-                new SpriteParam("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/knife/move/survivor-move_knife_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_", ".png", 15)
+        FileParam[] knife = {
+                new FileParam("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20),
+                new FileParam("/resources/Art/Player/knife/move/survivor-move_knife_", ".png", 20),
+                new FileParam("/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_", ".png", 15)
         };
 
-        SpriteParam[] pistol = {
-                new SpriteParam("/resources/Art/Player/handgun/idle/survivor-idle_handgun_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/handgun/move/survivor-move_handgun_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15),
-                new SpriteParam("/resources/Art/Player/handgun/shoot/survivor-shoot_handgun_", ".png", 3),
-                new SpriteParam("/resources/Art/Player/handgun/reload/survivor-reload_handgun_", ".png", 15)
+        FileParam[] pistol = {
+                new FileParam("/resources/Art/Player/handgun/idle/survivor-idle_handgun_", ".png", 20),
+                new FileParam("/resources/Art/Player/handgun/move/survivor-move_handgun_", ".png", 20),
+                new FileParam("/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15),
+                new FileParam("/resources/Art/Player/handgun/shoot/survivor-shoot_handgun_", ".png", 3),
+                new FileParam("/resources/Art/Player/handgun/reload/survivor-reload_handgun_", ".png", 15)
         };
 
-        SpriteParam[] rifle = {
-                new SpriteParam("/resources/Art/Player/rifle/idle/survivor-idle_rifle_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/rifle/move/survivor-move_rifle_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_", ".png", 15),
-                new SpriteParam("/resources/Art/Player/rifle/shoot/survivor-shoot_rifle_", ".png", 3),
-                new SpriteParam("/resources/Art/Player/rifle/reload/survivor-reload_rifle_", ".png", 20)
+        FileParam[] rifle = {
+                new FileParam("/resources/Art/Player/rifle/idle/survivor-idle_rifle_", ".png", 20),
+                new FileParam("/resources/Art/Player/rifle/move/survivor-move_rifle_", ".png", 20),
+                new FileParam("/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_", ".png", 15),
+                new FileParam("/resources/Art/Player/rifle/shoot/survivor-shoot_rifle_", ".png", 3),
+                new FileParam("/resources/Art/Player/rifle/reload/survivor-reload_rifle_", ".png", 20)
         };
 
-        SpriteParam[] shotgun = {
-                new SpriteParam("/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/shotgun/move/survivor-move_shotgun_", ".png", 20),
-                new SpriteParam("/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_", ".png", 15),
-                new SpriteParam("/resources/Art/Player/shotgun/shoot/survivor-shoot_shotgun_", ".png", 3),
-                new SpriteParam("/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_", ".png", 20)
+        FileParam[] shotgun = {
+                new FileParam("/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_", ".png", 20),
+                new FileParam("/resources/Art/Player/shotgun/move/survivor-move_shotgun_", ".png", 20),
+                new FileParam("/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_", ".png", 15),
+                new FileParam("/resources/Art/Player/shotgun/shoot/survivor-shoot_shotgun_", ".png", 3),
+                new FileParam("/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_", ".png", 20)
         };
 
-        SpriteParam[][] all = {knife, pistol, rifle, shotgun};
-        this.playerAnimation = loadSprites(all);
+        FileParam[][] all = {knife, pistol, rifle, shotgun};
+
+        this.playerImages = new Image[all.length][][];
+        for (int i = 0; i < all.length; ++i) {
+            this.playerImages[i] = loadAnimation(all[i]);
+        }
 
         // Load all Zombie animations
-        loadZombiesAssets(nbrZombies);
+        loadZombiesAssets();
 
         // Load coin Drop animation
-        SpriteParam coin = new SpriteParam("/resources/Art/Icon/Coin/coin_rotate_", ".png", 6);
+        FileParam coin = new FileParam("/resources/Art/Icon/Coin/coin_rotate_", ".png", 6);
 
         // Load all Drop images
         String[] dropImageStrings = new String[] {
@@ -248,7 +246,6 @@ public class GameInitializer implements Initializable{
             this.dropImages[i] = new Image(dropImageStrings[i], 25, 25, true, false);
         }
 
-
         // Load all Bullet images
         String[] bulletImageStrings = {
                 "/resources/Art/pistol_bullet.png"};
@@ -260,17 +257,21 @@ public class GameInitializer implements Initializable{
         }
     }
 
-    private Image[][] loadAnimation(SpriteParam[] sprites) {
-        Image[][] images = new Image[sprites.length][];
-        for (int i = 0; i < sprites.length; ++i) {
-            images[i] = new Image[sprites[i].numberImages];
-            for (int j = 0; j < sprites[i].numberImages; ++j) {
+    public Image[] getDropImages() {
+        return this.dropImages;
+    }
+
+    private Image[][] loadAnimation(FileParam[] files) {
+        Image[][] images = new Image[files.length][];
+        for (int i = 0; i < files.length; ++i) {
+            images[i] = new Image[files[i].numberImages];
+            for (int j = 0; j < files[i].numberImages; ++j) {
                 try {
-                    String filename = sprites[i].filename + Integer.toString(j) + sprites[i].extension;
+                    String filename = files[i].filename + Integer.toString(j) + files[i].extension;
                     String resource = getClass().getResource(filename).toURI().toString();
                     images[i][j] = new Image(resource, 75, 75, true, false);
                 } catch (Exception e) {
-                    System.out.println(sprites[i].filename + Integer.toString(j) + sprites[i].extension);
+                    System.out.println(files[i].filename + Integer.toString(j) + files[i].extension);
                     System.out.println("Error: Unable to find requested file(s) and the array Sprite.frames couldn't be created");
                 }
             }
@@ -278,7 +279,7 @@ public class GameInitializer implements Initializable{
         return images;
     }
 
-    private AnimationHandler[] loadAnimations(Image[][] images, int nbr) {
+    private AnimationHandler[] loadMultipleAnimationHandler(Image[][] images, int nbr) {
         AnimationHandler[] animationHandler = new AnimationHandler[nbr];
         for (int i = 0; i < nbr; i++) {
             animationHandler[i] = new AnimationHandler(images);
@@ -290,91 +291,23 @@ public class GameInitializer implements Initializable{
      * Method which finds and loads all necessary Zombie assets from disk only once.
      * Once found and loaded into memory, these sets of assets are then turned
      * into usable arrays which allows easy access without re-reading from disk.
-     * @param nbrZombies Requires the number of Zombie objects to create.
      */
-    public void loadZombiesAssets(int nbrZombies) {
+    public void loadZombiesAssets() {
         String[] zombieSounds = {
                 "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
                 "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"};
 
-        SpriteParam[] zombieAnimations = {
-                new SpriteParam("/resources/Art/Zombie/skeleton-idle_", ".png", 17),
-                new SpriteParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
-                new SpriteParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
+        FileParam[] zombieAnimations = {
+                new FileParam("/resources/Art/Zombie/skeleton-idle_", ".png", 17),
+                new FileParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
+                new FileParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
 
         this.zombieAudioClips = loadAudio(zombieSounds);
         this.zombieImages = loadAnimation(zombieAnimations);
-        this.zombieAnimationer = loadAnimations(this.zombieImages, nbrZombies);
-        //this.zombieAnimation = loadSprites(nbrZombies, zombieAnimations);
     }
 
-    public AnimationHandler[] getZombieAnimationer() {
-        return this.zombieAnimationer;
-    }
-
-    /***
-     * Method which is used for loading all of Player's animations.
-     * It takes in a 2-dimensional array of type SpriteParam and combines
-     * it with an ImageView. Through method call prepareSprites(), this is
-     * then turned into a 2-dimensional array of type Sprite.
-     * @param sprites Requires a 2-dimensional array of type SpriteParam.
-     * @return Returns a combined 2-dimensional array of type Sprite.
-     */
-    private Sprite[][] loadSprites(SpriteParam[][] sprites) {
-        ImageView iv = new ImageView();
-        Sprite[][] outerSprite = new Sprite[sprites.length][];
-
-        for (int i = 0; i < sprites.length; i++) {
-            outerSprite[i] = prepareSprites(sprites[i], iv);
-        }
-        return outerSprite;
-    }
-//
-//    /**
-//     * Method which is used for loading all of Zombie's animations.
-//     * It takes in a 2-dimensional array of type SpriteParam and combines it
-//     * with an ImageView. Through method call prepareSprite(), this is then
-//     * turned into a 2-dimensional array of type Sprite. This action is repeated
-//     * equal to the set number of zombies.
-//     * @param nbrZombies Requires the number of zombies that should be created.
-//     * @param sprites Requires a set of animations created in type SpriteParam[].
-//     * @return Returns a combined 2-dimensional array of type Sprite.
-//     */
-//    private Sprite[][] loadSprites(int nbrZombies, SpriteParam[] sprites) {
-//        Sprite[][] outerSprite = new Sprite[nbrZombies][];
-//        for (int i = 0; i < nbrZombies; i++) {
-//            ImageView iv = new ImageView();
-//            outerSprite[i] = prepareSprites(sprites, iv);
-//        }
-//        return outerSprite;
-//    }
-//
-//    /**
-//     *
-//     * @param files g
-//     * @return g
-//     */
-//    private Sprite[] loadSingleSprites(String[] files) {
-//        Sprite[] sprites = new Sprite[files.length];
-//        ImageView iv = new ImageView();
-//        for(int i = 0; i < sprites.length; i++) {
-//            sprites[i] = new Sprite(iv, files[i]);
-//        }
-//        return sprites;
-//    }
-
-    /**
-     * Method which is used for turning a SpriteParam array and ImageView into a Sprite array.
-     * @param spriteParam Requires an array of type SpriteParam.
-     * @param iv Requires an ImageView object.
-     * @return Returns an array of type Sprite.
-     */
-    private Sprite[] prepareSprites(SpriteParam[] spriteParam, ImageView iv) {
-        Sprite[] sprites = new Sprite[spriteParam.length];
-        for(int i = 0; i < sprites.length; i++) {
-            sprites[i] = new Sprite(iv, spriteParam[i].filename, spriteParam[i].extension, spriteParam[i].numberImages);
-        }
-        return sprites;
+    public Image[][] getZombieImages() {
+        return this.zombieImages;
     }
 
     /**
@@ -524,20 +457,12 @@ public class GameInitializer implements Initializable{
         this.nbrZombies = nbrZombies;
     }
 
-    public Sprite[][] getZombieAnimation() {
-        return zombieAnimation;
-    }
-
     public AudioClip[] getZombieAudioClips() {
         return zombieAudioClips;
     }
 
     public AudioClip[] getBasicSounds() {
         return basicSounds;
-    }
-
-    public Sprite[][] getPlayerAnimation() {
-        return playerAnimation;
     }
 
     public AudioClip[] getWeaponSounds() {
@@ -553,12 +478,12 @@ public class GameInitializer implements Initializable{
      * Used to create smaller portions of the array, which then are combined with an
      * ImageView in order to create an object of type Sprite.
      */
-    private class SpriteParam {
+    private class FileParam {
         String filename;
         String extension;
         int numberImages;
 
-        private SpriteParam(String filename, String extension, int numberImages) {
+        private FileParam(String filename, String extension, int numberImages) {
             this.filename = filename;
             this.extension = extension;
             this.numberImages = numberImages;

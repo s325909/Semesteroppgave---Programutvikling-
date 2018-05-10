@@ -1,6 +1,7 @@
 package entities;
 
 import gameCode.DataHandler;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
@@ -16,29 +17,25 @@ public class Player extends Movable {
         KNIFE, PISTOL, RIFLE, SHOTGUN
     }
 
-    public enum State {
-        NORMAL, DAMAGED
-    }
-
     private WeaponTypes equippedWeapon;
     private State playerState;
     private int armor;
     private AudioClip[] weaponSounds;
-    private Sprite[][] allAnimation;
+    private Image[] bulletImages;
     private Magazine magazinePistol;
     private Magazine magazineRifle;
     private Magazine magazineShotgun;
     private List<Bullet> bulletList;
-    private Queue<SpritePair> animationQueue;
+    private Queue<AnimationLengthPair> animationQueue;
     private long waitTime;
     private long invTime;
     private long fireWaitTime;
 
-    public Player(Sprite[][] allAnimation, AudioClip[] basicSounds, AudioClip[] weaponSounds, int positionX, int positionY, int healthPoints, int armor) {
-        super(allAnimation[0][0], basicSounds, positionX, positionY, healthPoints, 5.0);
-        this.allAnimation = allAnimation;
+    public Player(Image[][][] images, AudioClip[] basicSounds, AudioClip[] weaponSounds, Image[] bulletImages, int positionX, int positionY, int healthPoints, int armor) {
+        super(new AnimationHandler(images), basicSounds, positionX, positionY, healthPoints, 5.0);
         this.weaponSounds = weaponSounds;
-        this.animationQueue = new LinkedList<SpritePair>();
+        this.bulletImages = bulletImages;
+        this.animationQueue = new LinkedList<AnimationLengthPair>();
         this.waitTime = 0;
 
         setEquippedWeapon(WeaponTypes.KNIFE);
@@ -242,11 +239,11 @@ public class Player extends Movable {
             int posY = getPositionY();
             switch (this.getDirection()) {
                 case EAST:
-                    posX += this.getSprite().getImageView().getImage().getWidth();
-                    posY += (this.getSprite().getImageView().getImage().getHeight() - 20);
+                    posX += this.getAnimationHandler().getImageView().getImage().getWidth();
+                    posY += (this.getAnimationHandler().getImageView().getImage().getHeight() - 20);
                     break;
                 case NORTHEAST:
-                    posX += this.getSprite().getImageView().getImage().getWidth();
+                    posX += this.getAnimationHandler().getImageView().getImage().getWidth();
                     break;
                 case WEST:
                     posY += 10;
@@ -255,19 +252,19 @@ public class Player extends Movable {
                     posX += 10;
                     break;
                 case NORTH:
-                    posX += (this.getSprite().getImageView().getImage().getWidth() - 20);
+                    posX += (this.getAnimationHandler().getImageView().getImage().getWidth() - 20);
                     break;
                 case SOUTH:
                     posX += 10;
-                    posY += this.getSprite().getImageView().getImage().getHeight();
+                    posY += this.getAnimationHandler().getImageView().getImage().getHeight();
                     break;
                 case SOUTHEAST:
-                    posX += this.getSprite().getImageView().getImage().getWidth();
-                    posY += this.getSprite().getImageView().getImage().getHeight();
+                    posX += this.getAnimationHandler().getImageView().getImage().getWidth();
+                    posY += this.getAnimationHandler().getImageView().getImage().getHeight();
                     break;
                 case SOUTHWEST:
                     posX -= 10;
-                    posY += this.getSprite().getImageView().getImage().getHeight();
+                    posY += this.getAnimationHandler().getImageView().getImage().getHeight();
                     break;
                 case IDLE:
                     break;
@@ -277,7 +274,7 @@ public class Player extends Movable {
                 case PISTOL:
                     if (!magazinePistol.isMagazineEmpty()) {
                         magazinePistol.changeBulletNumber(-1);
-                        Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", posX, posY, 10, 50, this.getDirection());
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 50, this.getDirection());
                         this.bulletList.add(bullet);
                     } else {
                         playWeaponSounds(7);
@@ -286,7 +283,7 @@ public class Player extends Movable {
                 case RIFLE:
                     if (!magazineRifle.isMagazineEmpty()) {
                         magazineRifle.changeBulletNumber(-1);
-                        Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", posX, posY, 10, 30, this.getDirection());
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 30, this.getDirection());
                         this.bulletList.add(bullet);
                     } else {
                         playWeaponSounds(7);
@@ -295,7 +292,7 @@ public class Player extends Movable {
                 case SHOTGUN:
                     if (!magazineShotgun.isMagazineEmpty()) {
                         magazineShotgun.changeBulletNumber(-1);
-                        Bullet bullet = new Bullet("/resources/Art/pistol_bullet.png", posX, posY, 10, 20, this.getDirection());
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection());
                         this.bulletList.add(bullet);
                     } else {
                         playWeaponSounds(7);
@@ -340,26 +337,33 @@ public class Player extends Movable {
 
     /**
      *
-     * @param i fg
-     * @param j fg
+     * @param animationType fg
+     * @param animationAction fg
      */
-    private void setAnimation(int i, int j) {
+    private void setAnimation(int animationType, int animationAction) {
         long time = 0;
         boolean queue = true;
-        if(j == 4) {
+        if(animationAction == 4) {
             time = 250;
         }
-        if(j == 2) {
+        if(animationAction == 2) {
             time = 500;
         }
-        if(j == 3) {
+        if(animationAction == 3) {
             time = 500;
             long currentTime = System.currentTimeMillis();
             if (currentTime < this.fireWaitTime)
                 queue = false;
         }
+        getAnimationHandler().setImageType(animationType);
+
+        for (AnimationLengthPair pair : animationQueue) {
+            if (pair.action == animationAction)
+                queue = false;
+        }
+
         if (queue)
-            animationQueue.add(new SpritePair(this.allAnimation[i][j], time));
+            animationQueue.add(new AnimationLengthPair(animationAction, time));
     }
 
     /**
@@ -367,10 +371,10 @@ public class Player extends Movable {
      */
     public void updateAnimation() {
         long currentTime = System.currentTimeMillis();
-        SpritePair pair = animationQueue.peek();
+        AnimationLengthPair pair = animationQueue.peek();
         if (pair != null) {
             if (currentTime > this.waitTime) {
-                super.setSprite(animationQueue.peek().sprite);
+                getAnimationHandler().setImageAction(animationQueue.peek().action);
                 this.waitTime = currentTime + animationQueue.peek().time;
                 animationQueue.remove();
             }
@@ -532,10 +536,6 @@ public class Player extends Movable {
 
     public void setArmor(int armor) {
         this.armor = armor;
-    }
-
-    public Sprite[][] getAllAnimation() {
-        return allAnimation;
     }
 
     public void playWeaponSounds(int i) {

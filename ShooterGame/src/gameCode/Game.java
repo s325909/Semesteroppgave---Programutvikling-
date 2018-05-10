@@ -74,7 +74,7 @@ public class Game {
                 int x = (int) Math.floor(Math.random() * gameWindow.getWidth());
                 int y = (int) Math.floor(Math.random() * gameWindow.getHeight());
 
-                dropsExtra.add(new Drop(gameInitializer.getDropImages()[5], x, y));
+                dropsExtra.add(new Drop(gameInitializer.getDropImages(), x, y));
             }
         }
 
@@ -94,7 +94,7 @@ public class Game {
             if(!bullet.isDrawn()) {
                 if(gameInitializer.isDEBUG())
                     gameWindow.getChildren().add(bullet.getNode());
-                gameWindow.getChildren().add(bullet.getSprite().getImageView());
+                gameWindow.getChildren().add(bullet.getAnimationHandler().getImageView());
                 bullet.setDrawn();
             }
             bullet.bulletDirection();
@@ -106,7 +106,7 @@ public class Game {
             if (!drop.isDrawn()) {
                 if(gameInitializer.isDEBUG())
                     gameWindow.getChildren().add(drop.getNode());
-                gameWindow.getChildren().add(drop.getSprite().getImageView());
+                gameWindow.getChildren().add(drop.getAnimationHandler().getImageView());
                 drop.setDrawn();
             }
             if(drop.isColliding(player)) {
@@ -120,7 +120,7 @@ public class Game {
             if (!drop.isDrawn()) {
                 if(gameInitializer.isDEBUG())
                     gameWindow.getChildren().add(drop.getNode());
-                gameWindow.getChildren().add(drop.getSprite().getImageView());
+                gameWindow.getChildren().add(drop.getAnimationHandler().getImageView());
                 drop.setDrawn();
             }
             if (drop.isColliding(player)) {
@@ -139,7 +139,7 @@ public class Game {
             if(!zombie.isAlive()) {
                 this.scoreNumber += 100;
                 gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
-                Drop drop = new Drop(gameInitializer.getDropImages()[3], zombie.getPositionX(), zombie.getPositionY());
+                Drop drop = new Drop(gameInitializer.getDropImages(), zombie.getPositionX(), zombie.getPositionY());
                 drops.add(drop);
             }
             zombie.updateAnimation();
@@ -149,20 +149,20 @@ public class Game {
         // Check if Bullet is dead, and remove if so
         for(Bullet bullet : bullets) {
             if(!bullet.isAlive())
-                gameWindow.getChildren().removeAll(bullet.getNode(), bullet.getSprite().getImageView());
+                gameWindow.getChildren().removeAll(bullet.getNode(), bullet.getAnimationHandler().getImageView());
             bullet.update(time);
         }
 
         // Check if Drop of drops is dead
         for(Drop drop : drops) {
             if(!drop.isAlive())
-              gameWindow.getChildren().removeAll(drop.getNode(), drop.getSprite().getImageView());
+              gameWindow.getChildren().removeAll(drop.getNode(), drop.getAnimationHandler().getImageView());
         }
 
         // Check if Drop of dropsExtra is dead
         for(Drop drop : dropsExtra) {
             if(!drop.isAlive()) {
-                gameWindow.getChildren().removeAll(drop.getNode(), drop.getSprite().getImageView());
+                gameWindow.getChildren().removeAll(drop.getNode(), drop.getAnimationHandler().getImageView());
             }
         }
 
@@ -346,14 +346,14 @@ public class Game {
 
         removeZombies();
         for (int i = 0; i < gameCfg.zombies.size(); i++) {
-            Zombie zombie = new Zombie(this.getGameInitializer().getZombieAnimationer()[i], this.getGameInitializer().getZombieAudioClips(),
+            Zombie zombie = new Zombie(this.getGameInitializer().getZombieImages(), this.getGameInitializer().getZombieAudioClips(),
                     gameCfg.zombies.get(i).posX, gameCfg.zombies.get(i).posY, gameCfg.zombies.get(i).health);
             zombie.setConfiguration(gameCfg.zombies.get(i));
             this.zombies.add(zombie);
 
             if(this.getGameInitializer().isDEBUG())
                 gameWindow.getChildren().add(zombie.getNode());
-            gameWindow.getChildren().add(zombie.getAllAnimationer().getImageView());
+            gameWindow.getChildren().add(zombie.getAnimationHandler().getImageView());
         }
 
         removeBullets();
@@ -369,7 +369,7 @@ public class Game {
      */
     public void removeZombies() {
         for (Zombie zombie : this.zombies) {
-            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getAllAnimationer().getImageView());
+            gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getAnimationHandler().getImageView());
             zombie.setAlive(false);
         }
 
@@ -381,7 +381,7 @@ public class Game {
      */
     public void removeBullets() {
         for (Bullet bullet : this.bullets) {
-            gameWindow.getChildren().removeAll(bullet.getSprite().getImageView(), bullet.getNode());
+            gameWindow.getChildren().removeAll(bullet.getAnimationHandler().getImageView(), bullet.getNode());
         }
 
         for (Bullet bullet : this.bullets) {
@@ -395,7 +395,7 @@ public class Game {
      */
     public void removeDrops() {
         for (Drop drop : this.drops) {
-            gameWindow.getChildren().removeAll(drop.getSprite().getImageView(), drop.getNode());
+            gameWindow.getChildren().removeAll(drop.getAnimationHandler().getImageView(), drop.getNode());
         }
 
         for (Drop drop : this.drops) {
@@ -407,7 +407,7 @@ public class Game {
     // Kun nødvendig inntil videre
     public void removeDropsExtra() {
         for (Drop drop : this.dropsExtra) {
-            gameWindow.getChildren().removeAll(drop.getSprite().getImageView(), drop.getNode());
+            gameWindow.getChildren().removeAll(drop.getAnimationHandler().getImageView(), drop.getNode());
         }
 
         for (Drop drop : this.dropsExtra) {
@@ -424,14 +424,14 @@ public class Game {
         try {
             this.zombies = new ArrayList<>();
             for (int i = 0; i < nbrZombies; i++) {
-                Zombie zombie = new Zombie(gameInitializer.getZombieAnimation()[i], gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1280), (int) (Math.random() * 720), 100);
+                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1280), (int) (Math.random() * 720), 100);
                 this.zombies.add(zombie);
             }
 
             for (Zombie zombie : zombies) {
                 if(gameInitializer.isDEBUG())
                     gameWindow.getChildren().addAll(zombie.getNode());
-                gameWindow.getChildren().addAll(zombie.getSprite().getImageView());
+                gameWindow.getChildren().addAll(zombie.getAnimationHandler().getImageView());
             }
         } catch (Exception e) {
             System.out.println("Unable to reset zombies");

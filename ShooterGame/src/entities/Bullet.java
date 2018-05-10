@@ -1,6 +1,7 @@
 package entities;
 
 import gameCode.DataHandler;
+import javafx.scene.image.Image;
 
 import javax.xml.crypto.Data;
 import java.util.List;
@@ -10,8 +11,14 @@ public class Bullet extends Movable {
     private int damage;
     private Direction direction;
 
-    public Bullet(String filename, int positionX, int positionY, double movementSpeed, int damage, Direction direction) {
+    /*public Bullet(String filename, int positionX, int positionY, double movementSpeed, int damage, Direction direction) {
         super(filename, positionX, positionY, movementSpeed);
+        this.damage = damage;
+        this.direction = direction;
+    }*/
+
+    public Bullet(Image[] images, int positionX, int positionY, double movementSpeed, int damage, Direction direction) {
+        super(new AnimationHandler(images, 0), null, positionX, positionY, 1, movementSpeed);
         this.damage = damage;
         this.direction = direction;
     }
