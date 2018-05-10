@@ -20,6 +20,7 @@
     <stylesheets><URL value="@StylesMenu.css" /></stylesheets>
 
     <VBox fx:id="settingsBackground" alignment="CENTER" prefHeight="720" prefWidth="1280">
+      <Button fx:id="backGame" mnemonicParsing="false" onAction="#backToGame" text="Back To Game" />
 
         <Label text="Settings" textAlignment="CENTER" textFill="RED">
             <font>
@@ -46,8 +47,8 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Slider fx:id="musicVolumeSlider" majorTickUnit="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="258.0" snapToTicks="true" value="50.0" />
-                        <Text fx:id="musicVolumeNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="50" wrappingWidth="56.13671875">
+                        <Slider fx:id="musicVolumeSlider" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="258.0" snapToTicks="true" />
+                        <Text fx:id="musicVolumeNumber" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="56.13671875">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -61,8 +62,8 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Slider fx:id="soundVolumeSlider" majorTickUnit="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="260.0" snapToTicks="true" value="50.0" />
-                        <Text fx:id="soundVolumeNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="50">
+                        <Slider fx:id="soundVolumeSlider" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="260.0" snapToTicks="true" />
+                        <Text fx:id="soundVolumeNumber" strokeType="OUTSIDE" strokeWidth="0.0">
                            <font>
                               <Font size="20.0" />
                            </font>

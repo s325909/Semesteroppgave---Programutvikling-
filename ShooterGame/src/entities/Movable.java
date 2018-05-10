@@ -1,7 +1,11 @@
 package entities;
 
 import gameCode.DataHandler;
+import javafx.geometry.Bounds;
 import javafx.scene.media.AudioClip;
+import javafx.scene.shape.Rectangle;
+
+import java.util.List;
 
 public class Movable extends Entity {
 
@@ -20,15 +24,18 @@ public class Movable extends Entity {
 
     private AudioClip[] audioClips;
     private Direction direction;
+    private List<Rock> rocks;
 
-    public Movable(AnimationHandler allAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed) {
+    public Movable(AnimationHandler allAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed, List<Rock> rocks) {
         super(allAnimation, positionX, positionY);
         this.audioClips = audioClips;
         this.healthPoints = healthPoints;
         this.movementSpeed = movementSpeed;
+        this.movementSpeed = movementSpeed;
         this.velocityX = 0;
         this.velocityY = 0;
         this.direction = Direction.IDLE;
+        this.rocks = rocks;
     }
 
     @Override
@@ -40,11 +47,31 @@ public class Movable extends Entity {
         setPositionX(getPositionX() + (int)getVelocityX());
         setPositionY(getPositionY() + (int)getVelocityY());
 
+
+        //Also, need to replace position if window is resized.
+        //Calculates the new position on the screen
+        double newX = this.getNode().getTranslateX() + velocityX;
+        double newY = this.getNode().getTranslateY() + velocityY;
+
+        //TODO: Fix movement position. Have only managed left and top now (bottom and right missing).
+        //Exiting method because new position collides with border.
+        if(newX < 0 || newY < 0)
+            return;
+
+        //Checking if new bounds is colliding with objects before updating movement.
+        Bounds oldBounds = this.getNode().getBoundsInParent();
+        Bounds newBounds = new Rectangle(newX,newY,oldBounds.getWidth(),oldBounds.getHeight()).getLayoutBounds();
+        for (Rock rock : rocks) {
+            if(rock.isColliding(newBounds)) {
+                return;
+            }
+        }
+
         // Update position of the visible representation of the object (Node and Sprite)
-        this.getNode().setTranslateX(this.getNode().getTranslateX() + velocityX);
-        this.getNode().setTranslateY(this.getNode().getTranslateY() + velocityY);
-        this.getAnimationHandler().getImageView().setTranslateX(this.getNode().getTranslateX() + velocityX);
-        this.getAnimationHandler().getImageView().setTranslateY(this.getNode().getTranslateY() + velocityY);
+        this.getNode().setTranslateX(newX);
+        this.getNode().setTranslateY(newY);
+        this.getAnimationHandler().getImageView().setTranslateX(newX);
+        this.getAnimationHandler().getImageView().setTranslateY(newY);
 
         // Change sprite direction upon entity direction change based on user input
         if (getVelocityX() > 0) {

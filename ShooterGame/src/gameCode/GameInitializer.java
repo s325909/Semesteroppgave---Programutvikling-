@@ -2,6 +2,7 @@ package gameCode;
 
 import entities.AnimationHandler;
 import entities.Player;
+import entities.Rock;
 import entities.Zombie;
 import entities.Sprite;
 import javafx.application.Platform;
@@ -9,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,12 +18,15 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import menuOptions.SettingsController;
 
+import java.io.IOException;
 import java.net.URL;
 import java.lang.*;
 import java.util.ArrayList;
@@ -33,23 +38,30 @@ public class GameInitializer implements Initializable{
 
     @FXML private Pane gameWindow;
     @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, gameState, pressKey;
-    @FXML private VBox gamePaused, ingameMenu;
+    @FXML private VBox gamePaused, ingameMenu, ingameHelp, ingameNormalDifficulty, ingameHardDifficulty, ingameInsaneDifficulty;
 
-    @FXML private Button howToPlay, settings;
+    @FXML HBox ingameChooseDifficulty;
+
+    @FXML private Button back_Help, settings;
+
+    @FXML private Button normalDifficulty, hardDifficulty, insaneDifficulty;
 
     private Stage stage = new Stage();
 
     private Player player;
     private List<Zombie> zombies;
+    private List<Rock> rocks;
     private int nbrZombies;
     private Game game;
     private MusicPlayer musicPlayer;
     private boolean menuVisible;
+    private boolean helpVisible;
+    private boolean difficultyVisible;
     private boolean labelVisible;
 
     private SceneSizeChangeListener sceneChange;
 
-    private AudioClip[] weaponSounds;
+    public static AudioClip[] weaponSounds;
     private AudioClip[] basicSounds;
     private Image[][][] playerImages;
     private AudioClip[] zombieAudioClips;
@@ -73,7 +85,7 @@ public class GameInitializer implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // Create an object of MusicPlayer, which includes what file to play and automatically starts playing
+        //Create an object of MusicPlayer, which includes what file to play and automatically starts playing
 //        try {
 //            musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
 //        } catch (Exception e) {
@@ -84,9 +96,15 @@ public class GameInitializer implements Initializable{
         setNbrZombies(0);
         loadAssets();
 
+        this.rocks = new ArrayList<Rock>();
+        rocks.add(new Rock("/resources/Art/rock.png", 240, 400));
+        rocks.add(new Rock("/resources/Art/rock.png", 300, 500));
+        rocks.add(new Rock("/resources/Art/rock.png", 151, 151));
+        rocks.add(new Rock("/resources/Art/rock.png", 500, 500));
+
         // Create the Player upon starting a new game
         try {
-            player = new Player(this.playerImages, this.basicSounds, this.weaponSounds, this.bulletImages, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
+            player = new Player(this.playerImages, this.basicSounds, this.weaponSounds, this.bulletImages, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50, this.rocks);
             player.setWeaponTypeFromString("knife");
         } catch (Exception e) {
             for (StackTraceElement element : e.getStackTrace()) {
@@ -99,7 +117,7 @@ public class GameInitializer implements Initializable{
         try {
             zombies = new ArrayList<>();
             for (int i = 0; i < nbrZombies; i++) {
-                zombies.add(new Zombie(this.zombieImages, this.zombieAudioClips, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
+                zombies.add(new Zombie(this.zombieImages, this.zombieAudioClips, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100, rocks));
             }
         } catch (Exception e) {
             System.out.println("Error: Enemies did not load correctly");
@@ -110,6 +128,8 @@ public class GameInitializer implements Initializable{
             gameWindow.getChildren().add(player.getNode());
             for (Zombie zombie : zombies)
                 gameWindow.getChildren().add(zombie.getNode());
+            for (Rock rock : rocks)
+                gameWindow.getChildren().add(rock.getSprite().getImageView());
         }
 
         // Add the ImageView of every Entity to the gameWindow pane
@@ -119,12 +139,52 @@ public class GameInitializer implements Initializable{
         }
 
         // Initialize the Game object, and thus start the game
-        game = new Game(player, zombies, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
+        game = new Game(player, zombies, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, rocks);
         game.setGameInitializer(this);
-        Platform.runLater(this::getKeyPressed);
+        //Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
+
+
+        //Gjør dette for å riktig kunne trykke esc for ingameMenu...
+        game.restartGame();
+        gameState.setVisible(false);
+        ingameMenu.setVisible(false);
+
+        game.clearGame();
     }
+
+    public void launchNormalDifficulty(){
+        hideDifficulty();
+        game.restartNormalGame();
+        ingameMenu.setVisible(false);
+        gameState.setVisible(false);
+
+        Platform.runLater(this::getKeyPressed);
+
+    }
+
+    public void launchHardDifficulty(){
+        hideDifficulty();
+        game.restartHardGame();
+        ingameMenu.setVisible(false);
+        gameState.setVisible(false);
+
+        Platform.runLater(this::getKeyPressed);
+
+    }
+
+    public void launchInsaneDifficulty(){
+        hideDifficulty();
+        game.restartInsaneGame();
+        ingameMenu.setVisible(false);
+        gameState.setVisible(false);
+
+        Platform.runLater(this::getKeyPressed);
+
+    }
+
+
 
     /***
      * Method which takes in user keyboard input.
@@ -138,10 +198,10 @@ public class GameInitializer implements Initializable{
             if (e.getCode() == KeyCode.F12) {
                 changeFullScreen();
 
-            }else if (e.getCode() == KeyCode.P){
+            } else if (e.getCode() == KeyCode.P) {
                 game.pauseGame();
 
-            }else if (e.getCode() == KeyCode.ESCAPE) {
+            } else if (e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.E) {
                 game.pauseGame();
                 showMenu();
 
@@ -421,6 +481,23 @@ public class GameInitializer implements Initializable{
         }
     }
 
+
+    public void hideHelp(){
+        ingameHelp.setVisible(false);
+        ingameMenu.setVisible(true);
+        gameState.setVisible(true);
+    }
+
+    public void hideDifficulty() {
+        ingameChooseDifficulty.setVisible(false);
+        ingameNormalDifficulty.setVisible(false);
+        ingameHardDifficulty.setVisible(false);
+        ingameInsaneDifficulty.setVisible(false);
+        ingameMenu.setVisible(true);
+        gameState.setVisible(true);
+    }
+
+
     /***
      * Method which will change the FullScreen state of the application.
      */
@@ -439,51 +516,73 @@ public class GameInitializer implements Initializable{
     }
 
     public void restartGame() {
-        game.restartGame();
+        ingameMenu.setVisible(false);
+        gameState.setVisible(false);
+        game.clearGame();
+        showDifficulty();
     }
 
-    /*
-    public void showHelp(ActionEvent event) {
-        //Parent rootHowToPlay;
-        //Stage windowHowToPlay;
+
+    public void showDifficulty(){
+        if (!difficultyVisible){
+            ingameChooseDifficulty.setVisible(true);
+            ingameNormalDifficulty.setVisible(true);
+            ingameHardDifficulty.setVisible(true);
+            ingameInsaneDifficulty.setVisible(true);
+        }
+    }
+    
+    public void showHelp() {
+        if (!helpVisible){
+            ingameMenu.setVisible(false);
+            gameState.setVisible(false);
+            ingameHelp.setVisible(true);
+        }else {
+            hideHelp();
+        }
+    }
+
+
+
+    Stage windowSettings;
+    Parent rootSettings;
+    Scene sceneSettings;
+
+    public void showSettings(ActionEvent event) throws IOException {
+
+        musicPlayer.muteVolume();
+
         try {
-            if (event.getSource() == howToPlay){
-                Stage windowHowToPlay = (Stage) howToPlay.getScene().getWindow();
-                Parent rootHowToPlay = FXMLLoader.load(getClass().getResource("../menuOptions/HowToPlay.fxml"));
-                Scene howToPlayScene = new Scene(rootHowToPlay, 1280, 720);
-                windowHowToPlay.setScene(howToPlayScene);
-                windowHowToPlay.show();
+            if (event.getSource() == settings){
+                windowSettings = (Stage) settings.getScene().getWindow();
+                rootSettings = FXMLLoader.load(getClass().getResource("../menuOptions/Settings.fxml"));
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
-    }
-    */
 
-    public void showHelp() {
+        sceneSettings = new Scene(rootSettings, 1280, 720);
+        windowSettings.setScene(sceneSettings);
+        windowSettings.show();
+
+
+        /*
+
         Parent root;
+
         try {
-            Stage helpMenu = new Stage();
-            root = FXMLLoader.load(getClass().getResource("../menuOptions/HowToPlay.fxml"));
-            helpMenu.setScene(new Scene(root, 720, 720));
-            helpMenu.show();
+            Stage windowSettings = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Settings.fxml"));
+            root = loader.load();
+            SettingsController controller = loader.getController();
+            controller.showReturnToMenu(false);
+            windowSettings.setScene(new Scene(root, 500, 500));
+            windowSettings.show();
         }catch (Exception e){
             System.out.println("Error" + e.getMessage());
         }
-    }
 
-    public void showSettings(ActionEvent event) {
-        try {
-            if (event.getSource() == settings){
-                Stage windowSettings = (Stage) settings.getScene().getWindow();
-                Parent rootHowToPlay = FXMLLoader.load(getClass().getResource("../menuOptions/Settings.fxml"));
-                Scene howToPlayScene = new Scene(rootHowToPlay, 1280, 720);
-                windowSettings.setScene(howToPlayScene);
-                windowSettings.show();
-            }
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+        */
     }
 
     public void exitGame() {

@@ -30,17 +30,16 @@ public class Player extends Movable {
     private long waitTime;
     private long invTime;
     private long fireWaitTime;
+    private List<Rock> rocks;
 
-    public Player(Image[][][] images, AudioClip[] basicSounds, AudioClip[] weaponSounds, Image[] bulletImages, int positionX, int positionY, int healthPoints, int armor) {
-        super(new AnimationHandler(images), basicSounds, positionX, positionY, healthPoints, 5.0);
+    public Player(Image[][][] images, AudioClip[] basicSounds, AudioClip[] weaponSounds, Image[] bulletImages, int positionX, int positionY, int healthPoints, int armor, List<Rock> rocks) {
+        super(new AnimationHandler(images), basicSounds, positionX, positionY, healthPoints, 5.0, rocks);
         this.weaponSounds = weaponSounds;
         this.bulletImages = bulletImages;
         this.animationQueue = new LinkedList<AnimationLengthPair>();
         this.waitTime = 0;
-
         setEquippedWeapon(WeaponTypes.KNIFE);
         setAnimation(0,0);
-
         magazinePistol = new Magazine(15, 30);
         magazineRifle = new Magazine(30,90);
         magazineShotgun = new Magazine(8,32);
@@ -48,6 +47,7 @@ public class Player extends Movable {
         this.bulletList = new ArrayList<Bullet>();
         playerState = State.NORMAL;
         setDirection(Direction.EAST);
+        this.rocks = rocks;
     }
 
     /***
@@ -274,7 +274,7 @@ public class Player extends Movable {
                 case PISTOL:
                     if (!magazinePistol.isMagazineEmpty()) {
                         magazinePistol.changeBulletNumber(-1);
-                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 50, this.getDirection());
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 50, this.getDirection(), this.rocks);
                         this.bulletList.add(bullet);
                         playWeaponSounds(audioAction, 1);
                     } else {
@@ -284,7 +284,7 @@ public class Player extends Movable {
                 case RIFLE:
                     if (!magazineRifle.isMagazineEmpty()) {
                         magazineRifle.changeBulletNumber(-1);
-                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 30, this.getDirection());
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 30, this.getDirection(), this.rocks);
                         this.bulletList.add(bullet);
                         playWeaponSounds(audioAction, 1);
                     } else {
@@ -348,11 +348,11 @@ public class Player extends Movable {
                                 break;
                         }
 
-                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection());
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(), this.rocks);
                         this.bulletList.add(bullet);
-                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(), adjustVelX1, adjustVelY1);
+                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(), this.rocks, adjustVelX1, adjustVelY1);
                         this.bulletList.add(bullet);
-                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(), adjustVelX2, adjustVelY2);
+                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(), this.rocks, adjustVelX2, adjustVelY2);
                         this.bulletList.add(bullet);
                         playWeaponSounds(audioAction, 1);
                     } else {
@@ -446,6 +446,7 @@ public class Player extends Movable {
      * Method which will reset the Player's stats.
      * These include position, healthpoints, armor, and ammunition of each weaponSounds.
      */
+
     public void resetPlayer() {
         setPosition(1280/2,720/2);
         setTranslateNode(1280/2, 720/2);
@@ -458,6 +459,48 @@ public class Player extends Movable {
         getMagazineRifle().setCurrentPool(30);
         getMagazineShotgun().setNumberBullets(8);
         getMagazineShotgun().setCurrentPool(8);
+    }
+
+    public void resetNormalPlayer() {
+        setPosition(1280/2,720/2);
+        setTranslateNode(1280/2, 720/2);
+        setHealthPoints(100);
+        setArmor(50);
+        setEquippedWeapon(WeaponTypes.KNIFE);
+        getMagazinePistol().setNumberBullets(15);
+        getMagazinePistol().setCurrentPool(15);
+        getMagazineRifle().setNumberBullets(30);
+        getMagazineRifle().setCurrentPool(30);
+        getMagazineShotgun().setNumberBullets(8);
+        getMagazineShotgun().setCurrentPool(8);
+    }
+
+    public void resetHardPlayer() {
+        setPosition(1280/2,720/2);
+        setTranslateNode(1280/2, 720/2);
+        setHealthPoints(100);
+        setArmor(0);
+        setEquippedWeapon(WeaponTypes.KNIFE);
+        getMagazinePistol().setNumberBullets(15);
+        getMagazinePistol().setCurrentPool(15);
+        getMagazineRifle().setNumberBullets(0);
+        getMagazineRifle().setCurrentPool(0);
+        getMagazineShotgun().setNumberBullets(0);
+        getMagazineShotgun().setCurrentPool(0);
+    }
+
+    public void resetInsanePlayer() {
+        setPosition(1280/2,720/2);
+        setTranslateNode(1280/2, 720/2);
+        setHealthPoints(50);
+        setArmor(0);
+        setEquippedWeapon(WeaponTypes.KNIFE);
+        getMagazinePistol().setNumberBullets(0);
+        getMagazinePistol().setCurrentPool(0);
+        getMagazineRifle().setNumberBullets(0);
+        getMagazineRifle().setCurrentPool(0);
+        getMagazineShotgun().setNumberBullets(0);
+        getMagazineShotgun().setCurrentPool(0);
     }
 
     /**

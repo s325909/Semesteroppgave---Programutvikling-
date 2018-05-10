@@ -2,12 +2,10 @@ package entities;
 
 import gameCode.DataHandler;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class Zombie extends Movable {
 
@@ -17,8 +15,8 @@ public class Zombie extends Movable {
     private Queue<AnimationLengthPair> animationQueue;
     private long waitTime;
 
-    public Zombie(Image[][] images, AudioClip[] audioClips, int positionX, int positionY, int healthPoints) {
-        super(new AnimationHandler(images), audioClips, positionX, positionY, healthPoints, 1.0);
+    public Zombie(Image[][] images, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, List<Rock> rocks) {
+        super(new AnimationHandler(images), audioClips, positionX, positionY, healthPoints, 1.0, rocks);
         this.animationQueue = new LinkedList<AnimationLengthPair>();
         this.waitTime = 0;
         this.mode = State.NORMAL;

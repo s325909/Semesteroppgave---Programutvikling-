@@ -205,7 +205,6 @@ public class DataHandler {
         }
 
 
-
         // Store player information in a XML structure
         Element savegame = doc.createElement("Savegame");
         doc.appendChild(savegame);

@@ -3,6 +3,7 @@ package gameCode;
 import entities.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Game {
     private List<Bullet> bullets;
     private List<Drop> drops = new ArrayList<>();
     private List<Drop> dropsExtra = new ArrayList<>();
+    private List<Rock> rocks;
     private Pane gameWindow;
     private Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer;
 
@@ -26,8 +28,9 @@ public class Game {
     private boolean running;
     private boolean gameOver;
     private DataHandler dataHandler;
+    private boolean chooseDiffculty;
 
-    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag,Label hudPool, Label hudScore, Label hudTimer){
+    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer, List<Rock> rocks){
 
         this.player = player;
         this.zombies = zombies;
@@ -42,6 +45,7 @@ public class Game {
         this.dataHandler = new DataHandler();
         this.running = true;
         this.scoreNumber = 0;
+        this.rocks = rocks;
 
         final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
@@ -116,6 +120,15 @@ public class Game {
             if(drop.isColliding(player)) {
                 drop.setAlive(false);
                 drop.dropCollision(player, this);
+            }
+        }
+
+        for (Rock rock : rocks) {
+            if (!rock.isDrawn()) {
+                //if(gameInitializer.isDEBUG())
+                    gameWindow.getChildren().add(rock.getNode());
+                gameWindow.getChildren().add(rock.getSprite().getImageView());
+                rock.setDrawn();
             }
         }
 
@@ -254,11 +267,10 @@ public class Game {
      * as well as setting both "gameOver" and "gameIsPaused" equals "false",
      * which allows this method to run again after restarting the game
      */
+
+
     protected void restartGame() {
-        removeZombies();
-        removeBullets();
-        removeDrops();
-        removeDropsExtra();
+        clearGame();
         player.resetPlayer();
         setScoreNumber(0);
         createZombies(gameInitializer.getNbrZombies());
@@ -269,8 +281,58 @@ public class Game {
         setRunning(true);
     }
 
+    public void restartNormalGame() {
+        clearGame();
+        player.resetNormalPlayer();
+        setScoreNumber(0);
+        createZombies(gameInitializer.getNbrZombies());
+        gameInitializer.showGameLabel();
+        gameInitializer.showMenu();
+        setGameOver(false);
+        startTimer();
+        setRunning(true);
+    }
+
+    public void restartHardGame() {
+        clearGame();
+        player.resetHardPlayer();
+        setScoreNumber(0);
+        createZombies(gameInitializer.getNbrZombies());
+        gameInitializer.showGameLabel();
+        gameInitializer.showMenu();
+        setGameOver(false);
+        startTimer();
+        setRunning(true);
+    }
+
+    public void restartInsaneGame() {
+        clearGame();
+        player.resetInsanePlayer();
+        setScoreNumber(0);
+        createZombies(gameInitializer.getNbrZombies());
+        gameInitializer.showGameLabel();
+        gameInitializer.showMenu();
+        setGameOver(false);
+        startTimer();
+        setRunning(true);
+    }
+
+    public void clearGame() {
+        removeZombies();
+        removeBullets();
+        removeDrops();
+        removeDropsExtra();
+        stopTimer();
+    }
+
+
+    /**
+     *
+     * @param filename f
+     */
     public void saveGame(String filename) {
         DataHandler.GameConfiguration gameCfg = getGameConfiguration();
+        retrieveData(gameCfg);
 
         if (dataHandler.createSaveFile(filename, gameCfg)) {
             System.out.println("Save game");
@@ -370,7 +432,7 @@ public class Game {
         removeZombies();
         for (int i = 0; i < gameCfg.zombies.size(); i++) {
             Zombie zombie = new Zombie(this.getGameInitializer().getZombieImages(), this.getGameInitializer().getZombieAudioClips(),
-                    gameCfg.zombies.get(i).entityCfg.posX, gameCfg.zombies.get(i).entityCfg.posY, gameCfg.zombies.get(i).health);
+                    gameCfg.zombies.get(i).entityCfg.posX, gameCfg.zombies.get(i).entityCfg.posY, gameCfg.zombies.get(i).health, this.rocks);
             zombie.setZombieConfiguration(gameCfg.zombies.get(i));
             this.zombies.add(zombie);
 
@@ -382,7 +444,7 @@ public class Game {
         removeBullets();
         for (DataHandler.BulletConfiguration bulletCfg : gameCfg.bullets) {
             //TO DO Fill in rotational angle?
-            Bullet bullet = new Bullet(getGameInitializer().getBulletImages(), bulletCfg.movementCfg.entityCfg.posX, bulletCfg.movementCfg.entityCfg.posY, bulletCfg.movementCfg.movementSpeed, bulletCfg.damage, bulletCfg.movementCfg.direction);
+            Bullet bullet = new Bullet(getGameInitializer().getBulletImages(), bulletCfg.movementCfg.entityCfg.posX, bulletCfg.movementCfg.entityCfg.posY, bulletCfg.movementCfg.movementSpeed, bulletCfg.damage, bulletCfg.movementCfg.direction, this.rocks);
             this.bullets.add(bullet);
         }
 
@@ -449,7 +511,7 @@ public class Game {
         try {
             this.zombies = new ArrayList<>();
             for (int i = 0; i < nbrZombies; i++) {
-                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1280), (int) (Math.random() * 720), 100);
+                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1280), (int) (Math.random() * 720), 100, this.rocks);
                 this.zombies.add(zombie);
             }
 

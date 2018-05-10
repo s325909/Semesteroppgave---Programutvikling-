@@ -1,6 +1,7 @@
 package entities;
 
 import gameCode.DataHandler;
+import javafx.geometry.Bounds;
 import javafx.scene.image.ImageView;
 import javafx.scene.Node;
 import javafx.scene.media.AudioClip;
@@ -53,6 +54,10 @@ public class Entity{
      */
     public boolean isColliding(Entity otherEntity) {
         return this.node.getBoundsInParent().intersects(otherEntity.getNode().getBoundsInParent());
+    }
+
+    public boolean isColliding(Bounds bounds) {
+        return this.node.getBoundsInParent().intersects(bounds);
     }
 
     public boolean isDead() {
