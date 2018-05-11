@@ -32,7 +32,7 @@ import java.util.ResourceBundle;
 public class GameInitializer implements Initializable{
 
     @FXML private Pane gameWindow;
-    @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, gameState, pressKey;
+    @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, roundNbr, gameState, pressKey;
     @FXML private VBox gamePaused, ingameMenu, ingameHelp, ingameNormalDifficulty, ingameHardDifficulty, ingameInsaneDifficulty;
 
     @FXML HBox ingameChooseDifficulty;
@@ -81,7 +81,7 @@ public class GameInitializer implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         loadAssets();
-        setNbrZombies(5);
+        setNbrZombies(1);
 
         //Create an object of MusicPlayer, which includes what file to play and automatically starts playing
 //        try {
@@ -92,15 +92,30 @@ public class GameInitializer implements Initializable{
 
         // Select number of zombies to create, and load all assets
 
+
         try {
             this.rocks = new ArrayList<Rock>();
             rocks.add(new Rock(this.rockImage, 240, 400));
             rocks.add(new Rock(this.rockImage, 300, 500));
             rocks.add(new Rock(this.rockImage, 151, 151));
             rocks.add(new Rock(this.rockImage, 500, 500));
+            rocks.add(new Rock(this.rockImage, 800, 100));
+            rocks.add(new Rock(this.rockImage, 700, 300));
+            rocks.add(new Rock(this.rockImage, 1000, 500));
+            rocks.add(new Rock(this.rockImage, 900, 800));
+            rocks.add(new Rock(this.rockImage, 1200, 1000));
+            rocks.add(new Rock(this.rockImage, 600, 450));
+            rocks.add(new Rock(this.rockImage, 1200, 100));
+            rocks.add(new Rock(this.rockImage, 940, 400));
+            rocks.add(new Rock(this.rockImage, 400, 250));
+            rocks.add(new Rock(this.rockImage, 200, 40));
+            rocks.add(new Rock(this.rockImage, 500, 40));
+
+
         } catch (Exception e) {
             System.out.println("Error: Rocks did not load correctly");
         }
+
 
         // Create the Player upon starting a new game
         try {
