@@ -326,8 +326,6 @@ public class Game {
         player.resetNormalPlayer();
         setScoreNumber(0);
         createZombies(gameInitializer.getNbrZombies());
-        gameInitializer.showGameLabel();
-        gameInitializer.showMenu();
         setNewRound(false);
         setGameOver(false);
         startTimer();
@@ -339,8 +337,6 @@ public class Game {
         player.resetHardPlayer();
         setScoreNumber(0);
         createZombies(gameInitializer.getNbrZombies());
-        gameInitializer.showGameLabel();
-        gameInitializer.showMenu();
         setNewRound(false);
         setGameOver(false);
         startTimer();
@@ -352,8 +348,6 @@ public class Game {
         player.resetInsanePlayer();
         setScoreNumber(0);
         createZombies(gameInitializer.getNbrZombies());
-        gameInitializer.showGameLabel();
-        gameInitializer.showMenu();
         setNewRound(false);
         setGameOver(false);
         startTimer();

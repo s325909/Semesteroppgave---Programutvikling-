@@ -162,13 +162,7 @@ public class GameInitializer implements Initializable{
         //Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
-
-
-        //Gjør dette for å riktig kunne trykke esc for ingameMenu...
-        game.restartGame();
-        gameState.setVisible(false);
-        ingameMenu.setVisible(false);
-
+        
         game.clearGame();
     }
 
