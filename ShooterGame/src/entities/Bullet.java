@@ -1,11 +1,14 @@
 package entities;
 
 import gameCode.DataHandler;
+import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import javax.xml.crypto.Data;
 import java.util.List;
+
 
 public class Bullet extends Movable {
 
@@ -74,16 +77,31 @@ public class Bullet extends Movable {
         }
     }
 
-    public void bulletCollision(List<Zombie> zombieList) {
-        for(Zombie zombie : zombieList) {
+    public void bulletCollision(Bullet bullets, List<Zombie> zombieList, List<Rock> rocksList) {
+        for (Zombie zombie : zombieList) {
             if (isColliding(zombie)) {
-                this.setAlive(false);
-                zombie.setHealthPoints(zombie.getHealthPoints() - this.getDamage());
-                if (zombie.getHealthPoints() <= 0) {
-                    zombie.setAlive(false);
-                }
+            this.setAlive(false);
+            zombie.setHealthPoints(zombie.getHealthPoints() - this.getDamage());
+            if (zombie.getHealthPoints() <= 0) {
+                zombie.setAlive(false);
             }
         }
+    }
+        System.out.println(this.getPositionX() + " " + this.getPositionY());
+        for (Rock rock : rocksList) {
+            if (isColliding(rock){
+                System.out.println("colliding");
+                bullets.setAlive(false);
+            }
+        }
+
+        /*Bounds oldBounds = this.getNode().getBoundsInParent();
+        Bounds newBounds = new Rectangle(adjustVelX,adjustVelY,oldBounds.getWidth(),oldBounds.getHeight()).getLayoutBounds();
+        for (Rock rock: rocksList) {
+            if(rock.isColliding(newBounds)) {
+                return;
+            }
+        }*/
     }
 
     public DataHandler.BulletConfiguration getBulletConfiguration() {
