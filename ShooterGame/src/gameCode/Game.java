@@ -213,13 +213,11 @@ public class Game {
                     createZombies(roundNumber + 1);
                     break;
                 case 10:
-                    createZombies(roundNumber + 1);
-                    break;
-                case 11:
                     stopTimer();
                     setGameOver(true);
                     setNewRound(true);
                     gameInitializer.showGameLabel();
+                    gameInitializer.roundNbr.setText("FINAL ROUND");
                     roundNumber = 0;
             }
             setNewRound(false);
