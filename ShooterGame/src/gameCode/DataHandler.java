@@ -1,5 +1,6 @@
 package gameCode;
 
+import entities.Drop;
 import entities.Player;
 import entities.Movable;
 import org.w3c.dom.*;
@@ -26,13 +27,17 @@ public class DataHandler {
         PlayerConfiguration player;
         List<MovementConfiguration> zombies;
         List<BulletConfiguration> bullets;
-        List<EntityConfiguration> drops;
-        List<EntityConfiguration> dropsExtra;
+        List<DropConfiguration> drops;
     }
 
     public static class EntityConfiguration {
         public int posX;
         public int posY;
+    }
+
+    public static class DropConfiguration {
+        public EntityConfiguration entityCfg;
+        public Drop.DropType dropType;
     }
 
     public static class MovementConfiguration{
@@ -368,12 +373,16 @@ public class DataHandler {
             drops.appendChild(dropInfo);
 
             Element dropPosX = doc.createElement("PositionX");
-            dropPosX.appendChild(doc.createTextNode(String.valueOf(configuration.drops.get(i).posX)));
+            dropPosX.appendChild(doc.createTextNode(String.valueOf(configuration.drops.get(i).entityCfg.posX)));
             dropInfo.appendChild(dropPosX);
 
             Element dropPosY = doc.createElement("PositionY");
-            dropPosY.appendChild(doc.createTextNode(String.valueOf(configuration.drops.get(i).posY)));
+            dropPosY.appendChild(doc.createTextNode(String.valueOf(configuration.drops.get(i).entityCfg.posY)));
             dropInfo.appendChild(dropPosY);
+
+            Element dropType = doc.createElement("DropType");
+            dropType.appendChild(doc.createTextNode(String.valueOf(configuration.drops.get(i).dropType)));
+            dropInfo.appendChild(dropType);
         }
 
 
@@ -507,7 +516,6 @@ public class DataHandler {
             Node bulletNode = bulletList.item(i);
             if (bulletNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element bulletElement = (Element) bulletNode;
-                BulletConfiguration bulletCfg = new BulletConfiguration();
 
                 EntityConfiguration entityCfg = new EntityConfiguration();
                 entityCfg.posX = Integer.valueOf(bulletElement.getElementsByTagName("PositionX").item(0).getTextContent());
@@ -520,6 +528,7 @@ public class DataHandler {
                 movementCfg.movementSpeed = Double.valueOf(bulletElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
                 movementCfg.direction = Movable.Direction.valueOf(bulletElement.getElementsByTagName("Direction").item(0).getTextContent());
 
+                BulletConfiguration bulletCfg = new BulletConfiguration();
                 bulletCfg.movementCfg = movementCfg;
                 bulletCfg.damage = Integer.valueOf(bulletElement.getElementsByTagName("Damage").item(0).getTextContent());
                 configuration.bullets.add(bulletCfg);
@@ -535,9 +544,14 @@ public class DataHandler {
             Node dropsNode = dropList.item(i);
             if (dropsNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element dropsElement = (Element) dropsNode;
-                EntityConfiguration dropCfg = new EntityConfiguration();
-                dropCfg.posX = Integer.valueOf(dropsElement.getElementsByTagName("PositionX").item(0).getTextContent());
-                dropCfg.posY = Integer.valueOf(dropsElement.getElementsByTagName("PositionY").item(0).getTextContent());
+
+                EntityConfiguration entityCfg = new EntityConfiguration();
+                entityCfg.posX = Integer.valueOf(dropsElement.getElementsByTagName("PositionX").item(0).getTextContent());
+                entityCfg.posY = Integer.valueOf(dropsElement.getElementsByTagName("PositionY").item(0).getTextContent());
+
+                DropConfiguration dropCfg = new DropConfiguration();
+                dropCfg.entityCfg = entityCfg;
+                dropCfg.dropType = Drop.DropType.valueOf(dropsElement.getElementsByTagName("DropType").item(0).getTextContent());
                 configuration.drops.add(dropCfg);
             } else {
                 return false;

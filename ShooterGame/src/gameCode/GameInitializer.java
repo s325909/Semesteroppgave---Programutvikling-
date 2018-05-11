@@ -83,6 +83,7 @@ public class GameInitializer implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         loadAssets();
+        setNbrZombies(5);
 
         //Create an object of MusicPlayer, which includes what file to play and automatically starts playing
 //        try {
@@ -115,7 +116,6 @@ public class GameInitializer implements Initializable{
         }
 
         // Create every Zombie upon starting a new game
-        nbrZombies = 5;
         try {
             zombies = new ArrayList<>();
             for (int i = 0; i < nbrZombies; i++) {

@@ -4,8 +4,6 @@ import gameCode.DataHandler;
 import gameCode.Game;
 import javafx.scene.image.Image;
 
-import static entities.Drop.DropType.*;
-
 public class Drop extends Entity {
     public enum DropType {
         SCORE, HP, ARMOR, PISTOLAMMO, RIFLEAMMO, SHOTGUNAMMO
@@ -46,11 +44,23 @@ public class Drop extends Entity {
         }
     }
 
-    public DataHandler.EntityConfiguration getDropConfiguration() {
-        return super.getEntityConfiguration();
+    public DataHandler.DropConfiguration getDropConfiguration() {
+        DataHandler.DropConfiguration dropCfg = new DataHandler.DropConfiguration();
+        dropCfg.entityCfg = super.getEntityConfiguration();
+        dropCfg.dropType = this.getDropType();
+        return dropCfg;
     }
 
-    public void setDropConfiguration(DataHandler.EntityConfiguration dropCfg) {
-        super.setEntityConfiguration(dropCfg);
+    public void setDropConfiguration(DataHandler.DropConfiguration dropCfg) {
+        super.setEntityConfiguration(dropCfg.entityCfg);
+        this.setDropType(dropCfg.dropType);
+    }
+
+    public DropType getDropType() {
+        return dropType;
+    }
+
+    public void setDropType(DropType dropType) {
+        this.dropType = dropType;
     }
 }

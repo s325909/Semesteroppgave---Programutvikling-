@@ -3,7 +3,6 @@ package gameCode;
 import entities.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ public class Game {
     private List<Zombie> zombies;
     private List<Bullet> bullets;
     private List<Drop> drops = new ArrayList<>();
-    private List<Drop> dropsExtra = new ArrayList<>();
     private List<Rock> rocks;
     private Pane gameWindow;
     private Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer;
@@ -72,15 +70,14 @@ public class Game {
         bullets = player.getBulletList();
 
         // Create Drop entities with random position
-        if (dropsExtra.size() < 5) {
-            int random = (int) Math.floor(Math.random() * 100);
-            if (random < 4) {
-                int x = (int) Math.floor(Math.random() * gameWindow.getWidth());
-                int y = (int) Math.floor(Math.random() * gameWindow.getHeight());
-
-                dropsExtra.add(new Drop(gameInitializer.getCoinDrop(), x, y, Drop.DropType.SCORE));
-            }
-        }
+//        if ( < 5) {
+//            int random = (int) Math.floor(Math.random() * 100);
+//            if (random < 4) {
+//                int x = (int) Math.floor(Math.random() * gameWindow.getWidth());
+//                int y = (int) Math.floor(Math.random() * gameWindow.getHeight());
+//                drops.add(new Drop(gameInitializer.getCoinDrop(), x, y, Drop.DropType.SCORE));
+//            }
+//        }
 
         // Check collision between zombies and player
         for (Zombie zombie : zombies) {
@@ -131,21 +128,6 @@ public class Game {
 //            }
 //        }
 
-        // Draw dropsExtra to the pane, and check for collision with player
-        for (Drop drop : dropsExtra) {
-            if (!drop.isDrawn()) {
-                if(gameInitializer.isDEBUG())
-                    gameWindow.getChildren().add(drop.getNode());
-                gameWindow.getChildren().add(drop.getAnimationHandler().getImageView());
-                drop.setDrawn();
-            }
-            if (drop.isColliding(player)) {
-                drop.setAlive(false);
-                drop.dropCollision(player, this);
-            }
-            drop.update(time);
-        }
-
         // Update animation, position and velocity of player
         player.updateAnimation();
         player.update(time);
@@ -175,18 +157,10 @@ public class Game {
               gameWindow.getChildren().removeAll(drop.getNode(), drop.getAnimationHandler().getImageView());
         }
 
-        // Check if Drop of dropsExtra is dead
-        for(Drop drop : dropsExtra) {
-            if(!drop.isAlive()) {
-                gameWindow.getChildren().removeAll(drop.getNode(), drop.getAnimationHandler().getImageView());
-            }
-        }
-
         // Remove every dead Entity object from the ArrayLists
         bullets.removeIf(Bullet::isDead);
         zombies.removeIf(Zombie::isDead);
         drops.removeIf(Drop::isDead);
-        dropsExtra.removeIf(Drop::isDead);
     }
 
     public Drop getRandomDropType(Zombie zombie) {
@@ -321,7 +295,6 @@ public class Game {
         removeZombies();
         //removeBullets();
         removeDrops();
-        removeDropsExtra();
         stopTimer();
     }
 
@@ -411,15 +384,10 @@ public class Game {
             bulletCfg.add(bullet.getBulletConfiguration());
         gameCfg.bullets = bulletCfg;
 
-        List<DataHandler.EntityConfiguration> dropCfg = new ArrayList<>();
+        List<DataHandler.DropConfiguration> dropCfg = new ArrayList<>();
         for (Drop drop : this.drops)
             dropCfg.add(drop.getDropConfiguration());
         gameCfg.drops = dropCfg;
-
-        List<DataHandler.EntityConfiguration> dropExtraCfg = new ArrayList<>();
-        for (Drop dropExtra : this.dropsExtra)
-            dropExtraCfg.add(dropExtra.getDropConfiguration());
-        gameCfg.dropsExtra = dropExtraCfg;
 
         return gameCfg;
     }
@@ -448,6 +416,10 @@ public class Game {
         }
 
         removeDrops();
+//          Får et problem forhold til å hente riktig bilde
+//        for (DataHandler.DropConfiguration dropCfg : gameCfg.drops) {
+//            Drop drop = new Drop(getGameInitializer().getArmorDropImages())
+//        }
     }
 
     /**
@@ -488,18 +460,6 @@ public class Game {
             drop.setAlive(false);
         }
         this.drops.removeIf(Drop::isDead);
-    }
-
-    // Kun nødvendig inntil videre
-    public void removeDropsExtra() {
-        for (Drop drop : this.dropsExtra) {
-            gameWindow.getChildren().removeAll(drop.getAnimationHandler().getImageView(), drop.getNode());
-        }
-
-        for (Drop drop : this.dropsExtra) {
-            drop.setAlive(false);
-        }
-        this.dropsExtra.removeIf(Drop::isDead);
     }
 
     /**

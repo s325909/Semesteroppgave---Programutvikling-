@@ -224,7 +224,6 @@ public class Movable extends Entity {
         setDirection(movementCfg.direction);
     }
 
-
     /**
      * Inner class for handling length of animation
      */
