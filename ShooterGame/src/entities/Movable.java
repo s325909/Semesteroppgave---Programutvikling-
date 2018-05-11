@@ -26,10 +26,9 @@ public class Movable extends Entity {
 
     private AudioClip[] audioClips;
     private Direction direction;
-    private List<Rock> rocks;
 
 
-    public Movable(AnimationHandler allAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed, List<Rock> rocks) {
+    public Movable(AnimationHandler allAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed) {
         super(allAnimation, positionX, positionY);
         this.audioClips = audioClips;
         this.healthPoints = healthPoints;
@@ -38,7 +37,6 @@ public class Movable extends Entity {
         this.velocityX = 0;
         this.velocityY = 0;
         this.direction = Direction.IDLE;
-        this.rocks = rocks;
     }
 
     public void movement() { //List<Entity> objects) {

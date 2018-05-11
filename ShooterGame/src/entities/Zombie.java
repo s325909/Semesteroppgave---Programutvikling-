@@ -17,8 +17,8 @@ public class Zombie extends Movable {
     private Queue<AnimationLengthPair> animationQueue;
     private long waitTime;
 
-    public Zombie(Image[][] images, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, List<Rock> rocks) {
-        super(new AnimationHandler(images), audioClips, positionX, positionY, healthPoints, 1.0, rocks);
+    public Zombie(Image[][] images, AudioClip[] audioClips, int positionX, int positionY, int healthPoints) {
+        super(new AnimationHandler(images), audioClips, positionX, positionY, healthPoints, 1.0);
         this.animationQueue = new LinkedList<AnimationLengthPair>();
         this.waitTime = 0;
         this.state = State.NORMAL;

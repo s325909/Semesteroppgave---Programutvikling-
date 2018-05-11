@@ -37,8 +37,8 @@ public class Player extends Movable {
     private List<Rock> rocks;
     private List<PlayerDirection> directionButtonPressed;
 
-    public Player(Image[][][] images, AudioClip[] basicSounds, AudioClip[] weaponSounds, Image[] bulletImages, int positionX, int positionY, int healthPoints, int armor, List<Rock> rocks) {
-        super(new AnimationHandler(images), basicSounds, positionX, positionY, healthPoints, 5.0, rocks);
+    public Player(Image[][][] images, AudioClip[] basicSounds, AudioClip[] weaponSounds, Image[] bulletImages, int positionX, int positionY, int healthPoints, int armor) {
+        super(new AnimationHandler(images), basicSounds, positionX, positionY, healthPoints, 5.0);
         this.weaponSounds = weaponSounds;
         this.bulletImages = bulletImages;
         this.animationQueue = new LinkedList<AnimationLengthPair>();
@@ -252,7 +252,7 @@ public class Player extends Movable {
                 case PISTOL:
                     if (!magazinePistol.isMagazineEmpty()) {
                         magazinePistol.changeBulletNumber(-1);
-                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 50, this.getDirection(), this.rocks);
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 50, this.getDirection());
                         this.bulletList.add(bullet);
                         playWeaponSounds(audioAction, 1);
                     } else {
@@ -262,7 +262,7 @@ public class Player extends Movable {
                 case RIFLE:
                     if (!magazineRifle.isMagazineEmpty()) {
                         magazineRifle.changeBulletNumber(-1);
-                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 30, this.getDirection(), this.rocks);
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 30, this.getDirection());
                         this.bulletList.add(bullet);
                         playWeaponSounds(audioAction, 1);
                     } else {
@@ -326,11 +326,11 @@ public class Player extends Movable {
                                 break;
                         }
 
-                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(), this.rocks);
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection());
                         this.bulletList.add(bullet);
-                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(), this.rocks, adjustVelX1, adjustVelY1);
+                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(), adjustVelX1, adjustVelY1);
                         this.bulletList.add(bullet);
-                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(), this.rocks, adjustVelX2, adjustVelY2);
+                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(),  adjustVelX2, adjustVelY2);
                         this.bulletList.add(bullet);
                         playWeaponSounds(audioAction, 1);
                     } else {

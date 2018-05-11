@@ -17,14 +17,14 @@ public class Bullet extends Movable {
     private double adjustVelX;
     private double adjustVelY;
 
-    public Bullet(Image[] images, int positionX, int positionY, double movementSpeed, int damage, Direction direction, List<Rock> rocks) {
-        super(new AnimationHandler(images), null, positionX, positionY, 1, movementSpeed, rocks);
+    public Bullet(Image[] images, int positionX, int positionY, double movementSpeed, int damage, Direction direction) {
+        super(new AnimationHandler(images), null, positionX, positionY, 1, movementSpeed);
         this.damage = damage;
         this.direction = direction;
     }
 
-    public Bullet(Image[] images, int positionX, int positionY, double movementSpeed, int damage, Direction direction, List<Rock> rocks, double velX, double velY) {
-        this(images, positionX, positionY, movementSpeed, damage, direction, rocks);
+    public Bullet(Image[] images, int positionX, int positionY, double movementSpeed, int damage, Direction direction, double velX, double velY) {
+        this(images, positionX, positionY, movementSpeed, damage, direction);
         adjustVelX = velX;
         adjustVelY = velY;
     }

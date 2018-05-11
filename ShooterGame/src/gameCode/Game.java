@@ -30,10 +30,11 @@ public class Game {
     private DataHandler dataHandler;
     private boolean chooseDiffculty;
 
-    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer, List<Rock> rocks){
+    public Game(Player player, List <Zombie> zombies, List<Rock> rocks, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
 
         this.player = player;
         this.zombies = zombies;
+        this.rocks = rocks;
         this.gameWindow = gameWindow;
         this.hudHP = hudHP;
         this.hudArmor = hudArmor;
@@ -45,7 +46,6 @@ public class Game {
         this.dataHandler = new DataHandler();
         this.running = true;
         this.scoreNumber = 0;
-        this.rocks = rocks;
 
         final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
@@ -531,7 +531,7 @@ public class Game {
         removeZombies();
         for (int i = 0; i < gameCfg.zombies.size(); i++) {
             Zombie zombie = new Zombie(this.getGameInitializer().getZombieImages(), this.getGameInitializer().getZombieAudioClips(),
-                    gameCfg.zombies.get(i).entityCfg.posX, gameCfg.zombies.get(i).entityCfg.posY, gameCfg.zombies.get(i).health, this.rocks);
+                    gameCfg.zombies.get(i).entityCfg.posX, gameCfg.zombies.get(i).entityCfg.posY, gameCfg.zombies.get(i).health);
             zombie.setZombieConfiguration(gameCfg.zombies.get(i));
             this.zombies.add(zombie);
 
@@ -544,7 +544,7 @@ public class Game {
 
         for (DataHandler.BulletConfiguration bulletCfg : gameCfg.bullets) {
             //TO DO Fill in rotational angle?
-            Bullet bullet = new Bullet(getGameInitializer().getPistolBulletImaqe(), bulletCfg.movementCfg.entityCfg.posX, bulletCfg.movementCfg.entityCfg.posY, bulletCfg.movementCfg.movementSpeed, bulletCfg.damage, bulletCfg.movementCfg.direction, this.rocks);
+            Bullet bullet = new Bullet(getGameInitializer().getPistolBulletImaqe(), bulletCfg.movementCfg.entityCfg.posX, bulletCfg.movementCfg.entityCfg.posY, bulletCfg.movementCfg.movementSpeed, bulletCfg.damage, bulletCfg.movementCfg.direction);
             this.bullets.add(bullet);
         }
 
@@ -604,7 +604,7 @@ public class Game {
             if (this.zombies == null) this.zombies = new ArrayList<>();
 
             for (int i = 0; i < nbrZombies; i++) {
-                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1200), (int) (Math.random() * 650), 100, this.rocks);
+                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1200), (int) (Math.random() * 650), 100);
                 System.out.println("x"+zombie.getPositionX()+" y"+zombie.getPositionY());
                 this.zombies.add(zombie);
             }
