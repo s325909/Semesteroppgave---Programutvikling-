@@ -51,59 +51,6 @@ public class Player extends Movable {
     }
 
     /***
-     * Method which will switch between which set of weaponSounds animations that should be used based on a String value.
-     * @param weaponType Requires a String value which is later compared in order to change equippedWeapon.
-     */
-    public void setWeaponTypeFromString(String weaponType) {
-        switch(weaponType) {
-            case "knife":
-                this.equippedWeapon = WeaponTypes.KNIFE;
-                break;
-            case "pistol":
-                this.equippedWeapon = WeaponTypes.PISTOL;
-                break;
-            case "rifle":
-                this.equippedWeapon = WeaponTypes.RIFLE;
-                break;
-            case "shotgun":
-                this.equippedWeapon = WeaponTypes.SHOTGUN;
-                break;
-            default:
-                this.equippedWeapon = WeaponTypes.KNIFE;
-        }
-    }
-
-    public String getWeaponTypeToString() {
-        switch(this.equippedWeapon) {
-            case KNIFE:
-                return "knife";
-            case PISTOL:
-                return "pistol";
-            case RIFLE:
-                return "rifle";
-            case SHOTGUN:
-                return "shotgun";
-            default:
-                return "knife";
-        }
-    }
-
-    public WeaponTypes getWeaponTypeFromString(String weaponType) {
-        switch(weaponType) {
-            case "knife":
-                return WeaponTypes.KNIFE;
-            case "pistol":
-                return WeaponTypes.PISTOL;
-            case "rifle":
-                return WeaponTypes.RIFLE;
-            case "shotgun":
-                return WeaponTypes.SHOTGUN;
-            default:
-                return WeaponTypes.KNIFE;
-        }
-    }
-
-    /***
      * Method which sets current animation set to be used, together with the required sound clips necessary.
      * Upon WASD or Arrow Key input, the walking animation of each sprite set is selected.
      * When pressing E, the melee animation of the knife set is selected.
@@ -659,6 +606,8 @@ public class Player extends Movable {
     public void setEquippedWeapon(WeaponTypes equippedWeapon) {
         this.equippedWeapon = equippedWeapon;
     }
+
+
 
     /***
      * Inner class for handling magazine count and ammunition pool for the Player.

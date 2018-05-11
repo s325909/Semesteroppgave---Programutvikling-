@@ -1,9 +1,6 @@
 package notCurrentlyUsed;
 
 import entities.AnimationHandler;
-import entities.Sprite;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Service;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

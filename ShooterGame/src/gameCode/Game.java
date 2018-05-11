@@ -215,7 +215,7 @@ public class Game {
     private void updateHUD() {
         String hpLevel = String.valueOf(player.getHealthPoints());
         String armorLevel = String.valueOf(player.getArmor());
-        String weapon = player.getWeaponTypeToString().toUpperCase();
+        String weapon = player.getEquippedWeapon().toString().toUpperCase();
         String magazineLevel = String.valueOf(player.getMagazineCount());
         String poolLevel = String.format("%02d", player.getAmmoPool());
         String score = String.format("%05d", this.getScoreNumber());

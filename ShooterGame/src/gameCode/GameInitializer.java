@@ -82,6 +82,8 @@ public class GameInitializer implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        loadAssets();
+
         //Create an object of MusicPlayer, which includes what file to play and automatically starts playing
 //        try {
 //            musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
@@ -90,8 +92,6 @@ public class GameInitializer implements Initializable{
 //        }
 
         // Select number of zombies to create, and load all assets
-        setNbrZombies(5);
-        loadAssets();
 
         try {
             this.rocks = new ArrayList<Rock>();
@@ -106,7 +106,7 @@ public class GameInitializer implements Initializable{
         // Create the Player upon starting a new game
         try {
             player = new Player(this.playerImages, this.basicSounds, this.weaponSounds, this.pistolBulletImaqe, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50, this.rocks);
-            player.setWeaponTypeFromString("knife");
+            player.setEquippedWeapon(Player.WeaponTypes.KNIFE);
         } catch (Exception e) {
             for (StackTraceElement element : e.getStackTrace()) {
                 System.out.println(element);
@@ -115,6 +115,7 @@ public class GameInitializer implements Initializable{
         }
 
         // Create every Zombie upon starting a new game
+        nbrZombies = 5;
         try {
             zombies = new ArrayList<>();
             for (int i = 0; i < nbrZombies; i++) {
@@ -287,7 +288,12 @@ public class GameInitializer implements Initializable{
                 new FileParam("/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_", ".png", 20)
         };
 
-        FileParam[][] all = {knife, pistol, rifle, shotgun};
+        FileParam[][] all = {
+                knife,
+                pistol,
+                rifle,
+                shotgun
+        };
 
         this.playerImages = new Image[all.length][][];
         for (int i = 0; i < all.length; ++i) {
@@ -330,49 +336,6 @@ public class GameInitializer implements Initializable{
         this.rockImage[0] = new Image(rockImageStrings[0], 50, 50, true, false);
     }
 
-    public void createDropImages(String[] images) {
-        this.hpDropImages = new Image[1];
-        this.hpDropImages[0] = new Image(images[0], 25, 25, true, false);
-        this.armorDropImages = new Image[1];
-        this.armorDropImages[0] = new Image(images[1], 25, 25, true, false);
-        this.magDropImages = new Image[1];
-        this.magDropImages[0] = new Image(images[2], 25, 25, true, false);
-        this.poolDropImages = new Image[1];
-        this.poolDropImages[0] = new Image(images[3], 25, 25, true, false);
-        this.speedDropImages = new Image[1];
-        this.speedDropImages[0] = new Image(images[4], 25, 25, true, false);
-        this.coinDropImages = new Image[1];
-        this.coinDropImages[0] = new Image(images[5], 25, 25, true, false);
-    }
-
-    public Image[] getPistolBulletImaqe() {
-        return pistolBulletImaqe;
-    }
-
-    public Image[] getCoinDrop() {
-        return coinDrop;
-    }
-
-    public Image[] getHpDropImages() {
-        return hpDropImages;
-    }
-
-    public Image[] getArmorDropImages() {
-        return armorDropImages;
-    }
-
-    public Image[] getMagDropImages() {
-        return magDropImages;
-    }
-
-    public Image[] getPoolDropImages() {
-        return poolDropImages;
-    }
-
-    public Image[] getSpeedDropImages() {
-        return speedDropImages;
-    }
-
     private Image[] loadAnimation(FileParam files) {
         Image[] images = new Image[files.numberImages];
         for(int i = 0; i < files.numberImages; i++) {
@@ -406,14 +369,6 @@ public class GameInitializer implements Initializable{
         return images;
     }
 
-    private AnimationHandler[] loadMultipleAnimationHandler(Image[][] images, int nbr) {
-        AnimationHandler[] animationHandler = new AnimationHandler[nbr];
-        for (int i = 0; i < nbr; i++) {
-            animationHandler[i] = new AnimationHandler(images);
-        }
-        return animationHandler;
-    }
-
     /**
      * Method which finds and loads all necessary Zombie assets from disk only once.
      * Once found and loaded into memory, these sets of assets are then turned
@@ -433,8 +388,19 @@ public class GameInitializer implements Initializable{
         this.zombieImages = loadAnimation(zombieAnimations);
     }
 
-    public Image[][] getZombieImages() {
-        return this.zombieImages;
+    public void createDropImages(String[] images) {
+        this.hpDropImages = new Image[1];
+        this.hpDropImages[0] = new Image(images[0], 25, 25, true, false);
+        this.armorDropImages = new Image[1];
+        this.armorDropImages[0] = new Image(images[1], 25, 25, true, false);
+        this.magDropImages = new Image[1];
+        this.magDropImages[0] = new Image(images[2], 25, 25, true, false);
+        this.poolDropImages = new Image[1];
+        this.poolDropImages[0] = new Image(images[3], 25, 25, true, false);
+        this.speedDropImages = new Image[1];
+        this.speedDropImages[0] = new Image(images[4], 25, 25, true, false);
+        this.coinDropImages = new Image[1];
+        this.coinDropImages[0] = new Image(images[5], 25, 25, true, false);
     }
 
     /**
@@ -621,6 +587,38 @@ public class GameInitializer implements Initializable{
 
     public void setNbrZombies(int nbrZombies) {
         this.nbrZombies = nbrZombies;
+    }
+
+    public Image[][] getZombieImages() {
+        return this.zombieImages;
+    }
+
+    public Image[] getPistolBulletImaqe() {
+        return pistolBulletImaqe;
+    }
+
+    public Image[] getCoinDrop() {
+        return coinDrop;
+    }
+
+    public Image[] getHpDropImages() {
+        return hpDropImages;
+    }
+
+    public Image[] getArmorDropImages() {
+        return armorDropImages;
+    }
+
+    public Image[] getMagDropImages() {
+        return magDropImages;
+    }
+
+    public Image[] getPoolDropImages() {
+        return poolDropImages;
+    }
+
+    public Image[] getSpeedDropImages() {
+        return speedDropImages;
     }
 
     public AudioClip[] getZombieAudioClips() {
