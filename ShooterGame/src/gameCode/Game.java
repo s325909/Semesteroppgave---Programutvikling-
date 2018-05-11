@@ -112,6 +112,8 @@ public class Game {
                     gameWindow.getChildren().add(drop.getNode());
                 gameWindow.getChildren().add(drop.getAnimationHandler().getImageView());
                 drop.setDrawn();
+                drop.getIv().toBack();
+                drop.getNode().toBack();
             }
             if(drop.isColliding(player)) {
                 drop.setAlive(false);
