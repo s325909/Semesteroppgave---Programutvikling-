@@ -154,6 +154,7 @@ public class GameInitializer implements Initializable{
         }
         for (Rock rock : rocks) {
             gameWindow.getChildren().add(rock.getAnimationHandler().getImageView());
+            rock.setDrawn();
         }
 
         // Initialize the Game object, and thus start the game
@@ -212,7 +213,7 @@ public class GameInitializer implements Initializable{
     private void getKeyPressed(){
 
         gameWindow.getScene().setOnKeyPressed(e -> {
-            player.movePlayer(e);
+            player.pressEvent(e);
             if (e.getCode() == KeyCode.F12) {
                 changeFullScreen();
 
@@ -233,7 +234,7 @@ public class GameInitializer implements Initializable{
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {
-            player.releasedPlayer(e);
+            player.releasedEvent(e);
         });
     }
 

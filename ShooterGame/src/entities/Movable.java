@@ -8,7 +8,6 @@ import javafx.scene.shape.Rectangle;
 import java.util.List;
 
 public class Movable extends Entity {
-
     public enum Direction {
         IDLE, NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST
     }
@@ -20,11 +19,15 @@ public class Movable extends Entity {
     private int healthPoints;
     private double velocityX;
     private double velocityY;
+    private int newPositionX;
+    private int newPositionY;
+    private double newRotation;
     private double movementSpeed;
 
     private AudioClip[] audioClips;
     private Direction direction;
     private List<Rock> rocks;
+
 
     public Movable(AnimationHandler allAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed, List<Rock> rocks) {
         super(allAnimation, positionX, positionY);
@@ -38,96 +41,103 @@ public class Movable extends Entity {
         this.rocks = rocks;
     }
 
-    @Override
-    public void update(double time) {
-        super.update(time);
-        //getAnimationHandler().setFrame(time);
-
-        // Update actual position of object
-        setPositionX(getPositionX() + (int)getVelocityX());
-        setPositionY(getPositionY() + (int)getVelocityY());
-
-
+    public void movement() { //List<Entity> objects) {
         //Also, need to replace position if window is resized.
         //Calculates the new position on the screen
-        double newX = this.getNode().getTranslateX() + velocityX;
-        double newY = this.getNode().getTranslateY() + velocityY;
+        newPositionX = (int)(getNode().getTranslateX() + velocityX);
+        newPositionY = (int)(getNode().getTranslateY() + velocityY);
 
-        //TODO: Fix movement position. Have only managed left and top now (bottom and right missing).
-        //Exiting method because new position collides with border.
-        if(newX < 0 || newY < 0)
-            return;
-
-
-        /*
-
-        //Checking if new bounds is colliding with objects before updating movement.
-        Bounds oldBounds = this.getNode().getBoundsInParent();
-        Bounds newBounds = new Rectangle(newX,newY,oldBounds.getWidth(),oldBounds.getHeight()).getLayoutBounds();
-        for (Rock rock : rocks) {
-            if(rock.isColliding(newBounds)) {
-                return;
-            }
-        }
-
-        */
-
-        // Update position of the visible representation of the object (Node and Sprite)
-        this.getNode().setTranslateX(newX);
-        this.getNode().setTranslateY(newY);
-        this.getAnimationHandler().getImageView().setTranslateX(newX);
-        this.getAnimationHandler().getImageView().setTranslateY(newY);
+        //Move node to check for collision
+        getNode().setTranslateX(newPositionX);
+        getNode().setTranslateY(newPositionY);
 
         // Change sprite direction upon entity direction change based on user input
         if (getVelocityX() > 0) {
             if (getVelocityY() < 0) {
-                this.getAnimationHandler().getImageView().setRotate(315);
-                this.getNode().setRotate(315);
-                this.direction = Direction.NORTHEAST;
+                newRotation = 315;
+                direction = Direction.NORTHEAST;
             } else if (getVelocityY() > 0) {
-                this.getAnimationHandler().getImageView().setRotate(45);
-                this.getNode().setRotate(45);
-                this.direction = Direction.SOUTHEAST;
+                newRotation = 45;
+                direction = Direction.SOUTHEAST;
             } else {
-                this.getAnimationHandler().getImageView().setRotate(0);
-                this.getNode().setRotate(0);
-                this.direction = Direction.EAST;
+                newRotation = 0;
+                direction = Direction.EAST;
             }
         } else if (getVelocityX() < 0) {
             if (getVelocityY() < 0) {
-               this.getAnimationHandler().getImageView().setRotate(225);
-                this.getNode().setRotate(225);
-                this.direction = Direction.NORTHWEST;
+                newRotation = 225;
+                direction = Direction.NORTHWEST;
             } else if (getVelocityY() > 0) {
-                this.getAnimationHandler().getImageView().setRotate(135);
-                this.getNode().setRotate(135);
-                this.direction = Direction.SOUTHWEST;
+                newRotation = 135;
+                direction = Direction.SOUTHWEST;
             } else {
-                this.getAnimationHandler().getImageView().setRotate(180);
-                this.getNode().setRotate(180);
-                this.direction = Direction.WEST;
+                newRotation = 180;
+                direction = Direction.WEST;
             }
         } else if (getVelocityX() == 0) {
             if (getVelocityY() < 0) {
-                this.getAnimationHandler().getImageView().setRotate(270);
-                this.getNode().setRotate(270);
-                this.direction = Direction.NORTH;
+                newRotation = 270;
+                direction = Direction.NORTH;
             } else if (getVelocityY() > 0) {
-                this.getAnimationHandler().getImageView().setRotate(90);
-                this.getNode().setRotate(90);
-                this.direction = Direction.SOUTH;
+                newRotation = 90;
+                direction = Direction.SOUTH;
             }
         } else if (getVelocityX() == 0 && getVelocityY() == 0) {
-            this.direction = Direction.IDLE;
+            direction = Direction.IDLE;
+        }
+    }
+
+    public void moveBack() {
+        newPositionX = getPositionX();
+        newPositionY = getPositionY();
+        direction = Direction.IDLE;
+    }
+
+    public void moveAway(Movable object) {
+        double diffx = (object.getPositionX()) - getPositionX();
+        double diffy = (object.getPositionY()) - getPositionY();
+        double angle = 180 + Math.atan2(diffy, diffx) * (180 / Math.PI);
+
+        double changeInX = 0, changeInY = 0;
+        if (angle > 340 || angle <= 25) {
+            changeInX = -0.5;
+        } else if (angle > 25 && angle <= 70) {
+            changeInX = -0.5;
+            changeInY = -0.5;
+        } else if (angle > 70 && angle <= 115) {
+            changeInY = -0.5;
+        } else if (angle > 115 && angle <= 160) {
+            changeInX = 0.5;
+            changeInY = -0.5;
+        } else if (angle > 160 && angle <= 205) {
+            changeInX = 0.5;
+        } else if (angle > 205 && angle <= 250) {
+            changeInX = 0.5;
+            changeInY = 0.5;
+        } else if (angle > 250 && angle <= 295) {
+            changeInY = 0.5;
+        } else if (angle > 295 && angle <= 340) {
+            changeInX = -0.5;
+            changeInY = 0.5;
         }
 
-        // Check for collision between entities and update position and/or velocity
-//        for(Entity entity : entityList) {
-//            if(this.isColliding(entity)) {
-//                setVelocityX(-0.5 * getVelocityX());
-//                setVelocityY(-0.5 * getVelocityY());
-//            }
-//        }
+        newPositionX = (int)(getNode().getTranslateX() - changeInX);
+        newPositionY = (int)(getNode().getTranslateY() - changeInY);
+    }
+
+    @Override
+    public void update(double time) {
+        super.update(time);
+        // Update actual position of object
+        setPositionX(newPositionX);
+        setPositionY(newPositionY);
+        // Update position of the visible representation of the object (Node and Sprite)
+        getNode().setTranslateX(newPositionX);
+        getNode().setTranslateY(newPositionY);
+        getAnimationHandler().getImageView().setTranslateX(newPositionX);
+        getAnimationHandler().getImageView().setTranslateY(newPositionY);
+        getAnimationHandler().getImageView().setRotate(newRotation);
+        getNode().setRotate(newRotation);
     }
 
     public void goLeft() {
@@ -181,12 +191,20 @@ public class Movable extends Entity {
         this.velocityX = velocityX;
     }
 
+    public void addVelocityX(double velocityX) {
+        this.velocityX += velocityX;
+    }
+
     public double getVelocityY() {
         return velocityY;
     }
 
     public void setVelocityY(double velocityY) {
         this.velocityY = velocityY;
+    }
+
+    public void addVelocityY(double velocityY) {
+        this.velocityY += velocityY;
     }
 
     public void setVelocity(double velocityX, double velocityY) {

@@ -17,6 +17,10 @@ public class Player extends Movable {
         KNIFE, PISTOL, RIFLE, SHOTGUN
     }
 
+    private enum PlayerDirection {
+        LEFT, RIGHT, UP, DOWN
+    }
+
     private WeaponTypes equippedWeapon;
     private State playerState;
     private int armor;
@@ -31,6 +35,7 @@ public class Player extends Movable {
     private long invTime;
     private long fireWaitTime;
     private List<Rock> rocks;
+    private List<PlayerDirection> directionButtonPressed;
 
     public Player(Image[][][] images, AudioClip[] basicSounds, AudioClip[] weaponSounds, Image[] bulletImages, int positionX, int positionY, int healthPoints, int armor, List<Rock> rocks) {
         super(new AnimationHandler(images), basicSounds, positionX, positionY, healthPoints, 5.0, rocks);
@@ -48,6 +53,28 @@ public class Player extends Movable {
         playerState = State.NORMAL;
         setDirection(Direction.EAST);
         this.rocks = rocks;
+        directionButtonPressed = new ArrayList<>();
+    }
+
+    public void move() {
+        stopX();
+        stopY();
+        for (PlayerDirection playerDirection : directionButtonPressed) {
+            switch (playerDirection) {
+                case LEFT:
+                    addVelocityX(-getMovementSpeed());
+                    break;
+                case RIGHT:
+                    addVelocityX(getMovementSpeed());
+                    break;
+                case UP:
+                    addVelocityY(-getMovementSpeed());
+                    break;
+                case DOWN:
+                    addVelocityY(getMovementSpeed());
+                    break;
+            }
+        }
     }
 
     /***
@@ -59,7 +86,7 @@ public class Player extends Movable {
      * Finally adds the now selected i and j int values as indexes in a 2-dimensional array.
      * @param keyEvent Handles user input via the pressing of a key.
      */
-    public void movePlayer(KeyEvent keyEvent){
+    public void pressEvent(KeyEvent keyEvent){
         int i,j, audioAction, audioReload, fireRate;
 
         switch (this.equippedWeapon) {
@@ -96,16 +123,20 @@ public class Player extends Movable {
 
         if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
             j = 1;
-            goLeft();
+            if (!directionButtonPressed.contains(PlayerDirection.LEFT))
+                directionButtonPressed.add(PlayerDirection.LEFT);
         } else if (keyEvent.getCode() == KeyCode.RIGHT || keyEvent.getCode() == KeyCode.D) {
             j = 1;
-            goRight();
+            if (!directionButtonPressed.contains(PlayerDirection.RIGHT))
+                directionButtonPressed.add(PlayerDirection.RIGHT);
         } else if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W) {
             j = 1;
-            goUp();
+            if (!directionButtonPressed.contains(PlayerDirection.UP))
+                directionButtonPressed.add(PlayerDirection.UP);
         } else if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
             j = 1;
-            goDown();
+            if (!directionButtonPressed.contains(PlayerDirection.DOWN))
+                directionButtonPressed.add(PlayerDirection.DOWN);
         } else {
             j = 0;
         }
@@ -142,7 +173,7 @@ public class Player extends Movable {
      * As for visual bulletDirection, the player stops in the direction they were moving.
      * @param keyEvent Handles user input via the release of a key.
      */
-    public void releasedPlayer(KeyEvent keyEvent){
+    public void releasedEvent(KeyEvent keyEvent){
         int i,j=0;
         switch (this.equippedWeapon) {
             case KNIFE:
@@ -162,13 +193,13 @@ public class Player extends Movable {
         }
         setAnimation(i, j);
         if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
-            stopX();
+            directionButtonPressed.remove(PlayerDirection.LEFT);
         } else if (keyEvent.getCode() == KeyCode.RIGHT || keyEvent.getCode() == KeyCode.D) {
-            stopX();
+            directionButtonPressed.remove(PlayerDirection.RIGHT);
         } else if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W) {
-            stopY();
+            directionButtonPressed.remove(PlayerDirection.UP);
         } else if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S){
-            stopY();
+            directionButtonPressed.remove(PlayerDirection.DOWN);
         }
     }
 
