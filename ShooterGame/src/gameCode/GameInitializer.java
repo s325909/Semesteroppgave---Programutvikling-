@@ -70,7 +70,7 @@ public class GameInitializer implements Initializable{
     private Image[] pistolBulletImaqe;
     private Image[] rockImage;
 
-    final private boolean DEBUG = false;
+    final private boolean DEBUG = true;
 
     /***
      * Method which will create all the initial Entities and other objects to present when a new game starts.
