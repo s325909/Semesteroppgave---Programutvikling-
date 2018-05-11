@@ -77,7 +77,7 @@ public class Bullet extends Movable {
         }
     }
 
-    public void bulletCollision(Bullet bullets, List<Zombie> zombieList, List<Rock> rocksList) {
+    public void bulletCollision(List<Zombie> zombieList, List<Rock> rocksList) {
         for (Zombie zombie : zombieList) {
             if (isColliding(zombie)) {
             this.setAlive(false);
@@ -90,7 +90,7 @@ public class Bullet extends Movable {
 
         for (Rock rock : rocksList) {
             if (isColliding(rock)){
-                bullets.setAlive(false);
+                this.setAlive(false);
             }
         }
 

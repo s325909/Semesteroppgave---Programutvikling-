@@ -104,7 +104,7 @@ public class Game {
                 bullet.setDrawn();
             }
             bullet.bulletDirection();
-            bullet.bulletCollision(bullet, zombies, rocks);
+            bullet.bulletCollision(zombies, rocks);
         }
 
         // Draw drops to the pane, and check for collision with player
