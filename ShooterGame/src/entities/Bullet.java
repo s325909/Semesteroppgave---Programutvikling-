@@ -87,10 +87,9 @@ public class Bullet extends Movable {
             }
         }
     }
-        System.out.println(this.getPositionX() + " " + this.getPositionY());
+
         for (Rock rock : rocksList) {
-            if (isColliding(rock){
-                System.out.println("colliding");
+            if (isColliding(rock)){
                 bullets.setAlive(false);
             }
         }
