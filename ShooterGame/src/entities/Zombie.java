@@ -2,7 +2,6 @@ package entities;
 
 import gameCode.DataHandler;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
 
 import java.util.*;
@@ -10,7 +9,7 @@ import java.util.*;
 public class Zombie extends Movable {
 
     private Direction walkDirection;
-    private State mode;
+    private State state;
     private int walkDistance;
     private Queue<AnimationLengthPair> animationQueue;
     private long waitTime;
@@ -19,7 +18,7 @@ public class Zombie extends Movable {
         super(new AnimationHandler(images), audioClips, positionX, positionY, healthPoints, 1.0, rocks);
         this.animationQueue = new LinkedList<AnimationLengthPair>();
         this.waitTime = 0;
-        this.mode = State.NORMAL;
+        this.state = State.NORMAL;
     }
 
     /***
@@ -62,10 +61,10 @@ public class Zombie extends Movable {
         }
 
         if(distance <= 50 && this.walkDistance <= 0) {
-            this.mode = State.ATTACK;
+            this.state = State.ATTACK;
             this.walkDistance = 10;
         } else {
-            this.mode = State.NORMAL;
+            this.state = State.NORMAL;
         }
 
         if (this.walkDistance <= 0) {
@@ -135,7 +134,7 @@ public class Zombie extends Movable {
                 action = 0;
         }
 
-        switch (mode) {
+        switch (state) {
             case NORMAL:
                 break;
             case ATTACK:
@@ -150,8 +149,8 @@ public class Zombie extends Movable {
         setAnimation(action);
     }
 
-    public State getMode() {
-        return mode;
+    public State getState() {
+        return state;
     }
 
     /**

@@ -70,14 +70,14 @@ public class Game {
         bullets = player.getBulletList();
 
         // Create Drop entities with random position
-//        if ( < 5) {
-//            int random = (int) Math.floor(Math.random() * 100);
-//            if (random < 4) {
-//                int x = (int) Math.floor(Math.random() * gameWindow.getWidth());
-//                int y = (int) Math.floor(Math.random() * gameWindow.getHeight());
-//                drops.add(new Drop(gameInitializer.getCoinDrop(), x, y, Drop.DropType.SCORE));
-//            }
-//        }
+        if (drops.size() < 10) {
+            int random = (int) Math.floor(Math.random() * 100);
+            if (random < 4) {
+                int x = (int) Math.floor(Math.random() * gameWindow.getWidth());
+                int y = (int) Math.floor(Math.random() * gameWindow.getHeight());
+                drops.add(new Drop(gameInitializer.getScoreDropAnimation(), x, y, Drop.DropType.SCORE));
+            }
+        }
 
         // Check collision between zombies and player
         for (Zombie zombie : zombies) {
@@ -85,7 +85,7 @@ public class Game {
 //            if (player.isColliding(zombie)) {
 //                player.receivedDamage(0);
 //            }
-            if (zombie.getMode() == Zombie.State.ATTACK) {
+            if (zombie.getState() == Zombie.State.ATTACK) {
                 player.receivedDamage(15);
             }
             if (!player.isAlive()) {
@@ -153,8 +153,9 @@ public class Game {
 
         // Check if Drop of drops is dead
         for(Drop drop : drops) {
-            if(!drop.isAlive())
-              gameWindow.getChildren().removeAll(drop.getNode(), drop.getAnimationHandler().getImageView());
+            if(!drop.isAlive()) {
+                gameWindow.getChildren().removeAll(drop.getNode(), drop.getAnimationHandler().getImageView());
+            }
         }
 
         // Remove every dead Entity object from the ArrayLists
@@ -178,7 +179,7 @@ public class Game {
             case 4:
                 return new Drop(gameInitializer.getSpeedDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.SHOTGUNAMMO);
             default:
-                return new Drop(gameInitializer.getCoinDrop(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.SCORE);
+                return new Drop(gameInitializer.getScoreDropAnimation(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.SCORE);
         }
     }
 

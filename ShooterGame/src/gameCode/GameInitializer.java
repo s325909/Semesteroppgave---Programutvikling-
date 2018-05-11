@@ -1,6 +1,5 @@
 package gameCode;
 
-import entities.AnimationHandler;
 import entities.Player;
 import entities.Rock;
 import entities.Zombie;
@@ -67,8 +66,7 @@ public class GameInitializer implements Initializable{
     private Image[] magDropImages;
     private Image[] poolDropImages;
     private Image[] speedDropImages;
-    private Image[] coinDropImages;
-    private Image[] coinDrop;
+    private Image[] scoreDropAnimation;
     private Image[] pistolBulletImaqe;
     private Image[] rockImage;
 
@@ -304,9 +302,9 @@ public class GameInitializer implements Initializable{
         loadZombiesAssets();
 
         // Load coin Drop animation
-        FileParam coin = new FileParam("/resources/Art/Icon/Coin/coin_rotate_", ".png", 6);
+        FileParam scoreDrop = new FileParam("/resources/Art/Icon/Coin/coin_rotate_", ".png", 6);
 
-        this.coinDrop = loadAnimation(coin);
+        this.scoreDropAnimation = loadAnimation(scoreDrop);
 
         // Load all Drop images
         String[] dropImageStrings = new String[] {
@@ -314,8 +312,8 @@ public class GameInitializer implements Initializable{
                 "/resources/Art/Icon/armor_icon.png",
                 "/resources/Art/Icon/mag_icon.png",
                 "/resources/Art/Icon/pool_icon.png",
-                "/resources/Art/Icon/speed_boost.png",
-                "/resources/Art/Icon/Coin/coin_rotate_0.png"};
+                "/resources/Art/Icon/speed_boost.png"
+        };
 
         createDropImages(dropImageStrings);
 
@@ -399,8 +397,6 @@ public class GameInitializer implements Initializable{
         this.poolDropImages[0] = new Image(images[3], 25, 25, true, false);
         this.speedDropImages = new Image[1];
         this.speedDropImages[0] = new Image(images[4], 25, 25, true, false);
-        this.coinDropImages = new Image[1];
-        this.coinDropImages[0] = new Image(images[5], 25, 25, true, false);
     }
 
     /**
@@ -597,8 +593,8 @@ public class GameInitializer implements Initializable{
         return pistolBulletImaqe;
     }
 
-    public Image[] getCoinDrop() {
-        return coinDrop;
+    public Image[] getScoreDropAnimation() {
+        return scoreDropAnimation;
     }
 
     public Image[] getHpDropImages() {
