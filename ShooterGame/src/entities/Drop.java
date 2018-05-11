@@ -16,7 +16,7 @@ public class Drop extends Entity {
         this.dropType = dropType;
         this.getAnimationHandler().getImageView().setTranslateX(this.getNode().getTranslateX());
         this.getAnimationHandler().getImageView().setTranslateY(this.getNode().getTranslateY());
-        getAnimationHandler().setDuration(0.256);
+        getAnimationHandler().setDuration(0.192);
     }
 
     public void dropCollision(Player player, Game game) {

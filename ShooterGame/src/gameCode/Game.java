@@ -156,6 +156,7 @@ public class Game {
             if(!drop.isAlive()) {
                 gameWindow.getChildren().removeAll(drop.getNode(), drop.getAnimationHandler().getImageView());
             }
+            drop.update(time);
         }
 
         // Remove every dead Entity object from the ArrayLists
