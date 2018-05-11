@@ -17,14 +17,14 @@ public class Bullet extends Movable {
     private double adjustVelX;
     private double adjustVelY;
 
-    public Bullet(Image[] images, int positionX, int positionY, double movementSpeed, int damage, Direction direction, List<Rock> rocks) {
-        super(new AnimationHandler(images), null, positionX, positionY, 1, movementSpeed, rocks);
+    public Bullet(Image[] images, int positionX, int positionY, double movementSpeed, int damage, Direction direction) {
+        super(new AnimationHandler(images), null, positionX, positionY, 1, movementSpeed);
         this.damage = damage;
         this.direction = direction;
     }
 
-    public Bullet(Image[] images, int positionX, int positionY, double movementSpeed, int damage, Direction direction, List<Rock> rocks, double velX, double velY) {
-        this(images, positionX, positionY, movementSpeed, damage, direction, rocks);
+    public Bullet(Image[] images, int positionX, int positionY, double movementSpeed, int damage, Direction direction, double velX, double velY) {
+        this(images, positionX, positionY, movementSpeed, damage, direction);
         adjustVelX = velX;
         adjustVelY = velY;
     }
@@ -34,42 +34,34 @@ public class Bullet extends Movable {
             case NORTH:
                 setVelocityX(0 + adjustVelX);
                 setVelocityY(-getMovementSpeed() + adjustVelY);
-                //getNode().setRotate(270);
                 break;
             case NORTHEAST:
                 setVelocityX(getMovementSpeed() + adjustVelX);
                 setVelocityY(-getMovementSpeed() + adjustVelY);
-                //getNode().setRotate(315);
                 break;
             case EAST:
                 setVelocityX(getMovementSpeed() + adjustVelX);
                 setVelocityY(0 + adjustVelY);
-                //getNode().setRotate(0);
                 break;
             case SOUTHEAST:
                 setVelocityX(getMovementSpeed() + adjustVelX);
                 setVelocityY(getMovementSpeed() + adjustVelY);
-                //getNode().setRotate(45);
                 break;
             case SOUTH:
                 setVelocityX(0 + adjustVelX);
                 setVelocityY(getMovementSpeed() + adjustVelY);
-                //getNode().setRotate(90);
                 break;
             case SOUTHWEST:
                 setVelocityX(-getMovementSpeed() + adjustVelX);
                 setVelocityY(getMovementSpeed() + adjustVelY);
-                //getNode().setRotate(135);
                 break;
             case WEST:
                 setVelocityX(-getMovementSpeed() + adjustVelX);
                 setVelocityY(0 + adjustVelY);
-                //getNode().setRotate(180);
                 break;
             case NORTHWEST:
                 setVelocityX(-getMovementSpeed() + adjustVelX);
                 setVelocityY(-getMovementSpeed() + adjustVelY);
-                //getNode().setRotate(225);
                 break;
             default:
                 setVelocityX(0 + adjustVelX);
@@ -93,14 +85,6 @@ public class Bullet extends Movable {
                 this.setAlive(false);
             }
         }
-
-        /*Bounds oldBounds = this.getNode().getBoundsInParent();
-        Bounds newBounds = new Rectangle(adjustVelX,adjustVelY,oldBounds.getWidth(),oldBounds.getHeight()).getLayoutBounds();
-        for (Rock rock: rocksList) {
-            if(rock.isColliding(newBounds)) {
-                return;
-            }
-        }*/
     }
 
     public DataHandler.BulletConfiguration getBulletConfiguration() {

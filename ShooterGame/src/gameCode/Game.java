@@ -30,10 +30,11 @@ public class Game {
     private DataHandler dataHandler;
     private boolean chooseDiffculty;
 
-    public Game(Player player, List <Zombie> zombies, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer, List<Rock> rocks){
+    public Game(Player player, List <Zombie> zombies, List<Rock> rocks, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
 
         this.player = player;
         this.zombies = zombies;
+        this.rocks = rocks;
         this.gameWindow = gameWindow;
         this.hudHP = hudHP;
         this.hudArmor = hudArmor;
@@ -45,7 +46,6 @@ public class Game {
         this.dataHandler = new DataHandler();
         this.running = true;
         this.scoreNumber = 0;
-        this.rocks = rocks;
 
         final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
@@ -81,14 +81,57 @@ public class Game {
             }
         }
 
+        List<Entity> playerObjectCollidingList = new ArrayList<>();
+        playerObjectCollidingList.addAll(rocks);
+        playerObjectCollidingList.addAll(zombies);
+        player.move();
+        player.movement();
+
+        List<Entity> zombieObjectCollidingList = new ArrayList<>();
+        zombieObjectCollidingList.add(player);
+        zombieObjectCollidingList.addAll(rocks);
+        for (Zombie zombie : zombies) {
+            zombie.findDirection(player);
+            zombie.move();
+            zombie.movement();
+        }
+
+        if(player.getNode().getTranslateX() < 0 || player.getNode().getTranslateY() < 0 || player.getNode().getTranslateX() > (gameWindow.getWidth() - 60) || player.getNode().getTranslateY() > (gameWindow.getHeight() - 100)) {
+            player.moveBack();
+        }
+
+        for (Zombie zombie : zombies) {
+            if (zombie.getNode().getTranslateX() < 0 || zombie.getNode().getTranslateY() < 0 || zombie.getNode().getTranslateX() > (gameWindow.getWidth()) || zombie.getNode().getTranslateY() > (gameWindow.getHeight())) {
+                zombie.moveBack();
+            }
+        }
+
+        for (Bullet bullet : bullets) {
+            if (bullet.getNode().getTranslateX() < 0 || bullet.getNode().getTranslateY() < 0 || bullet.getNode().getTranslateX() > (gameWindow.getWidth()) || bullet.getNode().getTranslateY() > (gameWindow.getHeight())) {
+                bullet.setAlive(false);
+            }
+        }
+
+        //Checking if new bounds is colliding with objects before updating movement.
+        for (Entity obj : playerObjectCollidingList) {
+            if(obj.isColliding(player)) {
+                player.moveBack();
+            }
+        }
+
+        for (Zombie zombie : zombies) {
+            for (Entity obj : zombieObjectCollidingList) {
+                if (obj.isColliding(zombie)) {
+                    zombie.moveBack();
+                }
+            }
+        }
+
         // Check collision between zombies and player
         for (Zombie zombie : zombies) {
-            zombie.movement(player);
-//            if (player.isColliding(zombie)) {
-//                player.receivedDamage(0);
-//            }
             if (zombie.getState() == Zombie.State.ATTACK) {
                 player.receivedDamage(15);
+                //player.moveAway(zombie);
             }
             if (!player.isAlive()) {
                 //gameOver();
@@ -104,7 +147,22 @@ public class Game {
                 bullet.setDrawn();
             }
             bullet.bulletDirection();
-            bullet.bulletCollision(zombies, rocks);
+            //bullet.bulletCollision(zombies, rocks);
+            bullet.movement();
+            for (Zombie zombie : zombies) {
+                if (bullet.isColliding(zombie)) {
+                    zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
+                    bullet.setAlive(false);
+                    if (zombie.getHealthPoints() <= 0) {
+                        zombie.setAlive(false);
+                    }
+                }
+            }
+            for (Rock rock : rocks) {
+                if (bullet.isColliding(rock)) {
+                    bullet.setAlive(false);
+                }
+            }
         }
 
         // Draw drops to the pane, and check for collision with player
@@ -122,15 +180,16 @@ public class Game {
                 drop.dropCollision(player, this);
             }
         }
-//        Ikke nødvendig med mindre du skal legge til nye underveis
-//        for (Rock rock : rocks) {
-//            if (!rock.isDrawn()) {
-//                //if(gameInitializer.isDEBUG())
-//                    gameWindow.getChildren().add(rock.getNode());
-//                gameWindow.getChildren().add(rock.getSprite().getImageView());
-//                rock.setDrawn();
-//            }
-//        }
+
+        //Ikke nødvendig med mindre du skal legge til nye underveis
+        for (Rock rock : rocks) {
+            if (!rock.isDrawn()) {
+                if(gameInitializer.isDEBUG())
+                    gameWindow.getChildren().add(rock.getNode());
+                gameWindow.getChildren().add(rock.getAnimationHandler().getImageView());
+                rock.setDrawn();
+            }
+        }
 
         // Update animation, position and velocity of player
         player.updateAnimation();
@@ -141,28 +200,30 @@ public class Game {
         for(Zombie zombie : zombies) {
             if(!zombie.isAlive()) {
                 this.scoreNumber += 100;
-                gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getIv());
+                gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getAnimationHandler().getImageView());
                 drops.add(getRandomDropType(zombie));
+            } else {
+                zombie.updateAnimation();
+                zombie.update(time);
             }
-            zombie.updateAnimation();
-            zombie.update(time);
         }
 
         // Check if Bullet is dead, and remove if so
         for(Bullet bullet : bullets) {
             if(!bullet.isAlive()){
                  gameWindow.getChildren().removeAll(bullet.getNode(), bullet.getAnimationHandler().getImageView());
-
+            } else {
+                bullet.update(time);
             }
-            bullet.update(time);
         }
 
         // Check if Drop of drops is dead
         for(Drop drop : drops) {
             if(!drop.isAlive()) {
                 gameWindow.getChildren().removeAll(drop.getNode(), drop.getAnimationHandler().getImageView());
+            } else {
+                drop.update(time);
             }
-            drop.update(time);
         }
 
         // Remove every dead Entity object from the ArrayLists
@@ -462,7 +523,7 @@ public class Game {
         removeZombies();
         for (int i = 0; i < gameCfg.zombies.size(); i++) {
             Zombie zombie = new Zombie(this.getGameInitializer().getZombieImages(), this.getGameInitializer().getZombieAudioClips(),
-                    gameCfg.zombies.get(i).entityCfg.posX, gameCfg.zombies.get(i).entityCfg.posY, gameCfg.zombies.get(i).health, this.rocks);
+                    gameCfg.zombies.get(i).entityCfg.posX, gameCfg.zombies.get(i).entityCfg.posY, gameCfg.zombies.get(i).health);
             zombie.setZombieConfiguration(gameCfg.zombies.get(i));
             this.zombies.add(zombie);
 
@@ -475,7 +536,7 @@ public class Game {
 
         for (DataHandler.BulletConfiguration bulletCfg : gameCfg.bullets) {
             //TO DO Fill in rotational angle?
-            Bullet bullet = new Bullet(getGameInitializer().getPistolBulletImaqe(), bulletCfg.movementCfg.entityCfg.posX, bulletCfg.movementCfg.entityCfg.posY, bulletCfg.movementCfg.movementSpeed, bulletCfg.damage, bulletCfg.movementCfg.direction, this.rocks);
+            Bullet bullet = new Bullet(getGameInitializer().getPistolBulletImaqe(), bulletCfg.movementCfg.entityCfg.posX, bulletCfg.movementCfg.entityCfg.posY, bulletCfg.movementCfg.movementSpeed, bulletCfg.damage, bulletCfg.movementCfg.direction);
             this.bullets.add(bullet);
         }
 
@@ -535,7 +596,7 @@ public class Game {
             if (this.zombies == null) this.zombies = new ArrayList<>();
 
             for (int i = 0; i < nbrZombies; i++) {
-                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1200), (int) (Math.random() * 650), 100, this.rocks);
+                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1200), (int) (Math.random() * 650), 100);
                 System.out.println("x"+zombie.getPositionX()+" y"+zombie.getPositionY());
                 this.zombies.add(zombie);
             }

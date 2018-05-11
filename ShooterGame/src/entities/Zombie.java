@@ -8,31 +8,35 @@ import java.util.*;
 
 public class Zombie extends Movable {
 
+    private final int HUNTDISTANCE = 750;
+    private final int ATTACKDISTANCE = 70;
+
     private Direction walkDirection;
     private State state;
     private int walkDistance;
     private Queue<AnimationLengthPair> animationQueue;
     private long waitTime;
 
-    public Zombie(Image[][] images, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, List<Rock> rocks) {
-        super(new AnimationHandler(images), audioClips, positionX, positionY, healthPoints, 1.0, rocks);
+    public Zombie(Image[][] images, AudioClip[] audioClips, int positionX, int positionY, int healthPoints) {
+        super(new AnimationHandler(images), audioClips, positionX, positionY, healthPoints, 1.0);
         this.animationQueue = new LinkedList<AnimationLengthPair>();
         this.waitTime = 0;
         this.state = State.NORMAL;
+        this.walkDirection = Direction.IDLE;
     }
 
     /***
-     * Method which controls the bulletDirection of enemies, whereas they are drawn towards the Player.
+     * Method which controls the walk direction of enemies, whereas they are drawn towards the Player.
      * @param player Requires an object of type Player in order to decide which Entity the enemies
      *               should pursue.
      */
-    public void movement(Player player) {
+    public void findDirection(Player player) {
         double diffx = (player.getPositionX()) - getPositionX();
         double diffy = (player.getPositionY()) - getPositionY();
         double angle = 180 + Math.atan2(diffy, diffx) * (180 / Math.PI);
         double distance = Math.sqrt(Math.pow(diffx, 2) + Math.pow(diffy, 2));
 
-        if(distance < 500 && distance >= 50 && this.walkDistance <= 0) {
+        if (distance < HUNTDISTANCE && distance >= ATTACKDISTANCE && this.walkDistance <= 0) {
             if (angle > 340 || angle <= 25) {
                 this.walkDirection = Direction.WEST;
                 this.walkDistance = 10;
@@ -60,7 +64,7 @@ public class Zombie extends Movable {
             }
         }
 
-        if(distance <= 50 && this.walkDistance <= 0) {
+        if (distance <= ATTACKDISTANCE && this.walkDistance <= 0) {
             this.state = State.ATTACK;
             this.walkDistance = 10;
         } else {
@@ -71,6 +75,9 @@ public class Zombie extends Movable {
             this.walkDirection = Direction.IDLE;
             this.walkDistance = 0;
         }
+    }
+
+    public void move() {
         int action;
         switch (this.walkDirection) {
             case IDLE:

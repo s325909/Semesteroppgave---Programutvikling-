@@ -119,7 +119,7 @@ public class GameInitializer implements Initializable{
 
         // Create the Player upon starting a new game
         try {
-            player = new Player(this.playerImages, this.basicSounds, this.weaponSounds, this.pistolBulletImaqe, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50, this.rocks);
+            player = new Player(this.playerImages, this.basicSounds, this.weaponSounds, this.pistolBulletImaqe, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
             player.setEquippedWeapon(Player.WeaponTypes.KNIFE);
         } catch (Exception e) {
             for (StackTraceElement element : e.getStackTrace()) {
@@ -132,7 +132,7 @@ public class GameInitializer implements Initializable{
         try {
             zombies = new ArrayList<>();
             for (int i = 0; i < nbrZombies; i++) {
-                zombies.add(new Zombie(this.zombieImages, this.zombieAudioClips, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100, rocks));
+                zombies.add(new Zombie(this.zombieImages, this.zombieAudioClips, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
             }
         } catch (Exception e) {
             System.out.println("Error: Enemies did not load correctly");
@@ -154,10 +154,11 @@ public class GameInitializer implements Initializable{
         }
         for (Rock rock : rocks) {
             gameWindow.getChildren().add(rock.getAnimationHandler().getImageView());
+            rock.setDrawn();
         }
 
         // Initialize the Game object, and thus start the game
-        game = new Game(player, zombies, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, rocks);
+        game = new Game(player, zombies, rocks, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
         game.setGameInitializer(this);
         //Platform.runLater(this::getKeyPressed);
 
@@ -206,7 +207,7 @@ public class GameInitializer implements Initializable{
     private void getKeyPressed(){
 
         gameWindow.getScene().setOnKeyPressed(e -> {
-            player.movePlayer(e);
+            player.pressEvent(e);
             if (e.getCode() == KeyCode.F12) {
                 changeFullScreen();
 
@@ -227,7 +228,7 @@ public class GameInitializer implements Initializable{
             }
         });
         gameWindow.getScene().setOnKeyReleased(e -> {
-            player.releasedPlayer(e);
+            player.releasedEvent(e);
         });
     }
 
