@@ -25,6 +25,7 @@ public class Game {
     private AnimationTimer timer;
     private GameInitializer gameInitializer;
     private boolean running;
+    private boolean newRound;
     private boolean gameOver;
     private DataHandler dataHandler;
     private boolean chooseDiffculty;
@@ -166,56 +167,57 @@ public class Game {
         drops.removeIf(Drop::isDead);
 
 
-
+        gameInitializer.roundNbr.setText("Round: " + roundNumber);
         if (zombies.isEmpty()) {
             spawnNewRound();
         }
 
-        /*if (newRoundStart) {
-         spawnNewStart = false;
-         spawnNewRound();
-         }
-           */
     }
 
     private void spawnNewRound() {
 
-        switch (roundNumber) {
-            case 1:
-                createZombies(roundNumber+2);
-                break;
-            case 2:
-                createZombies(roundNumber+2);
-                break;
-            case 3:
-                createZombies(roundNumber+2);
-                break;
-            case 4:
-                createZombies(roundNumber+2);
-                break;
-            case 5:
-                createZombies(roundNumber+2);
-                break;
-            case 6:
-                createZombies(roundNumber+2);
-                break;
-            case 7:
-                createZombies(roundNumber+2);
-                break;
-            case 8:
-                createZombies(roundNumber+2);
-                break;
-            case 9:
-                createZombies(roundNumber+2);
-                break;
-            case 10:
-                createZombies(roundNumber+2);
-                break;
-            case 11:
-                gameOver();
-        }
-        roundNumber++;
+        if (!isNewRound()) {
 
+            setNewRound(true);
+
+            switch (roundNumber) {
+                case 1:
+                    createZombies(roundNumber + 1);
+                    break;
+                case 2:
+                    createZombies(roundNumber + 1);
+                    break;
+                case 3:
+                    createZombies(roundNumber + 1);
+                    break;
+                case 4:
+                    createZombies(roundNumber + 1);
+                    break;
+                case 5:
+                    createZombies(roundNumber + 1);
+                    break;
+                case 6:
+                    createZombies(roundNumber + 1);
+                    break;
+                case 7:
+                    createZombies(roundNumber + 1);
+                    break;
+                case 8:
+                    createZombies(roundNumber + 1);
+                    break;
+                case 9:
+                    createZombies(roundNumber + 1);
+                    break;
+                case 10:
+                    createZombies(roundNumber + 1);
+                    break;
+                case 11:
+                    gameOver();
+            }
+            setNewRound(false);
+            roundNumber++;
+
+        }
 
     }
 
@@ -528,7 +530,7 @@ public class Game {
             if (this.zombies == null) this.zombies = new ArrayList<>();
 
             for (int i = 0; i < nbrZombies; i++) {
-                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1260), (int) (Math.random() * 700), 100, this.rocks);
+                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1200), (int) (Math.random() * 650), 100, this.rocks);
                 System.out.println("x"+zombie.getPositionX()+" y"+zombie.getPositionY());
                 this.zombies.add(zombie);
             }
@@ -583,6 +585,15 @@ public class Game {
     private void setRunning(boolean isRunning) {
         this.running = isRunning;
     }
+
+    public boolean isNewRound() {
+        return newRound;
+    }
+
+    private void setNewRound(boolean newRound) {
+        this.newRound = newRound;
+    }
+
 
     public boolean isGameOver() {
         return gameOver;

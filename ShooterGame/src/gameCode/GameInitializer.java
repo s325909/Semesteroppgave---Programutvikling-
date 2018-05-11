@@ -32,7 +32,7 @@ import java.util.ResourceBundle;
 public class GameInitializer implements Initializable{
 
     @FXML private Pane gameWindow;
-    @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, gameState, pressKey;
+    @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, roundNbr, gameState, pressKey;
     @FXML private VBox gamePaused, ingameMenu, ingameHelp, ingameNormalDifficulty, ingameHardDifficulty, ingameInsaneDifficulty;
 
     @FXML HBox ingameChooseDifficulty;
