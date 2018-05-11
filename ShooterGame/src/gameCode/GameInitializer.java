@@ -436,12 +436,17 @@ public class GameInitializer implements Initializable{
             gamePaused.setVisible(true);
             gameState.setVisible(true);
             setLabelVisible(true);
-            if(game.isGameOver()) {
+            if(game.isGameOver() && !game.isNewRound()) {
                 gameState.setText("GAME OVER!");
                 gameState.setTextFill(Color.INDIANRED);
                 pressKey.setVisible(true);
                 pressKey.setText("Press ESC to continue");
-            } else {
+            } else if (game.isGameOver() && game.isNewRound()) {
+                gameState.setText("GAME WON!");
+                gameState.setTextFill(Color.DARKGREEN);
+                pressKey.setVisible(true);
+                pressKey.setText("Press ESC to continue");
+            }else {
                 gameState.setText("GAME IS PAUSED");
                 gameState.setTextFill(Color.WHITE);
             }

@@ -212,11 +212,16 @@ public class Game {
                     createZombies(roundNumber + 1);
                     break;
                 case 11:
-                    gameOver();
+                    stopTimer();
+                    setGameOver(true);
+                    setNewRound(true);
+                    gameInitializer.showGameLabel();
+                    roundNumber = 0;
             }
             setNewRound(false);
             roundNumber++;
-
+        }else {
+            gameOver();
         }
 
     }
@@ -302,13 +307,13 @@ public class Game {
 
     protected void restartGame() {
         //removeBullets();
-        //todo set round number
         clearGame();
         player.resetPlayer();
         setScoreNumber(0);
         createZombies(gameInitializer.getNbrZombies());
         gameInitializer.showGameLabel();
         gameInitializer.showMenu();
+        setNewRound(false);
         setGameOver(false);
         startTimer();
         setRunning(true);
@@ -321,6 +326,7 @@ public class Game {
         createZombies(gameInitializer.getNbrZombies());
         gameInitializer.showGameLabel();
         gameInitializer.showMenu();
+        setNewRound(false);
         setGameOver(false);
         startTimer();
         setRunning(true);
@@ -333,6 +339,7 @@ public class Game {
         createZombies(gameInitializer.getNbrZombies());
         gameInitializer.showGameLabel();
         gameInitializer.showMenu();
+        setNewRound(false);
         setGameOver(false);
         startTimer();
         setRunning(true);
@@ -345,6 +352,7 @@ public class Game {
         createZombies(gameInitializer.getNbrZombies());
         gameInitializer.showGameLabel();
         gameInitializer.showMenu();
+        setNewRound(false);
         setGameOver(false);
         startTimer();
         setRunning(true);
