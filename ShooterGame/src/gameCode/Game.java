@@ -12,9 +12,9 @@ public class Game {
 
     private Player player;
     private List<Zombie> zombies;
+    private List<Rock> rocks;
     private List<Bullet> bullets;
     private List<Drop> drops = new ArrayList<>();
-    private List<Rock> rocks;
     private Pane gameWindow;
     private Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer;
 
@@ -104,7 +104,7 @@ public class Game {
                 bullet.setDrawn();
             }
             bullet.bulletDirection();
-            bullet.bulletCollision(zombies);
+            bullet.bulletCollision(bullet, zombies, rocks);
         }
 
         // Draw drops to the pane, and check for collision with player
@@ -148,8 +148,10 @@ public class Game {
 
         // Check if Bullet is dead, and remove if so
         for(Bullet bullet : bullets) {
-            if(!bullet.isAlive())
-                gameWindow.getChildren().removeAll(bullet.getNode(), bullet.getAnimationHandler().getImageView());
+            if(!bullet.isAlive()){
+                 gameWindow.getChildren().removeAll(bullet.getNode(), bullet.getAnimationHandler().getImageView());
+
+            }
             bullet.update(time);
         }
 
@@ -468,6 +470,7 @@ public class Game {
         }
 
         removeBullets();
+
         for (DataHandler.BulletConfiguration bulletCfg : gameCfg.bullets) {
             //TO DO Fill in rotational angle?
             Bullet bullet = new Bullet(getGameInitializer().getPistolBulletImaqe(), bulletCfg.movementCfg.entityCfg.posX, bulletCfg.movementCfg.entityCfg.posY, bulletCfg.movementCfg.movementSpeed, bulletCfg.damage, bulletCfg.movementCfg.direction, this.rocks);
