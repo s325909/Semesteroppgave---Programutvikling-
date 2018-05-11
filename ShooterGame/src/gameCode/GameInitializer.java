@@ -100,6 +100,19 @@ public class GameInitializer implements Initializable{
             rocks.add(new Rock(this.rockImage, 300, 500));
             rocks.add(new Rock(this.rockImage, 151, 151));
             rocks.add(new Rock(this.rockImage, 500, 500));
+            rocks.add(new Rock(this.rockImage, 800, 100));
+            rocks.add(new Rock(this.rockImage, 700, 300));
+            rocks.add(new Rock(this.rockImage, 1000, 500));
+            rocks.add(new Rock(this.rockImage, 900, 800));
+            rocks.add(new Rock(this.rockImage, 1200, 1000));
+            rocks.add(new Rock(this.rockImage, 600, 450));
+            rocks.add(new Rock(this.rockImage, 1200, 100));
+            rocks.add(new Rock(this.rockImage, 940, 400));
+            rocks.add(new Rock(this.rockImage, 400, 250));
+            rocks.add(new Rock(this.rockImage, 200, 40));
+            rocks.add(new Rock(this.rockImage, 500, 40));
+
+
         } catch (Exception e) {
             System.out.println("Error: Rocks did not load correctly");
         }
