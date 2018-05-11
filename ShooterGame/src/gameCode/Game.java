@@ -20,6 +20,7 @@ public class Game {
 
     private int scoreNumber;
     private int secondsCounter;
+    private int roundNumber = 1;
 
     private AnimationTimer timer;
     private GameInitializer gameInitializer;
@@ -163,6 +164,59 @@ public class Game {
         bullets.removeIf(Bullet::isDead);
         zombies.removeIf(Zombie::isDead);
         drops.removeIf(Drop::isDead);
+
+
+
+        if (zombies.isEmpty()) {
+            spawnNewRound();
+        }
+
+        /*if (newRoundStart) {
+         spawnNewStart = false;
+         spawnNewRound();
+         }
+           */
+    }
+
+    private void spawnNewRound() {
+
+        switch (roundNumber) {
+            case 1:
+                createZombies(roundNumber+2);
+                break;
+            case 2:
+                createZombies(roundNumber+2);
+                break;
+            case 3:
+                createZombies(roundNumber+2);
+                break;
+            case 4:
+                createZombies(roundNumber+2);
+                break;
+            case 5:
+                createZombies(roundNumber+2);
+                break;
+            case 6:
+                createZombies(roundNumber+2);
+                break;
+            case 7:
+                createZombies(roundNumber+2);
+                break;
+            case 8:
+                createZombies(roundNumber+2);
+                break;
+            case 9:
+                createZombies(roundNumber+2);
+                break;
+            case 10:
+                createZombies(roundNumber+2);
+                break;
+            case 11:
+                gameOver();
+        }
+        roundNumber++;
+
+
     }
 
     public Drop getRandomDropType(Zombie zombie) {
@@ -246,6 +300,7 @@ public class Game {
 
     protected void restartGame() {
         //removeBullets();
+        //todo set round number
         clearGame();
         player.resetPlayer();
         setScoreNumber(0);
@@ -470,9 +525,11 @@ public class Game {
      */
     public void createZombies(int nbrZombies) {
         try {
-            this.zombies = new ArrayList<>();
+            if (this.zombies == null) this.zombies = new ArrayList<>();
+
             for (int i = 0; i < nbrZombies; i++) {
-                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1280), (int) (Math.random() * 720), 100, this.rocks);
+                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1260), (int) (Math.random() * 700), 100, this.rocks);
+                System.out.println("x"+zombie.getPositionX()+" y"+zombie.getPositionY());
                 this.zombies.add(zombie);
             }
 
@@ -483,6 +540,9 @@ public class Game {
             }
         } catch (Exception e) {
             System.out.println("Unable to reset zombies");
+            System.out.println(e.getMessage());
+            //stack trace
+            System.exit(0);
         }
     }
 

@@ -58,6 +58,9 @@ public class Movable extends Entity {
         if(newX < 0 || newY < 0)
             return;
 
+
+        /*
+
         //Checking if new bounds is colliding with objects before updating movement.
         Bounds oldBounds = this.getNode().getBoundsInParent();
         Bounds newBounds = new Rectangle(newX,newY,oldBounds.getWidth(),oldBounds.getHeight()).getLayoutBounds();
@@ -66,6 +69,8 @@ public class Movable extends Entity {
                 return;
             }
         }
+
+        */
 
         // Update position of the visible representation of the object (Node and Sprite)
         this.getNode().setTranslateX(newX);

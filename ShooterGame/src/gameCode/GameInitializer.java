@@ -81,7 +81,7 @@ public class GameInitializer implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         loadAssets();
-        setNbrZombies(5);
+        setNbrZombies(1);
 
         //Create an object of MusicPlayer, which includes what file to play and automatically starts playing
 //        try {
@@ -91,6 +91,7 @@ public class GameInitializer implements Initializable{
 //        }
 
         // Select number of zombies to create, and load all assets
+
 
         try {
             this.rocks = new ArrayList<Rock>();
@@ -114,6 +115,7 @@ public class GameInitializer implements Initializable{
         } catch (Exception e) {
             System.out.println("Error: Rocks did not load correctly");
         }
+
 
         // Create the Player upon starting a new game
         try {
