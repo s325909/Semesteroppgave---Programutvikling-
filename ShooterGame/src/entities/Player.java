@@ -5,6 +5,9 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
+import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -18,7 +21,7 @@ public class Player extends Movable {
     }
 
     private enum PlayerDirection {
-        LEFT, RIGHT, UP, DOWN
+        LEFT, RIGHT, UP, DOWN, FIRE, RELOAD
     }
 
     private WeaponTypes equippedWeapon;
@@ -44,7 +47,7 @@ public class Player extends Movable {
         this.animationQueue = new LinkedList<AnimationLengthPair>();
         this.waitTime = 0;
         setEquippedWeapon(WeaponTypes.KNIFE);
-        setAnimation(0,0);
+        setAnimation(0,0, 0);
         magazinePistol = new Magazine(15, 30);
         magazineRifle = new Magazine(30,90);
         magazineShotgun = new Magazine(8,32);
@@ -73,6 +76,12 @@ public class Player extends Movable {
                 case DOWN:
                     addVelocityY(getMovementSpeed());
                     break;
+                case FIRE:
+                    fire();
+                    break;
+                case RELOAD:
+                    reload();
+                    break;
             }
         }
     }
@@ -87,84 +96,47 @@ public class Player extends Movable {
      * @param keyEvent Handles user input via the pressing of a key.
      */
     public void pressEvent(KeyEvent keyEvent){
-        int i,j, audioAction, audioReload, fireRate;
-
-        switch (this.equippedWeapon) {
-            case KNIFE:
-                i = 0;
-                audioAction = 0;
-                audioReload = 0;
-                fireRate = 1000;
-                break;
-            case PISTOL:
-                i = 1;
-                audioAction = 1;
-                audioReload = 2;
-                fireRate = 350;
-                break;
-            case RIFLE:
-                i = 2;
-                audioAction = 3;
-                audioReload = 4;
-                fireRate = 100;
-                break;
-            case SHOTGUN:
-                i = 3;
-                audioAction = 5;
-                audioReload = 6;
-                fireRate = 500;
-                break;
-            default:
-                i = 0;
-                audioAction = 0;
-                audioReload = 0;
-                fireRate = 1000;
-        }
-
         if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
-            j = 1;
             if (!directionButtonPressed.contains(PlayerDirection.LEFT))
                 directionButtonPressed.add(PlayerDirection.LEFT);
         } else if (keyEvent.getCode() == KeyCode.RIGHT || keyEvent.getCode() == KeyCode.D) {
-            j = 1;
             if (!directionButtonPressed.contains(PlayerDirection.RIGHT))
                 directionButtonPressed.add(PlayerDirection.RIGHT);
         } else if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W) {
-            j = 1;
             if (!directionButtonPressed.contains(PlayerDirection.UP))
                 directionButtonPressed.add(PlayerDirection.UP);
         } else if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
-            j = 1;
             if (!directionButtonPressed.contains(PlayerDirection.DOWN))
                 directionButtonPressed.add(PlayerDirection.DOWN);
-        } else {
-            j = 0;
         }
 
-        if ((keyEvent.getCode() == KeyCode.E || keyEvent.getCode() == KeyCode.SPACE) && equippedWeapon == WeaponTypes.KNIFE) {
-            j = 2;
-            playWeaponSounds(audioAction, 1);
-        } else if (keyEvent.getCode() == KeyCode.SPACE && equippedWeapon != WeaponTypes.KNIFE) {
-            j = 3;
-            fire(audioAction, fireRate);
+        if (keyEvent.getCode() == KeyCode.SPACE) {
+            if (!directionButtonPressed.contains(PlayerDirection.FIRE))
+                directionButtonPressed.add(PlayerDirection.FIRE);
         } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != WeaponTypes.KNIFE) {
-            j = 4;
-            reload(i, j, audioReload);
-            return;
+            if (!directionButtonPressed.contains(PlayerDirection.RELOAD))
+                directionButtonPressed.add(PlayerDirection.RELOAD);
         } else if (keyEvent.getCode() == KeyCode.F) {
             setEquippedWeapon(WeaponTypes.KNIFE);
+            setAnimation(0,0, 0);
         }
 
-        if (keyEvent.getCode() == KeyCode.DIGIT1)
+        if (keyEvent.getCode() == KeyCode.DIGIT1) {
             this.equippedWeapon = WeaponTypes.PISTOL;
-        else if (keyEvent.getCode() == KeyCode.DIGIT2)
+            setAnimation(1,0, 0);
+        }
+        else if (keyEvent.getCode() == KeyCode.DIGIT2) {
             this.equippedWeapon = WeaponTypes.RIFLE;
-        else if (keyEvent.getCode() == KeyCode.DIGIT3)
+            setAnimation(2,0, 0);
+        }
+        else if (keyEvent.getCode() == KeyCode.DIGIT3) {
             this.equippedWeapon = WeaponTypes.SHOTGUN;
-        else if (keyEvent.getCode() == KeyCode.DIGIT4)
+            setAnimation(3,0, 0);
+        }
+        else if (keyEvent.getCode() == KeyCode.DIGIT4) {
             this.equippedWeapon = WeaponTypes.KNIFE;
-
-        setAnimation(i, j);
+            setAnimation(0,0, 0);
+        }
     }
 
     /***
@@ -174,24 +146,6 @@ public class Player extends Movable {
      * @param keyEvent Handles user input via the release of a key.
      */
     public void releasedEvent(KeyEvent keyEvent){
-        int i,j=0;
-        switch (this.equippedWeapon) {
-            case KNIFE:
-                i = 0;
-                break;
-            case PISTOL:
-                i = 1;
-                break;
-            case RIFLE:
-                i = 2;
-                break;
-            case SHOTGUN:
-                i = 3;
-                break;
-            default:
-                i = 0;
-        }
-        setAnimation(i, j);
         if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
             directionButtonPressed.remove(PlayerDirection.LEFT);
         } else if (keyEvent.getCode() == KeyCode.RIGHT || keyEvent.getCode() == KeyCode.D) {
@@ -201,6 +155,43 @@ public class Player extends Movable {
         } else if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S){
             directionButtonPressed.remove(PlayerDirection.DOWN);
         }
+
+        if (keyEvent.getCode() == KeyCode.SPACE) {
+            directionButtonPressed.remove(PlayerDirection.FIRE);
+            switch(this.equippedWeapon) {
+                case KNIFE:
+                    setAnimation(0,0, 0);
+                    break;
+                case PISTOL:
+                    setAnimation(1,0, 0);
+                    break;
+                case RIFLE:
+                    setAnimation(2,0, 0);
+                    break;
+                case SHOTGUN:
+                    setAnimation(3,0, 0);
+                    break;
+            }
+        } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != WeaponTypes.KNIFE) {
+            directionButtonPressed.remove(PlayerDirection.RELOAD);
+            switch(this.equippedWeapon) {
+                case KNIFE:
+                    setAnimation(0, 0, 0);
+                    break;
+                case PISTOL:
+                    setAnimation(1, 0, 0);
+                    break;
+                case RIFLE:
+                    setAnimation(2, 0, 0);
+                    break;
+                case SHOTGUN:
+                    setAnimation(3, 0, 0);
+                    break;
+            }
+        } else if (keyEvent.getCode() == KeyCode.F) {
+            setEquippedWeapon(WeaponTypes.KNIFE);
+            setAnimation(0,0,0);
+        }
     }
 
     /***
@@ -208,68 +199,105 @@ public class Player extends Movable {
      * Adds a check to ensure that the magazine isn't empty. This check ensures to correctly perform the
      * method for changing the number and playing the appropriate sound. If the magazine is empty, the
      * reloadMagazine() method will be run.
-     * @param audioAction Requires an int value in order to select the correct sound clip via playWeaponSounds()
      */
-    private void fire(int audioAction, int fireRate) {
+    private void fire() {
         long currentTime = System.currentTimeMillis();
+        int fireRate = 0;
         if (currentTime > this.fireWaitTime) {
             int posX = getPositionX();
             int posY = getPositionY();
+            int knifePosX = getPositionX();
+            int knifePosY = getPositionY();
             switch (this.getDirection()) {
                 case EAST:
                     posX += this.getAnimationHandler().getImageView().getImage().getWidth();
                     posY += (this.getAnimationHandler().getImageView().getImage().getHeight() - 20);
+                    knifePosX += 2*this.getAnimationHandler().getImageView().getImage().getWidth()/3;
+                    knifePosY += this.getAnimationHandler().getImageView().getImage().getHeight()/2;
                     break;
                 case NORTHEAST:
                     posX += this.getAnimationHandler().getImageView().getImage().getWidth();
+                    knifePosX += 2*this.getAnimationHandler().getImageView().getImage().getWidth()/3;
+                    knifePosY += this.getAnimationHandler().getImageView().getImage().getHeight()/2;
                     break;
                 case WEST:
                     posY += 10;
+                    knifePosY += this.getAnimationHandler().getImageView().getImage().getWidth()/3;
+                    knifePosX += 2*this.getAnimationHandler().getImageView().getImage().getWidth()/3;
                     break;
                 case NORTHWEST:
                     posX += 10;
+                    knifePosX += 2*this.getAnimationHandler().getImageView().getImage().getWidth()/3;
+                    knifePosY += 2*this.getAnimationHandler().getImageView().getImage().getHeight()/3;
                     break;
                 case NORTH:
                     posX += (this.getAnimationHandler().getImageView().getImage().getWidth() - 20);
+                    knifePosX += 2*this.getAnimationHandler().getImageView().getImage().getWidth()/3;
+                    knifePosY += this.getAnimationHandler().getImageView().getImage().getHeight()/2;
                     break;
                 case SOUTH:
                     posX += 10;
                     posY += this.getAnimationHandler().getImageView().getImage().getHeight();
+                    knifePosX += 2*this.getAnimationHandler().getImageView().getImage().getWidth()/3;
+                    knifePosY += this.getAnimationHandler().getImageView().getImage().getHeight()/2;
                     break;
                 case SOUTHEAST:
                     posX += this.getAnimationHandler().getImageView().getImage().getWidth();
                     posY += this.getAnimationHandler().getImageView().getImage().getHeight();
+                    knifePosX += 2*this.getAnimationHandler().getImageView().getImage().getWidth()/3;
+                    knifePosY += this.getAnimationHandler().getImageView().getImage().getHeight()/2;
                     break;
                 case SOUTHWEST:
                     posX -= 10;
                     posY += this.getAnimationHandler().getImageView().getImage().getHeight();
+                    knifePosX += 2*this.getAnimationHandler().getImageView().getImage().getWidth()/3;
+                    knifePosY += this.getAnimationHandler().getImageView().getImage().getHeight()/2;
                     break;
                 case IDLE:
                     break;
             }
 
             switch (this.equippedWeapon) {
+                case KNIFE:
+                    fireRate = 500;
+                    Bullet knifeSlash = new Bullet(this.bulletImages, knifePosX, knifePosY, 0, 75, this.getDirection(), 10000);
+                    knifeSlash.setNewRotation(getNewRotation());
+                    Arc knifeArc = new Arc(0, 0, 25, 30.0, 90, 180);
+                    knifeArc.setTranslateX(knifePosX);
+                    knifeArc.setTranslateY(knifePosY);
+                    knifeArc.getTransforms().add(new Rotate(180, 0, 0));
+                    knifeSlash.setNode(knifeArc);
+                    //knifeSlash.setDrawn();
+                    bulletList.add(knifeSlash);
+                    playWeaponSounds(0, 1);
+                    setAnimation(0,2, 500);
+                    break;
                 case PISTOL:
+                    fireRate = 500;
                     if (!magazinePistol.isMagazineEmpty()) {
                         magazinePistol.changeBulletNumber(-1);
-                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 50, this.getDirection());
-                        this.bulletList.add(bullet);
-                        playWeaponSounds(audioAction, 1);
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 50, this.getDirection(), 3000);
+                        bulletList.add(bullet);
+                        playWeaponSounds(1, 1);
                     } else {
                         playWeaponSounds(7, 1);
                     }
+                    setAnimation(1,2, 100);
                     break;
                 case RIFLE:
+                    fireRate = 500;
                     if (!magazineRifle.isMagazineEmpty()) {
                         magazineRifle.changeBulletNumber(-1);
-                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 30, this.getDirection());
-                        this.bulletList.add(bullet);
-                        playWeaponSounds(audioAction, 1);
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 30, this.getDirection(), 3000);
+                        bulletList.add(bullet);
+                        playWeaponSounds(3, 1);
                     } else {
                         playWeaponSounds(7, 1);
                     }
+                    setAnimation(2,2, 100);
                     break;
                 case SHOTGUN:
+                    fireRate = 500;
                     if (!magazineShotgun.isMagazineEmpty()) {
                         magazineShotgun.changeBulletNumber(-1);
 
@@ -326,16 +354,17 @@ public class Player extends Movable {
                                 break;
                         }
 
-                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection());
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(), 300);
                         this.bulletList.add(bullet);
-                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(), adjustVelX1, adjustVelY1);
+                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(),300, adjustVelX1, adjustVelY1);
                         this.bulletList.add(bullet);
-                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(),  adjustVelX2, adjustVelY2);
+                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(),300, adjustVelX2, adjustVelY2);
                         this.bulletList.add(bullet);
-                        playWeaponSounds(audioAction, 1);
+                        playWeaponSounds(5, 1);
                     } else {
                         playWeaponSounds(7, 1);
                     }
+                    setAnimation(3,2, 100);
                     break;
             }
             this.fireWaitTime = currentTime + fireRate;
@@ -346,30 +375,29 @@ public class Player extends Movable {
      * Method for running the reloadMagazine() method in Magazine, and playing the appropriate sound.
      * Adds a check to ensure that the magazine isn't full and that there is ammunition left in the pool.
      * This check ensures to correctly perform the method for changing the number and playing the appropriate sound.
-     * @param audioReload Requires an int value in order to select the correct sound clip via playWeaponSounds()
      */
-    private void reload(int i, int j, int audioReload) {
+    private void reload() {
         switch (this.equippedWeapon) {
             case PISTOL:
                 if (!magazinePistol.isPoolEmpty() && !magazinePistol.isMagazineFull()) {
                     magazinePistol.reloadMagazine();
-                    playWeaponSounds(audioReload, 3);
-                    setAnimation(i, j);
+                    playWeaponSounds(2, 3);
                 }
+                setAnimation(1,3, 500);
                 break;
             case RIFLE:
                 if (!magazineRifle.isPoolEmpty() && !magazineRifle.isMagazineFull()) {
                     magazineRifle.reloadMagazine();
-                    playWeaponSounds(audioReload, 3);
-                    setAnimation(i, j);
+                    playWeaponSounds(4, 3);
                 }
+                setAnimation(2,3, 500);
                 break;
             case SHOTGUN:
                 if (!magazineShotgun.isPoolEmpty() && !magazineShotgun.isMagazineFull()) {
                     magazineShotgun.reloadMagazine();
-                    playWeaponSounds(audioReload, 3);
-                    setAnimation(i, j);
+                    playWeaponSounds(6, 3);
                 }
+                setAnimation(3,3, 500);
                 break;
         }
     }
@@ -379,17 +407,9 @@ public class Player extends Movable {
      * @param animationType fg
      * @param animationAction fg
      */
-    private void setAnimation(int animationType, int animationAction) {
-        long time = 0;
+    private void setAnimation(int animationType, int animationAction, int animationLength) {
         boolean queue = true;
-        if(animationAction == 4) {
-            time = 250;
-        }
         if(animationAction == 2) {
-            time = 500;
-        }
-        if(animationAction == 3) {
-            time = 500;
             long currentTime = System.currentTimeMillis();
             if (currentTime < this.fireWaitTime)
                 queue = false;
@@ -402,7 +422,7 @@ public class Player extends Movable {
         }
 
         if (queue)
-            animationQueue.add(new AnimationLengthPair(animationAction, time, 0.032));
+            animationQueue.add(new AnimationLengthPair(animationAction, animationLength, 0.032));
     }
 
     /**
@@ -588,6 +608,12 @@ public class Player extends Movable {
         playerCfg.poolRifle = this.getMagazineRifle().getCurrentPool();
         playerCfg.magShotgun = this.getMagazineShotgun().getNumberBullets();
         playerCfg.poolShotgun = this.getMagazineShotgun().getCurrentPool();
+
+        List<DataHandler.BulletConfiguration> bulletListCfg = new ArrayList<>();
+        for (Bullet bullet : bulletList)
+            bulletListCfg.add(bullet.getBulletConfiguration());
+        playerCfg.bulletListCfg = bulletListCfg;
+
         return playerCfg;
     }
 
@@ -607,6 +633,10 @@ public class Player extends Movable {
         this.getMagazineRifle().setCurrentPool(playerCfg.poolRifle);
         this.getMagazineShotgun().setNumberBullets(playerCfg.magShotgun);
         this.getMagazineShotgun().setCurrentPool(playerCfg.poolShotgun);
+
+        bulletList = new ArrayList<>();
+        for (DataHandler.BulletConfiguration bulletCfg : playerCfg.bulletListCfg)
+            bulletList.add(new Bullet(bulletImages, bulletCfg.movementCfg.entityCfg.posX, bulletCfg.movementCfg.entityCfg.posY, bulletCfg.movementCfg.movementSpeed, bulletCfg.damage, bulletCfg.movementCfg.direction, bulletCfg.remainingTime));
     }
 
     public int getArmor() {
@@ -624,6 +654,10 @@ public class Player extends Movable {
 
     public List<Bullet> getBulletList() {
         return this.bulletList;
+    }
+
+    public void setBulletList(List<Bullet> bulletList) {
+        this.bulletList = bulletList;
     }
 
     public Magazine getMagazinePistol() {

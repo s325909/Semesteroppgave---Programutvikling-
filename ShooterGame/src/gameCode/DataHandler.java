@@ -26,7 +26,6 @@ public class DataHandler {
         int gameScore;
         PlayerConfiguration player;
         List<MovementConfiguration> zombies;
-        List<BulletConfiguration> bullets;
         List<DropConfiguration> drops;
     }
 
@@ -44,6 +43,7 @@ public class DataHandler {
         public EntityConfiguration entityCfg;
         public double velX;
         public double velY;
+        public double rotation;
         public double movementSpeed;
         public Movable.Direction direction;
         public int health;
@@ -52,9 +52,11 @@ public class DataHandler {
     public static class BulletConfiguration {
         public MovementConfiguration movementCfg;
         public int damage;
+        public long remainingTime;
     }
 
     public static class PlayerConfiguration {
+        public List<BulletConfiguration> bulletListCfg;
         public MovementConfiguration movementCfg;
         public int armor;
         public Player.WeaponTypes equipped;
@@ -256,6 +258,10 @@ public class DataHandler {
         playerDirection.appendChild(doc.createTextNode(String.valueOf(configuration.player.movementCfg.direction)));
         playerInfo.appendChild(playerDirection);
 
+        Element rotation = doc.createElement("Rotation");
+        rotation.appendChild(doc.createTextNode(String.valueOf(configuration.player.movementCfg.rotation)));
+        playerInfo.appendChild(rotation);
+
         Element eqWep = doc.createElement("EquippedWep");
         eqWep.appendChild(doc.createTextNode(String.valueOf(configuration.player.equipped)));
         playerInfo.appendChild(eqWep);
@@ -329,37 +335,41 @@ public class DataHandler {
         Element bullets = doc.createElement("Bullets");
         savegame.appendChild(bullets);
 
-        for(int i = 0; i < configuration.bullets.size(); i++) {
+        for(int i = 0; i < configuration.player.bulletListCfg.size(); i++) {
             Element bulletInfo = doc.createElement("Bullet");
             bullets.appendChild(bulletInfo);
 
             Element bulletPosX = doc.createElement("PositionX");
-            bulletPosX.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).movementCfg.entityCfg.posX)));
+            bulletPosX.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).movementCfg.entityCfg.posX)));
             bulletInfo.appendChild(bulletPosX);
 
             Element bulletPosY = doc.createElement("PositionY");
-            bulletPosY.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).movementCfg.entityCfg.posY)));
+            bulletPosY.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).movementCfg.entityCfg.posY)));
             bulletInfo.appendChild(bulletPosY);
 
             Element bulletVelX = doc.createElement("VelocityX");
-            bulletVelX.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).movementCfg.velX)));
+            bulletVelX.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).movementCfg.velX)));
             bulletInfo.appendChild(bulletVelX);
 
             Element bulletVelY = doc.createElement("VelocityY");
-            bulletVelY.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).movementCfg.velY)));
+            bulletVelY.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).movementCfg.velY)));
             bulletInfo.appendChild(bulletVelY);
 
             Element bulletMovement = doc.createElement("MovementSpeed");
-            bulletMovement.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).movementCfg.movementSpeed)));
+            bulletMovement.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).movementCfg.movementSpeed)));
             bulletInfo.appendChild(bulletMovement);
 
             Element bulletDirection = doc.createElement("Direction");
-            bulletDirection.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).movementCfg.direction)));
+            bulletDirection.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).movementCfg.direction)));
             bulletInfo.appendChild(bulletDirection);
 
             Element damage = doc.createElement("Damage");
-            damage.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).damage)));
+            damage.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).damage)));
             bulletInfo.appendChild(damage);
+
+            Element remainingTime = doc.createElement("RemainingTime");
+            remainingTime.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).remainingTime)));
+            bulletInfo.appendChild(remainingTime);
         }
 
 
@@ -470,6 +480,7 @@ public class DataHandler {
             movementCfg.velY = Double.valueOf(playerElement.getElementsByTagName("VelocityY").item(0).getTextContent());
             movementCfg.movementSpeed = Double.valueOf(playerElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
             movementCfg.direction = Movable.Direction.valueOf(playerElement.getElementsByTagName("Direction").item(0).getTextContent());
+            movementCfg.rotation = Double.valueOf(playerElement.getElementsByTagName("Rotation").item(0).getTextContent());
 
             configuration.player.movementCfg = movementCfg;
             configuration.player.armor = Integer.valueOf(playerElement.getElementsByTagName("ArmorPoints").item(0).getTextContent());
@@ -511,7 +522,7 @@ public class DataHandler {
 
         //Parse bullets
         NodeList bulletList = doc.getElementsByTagName("Bullet");
-        configuration.bullets = new ArrayList<>();
+        configuration.player.bulletListCfg = new ArrayList<>();
         for (int i = 0; i < bulletList.getLength(); i++) {
             Node bulletNode = bulletList.item(i);
             if (bulletNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -531,7 +542,8 @@ public class DataHandler {
                 BulletConfiguration bulletCfg = new BulletConfiguration();
                 bulletCfg.movementCfg = movementCfg;
                 bulletCfg.damage = Integer.valueOf(bulletElement.getElementsByTagName("Damage").item(0).getTextContent());
-                configuration.bullets.add(bulletCfg);
+                bulletCfg.remainingTime = Integer.valueOf(bulletElement.getElementsByTagName("RemainingTime").item(0).getTextContent());
+                configuration.player.bulletListCfg.add(bulletCfg);
             } else {
                 return false;
             }

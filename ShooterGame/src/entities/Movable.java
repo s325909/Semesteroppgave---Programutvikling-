@@ -184,6 +184,7 @@ public class Movable extends Entity {
         movementCfg.velY = getVelocityY();
         movementCfg.movementSpeed = getMovementSpeed();
         movementCfg.direction = getDirection();
+        movementCfg.rotation = newRotation;
         return movementCfg;
     }
 
@@ -199,6 +200,7 @@ public class Movable extends Entity {
         setVelocity(movementCfg.velX, movementCfg.velY);
         setMovementSpeed(movementCfg.movementSpeed);
         setDirection(movementCfg.direction);
+        setNewRotation(movementCfg.rotation);
     }
 
     public int getHealthPoints() {
@@ -252,6 +254,14 @@ public class Movable extends Entity {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public double getNewRotation() {
+        return newRotation;
+    }
+
+    public void setNewRotation(double newRotation) {
+        this.newRotation = newRotation;
     }
 
     /**

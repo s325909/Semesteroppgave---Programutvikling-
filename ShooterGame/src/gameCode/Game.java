@@ -5,6 +5,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,6 @@ public class Game {
     private Player player;
     private List<Zombie> zombies;
     private List<Rock> rocks;
-    private List<Bullet> bullets;
     private List<Drop> drops = new ArrayList<>();
     private Pane gameWindow;
     private Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer;
@@ -69,7 +69,7 @@ public class Game {
      */
     private void onUpdate(double time) {
         secondsCounter = (int)time;
-        bullets = player.getBulletList();
+        List<Bullet> bullets = player.getBulletList();
 
         // Create Drop entities with random position
         if (drops.size() < 10) {
@@ -81,6 +81,8 @@ public class Game {
             }
         }
 
+        ////
+        //Calculate new position for all objects
         List<Entity> playerObjectCollidingList = new ArrayList<>();
         playerObjectCollidingList.addAll(rocks);
         playerObjectCollidingList.addAll(zombies);
@@ -94,8 +96,19 @@ public class Game {
             zombie.findDirection(player);
             zombie.move();
             zombie.movement();
+
+            for (Bullet zombieAttack : zombie.getAttackList()) {
+                zombieAttack.movement();
+            }
         }
 
+        for(Bullet bullet : bullets) {
+            bullet.bulletDirection();
+            bullet.movement();
+        }
+
+        ////
+        //Check collision with edges
         if(player.getNode().getTranslateX() < 0 || player.getNode().getTranslateY() < 0 || player.getNode().getTranslateX() > (gameWindow.getWidth() - 60) || player.getNode().getTranslateY() > (gameWindow.getHeight() - 100)) {
             player.moveBack();
         }
@@ -103,6 +116,11 @@ public class Game {
         for (Zombie zombie : zombies) {
             if (zombie.getNode().getTranslateX() < 0 || zombie.getNode().getTranslateY() < 0 || zombie.getNode().getTranslateX() > (gameWindow.getWidth()) || zombie.getNode().getTranslateY() > (gameWindow.getHeight())) {
                 zombie.moveBack();
+            }
+            for (Bullet zombieAttack : zombie.getAttackList()) {
+                if (zombieAttack.getNode().getTranslateX() < 0 || zombieAttack.getNode().getTranslateY() < 0 || zombieAttack.getNode().getTranslateX() > (gameWindow.getWidth()) || zombieAttack.getNode().getTranslateY() > (gameWindow.getHeight())) {
+                    zombieAttack.setAlive(false);
+                }
             }
         }
 
@@ -112,7 +130,7 @@ public class Game {
             }
         }
 
-        //Checking if new bounds is colliding with objects before updating movement.
+        //Checking if the new positions is colliding with other objects, if this happens move back to previous position.
         for (Entity obj : playerObjectCollidingList) {
             if(obj.isColliding(player)) {
                 player.moveBack();
@@ -125,19 +143,26 @@ public class Game {
                     zombie.moveBack();
                 }
             }
-        }
 
-        // Check collision between zombies and player
-        for (Zombie zombie : zombies) {
-            if (zombie.getState() == Zombie.State.ATTACK) {
-                player.receivedDamage(15);
-                //player.moveAway(zombie);
-            }
-            if (!player.isAlive()) {
-                //gameOver();
+            //Damage player if colliding with zombie attack
+            for (Bullet zombieAttack : zombie.getAttackList()) {
+                if(zombieAttack.isColliding(player)) {
+                    player.receivedDamage(zombieAttack.getDamage());
+                    zombieAttack.setAlive(false);
+                }
             }
         }
 
+        for(Bullet bullet : bullets) {
+            bullet.bulletCollision(zombies, rocks);
+        }
+
+        // Check for collision with Player
+        for (Drop drop : drops) {
+            drop.dropCollision(player, this);
+        }
+
+        ////
         // Draw bullets to the pane, adjust direction, and check collision with zombies
         for(Bullet bullet : bullets) {
             if(!bullet.isDrawn()) {
@@ -146,9 +171,6 @@ public class Game {
                 gameWindow.getChildren().add(bullet.getAnimationHandler().getImageView());
                 bullet.setDrawn();
             }
-            bullet.bulletDirection();
-            bullet.bulletCollision(zombies, rocks);
-            bullet.movement();
         }
 
         // Draw drops to the pane, place these furthest back to allow other Entities to pass over,
@@ -162,17 +184,15 @@ public class Game {
                 drop.getIv().toBack();
                 drop.getNode().toBack();
             }
-
-            drop.dropCollision(player, this);
         }
 
-        //Ikke nødvendig med mindre du skal legge til nye underveis
-        for (Rock rock : rocks) {
-            if (!rock.isDrawn()) {
-                if(gameInitializer.isDEBUG())
-                    gameWindow.getChildren().add(rock.getNode());
-                gameWindow.getChildren().add(rock.getAnimationHandler().getImageView());
-                rock.setDrawn();
+        // Check collision between zombies and player
+        for (Zombie zombie : zombies) {
+            for (Bullet zombieAttack : zombie.getAttackList()) {
+                if (!zombieAttack.isDrawn()) {
+                    gameWindow.getChildren().add(zombieAttack.getNode());
+                    zombieAttack.setDrawn();
+                }
             }
         }
 
@@ -189,13 +209,11 @@ public class Game {
         // If alive, update animation, and position and velocity.
         // If not, give Player score points, remove the ImageView and Node, and create a Drop of random "quality".
         for(Zombie zombie : zombies) {
-            if(!zombie.isAlive()) {
-                this.scoreNumber += 100;
-                gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getAnimationHandler().getImageView());
-                drops.add(getRandomDropType(zombie));
-            } else {
-                zombie.updateAnimation();
-                zombie.update(time);
+            zombie.updateAnimation();
+            zombie.update(time);
+
+            for (Bullet zombieAttack : zombie.getAttackList()) {
+                zombieAttack.update(time);
             }
         }
 
@@ -203,35 +221,61 @@ public class Game {
         // If alive, update position and velocity.
         // If not, remove the ImageView and Node.
         for(Bullet bullet : bullets) {
-            if(!bullet.isAlive()){
-                 gameWindow.getChildren().removeAll(bullet.getNode(), bullet.getAnimationHandler().getImageView());
-            } else {
-                bullet.update(time);
-            }
+            bullet.update(time);
         }
 
         // Check if Drop is alive.
         // If alive, update position.
         // If not, remove the ImageView and Node.
         for(Drop drop : drops) {
-            if(!drop.isAlive()) {
+            drop.update(time);
+        }
+
+        ////
+        //Remove images of object not longer active
+        for(Zombie zombie : zombies) {
+            if (!zombie.isAlive()) {
+                this.scoreNumber += 100;
+                gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getAnimationHandler().getImageView());
+                drops.add(getRandomDropType(zombie));
+            }
+
+            for (Bullet zombieAttack : zombie.getAttackList()) {
+                if (!zombieAttack.isAlive()) {
+                    gameWindow.getChildren().remove(zombieAttack.getNode());
+                }
+            }
+        }
+
+        for(Bullet bullet : bullets) {
+            if(!bullet.isAlive()){
+                gameWindow.getChildren().removeAll(bullet.getNode(), bullet.getAnimationHandler().getImageView());
+            }
+        }
+
+        for(Drop drop : drops) {
+            if (!drop.isAlive()) {
                 gameWindow.getChildren().removeAll(drop.getNode(), drop.getAnimationHandler().getImageView());
-            } else {
-                drop.update(time);
             }
         }
 
         // Finally remove the object itself if isDead() equals true.
-        bullets.removeIf(Bullet::isDead);
         zombies.removeIf(Zombie::isDead);
+        bullets.removeIf(Bullet::isDead);
         drops.removeIf(Drop::isDead);
 
+        for(Zombie zombie : zombies) {
+            zombie.getAttackList().removeIf(Bullet::isDead);
+        }
+
+        if (!player.isAlive()) {
+            //gameOver();
+        }
 
         gameInitializer.roundNbr.setText("Round: " + roundNumber);
         if (zombies.isEmpty()) {
             spawnNewRound();
         }
-
     }
 
     private void spawnNewRound() {
@@ -373,7 +417,7 @@ public class Game {
 
 
     protected void restartGame() {
-        //removeBullets();
+        removeBullets();
         clearGame();
         player.resetPlayer();
         setScoreNumber(0);
@@ -427,7 +471,7 @@ public class Game {
 
     public void clearGame() {
         removeZombies();
-        //removeBullets();
+        removeBullets();
         removeDrops();
         stopTimer();
     }
@@ -447,7 +491,11 @@ public class Game {
             System.out.println("Player Armor: " + gameCfg.player.armor);
             System.out.println("Player X: " + gameCfg.player.movementCfg.entityCfg.posX);
             System.out.println("Player Y: " + gameCfg.player.movementCfg.entityCfg.posY);
+            System.out.println("Player Rotation: " + gameCfg.player.movementCfg.rotation);
             System.out.println("NbrZombies: " + gameCfg.zombies.size());
+            System.out.println("NbrZombies: " + gameCfg.player.bulletListCfg.size());
+            for (DataHandler.BulletConfiguration bulletCfg : gameCfg.player.bulletListCfg)
+                System.out.println("Bullet remaining time " + bulletCfg.remainingTime);
         } else {
             fileAlert(false);
         }
@@ -463,7 +511,11 @@ public class Game {
             System.out.println("Player Armor: " + player.getArmor());
             System.out.println("Player X: " + gameCfg.player.movementCfg.entityCfg.posX);
             System.out.println("Player Y: " + gameCfg.player.movementCfg.entityCfg.posY);
+            System.out.println("Player Rotation: " + gameCfg.player.movementCfg.rotation);
             System.out.println("NbrZombies: " + gameCfg.zombies.size());
+            System.out.println("NbrZombies: " + gameCfg.player.bulletListCfg.size());
+            for (DataHandler.BulletConfiguration bulletCfg : gameCfg.player.bulletListCfg)
+                System.out.println("Bullet remaining time " + bulletCfg.remainingTime);
 
             setGameConfiguration(gameCfg);
         } else {
@@ -513,11 +565,6 @@ public class Game {
             zombieCfg.add(zombie.getZombieConfiguration());
         gameCfg.zombies = zombieCfg;
 
-        List<DataHandler.BulletConfiguration> bulletCfg = new ArrayList<>();
-        for (Bullet bullet : this.player.getBulletList())
-            bulletCfg.add(bullet.getBulletConfiguration());
-        gameCfg.bullets = bulletCfg;
-
         List<DataHandler.DropConfiguration> dropCfg = new ArrayList<>();
         for (Drop drop : this.drops)
             dropCfg.add(drop.getDropConfiguration());
@@ -528,6 +575,7 @@ public class Game {
 
     private void setGameConfiguration(DataHandler.GameConfiguration gameCfg) {
         this.setScoreNumber(gameCfg.gameScore);
+        removeBullets();
         this.player.setPlayerConfiguration(gameCfg.player);
 
         removeZombies();
@@ -540,14 +588,6 @@ public class Game {
             if(this.getGameInitializer().isDEBUG())
                 gameWindow.getChildren().add(zombie.getNode());
             gameWindow.getChildren().add(zombie.getAnimationHandler().getImageView());
-        }
-
-        removeBullets();
-
-        for (DataHandler.BulletConfiguration bulletCfg : gameCfg.bullets) {
-            //TO DO Fill in rotational angle?
-            Bullet bullet = new Bullet(getGameInitializer().getPistolBulletImaqe(), bulletCfg.movementCfg.entityCfg.posX, bulletCfg.movementCfg.entityCfg.posY, bulletCfg.movementCfg.movementSpeed, bulletCfg.damage, bulletCfg.movementCfg.direction);
-            this.bullets.add(bullet);
         }
 
         removeDrops();
@@ -573,14 +613,14 @@ public class Game {
      * Method for removing all Bullets in the Game.
      */
     public void removeBullets() {
-        for (Bullet bullet : this.bullets) {
+        for (Bullet bullet : player.getBulletList()) {
             gameWindow.getChildren().removeAll(bullet.getAnimationHandler().getImageView(), bullet.getNode());
         }
 
-        for (Bullet bullet : this.bullets) {
+        for (Bullet bullet : player.getBulletList()) {
             bullet.setAlive(false);
         }
-        this.bullets.removeIf(Bullet::isDead);
+        player.getBulletList().removeIf(Bullet::isDead);
     }
 
     /**

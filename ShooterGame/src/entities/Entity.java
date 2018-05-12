@@ -79,6 +79,10 @@ public class Entity{
         setTranslateNode(entityCfg.posX, entityCfg.posY);
     }
 
+    public void setNode(Node node) {
+        this.node = node;
+    }
+
     public boolean isDead() {
         return !alive;
     }
