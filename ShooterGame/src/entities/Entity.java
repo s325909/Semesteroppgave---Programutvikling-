@@ -4,11 +4,8 @@ import gameCode.DataHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.image.ImageView;
 import javafx.scene.Node;
-import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
 
 public class Entity{
 
@@ -60,6 +57,32 @@ public class Entity{
         return this.node.getBoundsInParent().intersects(bounds);
     }
 
+    /**
+     * Method which will retrieve and return requested information about an Entity object.
+     * Creates a new EntityConfiguration object from the DataHandler class, and transfers
+     * variables specific to the Entity class into the corresponding variables in entityCfg.
+     * @return Returns the object entityCfg of type EntityConfiguration.
+     */
+    public DataHandler.EntityConfiguration getEntityConfiguration() {
+        DataHandler.EntityConfiguration entityCfg = new DataHandler.EntityConfiguration();
+        entityCfg.posX = getPositionX();
+        entityCfg.posY = getPositionY();
+        return entityCfg;
+    }
+
+    /**
+     * Method which will transfer provided entityCfg's variables into corresponding variables in Entity.
+     * @param entityCfg Requires an object of type EntityConfiguration.
+     */
+    public void setEntityConfiguration(DataHandler.EntityConfiguration entityCfg) {
+        setPosition(entityCfg.posX, entityCfg.posY);
+        setTranslateNode(entityCfg.posX, entityCfg.posY);
+    }
+
+    public void setNode(Node node) {
+        this.node = node;
+    }
+
     public boolean isDead() {
         return !alive;
     }
@@ -99,16 +122,4 @@ public class Entity{
     public boolean isDrawn() { return drawn; }
 
     public void setDrawn() { drawn = true; }
-
-    public DataHandler.EntityConfiguration getEntityConfiguration() {
-        DataHandler.EntityConfiguration entityCfg = new DataHandler.EntityConfiguration();
-        entityCfg.posX = getPositionX();
-        entityCfg.posY = getPositionY();
-        return entityCfg;
-    }
-
-    public void setEntityConfiguration(DataHandler.EntityConfiguration entityCfg) {
-        setPosition(entityCfg.posX, entityCfg.posY);
-        setTranslateNode(entityCfg.posX, entityCfg.posY);
-    }
 }

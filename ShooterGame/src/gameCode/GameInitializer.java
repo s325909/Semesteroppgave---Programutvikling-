@@ -275,7 +275,6 @@ public class GameInitializer implements Initializable{
         FileParam[] pistol = {
                 new FileParam("/resources/Art/Player/handgun/idle/survivor-idle_handgun_", ".png", 20),
                 new FileParam("/resources/Art/Player/handgun/move/survivor-move_handgun_", ".png", 20),
-                new FileParam("/resources/Art/Player/handgun/meleeattack/survivor-meleeattack_handgun_", ".png", 15),
                 new FileParam("/resources/Art/Player/handgun/shoot/survivor-shoot_handgun_", ".png", 3),
                 new FileParam("/resources/Art/Player/handgun/reload/survivor-reload_handgun_", ".png", 15)
         };
@@ -283,7 +282,6 @@ public class GameInitializer implements Initializable{
         FileParam[] rifle = {
                 new FileParam("/resources/Art/Player/rifle/idle/survivor-idle_rifle_", ".png", 20),
                 new FileParam("/resources/Art/Player/rifle/move/survivor-move_rifle_", ".png", 20),
-                new FileParam("/resources/Art/Player/rifle/meleeattack/survivor-meleeattack_rifle_", ".png", 15),
                 new FileParam("/resources/Art/Player/rifle/shoot/survivor-shoot_rifle_", ".png", 3),
                 new FileParam("/resources/Art/Player/rifle/reload/survivor-reload_rifle_", ".png", 20)
         };
@@ -291,7 +289,6 @@ public class GameInitializer implements Initializable{
         FileParam[] shotgun = {
                 new FileParam("/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_", ".png", 20),
                 new FileParam("/resources/Art/Player/shotgun/move/survivor-move_shotgun_", ".png", 20),
-                new FileParam("/resources/Art/Player/shotgun/meleeattack/survivor-meleeattack_shotgun_", ".png", 15),
                 new FileParam("/resources/Art/Player/shotgun/shoot/survivor-shoot_shotgun_", ".png", 3),
                 new FileParam("/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_", ".png", 20)
         };

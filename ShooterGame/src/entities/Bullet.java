@@ -1,12 +1,7 @@
 package entities;
 
 import gameCode.DataHandler;
-import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-
-import javax.xml.crypto.Data;
 import java.util.List;
 
 
@@ -16,15 +11,17 @@ public class Bullet extends Movable {
     private Direction direction;
     private double adjustVelX;
     private double adjustVelY;
+    private long timeToLive;
 
-    public Bullet(Image[] images, int positionX, int positionY, double movementSpeed, int damage, Direction direction) {
+    public Bullet(Image[] images, int positionX, int positionY, double movementSpeed, int damage, Direction direction, long timeToLive) {
         super(new AnimationHandler(images), null, positionX, positionY, 1, movementSpeed);
         this.damage = damage;
         this.direction = direction;
+        this.timeToLive = System.currentTimeMillis() + timeToLive;
     }
 
-    public Bullet(Image[] images, int positionX, int positionY, double movementSpeed, int damage, Direction direction, double velX, double velY) {
-        this(images, positionX, positionY, movementSpeed, damage, direction);
+    public Bullet(Image[] images, int positionX, int positionY, double movementSpeed, int damage, Direction direction, long timeToLive, double velX, double velY) {
+        this(images, positionX, positionY, movementSpeed, damage, direction, timeToLive);
         adjustVelX = velX;
         adjustVelY = velY;
     }
@@ -72,13 +69,13 @@ public class Bullet extends Movable {
     public void bulletCollision(List<Zombie> zombieList, List<Rock> rocksList) {
         for (Zombie zombie : zombieList) {
             if (isColliding(zombie)) {
-            this.setAlive(false);
-            zombie.setHealthPoints(zombie.getHealthPoints() - this.getDamage());
-            if (zombie.getHealthPoints() <= 0) {
-                zombie.setAlive(false);
+                this.setAlive(false);
+                zombie.setHealthPoints(zombie.getHealthPoints() - this.getDamage());
+                if (zombie.getHealthPoints() <= 0) {
+                    zombie.setAlive(false);
+                }
             }
         }
-    }
 
         for (Rock rock : rocksList) {
             if (isColliding(rock)){
@@ -87,13 +84,36 @@ public class Bullet extends Movable {
         }
     }
 
+    @Override
+    public void update(double time) {
+        super.update(time);
+
+        if(System.currentTimeMillis() > timeToLive) {
+            setAlive(false);
+        }
+    }
+
+    /**
+     * Method which will retrieve and return requested information about a Bullet object.
+     * Creates a new BulletConfiguration object from the DataHandler class, and transfers
+     * variables inherited from Movable, combined with variables specific to the Bullet class,
+     * into the corresponding variables in bulletCfg.
+     * @return Returns the object bulletCfg of type BulletConfiguration.
+     */
     public DataHandler.BulletConfiguration getBulletConfiguration() {
         DataHandler.BulletConfiguration bulletCfg = new DataHandler.BulletConfiguration();
         bulletCfg.movementCfg = super.getMovementConfiguration();
-        bulletCfg.damage = this.getDamage();
+        bulletCfg.damage = getDamage();
+        bulletCfg.remainingTime = timeToLive - System.currentTimeMillis();
         return bulletCfg;
     }
 
+    /**
+     * Method which will transfer provided bulletCfg's variables into corresponding variables in Bullet.
+     * Variables inherited from Movable are transferred and set through a super method call.
+     * Further, variables specific to the Bullet class are transferred and set.
+     * @param bulletCfg Requires an object of type BulletConfiguration.
+     */
     public void setBulletConfiguration(DataHandler.BulletConfiguration bulletCfg) {
         super.setMovementConfiguration(bulletCfg.movementCfg);
         this.setDamage(bulletCfg.damage);
