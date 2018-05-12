@@ -196,10 +196,20 @@ public class Zombie extends Movable {
         }
     }
 
+    /**
+     * Method which will retrieve and return requested information about a Zombie object.
+     * In this instance, Zombie shares the same relevant variables as the super class, Movable.
+     * @return Returns an object of type MovementConfiguration set by a super method call.
+     */
     public DataHandler.MovementConfiguration getZombieConfiguration() {
         return super.getMovementConfiguration();
     }
 
+    /**
+     * Method which will transfer provided zombieCfg's variables into corresponding variables in Zombie.
+     * Variables are inherited from Movable, and are thus transferred and set through a super method call.
+     * @param zombieCfg Requires an object of type MovementConfiguration.
+     */
     public void setZombieConfiguration(DataHandler.MovementConfiguration zombieCfg) {
         super.setMovementConfiguration(zombieCfg);
     }

@@ -1,11 +1,7 @@
 package entities;
 
 import gameCode.DataHandler;
-import javafx.geometry.Bounds;
 import javafx.scene.media.AudioClip;
-import javafx.scene.shape.Rectangle;
-
-import java.util.List;
 
 public class Movable extends Entity {
     public enum Direction {
@@ -173,6 +169,38 @@ public class Movable extends Entity {
         this.audioClips[i].play();
     }
 
+    /**
+     * Method which will retrieve and return requested information about a Movable object.
+     * Creates a new MovementConfiguration object from the DataHandler class, and transfers
+     * variables inherited from Entity, combined with variables specific to the Movable class,
+     * into the corresponding variables in movementCfg.
+     * @return Returns the object movementCfg of type MovementConfiguration.
+     */
+    public DataHandler.MovementConfiguration getMovementConfiguration() {
+        DataHandler.MovementConfiguration movementCfg = new DataHandler.MovementConfiguration();
+        movementCfg.entityCfg = super.getEntityConfiguration();
+        movementCfg.health = getHealthPoints();
+        movementCfg.velX = getVelocityX();
+        movementCfg.velY = getVelocityY();
+        movementCfg.movementSpeed = getMovementSpeed();
+        movementCfg.direction = getDirection();
+        return movementCfg;
+    }
+
+    /**
+     * Method which will transfer provided movementCfg's variables into corresponding variables in Movable.
+     * Variables inherited from Entity are transferred and set through a super method call.
+     * Further, variables specific to the Movable class are transferred and set.
+     * @param movementCfg Requires an object of type MovementConfiguration.
+     */
+    public void setMovementConfiguration(DataHandler.MovementConfiguration movementCfg) {
+        super.setEntityConfiguration(movementCfg.entityCfg);
+        setHealthPoints(movementCfg.health);
+        setVelocity(movementCfg.velX, movementCfg.velY);
+        setMovementSpeed(movementCfg.movementSpeed);
+        setDirection(movementCfg.direction);
+    }
+
     public int getHealthPoints() {
         return this.healthPoints;
     }
@@ -224,25 +252,6 @@ public class Movable extends Entity {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
-    }
-
-    public DataHandler.MovementConfiguration getMovementConfiguration() {
-        DataHandler.MovementConfiguration movementCfg = new DataHandler.MovementConfiguration();
-        movementCfg.entityCfg = super.getEntityConfiguration();
-        movementCfg.health = getHealthPoints();
-        movementCfg.velX = getVelocityX();
-        movementCfg.velY = getVelocityY();
-        movementCfg.movementSpeed = getMovementSpeed();
-        movementCfg.direction = getDirection();
-        return movementCfg;
-    }
-
-    public void setMovementConfiguration(DataHandler.MovementConfiguration movementCfg) {
-        super.setEntityConfiguration(movementCfg.entityCfg);
-        setHealthPoints(movementCfg.health);
-        setVelocity(movementCfg.velX, movementCfg.velY);
-        setMovementSpeed(movementCfg.movementSpeed);
-        setDirection(movementCfg.direction);
     }
 
     /**

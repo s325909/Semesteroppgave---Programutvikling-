@@ -61,7 +61,7 @@ public class Game {
     }
 
     /***
-     * Method which continuously run as long as running is set to true.
+     * Method which continuously run as long as this.running is set to true.
      * Method will keep updating all Entities' positions and check for collision.
      * Method is affected by pauseGame() method.
      * @param time Requires a double value which here continuously gets updated via the
@@ -147,25 +147,12 @@ public class Game {
                 bullet.setDrawn();
             }
             bullet.bulletDirection();
-            //bullet.bulletCollision(zombies, rocks);
+            bullet.bulletCollision(zombies, rocks);
             bullet.movement();
-            for (Zombie zombie : zombies) {
-                if (bullet.isColliding(zombie)) {
-                    zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
-                    bullet.setAlive(false);
-                    if (zombie.getHealthPoints() <= 0) {
-                        zombie.setAlive(false);
-                    }
-                }
-            }
-            for (Rock rock : rocks) {
-                if (bullet.isColliding(rock)) {
-                    bullet.setAlive(false);
-                }
-            }
         }
 
-        // Draw drops to the pane, and check for collision with player
+        // Draw drops to the pane, place these furthest back to allow other Entities to pass over,
+        // and check for collision with Player
         for (Drop drop : drops) {
             if (!drop.isDrawn()) {
                 if(gameInitializer.isDEBUG())
@@ -175,10 +162,8 @@ public class Game {
                 drop.getIv().toBack();
                 drop.getNode().toBack();
             }
-            if(drop.isColliding(player)) {
-                drop.setAlive(false);
-                drop.dropCollision(player, this);
-            }
+
+            drop.dropCollision(player, this);
         }
 
         //Ikke nødvendig med mindre du skal legge til nye underveis
@@ -191,12 +176,18 @@ public class Game {
             }
         }
 
+        ////////
+        //      Methods for updating animation, position and velocity of Entities given that
+        //      they are still alive. If not, remove ImageView, Node and finally the object itself.
+        ////////
+
         // Update animation, position and velocity of player
         player.updateAnimation();
         player.update(time);
 
-        // Update zombie position and velocity.
-        // Check if zombie is alive. If dead, create and draw a Drop entity
+        // Check if Zombie is alive.
+        // If alive, update animation, and position and velocity.
+        // If not, give Player score points, remove the ImageView and Node, and create a Drop of random "quality".
         for(Zombie zombie : zombies) {
             if(!zombie.isAlive()) {
                 this.scoreNumber += 100;
@@ -208,7 +199,9 @@ public class Game {
             }
         }
 
-        // Check if Bullet is dead, and remove if so
+        // Check if Bullet is alive.
+        // If alive, update position and velocity.
+        // If not, remove the ImageView and Node.
         for(Bullet bullet : bullets) {
             if(!bullet.isAlive()){
                  gameWindow.getChildren().removeAll(bullet.getNode(), bullet.getAnimationHandler().getImageView());
@@ -217,7 +210,9 @@ public class Game {
             }
         }
 
-        // Check if Drop of drops is dead
+        // Check if Drop is alive.
+        // If alive, update position.
+        // If not, remove the ImageView and Node.
         for(Drop drop : drops) {
             if(!drop.isAlive()) {
                 gameWindow.getChildren().removeAll(drop.getNode(), drop.getAnimationHandler().getImageView());
@@ -226,7 +221,7 @@ public class Game {
             }
         }
 
-        // Remove every dead Entity object from the ArrayLists
+        // Finally remove the object itself if isDead() equals true.
         bullets.removeIf(Bullet::isDead);
         zombies.removeIf(Zombie::isDead);
         drops.removeIf(Drop::isDead);
@@ -291,6 +286,13 @@ public class Game {
 
     }
 
+    /**
+     * Method which will create a random type of Drop on the position of a Zombie.
+     * DropType has a corresponding Image, and can be used to decide which type of Player stat that should be increased.
+     * @param zombie Requires an object of type Zombie to determine the position of which to spawn
+     *               the newly created Drop.
+     * @return Returns an object of type Drop with a random Image and DropType.
+     */
     public Drop getRandomDropType(Zombie zombie) {
         int randomNumber = (int)(Math.random()*10) % 5;
 
@@ -568,7 +570,7 @@ public class Game {
     }
 
     /**
-     *
+     * Method for removing all Bullets in the Game.
      */
     public void removeBullets() {
         for (Bullet bullet : this.bullets) {
@@ -582,7 +584,7 @@ public class Game {
     }
 
     /**
-     *
+     * Method for removing all Drops in the Game.
      */
     public void removeDrops() {
         for (Drop drop : this.drops) {

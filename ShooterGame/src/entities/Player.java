@@ -571,9 +571,11 @@ public class Player extends Movable {
     }
 
     /**
-     * Method for retrieving information about the Player object and turning these to appropriate
-     * variables of type DataHandler.Configuration, for further use during saving.
-     * @return Returns an object of type DataHandler.Configuration
+     * Method which will retrieve and return requested information about a Player object.
+     * Creates a new PlayerConfiguration object from the DataHandler class, and transfers
+     * variables inherited from Movable, combined with variables specific to the Player class,
+     * into the corresponding variables in playerCfg.
+     * @return Returns the object playerCfg of type PlayerConfiguration.
      */
     public DataHandler.PlayerConfiguration getPlayerConfiguration() {
         DataHandler.PlayerConfiguration playerCfg = new DataHandler.PlayerConfiguration();
@@ -589,6 +591,12 @@ public class Player extends Movable {
         return playerCfg;
     }
 
+    /**
+     * Method which will transfer provided playerCfg's variables into corresponding variables in Player.
+     * Variables inherited from Movable are transferred and set through a super method call.
+     * Further, variables specific to the Player class are transferred and set.
+     * @param playerCfg Requires and object of type PlayerConfiguration.
+     */
     public void setPlayerConfiguration(DataHandler.PlayerConfiguration playerCfg) {
         super.setMovementConfiguration(playerCfg.movementCfg);
         this.setArmor(playerCfg.armor);
