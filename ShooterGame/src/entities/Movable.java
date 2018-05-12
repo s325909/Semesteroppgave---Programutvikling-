@@ -268,12 +268,14 @@ public class Movable extends Entity {
      * Inner class for handling length of animation
      */
     public class AnimationLengthPair {
-        int action;
+        int animationType;
+        int animationAction;
         long time;
         double duration;
 
-        public AnimationLengthPair(int action, long time, double duration) {
-            this.action = action;
+        public AnimationLengthPair(int type, int action, long time, double duration) {
+            this.animationType = type;
+            this.animationAction = action;
             this.time = time;
             this.duration = duration;
         }

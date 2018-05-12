@@ -377,28 +377,33 @@ public class Player extends Movable {
      * This check ensures to correctly perform the method for changing the number and playing the appropriate sound.
      */
     private void reload() {
-        switch (this.equippedWeapon) {
-            case PISTOL:
-                if (!magazinePistol.isPoolEmpty() && !magazinePistol.isMagazineFull()) {
-                    magazinePistol.reloadMagazine();
-                    playWeaponSounds(2, 3);
-                }
-                setAnimation(1,3, 500);
-                break;
-            case RIFLE:
-                if (!magazineRifle.isPoolEmpty() && !magazineRifle.isMagazineFull()) {
-                    magazineRifle.reloadMagazine();
-                    playWeaponSounds(4, 3);
-                }
-                setAnimation(2,3, 500);
-                break;
-            case SHOTGUN:
-                if (!magazineShotgun.isPoolEmpty() && !magazineShotgun.isMagazineFull()) {
-                    magazineShotgun.reloadMagazine();
-                    playWeaponSounds(6, 3);
-                }
-                setAnimation(3,3, 500);
-                break;
+        long currentTime = System.currentTimeMillis();
+        int fireRate = 500;
+        if (currentTime > this.fireWaitTime) {
+            switch (this.equippedWeapon) {
+                case PISTOL:
+                    if (!magazinePistol.isPoolEmpty() && !magazinePistol.isMagazineFull()) {
+                        magazinePistol.reloadMagazine();
+                        playWeaponSounds(2, 3);
+                        setAnimation(1, 3, 500);
+                    }
+                    break;
+                case RIFLE:
+                    if (!magazineRifle.isPoolEmpty() && !magazineRifle.isMagazineFull()) {
+                        magazineRifle.reloadMagazine();
+                        playWeaponSounds(4, 3);
+                        setAnimation(2, 3, 500);
+                    }
+                    break;
+                case SHOTGUN:
+                    if (!magazineShotgun.isPoolEmpty() && !magazineShotgun.isMagazineFull()) {
+                        magazineShotgun.reloadMagazine();
+                        playWeaponSounds(6, 3);
+                        setAnimation(3, 3, 500);
+                    }
+                    break;
+            }
+            this.fireWaitTime = currentTime + fireRate;
         }
     }
 
@@ -408,21 +413,16 @@ public class Player extends Movable {
      * @param animationAction fg
      */
     private void setAnimation(int animationType, int animationAction, int animationLength) {
-        boolean queue = true;
-        if(animationAction == 2) {
-            long currentTime = System.currentTimeMillis();
-            if (currentTime < this.fireWaitTime)
-                queue = false;
-        }
-        getAnimationHandler().setImageType(animationType);
+        boolean inQueue = false;
 
         for (AnimationLengthPair pair : animationQueue) {
-            if (pair.action == animationAction)
-                queue = false;
+            if (pair.animationType == animationType && pair.animationAction == animationAction)
+                inQueue = true;
         }
 
-        if (queue)
-            animationQueue.add(new AnimationLengthPair(animationAction, animationLength, 0.032));
+        if (!inQueue) {
+            animationQueue.add(new AnimationLengthPair(animationType, animationAction, animationLength, 0.032));
+        }
     }
 
     /**
@@ -433,7 +433,8 @@ public class Player extends Movable {
         AnimationLengthPair pair = animationQueue.peek();
         if (pair != null) {
             if (currentTime > this.waitTime) {
-                getAnimationHandler().setImageAction(animationQueue.peek().action);
+                getAnimationHandler().setImageType(animationQueue.peek().animationType);
+                getAnimationHandler().setImageAction(animationQueue.peek().animationAction);
                 this.waitTime = currentTime + animationQueue.peek().time;
                 animationQueue.remove();
             }

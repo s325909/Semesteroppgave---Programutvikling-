@@ -232,11 +232,11 @@ public class Zombie extends Movable {
 //        }
         boolean not = true;
         for (AnimationLengthPair pair : animationQueue) {
-            if (pair.action == animationAction)
+            if (pair.animationAction == animationAction)
                 not = false;
         }
         if (not)
-            animationQueue.add(new AnimationLengthPair(animationAction, animationLength, 0.064));
+            animationQueue.add(new AnimationLengthPair(0, animationAction, animationLength, 0.064));
     }
 
     /**
@@ -247,7 +247,7 @@ public class Zombie extends Movable {
         AnimationLengthPair pair = animationQueue.peek();
         if (pair != null) {
             if (currentTime > this.waitTime) {
-                getAnimationHandler().setImageAction(animationQueue.peek().action);
+                getAnimationHandler().setImageAction(animationQueue.peek().animationAction);
                 this.waitTime = currentTime + animationQueue.peek().time;
                 getAnimationHandler().setDuration(animationQueue.peek().duration);
                 animationQueue.remove();
