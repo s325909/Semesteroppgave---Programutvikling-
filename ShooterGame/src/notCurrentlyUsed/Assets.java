@@ -112,7 +112,7 @@ public class Assets implements Initializable {
 
         // Load all Bullet images
         String[] bulletImages = {
-                "/resources/Art/pistol_bullet.png"
+                "/resources/Art/Icon/pistol_bullet.png"
         };
 
         this.bulletImages = loadSingleSprites(bulletImages);

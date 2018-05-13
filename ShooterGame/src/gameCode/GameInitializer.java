@@ -62,11 +62,13 @@ public class GameInitializer implements Initializable{
     private Image[][] zombieImages;
     private Image[] hpDropImages;
     private Image[] armorDropImages;
-    private Image[] magDropImages;
-    private Image[] poolDropImages;
-    private Image[] speedDropImages;
+    private Image[] pistolDropImages;
+    private Image[] rifleDropImages;
+    private Image[] shotgunDropImages;
     private Image[] scoreDropAnimation;
     private Image[] pistolBulletImaqe;
+    private Image[] rifleBulletImage;
+    private Image[] shotgunPelletImage;
     private Image[] rockImage;
 
     final private boolean DEBUG = true;
@@ -80,11 +82,11 @@ public class GameInitializer implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Create an object of MusicPlayer, which includes what file to play and automatically starts playing
-        try {
-            musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
-        } catch (Exception e) {
-            System.out.println("Error: Could not find sound file");
-        }
+//        try {
+//            musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
+//        } catch (Exception e) {
+//            System.out.println("Error: Could not find sound file");
+//        }
 
         loadAssets();
         createRocks();
@@ -454,22 +456,25 @@ public class GameInitializer implements Initializable{
         String[] dropImageStrings = new String[] {
                 "/resources/Art/Icon/hp_icon.png",
                 "/resources/Art/Icon/armor_icon.png",
-                "/resources/Art/Icon/mag_icon.png",
-                "/resources/Art/Icon/pool_icon.png",
-                "/resources/Art/Icon/speed_boost.png"
+                "/resources/Art/Icon/pistol_ammo.png",
+                "/resources/Art/Icon/rifle_ammo.png",
+                "/resources/Art/Icon/shotgun_ammo.png"
         };
         createDropImages(dropImageStrings);
 
         // Create all of Bullet's images
         String[] bulletImageStrings = {
-                "/resources/Art/pistol_bullet.png"
+                "/resources/Art/Icon/pistol_bullet.png",
+                "/resources/Art/Icon/single_rifle_bullet.png"
         };
         this.pistolBulletImaqe = new Image[1];
         this.pistolBulletImaqe[0] = new Image(bulletImageStrings[0], 25, 25, true, false);
+        this.rifleBulletImage = new Image[1];
+        this.rifleBulletImage[0] = new Image(bulletImageStrings[1], 25, 25, true, false);
 
         // Create all of Rock's images
         String[] rockImageStrings = {
-                "/resources/Art/rock.png"
+                "/resources/Art/Icon/rock.png"
         };
         this.rockImage = new Image[1];
         this.rockImage[0] = new Image(rockImageStrings[0], 50, 50, true, false);
@@ -554,12 +559,12 @@ public class GameInitializer implements Initializable{
         this.hpDropImages[0] = new Image(images[0], 25, 25, true, false);
         this.armorDropImages = new Image[1];
         this.armorDropImages[0] = new Image(images[1], 25, 25, true, false);
-        this.magDropImages = new Image[1];
-        this.magDropImages[0] = new Image(images[2], 25, 25, true, false);
-        this.poolDropImages = new Image[1];
-        this.poolDropImages[0] = new Image(images[3], 25, 25, true, false);
-        this.speedDropImages = new Image[1];
-        this.speedDropImages[0] = new Image(images[4], 25, 25, true, false);
+        this.pistolDropImages = new Image[1];
+        this.pistolDropImages[0] = new Image(images[2], 25, 25, true, false);
+        this.rifleDropImages = new Image[1];
+        this.rifleDropImages[0] = new Image(images[3], 25, 25, true, false);
+        this.shotgunDropImages = new Image[1];
+        this.shotgunDropImages[0] = new Image(images[4], 25, 25, true, false);
     }
 
     /**
@@ -584,6 +589,10 @@ public class GameInitializer implements Initializable{
         return pistolBulletImaqe;
     }
 
+    public Image[] getRifleBulletImage() {
+        return rifleBulletImage;
+    }
+
     Image[] getScoreDropAnimation() {
         return scoreDropAnimation;
     }
@@ -596,16 +605,16 @@ public class GameInitializer implements Initializable{
         return armorDropImages;
     }
 
-    Image[] getMagDropImages() {
-        return magDropImages;
+    public Image[] getPistolDropImages() {
+        return pistolDropImages;
     }
 
-    Image[] getPoolDropImages() {
-        return poolDropImages;
+    public Image[] getRifleDropImages() {
+        return rifleDropImages;
     }
 
-    Image[] getSpeedDropImages() {
-        return speedDropImages;
+    public Image[] getShotgunDropImages() {
+        return shotgunDropImages;
     }
 
     AudioClip[] getZombieAudioClips() {

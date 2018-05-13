@@ -119,7 +119,7 @@ public class Game {
         zombieObjectCollidingList.addAll(rocks);
         for (Zombie zombie : zombies) {
             zombie.findDirection(player);
-            zombie.move();
+            zombie.move(difficultyModifier);
             zombie.movement();
 
             for (Bullet zombieAttack : zombie.getAttackList()) {
@@ -209,7 +209,7 @@ public class Game {
 
         // Draws drops to the pane, placing them furthest back
         for (Drop drop : drops) {
-            drop.drawImage(drop.isDrawn(), this);
+            drop.drawImage(drop.isDrawn(), this, rocks);
         }
 
         // Draws Zombie's attack briefly to the pane
@@ -254,7 +254,7 @@ public class Game {
 
             // Remove Zombie's attack Image if set to dead
             for (Bullet zombieAttack : zombie.getAttackList()) {
-                zombie.removeImage(zombieAttack.isAlive(), this);
+                zombieAttack.removeImage(zombieAttack.isAlive(), this);
             }
         }
 
@@ -423,11 +423,11 @@ public class Game {
             case 1:
                 return new Drop(gameInitializer.getArmorDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.ARMOR);
             case 2:
-                return new Drop(gameInitializer.getMagDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.PISTOLAMMO);
+                return new Drop(gameInitializer.getPistolDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.PISTOLAMMO);
             case 3:
-                return new Drop(gameInitializer.getPoolDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.RIFLEAMMO);
+                return new Drop(gameInitializer.getRifleDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.RIFLEAMMO);
             case 4:
-                return new Drop(gameInitializer.getSpeedDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.SHOTGUNAMMO);
+                return new Drop(gameInitializer.getShotgunDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.SHOTGUNAMMO);
             default:
                 return new Drop(gameInitializer.getScoreDropAnimation(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.SCORE);
         }

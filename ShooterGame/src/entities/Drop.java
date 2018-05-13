@@ -4,6 +4,8 @@ import gameCode.DataHandler;
 import gameCode.Game;
 import javafx.scene.image.Image;
 
+import java.util.List;
+
 /**
  * Class which represents Entities on the ground which will provide the Player with attribute increases,
  * or increase the Game's score value. They are either created randomly, or upon Zombie death.
@@ -38,13 +40,18 @@ public class Drop extends Entity {
      * @param isDrawn Requires the boolean which determines whether the Entity has been drawn.
      * @param game Requires the Game object of which to draw the Image and Node to.
      */
-    @Override
-    public void drawImage(boolean isDrawn, Game game) {
+    public void drawImage(boolean isDrawn, Game game, List<Rock> rocks) {
         if (!isDrawn) {
             super.drawImage(isDrawn, game);
 
             getAnimationHandler().getImageView().toBack();
             getNode().toBack();
+
+            // Updates the Rocks to be furthest back whenever a Drop is drawn.
+            for (Rock rock : rocks) {
+                rock.getAnimationHandler().getImageView().toBack();
+                rock.getNode().toBack();
+            }
         }
     }
 
