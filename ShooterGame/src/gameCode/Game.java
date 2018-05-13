@@ -509,7 +509,7 @@ public class Game {
         clearGame();
         player.resetPlayer(getDifficulty());
         setScoreNumber(0);
-        createZombies(gameInitializer.getNbrZombies(), getDifficulty());
+        createZombies(gameInitializer.getNbrZombies());
         gameInitializer.showGameLabel();
         gameInitializer.showMenu();
         setNewRound(false);
@@ -692,9 +692,9 @@ public class Game {
      * Method for creating Zombies at random location.
      * @param nbrZombies Requires the number of Zombies to create.
      */
-    public void createZombies(int nbrZombies, Difficulty difficulty) {
+    public void createZombies(int nbrZombies) {
         int zombieHealth = 0;
-        switch(difficulty) {
+        switch(getDifficulty()) {
             case NORMAL:
                 zombieHealth = 100;
                 break;
