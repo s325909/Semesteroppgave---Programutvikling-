@@ -8,10 +8,11 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    //private static Stage primarlyStage;
+    //private static Stage stage;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        //stage = primaryStage;
         primaryStage.setResizable(false);
         Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         primaryStage.setTitle("Zombie Mayhem");
