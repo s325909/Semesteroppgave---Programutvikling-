@@ -289,7 +289,7 @@ public class Player extends Movable {
                     fireRate = 500;
                     if (!magazineRifle.isMagazineEmpty()) {
                         magazineRifle.changeBulletNumber(-1);
-                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 30, this.getDirection(), 3000);
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 35, this.getDirection(), 3000);
                         bulletList.add(bullet);
                         playWeaponSounds(3, 1);
                     } else {
