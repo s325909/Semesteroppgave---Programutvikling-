@@ -222,7 +222,8 @@ public class GameInitializer implements Initializable{
                 showMenu();
 
             } else if (e.getCode() == KeyCode.M) {
-                musicPlayer.muteVolume();
+                //musicPlayer.muteVolume();
+                game.removeZombies();
 
             } else if (e.getCode() == KeyCode.F5){
                 game.saveGame("quicksave");

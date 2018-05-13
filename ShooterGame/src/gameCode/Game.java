@@ -34,7 +34,6 @@ public class Game {
     private boolean newRound;
     private boolean gameOver;
     private DataHandler dataHandler;
-    private boolean chooseDiffculty;
 
     public Game(Player player, List <Zombie> zombies, List<Rock> rocks, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
 
@@ -289,44 +288,131 @@ public class Game {
 
             setNewRound(true);
 
-            switch (roundNumber) {
-                case 1:
-                    createZombies(roundNumber + 1);
+            switch (difficulty) {
+
+                case NORMAL:
+                    switch (roundNumber) {
+                        case 1:
+                            createZombies(roundNumber + 1);
+                            break;
+                        case 2:
+                            createZombies(roundNumber + 1);
+                            break;
+                        case 3:
+                            createZombies(roundNumber + 1);
+                            break;
+                        case 4:
+                            createZombies(roundNumber + 1);
+                            break;
+                        case 5:
+                            createZombies(roundNumber + 1);
+                            break;
+                        case 6:
+                            createZombies(roundNumber + 1);
+                            break;
+                        case 7:
+                            createZombies(roundNumber + 1);
+                            break;
+                        case 8:
+                            createZombies(roundNumber + 1);
+                            break;
+                        case 9:
+                            createZombies(roundNumber + 1);
+                            break;
+                        case 10:
+                            stopTimer();
+                            setGameOver(true);
+                            setNewRound(true);
+                            gameInitializer.showGameLabel();
+                            gameInitializer.roundNbr.setText("FINAL ROUND");
+                            roundNumber = 0;
+                    }
+                    setNewRound(false);
+                    roundNumber++;
                     break;
-                case 2:
-                    createZombies(roundNumber + 1);
+
+                case HARD:
+                    switch (roundNumber) {
+                        case 1:
+                            createZombies(roundNumber + 2);
+                            break;
+                        case 2:
+                            createZombies(roundNumber + 2);
+                            break;
+                        case 3:
+                            createZombies(roundNumber + 2);
+                            break;
+                        case 4:
+                            createZombies(roundNumber + 2);
+                            break;
+                        case 5:
+                            createZombies(roundNumber + 2);
+                            break;
+                        case 6:
+                            createZombies(roundNumber + 2);
+                            break;
+                        case 7:
+                            createZombies(roundNumber + 2);
+                            break;
+                        case 8:
+                            createZombies(roundNumber + 2);
+                            break;
+                        case 9:
+                            createZombies(roundNumber + 2);
+                            break;
+                        case 10:
+                            stopTimer();
+                            setGameOver(true);
+                            setNewRound(true);
+                            gameInitializer.showGameLabel();
+                            gameInitializer.roundNbr.setText("FINAL ROUND");
+                            roundNumber = 0;
+                    }
+                    setNewRound(false);
+                    roundNumber++;
                     break;
-                case 3:
-                    createZombies(roundNumber + 1);
+
+                case INSANE:
+                    switch (roundNumber) {
+                        case 1:
+                            createZombies(roundNumber + 2);
+                            break;
+                        case 2:
+                            createZombies(roundNumber + 3);
+                            break;
+                        case 3:
+                            createZombies(roundNumber + 4);
+                            break;
+                        case 4:
+                            createZombies(roundNumber + 5);
+                            break;
+                        case 5:
+                            createZombies(roundNumber + 6);
+                            break;
+                        case 6:
+                            createZombies(roundNumber + 7);
+                            break;
+                        case 7:
+                            createZombies(roundNumber + 8);
+                            break;
+                        case 8:
+                            createZombies(roundNumber + 9);
+                            break;
+                        case 9:
+                            createZombies(roundNumber + 10);
+                            break;
+                        case 10:
+                            stopTimer();
+                            setGameOver(true);
+                            setNewRound(true);
+                            gameInitializer.showGameLabel();
+                            gameInitializer.roundNbr.setText("FINAL ROUND");
+                            roundNumber = 0;
+                    }
+                    setNewRound(false);
+                    roundNumber++;
                     break;
-                case 4:
-                    createZombies(roundNumber + 1);
-                    break;
-                case 5:
-                    createZombies(roundNumber + 1);
-                    break;
-                case 6:
-                    createZombies(roundNumber + 1);
-                    break;
-                case 7:
-                    createZombies(roundNumber + 1);
-                    break;
-                case 8:
-                    createZombies(roundNumber + 1);
-                    break;
-                case 9:
-                    createZombies(roundNumber + 1);
-                    break;
-                case 10:
-                    stopTimer();
-                    setGameOver(true);
-                    setNewRound(true);
-                    gameInitializer.showGameLabel();
-                    gameInitializer.roundNbr.setText("FINAL ROUND");
-                    roundNumber = 0;
             }
-            setNewRound(false);
-            roundNumber++;
         }else {
             gameOver();
         }
