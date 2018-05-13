@@ -15,6 +15,7 @@ public class Game {
     }
 
     private Difficulty difficulty;
+    private int difficultyModifier;
     private Player player;
     private List<Zombie> zombies;
     private List<Rock> rocks;
@@ -32,9 +33,10 @@ public class Game {
     private GameInitializer gameInitializer;
     private DataHandler dataHandler;
 
-    public Game(Player player, List<Rock> rocks, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
+    public Game(Difficulty difficulty, Player player, List<Rock> rocks, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
 
-        this.roundNumber = 0;
+        this.difficulty = difficulty;
+        setDifficultyModifier(difficulty);
         this.player = player;
         this.zombies = new ArrayList<>();
         this.rocks = rocks;
@@ -49,6 +51,7 @@ public class Game {
         this.dataHandler = new DataHandler();
         this.running = true;
         this.scoreNumber = 0;
+        this.roundNumber = 0;
 
         final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
@@ -62,6 +65,8 @@ public class Game {
         };
         timer.start();
     }
+
+
 
     /***
      * Method which continuously run as long as this.running is set to true.
@@ -247,7 +252,7 @@ public class Game {
         //Remove images of object not longer active
         for(Zombie zombie : zombies) {
             if (!zombie.isAlive()) {
-                this.scoreNumber += 100;
+                scorePerKill();
                 gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getAnimationHandler().getImageView());
                 drops.add(getRandomDropType(zombie));
             }
@@ -289,23 +294,24 @@ public class Game {
         }
     }
 
+    private void scorePerKill() {
+        switch(difficulty) {
+            case NORMAL:
+                setScoreNumber(getScoreNumber() + 100*difficultyModifier);
+                break;
+            case HARD:
+                setScoreNumber(getScoreNumber() + 100*difficultyModifier);
+                break;
+            case INSANE:
+                setScoreNumber(getScoreNumber() + 100*difficultyModifier);
+                break;
+        }
+    }
+
     private void spawnNewRound() {
 
         if (!isNewRound()) {
-            int difficultyModifier = 0;
             setNewRound(true);
-
-            switch (difficulty) {
-                case NORMAL:
-                    difficultyModifier = 1;
-                    break;
-                case HARD:
-                    difficultyModifier = 2;
-                    break;
-                case INSANE:
-                    difficultyModifier = 3;
-                    break;
-            }
 
             switch (roundNumber) {
                 case 0:
@@ -352,6 +358,31 @@ public class Game {
             gameOver();
         }
 
+    }
+
+    /**
+     * Method for creating Zombies at random location.
+     * @param nbrZombies Requires a number to determine how many Zombies to create.
+     */
+    public void createZombies(int nbrZombies) {
+        int positionX = (int) (Math.random() * 1200);
+        int positionY = (int) (Math.random() * 650);
+        int zombieHealth = 100 * difficultyModifier - 50*(difficultyModifier-1);
+
+        try {
+            if (this.zombies == null)
+                this.zombies = new ArrayList<>();
+
+            for (int i = 0; i < nbrZombies; i++) {
+                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), positionX, positionY, zombieHealth);
+                this.zombies.add(zombie);
+            }
+        } catch (Exception e) {
+            System.out.println("Unable to reset zombies");
+            System.out.println(e.getMessage());
+            //stack trace
+            System.exit(0);
+        }
     }
 
     /**
@@ -440,8 +471,6 @@ public class Game {
      * as well as setting both "gameOver" and "gameIsPaused" equals "false",
      * which allows this method to run again after restarting the game
      */
-
-
     protected void restartGame() {
         clearGame();
         player.resetPlayer(getDifficulty());
@@ -451,14 +480,6 @@ public class Game {
         setGameOver(false);
         setRunning(false);
     }
-
-    public void clearGame() {
-        removePlayerVisibility();
-        removeZombies();
-        removeBullets();
-        removeDrops();
-    }
-
 
     /**
      *
@@ -586,6 +607,16 @@ public class Game {
     }
 
     /**
+     * Method which clears the Game of a select type of Entities.
+     */
+    public void clearGame() {
+        removePlayerVisibility();
+        removeZombies();
+        removeBullets();
+        removeDrops();
+    }
+
+    /**
      * Method which will hide the Player in the gameWindow.
      */
     public void removePlayerVisibility() {
@@ -626,36 +657,20 @@ public class Game {
     }
 
     /**
-     * Method for creating Zombies at random location.
-     * @param nbrZombies Requires the number of Zombies to create.
+     * Method which alters the int variable difficultyModifier based on the Game's difficulty.
+     * @param difficulty Requires an enum of type Difficulty to set difficultModifier.
      */
-    public void createZombies(int nbrZombies) {
-        int zombieHealth = 0;
-        switch(getDifficulty()) {
+    private void setDifficultyModifier(Difficulty difficulty) {
+        switch (difficulty) {
             case NORMAL:
-                zombieHealth = 100;
+                difficultyModifier = 1;
                 break;
             case HARD:
-                zombieHealth = 150;
+                difficultyModifier = 2;
                 break;
             case INSANE:
-                zombieHealth = 200;
+                difficultyModifier = 3;
                 break;
-        }
-
-        try {
-            if (this.zombies == null)
-                this.zombies = new ArrayList<>();
-
-            for (int i = 0; i < nbrZombies; i++) {
-                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1200), (int) (Math.random() * 650), zombieHealth);
-                this.zombies.add(zombie);
-            }
-        } catch (Exception e) {
-            System.out.println("Unable to reset zombies");
-            System.out.println(e.getMessage());
-            //stack trace
-            System.exit(0);
         }
     }
 

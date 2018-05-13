@@ -101,11 +101,9 @@ public class GameInitializer implements Initializable{
      * @param difficulty Requires the user selected difficulty in order to adjust the Game.
      */
     private void startGame(Game.Difficulty difficulty) {
-        createPlayer();
-        game = new Game(player, rocks, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
+        createPlayer(difficulty);
+        game = new Game(difficulty, player, rocks, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
         game.setGameInitializer(this);
-        game.setDifficulty(difficulty);
-        player.resetPlayer(difficulty);
         showDifficulty(false);
         Platform.runLater(this::getKeyPressed);
     }
@@ -113,9 +111,10 @@ public class GameInitializer implements Initializable{
     /**
      * Method which creates and draws the Player object for use in the Game.
      */
-    private void createPlayer() {
+    private void createPlayer(Game.Difficulty difficulty) {
         try {
             player = new Player(this.playerImages, this.basicSounds, this.weaponSounds, this.pistolBulletImaqe, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
+            player.resetPlayer(difficulty);
         } catch (Exception e) {
             System.out.println("Error: Player did not load correctly");
         }
