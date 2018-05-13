@@ -1,8 +1,7 @@
 package entities;
 
 import gameCode.DataHandler;
-import javafx.geometry.Bounds;
-import javafx.scene.image.ImageView;
+import gameCode.Game;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -41,6 +40,37 @@ public class Entity{
     }
 
     /**
+     * Method which draws the ImageView and Node of the Entity to the gameWindow Pane.
+     * Will draw the ImageView containing the Image to the gameWindow Pane, including the Node if DEBUG is set to true.
+     * Sets the boolean drawn to true, as this method is continuously called in the onUpdate() method in Game, to duplicate Exception.
+     * @param isDrawn Requires the boolean which determines whether the Entity has been drawn.
+     * @param game Requires the Game object of which to draw the Image and Node to.
+     */
+    public void drawImage(boolean isDrawn, Game game) {
+        if(!isDrawn) {
+            if(game.getGameInitializer().isDEBUG())
+                game.getGameWindow().getChildren().add(getNode());
+            game.getGameWindow().getChildren().add(getAnimationHandler().getImageView());
+            setDrawn();
+        }
+    }
+
+    /**
+     * Method which removes the ImageView and Node of the Entity from the gameWindow Pane.
+     * Will remove the ImageView containing the Image from the gameWindow Pane, including the Node if DEBUG is set to true.
+     * This method is run continuously in the onUpdate() method in Game, and as such only removes the Entity if set to dead.
+     * @param isAlive Requires the boolean which determines whether the Entity is dead.
+     * @param game Requires the Game object of which to remove the Image and Node from.
+     */
+    public void removeImage(boolean isAlive, Game game) {
+        if(!isAlive){
+            if(game.getGameInitializer().isDEBUG())
+                game.getGameWindow().getChildren().remove(getNode());
+            game.getGameWindow().getChildren().remove(getAnimationHandler().getImageView());
+        }
+    }
+
+    /**
      * Method which handles animation cycling via setFrame() call.
      * @param time Requires the Game's timer.
      */
@@ -48,32 +78,13 @@ public class Entity{
         getAnimationHandler().setFrame(time);
     }
 
-    public void setPosition(int positionX, int positionY) {
-        this.positionX = positionX;
-        this.positionY = positionY;
-    }
-
     /**
-     * Method which places the Node in the same position as the Entity object.
-     * @param positionX Requires Entity's position in X-coordinate.
-     * @param positionY Requires Entity's position in Y-coordinate.
-     */
-    public void setTranslateNode(int positionX, int positionY) {
-        this.node.setTranslateX(positionX);
-        this.node.setTranslateY(positionY);
-    }
-
-    /***
      * Method for checking for collision between two Entity object's by using their given Nodes.
      * @param otherEntity Requires an Entity object.
      * @return Returns a boolean based on whether there is collision.
      */
     public boolean isColliding(Entity otherEntity) {
         return this.node.getBoundsInParent().intersects(otherEntity.getNode().getBoundsInParent());
-    }
-
-    public boolean isColliding(Bounds bounds) {
-        return this.node.getBoundsInParent().intersects(bounds);
     }
 
     /**
@@ -96,6 +107,21 @@ public class Entity{
     public void setEntityConfiguration(DataHandler.EntityConfiguration entityCfg) {
         setPosition(entityCfg.posX, entityCfg.posY);
         setTranslateNode(entityCfg.posX, entityCfg.posY);
+    }
+
+    /**
+     * Method which places the Node in the same position as the Entity object.
+     * @param positionX Requires Entity's position in X-coordinate.
+     * @param positionY Requires Entity's position in Y-coordinate.
+     */
+    void setTranslateNode(int positionX, int positionY) {
+        this.node.setTranslateX(positionX);
+        this.node.setTranslateY(positionY);
+    }
+
+    void setPosition(int positionX, int positionY) {
+        this.positionX = positionX;
+        this.positionY = positionY;
     }
 
     public void setNode(Node node) {

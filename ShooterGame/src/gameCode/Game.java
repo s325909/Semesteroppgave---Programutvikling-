@@ -8,6 +8,14 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Core class of the application, which controls everything regarding Entities.
+ * The class handles the creation and removal of Entities.
+ * It checks for collision and what this collision entails.
+ * It handles drawing of their Image, and looping the sets of Images to create animation.
+ * It handles saving and loading of each Entity to an .xml file.
+ * It updates certain values and pass them to the GameWindow FXML.
+ */
 public class Game {
 
     public enum Difficulty {
@@ -33,6 +41,23 @@ public class Game {
     private GameInitializer gameInitializer;
     private DataHandler dataHandler;
 
+    /**
+     * Constructor which sets all starting attributes, and then creates and starts an AnimationTimer.
+     * This AnimationTimer continuously run and loop through the methods that controls the Game.
+     * These methods include one which updates animations, updates positions and checks collision,
+     * and another which updates the HUD elements of the GameWindow FXML.
+     * @param difficulty Requires a set Difficulty.
+     * @param player Requires a Player object.
+     * @param rocks Requires Rock objects.
+     * @param gameWindow Requires a Pane to draw Images to.
+     * @param hudHP requires a Label which represents Player's healthpoints, and will be updated.
+     * @param hudArmor requires a Label which represents Player's armor, and will be updated.
+     * @param hudWeapon requires a Label which represents Player's equipped weapon, and will be updated.
+     * @param hudMag requires a Label which represents Player's current weapon magazine count, and will be updated.
+     * @param hudPool requires a Label which represents Player's current weapon ammopool, and will be updated.
+     * @param hudScore requires a Label which represents Game's score value, and will be updated.
+     * @param hudTimer requires a Label which represents Game's timer value, and will be updated.
+     */
     public Game(Difficulty difficulty, Player player, List<Rock> rocks, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
 
         this.difficulty = difficulty;
@@ -66,12 +91,10 @@ public class Game {
         timer.start();
     }
 
-
-
     /***
-     * Method which continuously run as long as this.running is set to true.
-     * Method will keep updating all Entities' positions and check for collision.
-     * Method is affected by pauseGame() method.
+     * Method which continuously run as long as running is set to true.
+     * Method will create Entities, draw them to the Pane, update their position and animation, and finally
+     * remove them if an Entity is set to dead. Method only runs if running is set to true.
      * @param time Requires a double value which here continuously gets updated via the
      *             the AnimationTimer
      */
@@ -82,7 +105,8 @@ public class Game {
         // Create Drop entities with random position
         randomDropCreation(10);
 
-        ////
+        //////////////////////////////////////////////////////////
+
         //Calculate new position for all objects
         List<Entity> playerObjectCollidingList = new ArrayList<>();
         playerObjectCollidingList.addAll(rocks);
@@ -108,16 +132,19 @@ public class Game {
             bullet.movement();
         }
 
-        ////
-        //Check collision with edges
+        //////////////////////////////////////////////////////////
+
+        //Check Player collision with edges
         if(player.getNode().getTranslateX() < 0 || player.getNode().getTranslateY() < 0 || player.getNode().getTranslateX() > (gameWindow.getWidth() - 60) || player.getNode().getTranslateY() > (gameWindow.getHeight() - 100)) {
             player.moveBack();
         }
 
+        // Check Zombie collision with edges
         for (Zombie zombie : zombies) {
             if (zombie.getNode().getTranslateX() < 0 || zombie.getNode().getTranslateY() < 0 || zombie.getNode().getTranslateX() > (gameWindow.getWidth()) || zombie.getNode().getTranslateY() > (gameWindow.getHeight())) {
                 zombie.moveBack();
             }
+            // Check Zombie's attack collision with edges
             for (Bullet zombieAttack : zombie.getAttackList()) {
                 if (zombieAttack.getNode().getTranslateX() < 0 || zombieAttack.getNode().getTranslateY() < 0 || zombieAttack.getNode().getTranslateX() > (gameWindow.getWidth()) || zombieAttack.getNode().getTranslateY() > (gameWindow.getHeight())) {
                     zombieAttack.setAlive(false);
@@ -125,19 +152,23 @@ public class Game {
             }
         }
 
+        // Check Bullet collision with edges
         for (Bullet bullet : bullets) {
             if (bullet.getNode().getTranslateX() < 0 || bullet.getNode().getTranslateY() < 0 || bullet.getNode().getTranslateX() > (gameWindow.getWidth()) || bullet.getNode().getTranslateY() > (gameWindow.getHeight())) {
                 bullet.setAlive(false);
             }
         }
 
-        //Checking if the new positions is colliding with other objects, if this happens move back to previous position.
+        //////////////////////////////////////////////////////////
+
+        // Check Player collision with other entities
         for (Entity obj : playerObjectCollidingList) {
             if(obj.isColliding(player)) {
                 player.moveBack();
             }
         }
 
+        // Check Zombie collision with other entities
         for (Zombie zombie : zombies) {
             for (Entity obj : zombieObjectCollidingList) {
                 if (obj.isColliding(zombie)) {
@@ -145,7 +176,7 @@ public class Game {
                 }
             }
 
-            //Damage player if colliding with zombie attack
+            //Damage Player if colliding with zombie attack
             for (Bullet zombieAttack : zombie.getAttackList()) {
                 if(zombieAttack.isColliding(player)) {
                     player.receivedDamage(zombieAttack.getDamage());
@@ -154,86 +185,58 @@ public class Game {
             }
         }
 
-        // Check for collision between Bullets and zombies, and Bullets and rocks
+        // Check for Bullet collision with zombies and rocks
         for(Bullet bullet : bullets) {
             bullet.bulletCollision(zombies, rocks);
         }
 
-        // Check for collision with Player
+        // Check for Drop collision with Player
         for (Drop drop : drops) {
             drop.dropCollision(player, this);
         }
 
-        //drawEntities(zombies, bullets, drops);
+        //////////////////////////////////////////////////////////
 
-        ////
         // Draw zombies to the pane
         for (Zombie zombie : zombies) {
-            if(!zombie.isDrawn()) {
-                if (gameInitializer.isDEBUG())
-                    gameWindow.getChildren().addAll(zombie.getNode());
-                gameWindow.getChildren().addAll(zombie.getAnimationHandler().getImageView());
-                zombie.setDrawn();
-            }
+            zombie.drawImage(zombie.isDrawn(), this);
         }
 
-        // Draw bullets to the pane, adjust direction, and check collision with zombies
+        // Draw bullets to the pane
         for(Bullet bullet : bullets) {
-            if(!bullet.isDrawn()) {
-                if(gameInitializer.isDEBUG())
-                    gameWindow.getChildren().add(bullet.getNode());
-                gameWindow.getChildren().add(bullet.getAnimationHandler().getImageView());
-                bullet.setDrawn();
-            }
+            bullet.drawImage(bullet.isDrawn(), this);
         }
 
-
-
-        // Draw drops to the pane, place these furthest back to allow other Entities to pass over,
-        // and check for collision with Player
+        // Draws drops to the pane, placing them furthest back
         for (Drop drop : drops) {
-            if (!drop.isDrawn()) {
-                if(gameInitializer.isDEBUG())
-                    gameWindow.getChildren().add(drop.getNode());
-                gameWindow.getChildren().add(drop.getAnimationHandler().getImageView());
-                drop.setDrawn();
-                drop.getAnimationHandler().getImageView().toBack();
-                drop.getNode().toBack();
-            }
+            drop.drawImage(drop.isDrawn(), this);
         }
 
-        // Check collision between zombies and player
+        // Draws Zombie's attack briefly to the pane
         for (Zombie zombie : zombies) {
             for (Bullet zombieAttack : zombie.getAttackList()) {
-                if (!zombieAttack.isDrawn()) {
-                    gameWindow.getChildren().add(zombieAttack.getNode());
-                    zombieAttack.setDrawn();
-                }
+                zombieAttack.drawImage(zombieAttack.isDrawn(), this);
             }
         }
 
-        ////////
-        //      Methods for updating animation, position and velocity of Entities given that
-        //      they are still alive. If not, remove ImageView, Node and finally the object itself.
-        ////////
+        //////////////////////////////////////////////////////////
 
-        // Update animation, position and velocity of player
+        // Update animation, position and Image rotation of Player
         player.updateAnimation();
         player.update(time);
 
-        // Check if Zombie is alive.
-        // If alive, update animation, and position and velocity.
-        // If not, give Player score points, remove the ImageView and Node, and create a Drop of random "quality".
+        // Update animation, position and Image rotation of Zombie
         for(Zombie zombie : zombies) {
             zombie.updateAnimation();
             zombie.update(time);
 
+            // Update animation, position and Image rotation of Zombie's attack
             for (Bullet zombieAttack : zombie.getAttackList()) {
                 zombieAttack.update(time);
             }
         }
 
-        // Update Bullet's position, Image direction, and handling timeToLive expiration
+        // Update Bullet's position, Image rotation, and handling timeToLive expiration
         for(Bullet bullet : bullets) {
             bullet.update(time);
         }
@@ -243,37 +246,31 @@ public class Game {
             drop.update(time);
         }
 
-        //checkEntities(zombies, bullets, drops);
+        //////////////////////////////////////////////////////////
 
-        ////
-        //Remove images of object not longer active
+        // Remove Zombie's Image if set to dead
         for(Zombie zombie : zombies) {
-            if (!zombie.isAlive()) {
-                scorePerKill();
-                gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getAnimationHandler().getImageView());
-                drops.add(getRandomDropType(zombie));
-            }
+            zombie.removeImage(zombie.isAlive(), this, drops);
 
+            // Remove Zombie's attack Image if set to dead
             for (Bullet zombieAttack : zombie.getAttackList()) {
-                if (!zombieAttack.isAlive()) {
-                    gameWindow.getChildren().remove(zombieAttack.getNode());
-                }
+                zombie.removeImage(zombieAttack.isAlive(), this);
             }
         }
 
+        // Remove Bullet's Image if set to dead
         for(Bullet bullet : bullets) {
-            if(!bullet.isAlive()){
-                gameWindow.getChildren().removeAll(bullet.getNode(), bullet.getAnimationHandler().getImageView());
-            }
+            bullet.removeImage(bullet.isAlive(), this);
         }
 
+        // Remove Drop's Image if set to dead
         for(Drop drop : drops) {
-            if (!drop.isAlive()) {
-                gameWindow.getChildren().removeAll(drop.getNode(), drop.getAnimationHandler().getImageView());
-            }
+            drop.removeImage(drop.isAlive(), this);
         }
 
-        // Finally remove the object itself if isDead() equals true.
+        //////////////////////////////////////////////////////////
+
+        // Finally remove the object itself if isDead() equals true
         zombies.removeIf(Zombie::isDead);
         bullets.removeIf(Bullet::isDead);
         drops.removeIf(Drop::isDead);
@@ -282,15 +279,25 @@ public class Game {
             zombie.getAttackList().removeIf(Bullet::isDead);
         }
 
+        //////////////////////////////////////////////////////////
+
+        // Set the Game state to over upon Player death
         if (!player.isAlive()) {
             //gameOver();
         }
 
+        //////////////////////////////////////////////////////////
+
+        // Create new zombies if they're dead
         if (zombies.isEmpty()) {
             spawnNewRound();
         }
     }
 
+    /**
+     * Method which creates a Drop of type Score at a random location.
+     * @param number Requires a number to determine how many Drops to create.
+     */
     private void randomDropCreation(int number) {
         if (drops.size() < number) {
             int random = (int) Math.floor(Math.random() * 100);
@@ -302,66 +309,10 @@ public class Game {
         }
     }
 
-    private void checkEntities(List<Zombie> zombies, List<Bullet> bullets, List<Drop> drops) {
-        for(Zombie zombie : zombies) {
-            if (!zombie.isAlive()) {
-                scorePerKill();
-                gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getAnimationHandler().getImageView());
-                drops.add(getRandomDropType(zombie));
-            }
-
-            for (Bullet zombieAttack : zombie.getAttackList()) {
-                if (!zombieAttack.isAlive()) {
-                    gameWindow.getChildren().remove(zombieAttack.getNode());
-                }
-            }
-        }
-
-        for(Bullet bullet : bullets) {
-            if(!bullet.isAlive()){
-                gameWindow.getChildren().removeAll(bullet.getNode(), bullet.getAnimationHandler().getImageView());
-            }
-        }
-
-        for(Drop drop : drops) {
-            if (!drop.isAlive()) {
-                gameWindow.getChildren().removeAll(drop.getNode(), drop.getAnimationHandler().getImageView());
-            }
-        }
-    }
-
-    private void drawEntities(List<Zombie> zombies, List<Bullet> bullets, List<Drop> drops) {
-        for (Zombie zombie : zombies) {
-            if(!zombie.isDrawn()) {
-                if(gameInitializer.isDEBUG())
-                    gameWindow.getChildren().add(zombie.getNode());
-                gameWindow.getChildren().add(zombie.getAnimationHandler().getImageView());
-                zombie.setDrawn();
-            }
-        }
-
-        for(Bullet bullet : bullets) {
-            if(!bullet.isDrawn()) {
-                if(gameInitializer.isDEBUG())
-                    gameWindow.getChildren().add(bullet.getNode());
-                gameWindow.getChildren().add(bullet.getAnimationHandler().getImageView());
-                bullet.setDrawn();
-            }
-        }
-
-        for (Drop drop : drops) {
-            if (!drop.isDrawn()) {
-                if(gameInitializer.isDEBUG())
-                    gameWindow.getChildren().add(drop.getNode());
-                gameWindow.getChildren().add(drop.getAnimationHandler().getImageView());
-                drop.setDrawn();
-                drop.getAnimationHandler().getImageView().toBack();
-                drop.getNode().toBack();
-            }
-        }
-    }
-
-    private void scorePerKill() {
+    /**
+     * Method which updates the Game's score value based on the Difficulty.
+     */
+    public void scorePerKill() {
         switch(difficulty) {
             case NORMAL:
                 setScoreNumber(getScoreNumber() + 100*difficultyModifier);
@@ -375,6 +326,11 @@ public class Game {
         }
     }
 
+    /**
+     * Method which handles spawning of Zombie's in a round-based design.
+     * Killing the current Zombies will run this method, and the roundNumber will increase, and
+     * a new set of Zombies will be created. The number is dependent on the round and Difficulty.
+     */
     private void spawnNewRound() {
 
         if (!isNewRound()) {
@@ -412,7 +368,7 @@ public class Game {
                     createZombies(roundNumber * difficultyModifier);
                     break;
                 case 10:
-                    setRunning(false);
+                    running = false;
                     setGameOver(true);
                     setNewRound(true);
                     gameInitializer.showGameLabel();
@@ -429,9 +385,10 @@ public class Game {
 
     /**
      * Method for creating Zombies at random location.
+     * Healthpoints of each Zombie is dependent on the Difficulty.
      * @param nbrZombies Requires a number to determine how many Zombies to create.
      */
-    public void createZombies(int nbrZombies) {
+    private void createZombies(int nbrZombies) {
         int zombieHealth = 100 * difficultyModifier - 50*(difficultyModifier-1);
 
         try {
@@ -477,8 +434,8 @@ public class Game {
     }
 
     /**
-     * Method for updating the datafields playerHP, magazineSize, poolSize of type Text.
-     * These will in turn update the Text values on the HUD.
+     * Method for updating the datafields playerHP, magazineSize, poolSize of type Label.
+     * These will in turn update the Label values in GameWindow FXML.
      */
     private void updateHUD() {
         String hpLevel = String.valueOf(player.getHealthPoints());
@@ -501,54 +458,55 @@ public class Game {
     }
 
     /***
-     * Method for changing the boolean running.
-     * Method affects the onUdate() function.
+     * Method for pausing the Game.
+     * Will only run if the Game state isn't set to over.
+     * Stops the onUpdate() method, and a Label is shown through the GameWindow FXML.
      */
-    public void pauseGame() {
+    void pauseGame() {
         if(!isGameOver()) {
-            if (isRunning()) {
-                setRunning(false);
+            if (running) {
+                running = false;
                 gameInitializer.showGameLabel();
             } else {
-                setRunning(true);
+                running = true;
                 gameInitializer.showGameLabel();
             }
         }
     }
 
     /***
-     * Method for stopping the game and displaying a message at a
-     * point where the game is over.
+     * Method which stops the Game upon Player death.
+     * Sets the Game to over and a Label is shown through the GameWindow FXML.
      */
-    public void gameOver() {
-        setRunning(false);
+    private void gameOver() {
+        running = false;
         setGameOver(true);
         gameInitializer.showGameLabel();
     }
 
-    /***
-     * Method for restarting the game when GameOver or Paused
-     * The method will first try to remove all zombies and bonuses on the stage.
-     * Then set the player's position equals to the player's original start position,
-     * as well as resetting the player's hp, armor and score to it's original value.
-     * The method will then try to respawn all the zombies.
-     * Then set both "running" and "createDrops" equals "true"
-     * as well as setting both "gameOver" and "gameIsPaused" equals "false",
-     * which allows this method to run again after restarting the game
+    /**
+     * Method which restarts the Game.
+     * Player Image is removed, and all other entities are deleted.
+     * Resets the Player's stats based on Difficulty, and resets Game's Score and RoundNumber.
+     * Resets any Game states, and pauses the onUpdate() method.
      */
-    protected void restartGame() {
-        clearGame();
+    void restartGame() {
+        clearGame(true);
         player.resetPlayer(getDifficulty());
         setScoreNumber(0);
         setRoundNumber(0);
         setNewRound(false);
         setGameOver(false);
-        setRunning(false);
+        running = false;
     }
 
     /**
-     *
-     * @param filename f
+     * Method which handles saving of the Game.
+     * Creates a GameConfiguration from the DataHandler class and calls the getGameConfiguration() method
+     * in order to retrieve values about the Game, and turn these into an .xml file through DataHandler class.
+     * Method call createSaveFile() will return a boolean based on whether there was an Exception during creation,
+     * and a false return will display an Alert to the user.
+     * @param filename Requires a String to represent the name of the file.
      */
     public void saveGame(String filename) {
         DataHandler.GameConfiguration gameCfg = getGameConfiguration();
@@ -563,13 +521,20 @@ public class Game {
             System.out.println("Player Rotation: " + gameCfg.player.movementCfg.rotation);
             System.out.println("NbrZombies: " + gameCfg.zombies.size());
             System.out.println("NbrZombies: " + gameCfg.player.bulletListCfg.size());
-            for (DataHandler.BulletConfiguration bulletCfg : gameCfg.player.bulletListCfg)
-                System.out.println("Bullet remaining time " + bulletCfg.remainingTime);
         } else {
             fileAlert(false);
         }
     }
 
+    /**
+     * Method which handles loading of a Game.
+     * Creates a new GameConfiguration object from the DataHandler class.
+     * Calls the method readSaveFile() which will transfer each field in the .xml file into variables
+     * in GameConfiguration, which then can be used to set the values in the Game.
+     * This method returns a false boolean if an Exception occurred, and this will in turn
+     * display an Alert to the user.
+     * @param filename Requires a String which represents the name of the file.
+     */
     public void loadGame(String filename) {
         DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
 
@@ -583,8 +548,6 @@ public class Game {
             System.out.println("Player Rotation: " + gameCfg.player.movementCfg.rotation);
             System.out.println("NbrZombies: " + gameCfg.zombies.size());
             System.out.println("NbrZombies: " + gameCfg.player.bulletListCfg.size());
-            for (DataHandler.BulletConfiguration bulletCfg : gameCfg.player.bulletListCfg)
-                System.out.println("Bullet remaining time " + bulletCfg.remainingTime);
 
             setGameConfiguration(gameCfg);
         } else {
@@ -592,8 +555,14 @@ public class Game {
         }
     }
 
+    /**
+     * Method which will pause the Game and display an Alert to the user.
+     * The displayed message is dependent on whether it was during a load, and
+     * allows the user to either resume the game or restart the game.
+     * @param loadGame Requires a boolean to determine whether it is during loading of a file.
+     */
     private void fileAlert(boolean loadGame) {
-        setRunning(false);
+        running = false;
 
         ButtonType resume = new ButtonType("Resume", ButtonBar.ButtonData.OK_DONE);
         ButtonType restart = new ButtonType("Restart", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -612,7 +581,7 @@ public class Game {
 
         alert.showAndWait().ifPresent(response -> {
             if (response == resume) {
-                setRunning(true);
+                running = true;
             } else if (response == restart) {
                 restartGame();
             }
@@ -644,8 +613,15 @@ public class Game {
         return gameCfg;
     }
 
+    /**
+     * Method for setting all saved information about all saved objects in the gameWindow.
+     * Method clears the Game of current Entities. Further, the attributes of Game and Player
+     * are set, and every Entity that was saved is created according to the saved attributes.
+     * @param gameCfg Requires an object of type GameConfiguration in DataHandler, containing
+     *                information about the saved Game.
+     */
     private void setGameConfiguration(DataHandler.GameConfiguration gameCfg) {
-        clearGame();
+        clearGame(false);
 
         setDifficulty(gameCfg.difficulty);
         setScoreNumber(gameCfg.gameScore);
@@ -674,8 +650,9 @@ public class Game {
     /**
      * Method which clears the Game of a select type of Entities.
      */
-    public void clearGame() {
-        removePlayerVisibility();
+    private void clearGame(boolean clearPlayer) {
+        if (clearPlayer)
+            removePlayerVisibility();
         removeZombies();
         removeBullets();
         removeDrops();
@@ -684,14 +661,14 @@ public class Game {
     /**
      * Method which will hide the Player in the gameWindow.
      */
-    public void removePlayerVisibility() {
+    private void removePlayerVisibility() {
         gameWindow.getChildren().removeAll(player.getNode(), player.getAnimationHandler().getImageView());
     }
 
     /**
      * Method for removing all Zombies in the Game.
      */
-    public void removeZombies() {
+    void removeZombies() {
         for (Zombie zombie : this.zombies) {
             gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getAnimationHandler().getImageView());
             zombie.setAlive(false);
@@ -702,7 +679,7 @@ public class Game {
     /**
      * Method for removing all Bullets in the Game.
      */
-    public void removeBullets() {
+    private void removeBullets() {
         for (Bullet bullet : player.getBulletList()) {
             gameWindow.getChildren().removeAll(bullet.getAnimationHandler().getImageView(), bullet.getNode());
             bullet.setAlive(false);
@@ -713,7 +690,7 @@ public class Game {
     /**
      * Method for removing all Drops in the Game.
      */
-    public void removeDrops() {
+    private void removeDrops() {
         for (Drop drop : this.drops) {
             gameWindow.getChildren().removeAll(drop.getAnimationHandler().getImageView(), drop.getNode());
             drop.setAlive(false);
@@ -739,11 +716,19 @@ public class Game {
         }
     }
 
-    public Difficulty getDifficulty() {
+    public Pane getGameWindow() {
+        return gameWindow;
+    }
+
+    public void setGameWindow(Pane gameWindow) {
+        this.gameWindow = gameWindow;
+    }
+
+    private Difficulty getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(Difficulty difficulty) {
+    private void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
     }
 
@@ -759,15 +744,7 @@ public class Game {
         this.scoreNumber = scoreNumber;
     }
 
-    public boolean isRunning() {
-        return running;
-    }
-
-    public void setRunning(boolean isRunning) {
-        this.running = isRunning;
-    }
-
-    public boolean isNewRound() {
+    boolean isNewRound() {
         return newRound;
     }
 
@@ -776,7 +753,7 @@ public class Game {
     }
 
 
-    public boolean isGameOver() {
+    boolean isGameOver() {
         return gameOver;
     }
 
@@ -784,19 +761,15 @@ public class Game {
         this.gameOver = gameOver;
     }
 
-    public void setGameInitializer(GameInitializer gameInitializer) {
+    void setGameInitializer(GameInitializer gameInitializer) {
         this.gameInitializer = gameInitializer;
     }
 
-    public void setZombies(List<Zombie> zombieList) {
-        this.zombies = zombieList;
-    }
-
-    public void setRoundNumber(int roundNumber) {
+    private void setRoundNumber(int roundNumber) {
         this.roundNumber = roundNumber;
     }
 
-    public int getRoundNumber() {
+    private int getRoundNumber() {
         return roundNumber;
     }
 }

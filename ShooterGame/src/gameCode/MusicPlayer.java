@@ -6,7 +6,8 @@ import javafx.util.Duration;
 import java.io.File;
 
 /**
- * Class used to create a MediaPlayer object set to play as soon as it is created.
+ * Class used to create a MediaPlayer object.
+ * The volume is adjusted and it is set to play as soon as it is created.
  */
 public class MusicPlayer {
 
@@ -19,79 +20,63 @@ public class MusicPlayer {
     private boolean playing = true;
 
     public MusicPlayer(String filename) {
-        this.file = new File(filename);
-        this.media = new Media(this.file.toURI().toString());
-        this.mediaPlayer = new MediaPlayer(this.media);
-        this.mediaPlayer.setAutoPlay(true);
+        file = new File(filename);
+        media = new Media(this.file.toURI().toString());
+        mediaPlayer = new MediaPlayer(this.media);
+        mediaPlayer.setAutoPlay(true);
     }
 
+    /**
+     * Change the song being played
+     * @param filename Requires a valid file.
+     */
     public void changeSong(String filename) {
-        this.file = new File(filename);
-        this.media = new Media(this.file.toURI().toString());
-        this.mediaPlayer = new MediaPlayer(this.media);
-        this.mediaPlayer.setVolume(0.05);
-        this.mediaPlayer.setAutoPlay(true);
-    }
-
-    public void playMusic() {
-        this.mediaPlayer.play();
+        file = new File(filename);
+        media = new Media(this.file.toURI().toString());
+        mediaPlayer = new MediaPlayer(this.media);
+        mediaPlayer.setVolume(0.05);
+        mediaPlayer.setAutoPlay(true);
     }
 
     public void pauseMusic() {
         if (!paused) {
-            this.mediaPlayer.pause();
+            mediaPlayer.pause();
             paused = true;
         } else {
-            this.mediaPlayer.play();
+            mediaPlayer.play();
             paused = false;
         }
     }
 
     public void stopMusic() {
         if (playing) {
-            this.mediaPlayer.stop();
+            mediaPlayer.stop();
             playing = false;
         } else {
-            this.mediaPlayer.play();
+            mediaPlayer.play();
             playing = true;
         }
     }
 
-    public void muteVolume() {
+    void muteVolume() {
         if (!muted) {
-            this.mediaPlayer.setMute(true);
+            mediaPlayer.setMute(true);
             muted = true;
         } else {
-            this.mediaPlayer.setMute(false);
+            mediaPlayer.setMute(false);
             muted = false;
         }
     }
 
+    /**
+     * Adjust the MusicPlayer's volume based on a double between 0 and 1.
+     * @param volume
+     */
     public void changeVolume(double volume) {
         if (volume > 1 || volume < 0) {
             System.out.println("Volume needs to be a double between 1 and 0");
         } else {
-            this.mediaPlayer.setVolume(volume);
+            mediaPlayer.setVolume(volume);
         }
     }
-
-    public void repeatMusic() {
-        this.mediaPlayer.setOnEndOfMedia(new Runnable() {
-            @Override
-            public void run() {
-                mediaPlayer.seek(Duration.ZERO);
-            }
-        });
-    }
-
-    public double getVolume() {
-        return this.getVolume();
-    }
-
-    public void setVolume(double volume) {
-        this.setVolume(volume);
-    }
-
-
-
 }
