@@ -527,14 +527,15 @@ public class Game {
 
 
     protected void restartGame() {
-        stopTimer();
         clearGame();
         player.resetPlayer(getDifficulty());
         setScoreNumber(0);
+        setRoundNumber(0);
         setNewRound(false);
         setGameOver(false);
-        startTimer();
-        setRunning(true);
+        gameInitializer.setLabelVisible(false);
+        gameInitializer.setMenuVisible(false);
+        stopTimer();
     }
 
     public void clearGame() {

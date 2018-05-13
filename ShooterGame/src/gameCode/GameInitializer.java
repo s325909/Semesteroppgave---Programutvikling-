@@ -170,34 +170,28 @@ public class GameInitializer implements Initializable{
     public void launchNormalDifficulty(){
         game.setDifficulty(Game.Difficulty.NORMAL);
         hideDifficulty();
-        game.restartGame();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
-
+        game.startTimer();
         Platform.runLater(this::getKeyPressed);
-
     }
 
     public void launchHardDifficulty(){
         game.setDifficulty(Game.Difficulty.HARD);
         hideDifficulty();
-        game.restartGame();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
-
+        game.startTimer();
         Platform.runLater(this::getKeyPressed);
-
     }
 
     public void launchInsaneDifficulty(){
         game.setDifficulty(Game.Difficulty.INSANE);
         hideDifficulty();
-        game.restartGame();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
-
+        game.startTimer();
         Platform.runLater(this::getKeyPressed);
-
     }
 
 
