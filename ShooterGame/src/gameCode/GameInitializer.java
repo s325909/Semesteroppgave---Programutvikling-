@@ -170,7 +170,7 @@ public class GameInitializer implements Initializable{
     public void launchNormalDifficulty(){
         game.setDifficulty(Game.Difficulty.NORMAL);
         hideDifficulty();
-        game.restartNormalGame();
+        game.restartGame();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
 
@@ -181,7 +181,7 @@ public class GameInitializer implements Initializable{
     public void launchHardDifficulty(){
         game.setDifficulty(Game.Difficulty.HARD);
         hideDifficulty();
-        game.restartHardGame();
+        game.restartGame();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
 
@@ -192,7 +192,7 @@ public class GameInitializer implements Initializable{
     public void launchInsaneDifficulty(){
         game.setDifficulty(Game.Difficulty.INSANE);
         hideDifficulty();
-        game.restartInsaneGame();
+        game.restartGame();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
 
@@ -505,7 +505,7 @@ public class GameInitializer implements Initializable{
     public void restartGame() {
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
-        game.clearGame();
+        game.restartGame();
         showDifficulty();
     }
 

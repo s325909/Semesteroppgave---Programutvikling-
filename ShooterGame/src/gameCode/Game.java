@@ -420,46 +420,12 @@ public class Game {
 
 
     protected void restartGame() {
-        removeBullets();
         clearGame();
         player.resetPlayer(getDifficulty());
         setScoreNumber(0);
-        createZombies(gameInitializer.getNbrZombies());
+        createZombies(gameInitializer.getNbrZombies(), getDifficulty());
         gameInitializer.showGameLabel();
         gameInitializer.showMenu();
-        setNewRound(false);
-        setGameOver(false);
-        startTimer();
-        setRunning(true);
-    }
-
-    public void restartNormalGame() {
-        clearGame();
-        player.resetNormalPlayer();
-        setScoreNumber(0);
-        createZombies(gameInitializer.getNbrZombies());
-        setNewRound(false);
-        setGameOver(false);
-        startTimer();
-        setRunning(true);
-    }
-
-    public void restartHardGame() {
-        clearGame();
-        player.resetHardPlayer();
-        setScoreNumber(0);
-        createZombies(gameInitializer.getNbrZombies());
-        setNewRound(false);
-        setGameOver(false);
-        startTimer();
-        setRunning(true);
-    }
-
-    public void restartInsaneGame() {
-        clearGame();
-        player.resetInsanePlayer();
-        setScoreNumber(0);
-        createZombies(gameInitializer.getNbrZombies());
         setNewRound(false);
         setGameOver(false);
         startTimer();
@@ -638,13 +604,26 @@ public class Game {
      * Method for creating Zombies at random location.
      * @param nbrZombies Requires the number of Zombies to create.
      */
-    public void createZombies(int nbrZombies) {
+    public void createZombies(int nbrZombies, Difficulty difficulty) {
+        int zombieHealth = 0;
+        switch(difficulty) {
+            case NORMAL:
+                zombieHealth = 100;
+                break;
+            case HARD:
+                zombieHealth = 150;
+                break;
+            case INSANE:
+                zombieHealth = 200;
+                break;
+        }
+
         try {
-            if (this.zombies == null) this.zombies = new ArrayList<>();
+            if (this.zombies == null)
+                this.zombies = new ArrayList<>();
 
             for (int i = 0; i < nbrZombies; i++) {
-                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1200), (int) (Math.random() * 650), 100);
-                System.out.println("x"+zombie.getPositionX()+" y"+zombie.getPositionY());
+                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1200), (int) (Math.random() * 650), zombieHealth);
                 this.zombies.add(zombie);
             }
 

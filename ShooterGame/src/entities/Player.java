@@ -479,57 +479,6 @@ public class Player extends Movable {
                 setArmor(0);
                 break;
         }
-        setHealthPoints(100);
-        setArmor(50);
-
-        getMagazinePistol().setNumberBullets(15);
-        getMagazinePistol().setCurrentPool(15);
-        getMagazineRifle().setNumberBullets(30);
-        getMagazineRifle().setCurrentPool(30);
-        getMagazineShotgun().setNumberBullets(8);
-        getMagazineShotgun().setCurrentPool(8);
-    }
-
-    public void resetNormalPlayer() {
-        setPosition(1280/2,720/2);
-        setTranslateNode(1280/2, 720/2);
-        setHealthPoints(100);
-        setArmor(50);
-        setEquippedWeapon(WeaponTypes.KNIFE);
-        getMagazinePistol().setNumberBullets(15);
-        getMagazinePistol().setCurrentPool(15);
-        getMagazineRifle().setNumberBullets(30);
-        getMagazineRifle().setCurrentPool(30);
-        getMagazineShotgun().setNumberBullets(8);
-        getMagazineShotgun().setCurrentPool(8);
-    }
-
-    public void resetHardPlayer() {
-        setPosition(1280/2,720/2);
-        setTranslateNode(1280/2, 720/2);
-        setHealthPoints(100);
-        setArmor(0);
-        setEquippedWeapon(WeaponTypes.KNIFE);
-        getMagazinePistol().setNumberBullets(15);
-        getMagazinePistol().setCurrentPool(15);
-        getMagazineRifle().setNumberBullets(0);
-        getMagazineRifle().setCurrentPool(0);
-        getMagazineShotgun().setNumberBullets(0);
-        getMagazineShotgun().setCurrentPool(0);
-    }
-
-    public void resetInsanePlayer() {
-        setPosition(1280/2,720/2);
-        setTranslateNode(1280/2, 720/2);
-        setHealthPoints(50);
-        setArmor(0);
-        setEquippedWeapon(WeaponTypes.KNIFE);
-        getMagazinePistol().setNumberBullets(0);
-        getMagazinePistol().setCurrentPool(0);
-        getMagazineRifle().setNumberBullets(0);
-        getMagazineRifle().setCurrentPool(0);
-        getMagazineShotgun().setNumberBullets(0);
-        getMagazineShotgun().setCurrentPool(0);
     }
 
     /**
