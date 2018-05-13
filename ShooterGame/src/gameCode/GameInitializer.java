@@ -33,14 +33,9 @@ public class GameInitializer implements Initializable{
     @FXML private Pane gameWindow;
     @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, roundNbr, gameState, pressKey;
     @FXML private VBox gamePaused, ingameMenu, ingameHelp, ingameNormalDifficulty, ingameHardDifficulty, ingameInsaneDifficulty;
-
-    @FXML HBox ingameChooseDifficulty;
-
+    @FXML private HBox ingameChooseDifficulty;
     @FXML private Button back_Help, settings;
-
     @FXML private Button normalDifficulty, hardDifficulty, insaneDifficulty;
-
-    private Stage stage = new Stage();
 
     private Player player;
     private List<Rock> rocks;
@@ -86,8 +81,9 @@ public class GameInitializer implements Initializable{
     }
 
     /**
-     * Method for selecting the Game's difficulty, through startGame() method call.
+     * Method for selecting the Game's difficulty, through startGame() method call, which then creates the other elements in the Game.
      */
+    @FXML
     private void selectDifficulty(){
         normalDifficulty.setOnAction(event->{
             startGame(Game.Difficulty.NORMAL);
@@ -100,6 +96,10 @@ public class GameInitializer implements Initializable{
         });
     }
 
+    /**
+     * Method which creates the Player, and finally the Game can be instantiated.
+     * @param difficulty Requires the user selected difficulty in order to adjust the Game.
+     */
     private void startGame(Game.Difficulty difficulty) {
         createPlayer();
         game = new Game(player, rocks, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
@@ -111,7 +111,7 @@ public class GameInitializer implements Initializable{
     }
 
     /**
-     * Create the Player object to use in the Game
+     * Method which creates and draws the Player object for use in the Game.
      */
     private void createPlayer() {
         try {
@@ -126,24 +126,27 @@ public class GameInitializer implements Initializable{
         gameWindow.getChildren().add(player.getAnimationHandler().getImageView());
     }
 
+    /**
+     * Method which creates and draws the Rock objects for use in the Game.
+     */
     private void createRocks() {
         try {
             rocks = new ArrayList<>();
-            rocks.add(new Rock(this.rockImage, 240, 400));
-            rocks.add(new Rock(this.rockImage, 300, 500));
-            rocks.add(new Rock(this.rockImage, 151, 151));
-            rocks.add(new Rock(this.rockImage, 500, 500));
-            rocks.add(new Rock(this.rockImage, 800, 100));
-            rocks.add(new Rock(this.rockImage, 700, 300));
-            rocks.add(new Rock(this.rockImage, 1000, 500));
-            rocks.add(new Rock(this.rockImage, 900, 800));
-            rocks.add(new Rock(this.rockImage, 1200, 1000));
-            rocks.add(new Rock(this.rockImage, 600, 450));
-            rocks.add(new Rock(this.rockImage, 1200, 100));
-            rocks.add(new Rock(this.rockImage, 940, 400));
-            rocks.add(new Rock(this.rockImage, 400, 250));
-            rocks.add(new Rock(this.rockImage, 200, 40));
-            rocks.add(new Rock(this.rockImage, 500, 40));
+            rocks.add(new Rock(rockImage, 240, 400));
+            rocks.add(new Rock(rockImage, 300, 500));
+            rocks.add(new Rock(rockImage, 151, 151));
+            rocks.add(new Rock(rockImage, 500, 500));
+            rocks.add(new Rock(rockImage, 800, 100));
+            rocks.add(new Rock(rockImage, 700, 300));
+            rocks.add(new Rock(rockImage, 1000, 500));
+            rocks.add(new Rock(rockImage, 900, 800));
+            rocks.add(new Rock(rockImage, 1200, 1000));
+            rocks.add(new Rock(rockImage, 600, 450));
+            rocks.add(new Rock(rockImage, 1200, 100));
+            rocks.add(new Rock(rockImage, 940, 400));
+            rocks.add(new Rock(rockImage, 400, 250));
+            rocks.add(new Rock(rockImage, 200, 40));
+            rocks.add(new Rock(rockImage, 500, 40));
         } catch (Exception e) {
             System.out.println("Error: Rocks did not load correctly");
         }
@@ -353,12 +356,11 @@ public class GameInitializer implements Initializable{
      */
     private void loadAssets() {
 
-        // Load all Player sounds and animations
+        // Create Player's sounds. Turns Strings into usable AudioClips
         String[] playerSounds = {
                 "/resources/Sound/Sound Effects/Player/player_breathing_calm.wav",
                 "/resources/Sound/Sound Effects/Player/footsteps_single.wav"
         };
-
         this.basicSounds = loadAudio(playerSounds);
 
         String[] weaponSounds = {
@@ -371,9 +373,9 @@ public class GameInitializer implements Initializable{
                 "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_reload.wav",
                 "/resources/Sound/Sound Effects/Player/Pistol/pistol_empty.mp3"
         };
-
         this.weaponSounds = loadAudio(weaponSounds);
 
+        // Create Player's animations. Combines several arrays into one
         FileParam[] knife = {
                 new FileParam("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20),
                 new FileParam("/resources/Art/Player/knife/move/survivor-move_knife_", ".png", 20),
@@ -413,15 +415,14 @@ public class GameInitializer implements Initializable{
             this.playerImages[i] = loadAnimation(all[i]);
         }
 
-        // Load all Zombie animations
+        // Create Zombie's animations
         loadZombiesAssets();
 
-        // Load coin Drop animation
+        // Create Drop's animations
         FileParam scoreDrop = new FileParam("/resources/Art/Icon/Coin/coin_rotate_", ".png", 6);
-
         this.scoreDropAnimation = loadAnimation(scoreDrop);
 
-        // Load all Drop images
+        // Create all of Drop's images
         String[] dropImageStrings = new String[] {
                 "/resources/Art/Icon/hp_icon.png",
                 "/resources/Art/Icon/armor_icon.png",
@@ -429,26 +430,28 @@ public class GameInitializer implements Initializable{
                 "/resources/Art/Icon/pool_icon.png",
                 "/resources/Art/Icon/speed_boost.png"
         };
-
         createDropImages(dropImageStrings);
 
-        // Load all Bullet images
+        // Create all of Bullet's images
         String[] bulletImageStrings = {
                 "/resources/Art/pistol_bullet.png"
         };
-
         this.pistolBulletImaqe = new Image[1];
         this.pistolBulletImaqe[0] = new Image(bulletImageStrings[0], 25, 25, true, false);
 
-        // Load all Rock images
+        // Create all of Rock's images
         String[] rockImageStrings = {
                 "/resources/Art/rock.png"
         };
-
         this.rockImage = new Image[1];
         this.rockImage[0] = new Image(rockImageStrings[0], 50, 50, true, false);
     }
 
+    /**
+     *
+     * @param files
+     * @return
+     */
     private Image[] loadAnimation(FileParam files) {
         Image[] images = new Image[files.numberImages];
         for(int i = 0; i < files.numberImages; i++) {
@@ -464,6 +467,11 @@ public class GameInitializer implements Initializable{
         return images;
     }
 
+    /**
+     * Method which
+     * @param files
+     * @return
+     */
     private Image[][] loadAnimation(FileParam[] files) {
         Image[][] images = new Image[files.length][];
         for (int i = 0; i < files.length; ++i) {
@@ -501,6 +509,10 @@ public class GameInitializer implements Initializable{
         this.zombieImages = loadAnimation(zombieAnimations);
     }
 
+    /**
+     * Method which turns an array of type String into sets of Images, where each Image is put into single arrays of length 1.
+     * @param images Requires an array of type String, and uses each of these Strings to create an Image.
+     */
     private void createDropImages(String[] images) {
         this.hpDropImages = new Image[1];
         this.hpDropImages[0] = new Image(images[0], 25, 25, true, false);
@@ -515,9 +527,9 @@ public class GameInitializer implements Initializable{
     }
 
     /**
-     *
-     * @param audioFiles f
-     * @return f
+     * Method which turns an array of Strings into AudioClips, and adjusts the volume.
+     * @param audioFiles Requires an array of type String, which must contain a valid sound files.
+     * @return Returns an array of type AudioClip, which may then be applied to each Entity.
      */
     private AudioClip[] loadAudio(String[] audioFiles) {
         AudioClip[] clips = new AudioClip[audioFiles.length];
