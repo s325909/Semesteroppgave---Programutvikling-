@@ -26,7 +26,7 @@ public class Game {
 
     private int scoreNumber;
     private int secondsCounter;
-    private int roundNumber = 1;
+    private int roundNumber;
 
     private AnimationTimer timer;
     private GameInitializer gameInitializer;
@@ -35,11 +35,12 @@ public class Game {
     private boolean gameOver;
     private DataHandler dataHandler;
 
-    public Game(Player player, List <Zombie> zombies, List<Rock> rocks, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
+    public Game(Player player, List<Rock> rocks, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
 
         this.difficulty = Difficulty.NORMAL;
+        this.roundNumber = 0;
         this.player = player;
-        this.zombies = zombies;
+        this.zombies = new ArrayList<>();
         this.rocks = rocks;
         this.gameWindow = gameWindow;
         this.hudHP = hudHP;
@@ -169,6 +170,16 @@ public class Game {
         }
 
         ////
+        // Draw zombies to the pane
+        for (Zombie zombie : zombies) {
+            if(!zombie.isDrawn()) {
+                if (gameInitializer.isDEBUG())
+                    gameWindow.getChildren().addAll(zombie.getNode());
+                gameWindow.getChildren().addAll(zombie.getAnimationHandler().getImageView());
+                zombie.setDrawn();
+            }
+        }
+
         // Draw bullets to the pane, adjust direction, and check collision with zombies
         for(Bullet bullet : bullets) {
             if(!bullet.isDrawn()) {
@@ -276,7 +287,6 @@ public class Game {
             //gameOver();
         }
 
-        gameInitializer.roundNbr.setText("Round: " + roundNumber);
         if (zombies.isEmpty()) {
             spawnNewRound();
         }
@@ -292,6 +302,9 @@ public class Game {
 
                 case NORMAL:
                     switch (roundNumber) {
+                        case 0:
+                            createZombies(1);
+                            break;
                         case 1:
                             createZombies(roundNumber + 1);
                             break;
@@ -333,6 +346,9 @@ public class Game {
 
                 case HARD:
                     switch (roundNumber) {
+                        case 0:
+                            createZombies(1);
+                            break;
                         case 1:
                             createZombies(roundNumber + 2);
                             break;
@@ -374,6 +390,9 @@ public class Game {
 
                 case INSANE:
                     switch (getRoundNumber()) {
+                        case 0:
+                            createZombies(1);
+                            break;
                         case 1:
                             createZombies(roundNumber + 2);
                             break;
@@ -465,6 +484,8 @@ public class Game {
         this.hudPool.setText(poolLevel);
         this.hudScore.setText(score);
         this.hudTimer.setText(timer);
+
+        gameInitializer.roundNbr.setText("Round: " + roundNumber);
     }
 
     /***
@@ -506,10 +527,10 @@ public class Game {
 
 
     protected void restartGame() {
+        stopTimer();
         clearGame();
         player.resetPlayer(getDifficulty());
         setScoreNumber(0);
-        createZombies(gameInitializer.getNbrZombies());
         gameInitializer.showGameLabel();
         gameInitializer.showMenu();
         setNewRound(false);
@@ -522,7 +543,6 @@ public class Game {
         removeZombies();
         removeBullets();
         removeDrops();
-        stopTimer();
     }
 
 
@@ -606,9 +626,10 @@ public class Game {
      */
     private DataHandler.GameConfiguration getGameConfiguration() {
         DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
-        gameCfg.gameScore = this.getScoreNumber();
-        gameCfg.roundNbr = this.getRoundNumber();
-        gameCfg.player = this.player.getPlayerConfiguration();
+        gameCfg.difficulty = getDifficulty();
+        gameCfg.gameScore = getScoreNumber();
+        gameCfg.roundNbr = getRoundNumber();
+        gameCfg.player = player.getPlayerConfiguration();
 
         List<DataHandler.MovementConfiguration> zombieCfg = new ArrayList<>();
         for (Zombie zombie : this.zombies)
@@ -624,12 +645,14 @@ public class Game {
     }
 
     private void setGameConfiguration(DataHandler.GameConfiguration gameCfg) {
-        this.setScoreNumber(gameCfg.gameScore);
-        this.setRoundNumber(gameCfg.roundNbr);
-        removeBullets();
-        this.player.setPlayerConfiguration(gameCfg.player);
+        clearGame();
 
-        removeZombies();
+        setDifficulty(gameCfg.difficulty);
+        setScoreNumber(gameCfg.gameScore);
+        setRoundNumber(gameCfg.roundNbr);
+
+        player.setPlayerConfiguration(gameCfg.player);
+
         for (int i = 0; i < gameCfg.zombies.size(); i++) {
             Zombie zombie = new Zombie(this.getGameInitializer().getZombieImages(), this.getGameInitializer().getZombieAudioClips(),
                     gameCfg.zombies.get(i).entityCfg.posX, gameCfg.zombies.get(i).entityCfg.posY, gameCfg.zombies.get(i).health);
@@ -641,7 +664,7 @@ public class Game {
             gameWindow.getChildren().add(zombie.getAnimationHandler().getImageView());
         }
 
-        removeDrops();
+
 //          Får et problem forhold til å hente riktig bilde
 //        for (DataHandler.DropConfiguration dropCfg : gameCfg.drops) {
 //            Drop drop = new Drop(getGameInitializer().getArmorDropImages())
@@ -713,12 +736,6 @@ public class Game {
             for (int i = 0; i < nbrZombies; i++) {
                 Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1200), (int) (Math.random() * 650), zombieHealth);
                 this.zombies.add(zombie);
-            }
-
-            for (Zombie zombie : zombies) {
-                if(gameInitializer.isDEBUG())
-                    gameWindow.getChildren().addAll(zombie.getNode());
-                gameWindow.getChildren().addAll(zombie.getAnimationHandler().getImageView());
             }
         } catch (Exception e) {
             System.out.println("Unable to reset zombies");

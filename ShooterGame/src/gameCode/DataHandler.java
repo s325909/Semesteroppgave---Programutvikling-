@@ -28,6 +28,7 @@ import java.util.List;
 public class DataHandler {
 
     static class GameConfiguration {
+        Game.Difficulty difficulty;
         int gameScore;
         int roundNbr;
         PlayerConfiguration player;
@@ -223,6 +224,10 @@ public class DataHandler {
 
         Element gameInfo = doc.createElement("Game");
         savegame.appendChild(gameInfo);
+
+        Element difficulty = doc.createElement("Difficulty");
+        difficulty.appendChild(doc.createTextNode(String.valueOf(configuration.difficulty)));
+        gameInfo.appendChild(difficulty);
 
         Element gameScore = doc.createElement("ScorePoints");
         gameScore.appendChild(doc.createTextNode(String.valueOf(configuration.gameScore)));
@@ -470,6 +475,7 @@ public class DataHandler {
             Element gameElement = (Element)gameNode;
             configuration.gameScore = Integer.valueOf(gameElement.getElementsByTagName("ScorePoints").item(0).getTextContent());
             configuration.roundNbr = Integer.valueOf(gameElement.getElementsByTagName("RoundNumber").item(0).getTextContent());
+            configuration.difficulty = Game.Difficulty.valueOf(gameElement.getElementsByTagName("Difficulty").item(0).getTextContent());
         } else {
             return false;
         }

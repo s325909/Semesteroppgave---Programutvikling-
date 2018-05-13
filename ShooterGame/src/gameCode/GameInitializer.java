@@ -44,7 +44,6 @@ public class GameInitializer implements Initializable{
     private Stage stage = new Stage();
 
     private Player player;
-    private List<Zombie> zombies;
     private List<Rock> rocks;
     private int nbrZombies;
     private Game game;
@@ -53,8 +52,6 @@ public class GameInitializer implements Initializable{
     private boolean helpVisible;
     private boolean difficultyVisible;
     private boolean labelVisible;
-
-    private SceneSizeChangeListener sceneChange;
 
     public static AudioClip[] weaponSounds;
     private AudioClip[] basicSounds;
@@ -81,7 +78,6 @@ public class GameInitializer implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         loadAssets();
-        setNbrZombies(1);
 
         //Create an object of MusicPlayer, which includes what file to play and automatically starts playing
 //        try {
@@ -90,9 +86,19 @@ public class GameInitializer implements Initializable{
 //            System.out.println("Error: Could not find sound file");
 //        }
 
-        // Select number of zombies to create, and load all assets
+        createRocks();
+        createPlayer();
 
+        // Initialize the Game object, and thus start the game
+        game = new Game(player, rocks, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
+        game.setGameInitializer(this);
+        //Platform.runLater(this::getKeyPressed);
+        
+        game.clearGame();
+        game.stopTimer();
+    }
 
+    private void createRocks() {
         try {
             this.rocks = new ArrayList<Rock>();
             rocks.add(new Rock(this.rockImage, 240, 400));
@@ -110,13 +116,19 @@ public class GameInitializer implements Initializable{
             rocks.add(new Rock(this.rockImage, 400, 250));
             rocks.add(new Rock(this.rockImage, 200, 40));
             rocks.add(new Rock(this.rockImage, 500, 40));
-
-
         } catch (Exception e) {
             System.out.println("Error: Rocks did not load correctly");
         }
 
+        // Draw rocks to the Pane
+        for (Rock rock : rocks) {
+            if (isDEBUG())
+                gameWindow.getChildren().add(rock.getNode());
+            gameWindow.getChildren().add(rock.getAnimationHandler().getImageView());
+        }
+    }
 
+    public void createPlayer() {
         // Create the Player upon starting a new game
         try {
             player = new Player(this.playerImages, this.basicSounds, this.weaponSounds, this.pistolBulletImaqe, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
@@ -128,43 +140,30 @@ public class GameInitializer implements Initializable{
             System.out.println("Error: Player did not load correctly");
         }
 
-        // Create every Zombie upon starting a new game
-        try {
-            zombies = new ArrayList<>();
-            for (int i = 0; i < nbrZombies; i++) {
-                zombies.add(new Zombie(this.zombieImages, this.zombieAudioClips, (int) (Math.random() * 1280), (int) (Math.random() * 720), 100));
-            }
-        } catch (Exception e) {
-            System.out.println("Error: Enemies did not load correctly");
-        }
-
-        // Create the Node representation of these entities to the gameWindow if DEBUG is set to true
-        if (isDEBUG()) {
+        if(isDEBUG())
             gameWindow.getChildren().add(player.getNode());
-            for (Zombie zombie : zombies)
-                gameWindow.getChildren().add(zombie.getNode());
-            for (Rock rock : rocks)
-                gameWindow.getChildren().add(rock.getNode());
-        }
-
-        // Add the ImageView of every Entity to the gameWindow pane
         gameWindow.getChildren().add(player.getAnimationHandler().getImageView());
-        for (Zombie zombie : zombies) {
-            gameWindow.getChildren().add(zombie.getAnimationHandler().getImageView());
-        }
-        for (Rock rock : rocks) {
-            gameWindow.getChildren().add(rock.getAnimationHandler().getImageView());
-            rock.setDrawn();
-        }
+    }
 
-        // Initialize the Game object, and thus start the game
-        game = new Game(player, zombies, rocks, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
-        game.setGameInitializer(this);
-        //Platform.runLater(this::getKeyPressed);
+    @FXML
+    public void launchGame(){
+        normalDifficulty.setOnAction(event->{
+            game.setDifficulty(Game.Difficulty.NORMAL);
+        });
+        hardDifficulty.setOnAction(event->{
+            game.setDifficulty(Game.Difficulty.HARD);
+        });
+        insaneDifficulty.setOnAction(event->{
+            game.setDifficulty(Game.Difficulty.INSANE);
+        });
 
-        sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
-        
-        game.clearGame();
+        hideDifficulty();
+        game.restartGame();
+        ingameMenu.setVisible(false);
+        gameState.setVisible(false);
+
+        Platform.runLater(this::getKeyPressed);
+
     }
 
     public void launchNormalDifficulty(){
@@ -591,14 +590,6 @@ public class GameInitializer implements Initializable{
 
     public void setLabelVisible(boolean labelVisible) {
         this.labelVisible = labelVisible;
-    }
-
-    public int getNbrZombies() {
-        return nbrZombies;
-    }
-
-    public void setNbrZombies(int nbrZombies) {
-        this.nbrZombies = nbrZombies;
     }
 
     public Image[][] getZombieImages() {
