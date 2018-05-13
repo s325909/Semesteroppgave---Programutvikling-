@@ -80,14 +80,7 @@ public class Game {
         List<Bullet> bullets = player.getBulletList();
 
         // Create Drop entities with random position
-        if (drops.size() < 10) {
-            int random = (int) Math.floor(Math.random() * 100);
-            if (random < 4) {
-                int x = (int) Math.floor(Math.random() * gameWindow.getWidth());
-                int y = (int) Math.floor(Math.random() * gameWindow.getHeight());
-                drops.add(new Drop(gameInitializer.getScoreDropAnimation(), x, y, Drop.DropType.SCORE));
-            }
-        }
+        randomDropCreation(10);
 
         ////
         //Calculate new position for all objects
@@ -171,6 +164,8 @@ public class Game {
             drop.dropCollision(player, this);
         }
 
+        //drawEntities(zombies, bullets, drops);
+
         ////
         // Draw zombies to the pane
         for (Zombie zombie : zombies) {
@@ -191,6 +186,8 @@ public class Game {
                 bullet.setDrawn();
             }
         }
+
+
 
         // Draw drops to the pane, place these furthest back to allow other Entities to pass over,
         // and check for collision with Player
@@ -236,17 +233,17 @@ public class Game {
             }
         }
 
-        // Update Bullet's position, Image direction, and handling timeToLive expiration.
+        // Update Bullet's position, Image direction, and handling timeToLive expiration
         for(Bullet bullet : bullets) {
             bullet.update(time);
         }
 
-        // Check if Drop is alive.
-        // If alive, update position.
-        // If not, remove the ImageView and Node.
+        // Update Drop's position and Image animation, if any
         for(Drop drop : drops) {
             drop.update(time);
         }
+
+        //checkEntities(zombies, bullets, drops);
 
         ////
         //Remove images of object not longer active
@@ -291,6 +288,76 @@ public class Game {
 
         if (zombies.isEmpty()) {
             spawnNewRound();
+        }
+    }
+
+    private void randomDropCreation(int number) {
+        if (drops.size() < number) {
+            int random = (int) Math.floor(Math.random() * 100);
+            if (random < 4) {
+                int x = (int) Math.floor(Math.random() * gameWindow.getWidth());
+                int y = (int) Math.floor(Math.random() * gameWindow.getHeight());
+                drops.add(new Drop(gameInitializer.getScoreDropAnimation(), x, y, Drop.DropType.SCORE));
+            }
+        }
+    }
+
+    private void checkEntities(List<Zombie> zombies, List<Bullet> bullets, List<Drop> drops) {
+        for(Zombie zombie : zombies) {
+            if (!zombie.isAlive()) {
+                scorePerKill();
+                gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getAnimationHandler().getImageView());
+                drops.add(getRandomDropType(zombie));
+            }
+
+            for (Bullet zombieAttack : zombie.getAttackList()) {
+                if (!zombieAttack.isAlive()) {
+                    gameWindow.getChildren().remove(zombieAttack.getNode());
+                }
+            }
+        }
+
+        for(Bullet bullet : bullets) {
+            if(!bullet.isAlive()){
+                gameWindow.getChildren().removeAll(bullet.getNode(), bullet.getAnimationHandler().getImageView());
+            }
+        }
+
+        for(Drop drop : drops) {
+            if (!drop.isAlive()) {
+                gameWindow.getChildren().removeAll(drop.getNode(), drop.getAnimationHandler().getImageView());
+            }
+        }
+    }
+
+    private void drawEntities(List<Zombie> zombies, List<Bullet> bullets, List<Drop> drops) {
+        for (Zombie zombie : zombies) {
+            if(!zombie.isDrawn()) {
+                if(gameInitializer.isDEBUG())
+                    gameWindow.getChildren().add(zombie.getNode());
+                gameWindow.getChildren().add(zombie.getAnimationHandler().getImageView());
+                zombie.setDrawn();
+            }
+        }
+
+        for(Bullet bullet : bullets) {
+            if(!bullet.isDrawn()) {
+                if(gameInitializer.isDEBUG())
+                    gameWindow.getChildren().add(bullet.getNode());
+                gameWindow.getChildren().add(bullet.getAnimationHandler().getImageView());
+                bullet.setDrawn();
+            }
+        }
+
+        for (Drop drop : drops) {
+            if (!drop.isDrawn()) {
+                if(gameInitializer.isDEBUG())
+                    gameWindow.getChildren().add(drop.getNode());
+                gameWindow.getChildren().add(drop.getAnimationHandler().getImageView());
+                drop.setDrawn();
+                drop.getAnimationHandler().getImageView().toBack();
+                drop.getNode().toBack();
+            }
         }
     }
 
