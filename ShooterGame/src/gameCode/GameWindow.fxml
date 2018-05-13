@@ -178,7 +178,7 @@
                         <Font name="Copperplate Gothic Bold" size="58.0" />
                      </font>
                      <HBox.margin>
-                        <Insets top="125.0" />
+                        <Insets top="85.0" />
                      </HBox.margin>
                   </Label>
                </children>
@@ -190,27 +190,50 @@
                         <Insets bottom="25.0" />
                      </VBox.margin>
                   </Button>
-                  <Label text="100 PLAYER HP" textFill="WHITE">
+                  <Label layoutX="71.0" layoutY="351.0" text="PLAYER:" textFill="WHITE" underline="true">
                      <font>
                         <Font name="Copperplate Gothic Light" size="24.0" />
                      </font>
                   </Label>
-                  <Label text="50 PLAYER ARMOR" textFill="WHITE">
+                  <Label text="100 HP" textFill="WHITE">
                      <font>
                         <Font name="Copperplate Gothic Light" size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="49.0" layoutY="275.0" text="1X PISTOL AMMO" textFill="WHITE">
+                  <Label text="50 ARMOR" textFill="WHITE">
                      <font>
                         <Font name="Copperplate Gothic Light" size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="80.0" layoutY="303.0" text="1X RIFLE AMMO" textFill="WHITE">
+                  <Label layoutX="49.0" layoutY="275.0" text="PISTOL AMMO" textFill="WHITE">
                      <font>
                         <Font name="Copperplate Gothic Light" size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="70.0" layoutY="331.0" text="1X SHOTGUN AMMO" textFill="WHITE">
+                  <Label layoutX="80.0" layoutY="303.0" text=" RIFLE AMMO" textFill="WHITE">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="70.0" layoutY="331.0" text="SHOTGUN AMMO" textFill="WHITE">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="60.0" layoutY="477.0" text="ZOMBIES:" textFill="WHITE" underline="true">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="24.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="25.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label layoutX="128.0" layoutY="505.0" text="SPAWN +1/ROUND" textFill="WHITE">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="109.0" layoutY="491.0" text="100 HP" textFill="WHITE">
                      <font>
                         <Font name="Copperplate Gothic Light" size="24.0" />
                      </font>
@@ -223,27 +246,50 @@
                      <VBox.margin>
                         <Insets bottom="25.0" />
                      </VBox.margin></Button>
-                  <Label text="100 PLAYER HP" textFill="WHITE">
+                  <Label layoutX="223.0" layoutY="351.0" text="PLAYER:" textFill="WHITE" underline="true">
                      <font>
                         <Font name="Copperplate Gothic Light" size="24.0" />
                      </font>
                   </Label>
-                  <Label text="0 PLAYER ARMOR" textFill="WHITE">
+                  <Label text="100 HP" textFill="WHITE">
                      <font>
                         <Font name="Copperplate Gothic Light" size="24.0" />
                      </font>
                   </Label>
-                  <Label text="1X PISTOL AMMO" textFill="WHITE">
+                  <Label text="NO ARMOR" textFill="WHITE">
                      <font>
                         <Font name="Copperplate Gothic Light" size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="212.0" layoutY="303.0" text="0X RIFLE AMMO" textFill="WHITE">
+                  <Label text="ONLY PISTOL AMMO" textFill="WHITE">
                      <font>
                         <Font name="Copperplate Gothic Light" size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="222.0" layoutY="331.0" text="0X SHOTGUN AMMO" textFill="WHITE">
+                  <Label layoutX="212.0" layoutY="303.0" textFill="WHITE">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="222.0" layoutY="331.0" textFill="WHITE">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label text="ZOMBIES:" textFill="WHITE" underline="true">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="24.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="25.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="SPAWN +2/ROUND" textFill="WHITE">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label text="150 HP" textFill="WHITE">
                      <font>
                         <Font name="Copperplate Gothic Light" size="24.0" />
                      </font>
@@ -256,17 +302,22 @@
                      <VBox.margin>
                         <Insets bottom="25.0" />
                      </VBox.margin></Button>
-                  <Label text="50 PLAYER HP" textFill="WHITE">
+                  <Label layoutX="173.0" layoutY="463.0" text="PLAYER:" textFill="WHITE" underline="true">
                      <font>
                         <Font name="Copperplate Gothic Light" size="24.0" />
                      </font>
                   </Label>
-                  <Label text="0 PLAYER ARMOR" textFill="WHITE">
+                  <Label text="50 HP" textFill="WHITE">
                      <font>
                         <Font name="Copperplate Gothic Light" size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="57.0" layoutY="275.0" text="ONLY KNIFE" textFill="WHITE">
+                  <Label text="NO ARMOR" textFill="WHITE">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="57.0" layoutY="275.0" text="NO AMMO" textFill="WHITE">
                      <font>
                         <Font name="Copperplate Gothic Light" size="24.0" />
                      </font>
@@ -277,6 +328,24 @@
                      </font>
                   </Label>
                   <Label layoutX="93.0" layoutY="449.0" textFill="WHITE">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label text="ZOMBIES:" textFill="WHITE" underline="true">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="24.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="25.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="SPAWN +???/ROUND" textFill="WHITE">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label text="200HP" textFill="WHITE">
                      <font>
                         <Font name="Copperplate Gothic Light" size="24.0" />
                      </font>

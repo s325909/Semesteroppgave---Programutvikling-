@@ -531,8 +531,6 @@ public class Game {
         clearGame();
         player.resetPlayer(getDifficulty());
         setScoreNumber(0);
-        gameInitializer.showGameLabel();
-        gameInitializer.showMenu();
         setNewRound(false);
         setGameOver(false);
         startTimer();
