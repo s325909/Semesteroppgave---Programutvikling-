@@ -432,8 +432,6 @@ public class Game {
      * @param nbrZombies Requires a number to determine how many Zombies to create.
      */
     public void createZombies(int nbrZombies) {
-        int positionX = (int) (Math.random() * 1200);
-        int positionY = (int) (Math.random() * 650);
         int zombieHealth = 100 * difficultyModifier - 50*(difficultyModifier-1);
 
         try {
@@ -441,7 +439,7 @@ public class Game {
                 this.zombies = new ArrayList<>();
 
             for (int i = 0; i < nbrZombies; i++) {
-                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), positionX, positionY, zombieHealth);
+                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1200), (int) (Math.random() * 650), zombieHealth);
                 this.zombies.add(zombie);
             }
         } catch (Exception e) {
