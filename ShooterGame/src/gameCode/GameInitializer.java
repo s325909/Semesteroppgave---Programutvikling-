@@ -41,6 +41,8 @@ public class GameInitializer implements Initializable{
 
     @FXML private Button normalDifficulty, hardDifficulty, insaneDifficulty;
 
+    @FXML private Button button;
+
     private Stage stage = new Stage();
 
     private Player player;
@@ -531,7 +533,7 @@ public class GameInitializer implements Initializable{
 
     public void showSettings(ActionEvent event) throws IOException {
 
-        musicPlayer.muteVolume();
+        //musicPlayer.muteVolume();
 
         try {
             if (event.getSource() == settings){
@@ -564,6 +566,25 @@ public class GameInitializer implements Initializable{
         }
 
         */
+    }
+
+    @FXML Button loadGame;
+    Stage windowLoading;
+    Parent rootLoading;
+    Scene sceneLoading;
+    public void showLoadMenu(ActionEvent event) throws IOException {
+        try {
+            if(event.getSource() == loadGame) {
+                windowLoading = (Stage) loadGame.getScene().getWindow();
+                rootLoading = FXMLLoader.load(getClass().getResource("../menuOptions/Loading.fxml"));
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        Scene loadScene = new Scene(rootLoading, 1280, 720);
+        windowLoading.setScene(loadScene);
+        windowLoading.show();
     }
 
     public void exitGame() {

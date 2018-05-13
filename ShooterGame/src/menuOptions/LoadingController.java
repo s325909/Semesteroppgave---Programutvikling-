@@ -1,5 +1,7 @@
 package menuOptions;
 
+import gameCode.Game;
+import gameCode.GameInitializer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +21,8 @@ public class LoadingController implements Initializable {
 
     private Stage window_GameMenu;
     private Parent root_GameMenu;
+
+    private Game game;
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -40,6 +44,9 @@ public class LoadingController implements Initializable {
         window_GameMenu.show();
     }
 
+    public void showReturnToMenu() {
+        returnToMenu.setVisible(false);
+    }
 
 
     /***
@@ -57,12 +64,14 @@ public class LoadingController implements Initializable {
             stage.setScene(scene);
             stage.show();
 
+
         }catch (IOException io){
             io.printStackTrace();
         }
 
         if (event.getSource() == loadBtn1) {
             System.out.println("Button 1");
+            //game.saveGame("Save 1");
         } else if (event.getSource() == loadBtn2) {
             System.out.println("Button 2");
         } else if (event.getSource() == loadBtn3) {
