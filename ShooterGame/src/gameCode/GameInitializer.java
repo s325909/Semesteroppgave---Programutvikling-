@@ -27,7 +27,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
+/**
+ * Class which handles the initial parts of the Game creation.
+ * These include handling the GameWindow FXML and all its elements, including the HUD and the gameWindow Pane.
+ * It handles interaction between the FXML and the Game itself, which include restarting and pausing.
+ * It also handles the creation and loading of all Images, AudioClips, and MediaPlayer's soundtracks.
+ * And it creates the initial parts of level design.
+ *
+ * As the Difficulty is selected, the Player and the Game is created, where the Entities Player and Rocks are parsed into Game,
+ * together with FXML specific elements such as the gameWindow Pane and all Labels which represent the GameWindow's HUD.
+ */
 public class GameInitializer implements Initializable{
 
     @FXML private Pane gameWindow;
@@ -45,7 +54,7 @@ public class GameInitializer implements Initializable{
     private boolean helpVisible;
     private boolean labelVisible;
 
-    public static AudioClip[] weaponSounds;
+    private static AudioClip[] weaponSounds;
     private AudioClip[] basicSounds;
     private Image[][][] playerImages;
     private AudioClip[] zombieAudioClips;
@@ -62,9 +71,10 @@ public class GameInitializer implements Initializable{
     final private boolean DEBUG = true;
 
     /***
-     * Method which will create all the initial Entities and other objects to present when a new game starts.
-     * @param location f
-     * @param resources f
+     * Method which will load all assets used in the Game, create the level design, and allow the user to select a Difficulty.
+     * Upon selecting the Difficulty, the rest of the Game is created and the game loop starts to run.
+     * @param location Method is run upon GameWindow FXML being loaded.
+     * @param resources Method is run upon GameWindow FXML being loaded.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -81,7 +91,7 @@ public class GameInitializer implements Initializable{
     }
 
     /**
-     * Method for selecting the Game's difficulty, through startGame() method call, which then creates the other elements in the Game.
+     * Method for selecting the Game's difficulty, through startGame() method call.
      */
     @FXML
     private void selectDifficulty(){
@@ -105,6 +115,8 @@ public class GameInitializer implements Initializable{
         game = new Game(difficulty, player, rocks, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
         game.setGameInitializer(this);
         showDifficulty(false);
+
+        // Method getKeyPressed() is run continuously, and monitors user input
         Platform.runLater(this::getKeyPressed);
     }
 
@@ -191,7 +203,7 @@ public class GameInitializer implements Initializable{
      * Method which displays Labels to the user based on the appropriate state.
      * These include Game Over, Game Won, and Paused.
      */
-    protected void showGameLabel() {
+    void showGameLabel() {
         if(!labelVisible) {
             gamePaused.setVisible(true);
             gameState.setVisible(true);
@@ -222,7 +234,7 @@ public class GameInitializer implements Initializable{
      * Method which will open the in-game menu.
      * It sets a hidden VBox to visible.
      */
-    protected void showMenu() {
+    private void showMenu() {
         if(!menuVisible) {
             ingameMenu.setVisible(true);
             menuVisible = true;
@@ -232,14 +244,9 @@ public class GameInitializer implements Initializable{
         }
     }
 
-    public void hideHelp(){
-        ingameHelp.setVisible(false);
-        ingameMenu.setVisible(true);
-        gameState.setVisible(true);
-    }
-
     /**
-     * Method which will resume the game
+     * Method which will resume the Game.
+     * It is run when pressing the resume button in the inGameMenu.
      */
     @FXML
     public void resumeGame(){
@@ -247,6 +254,10 @@ public class GameInitializer implements Initializable{
         showMenu();
     }
 
+    /**
+     * Method which will restart the Game.
+     * It is run when pressing the restart button in the inGameMenu.
+     */
     @FXML
     public void restartGame() {
         game.restartGame();
@@ -255,12 +266,39 @@ public class GameInitializer implements Initializable{
         showDifficulty(true);
     }
 
+    /**
+     * Method which will show the Help portion of the inGameMenu.
+     * It is run when pressing the How to Play button in the inGameMenu.
+     */
+    @FXML
+    public void showHelp() {
+        if (!helpVisible){
+            ingameMenu.setVisible(false);
+            gameState.setVisible(false);
+            ingameHelp.setVisible(true);
+            helpVisible = true;
+        }else {
+            ingameHelp.setVisible(false);
+            ingameMenu.setVisible(true);
+            gameState.setVisible(true);
+            helpVisible = false;
+        }
+    }
+
+    /**
+     * Method which will exit the Game.
+     * It is run when pressing the exit button in the inGameMenu.
+     */
     @FXML
     public void exitGame() {
         System.exit(0);
     }
 
-    public void showDifficulty(boolean show){
+    /**
+     * Method which will show the Difficulty selection screen.
+     * @param show Requires a boolean to switch between the visibility.
+     */
+    private void showDifficulty(boolean show){
         if (show){
             ingameChooseDifficulty.setVisible(true);
             ingameNormalDifficulty.setVisible(true);
@@ -273,22 +311,10 @@ public class GameInitializer implements Initializable{
             ingameInsaneDifficulty.setVisible(false);
         }
     }
-    
-    public void showHelp() {
-        if (!helpVisible){
-            ingameMenu.setVisible(false);
-            gameState.setVisible(false);
-            ingameHelp.setVisible(true);
-        }else {
-            hideHelp();
-        }
-    }
 
-
-
-    Stage windowSettings;
-    Parent rootSettings;
-    Scene sceneSettings;
+    private Stage windowSettings;
+    private Parent rootSettings;
+    private Scene sceneSettings;
 
     public void showSettings(ActionEvent event) throws IOException {
 
@@ -328,9 +354,9 @@ public class GameInitializer implements Initializable{
     }
 
     @FXML Button loadGame;
-    Stage windowLoading;
-    Parent rootLoading;
-    Scene sceneLoading;
+    private Stage windowLoading;
+    private Parent rootLoading;
+    private Scene sceneLoading;
     public void showLoadMenu(ActionEvent event) throws IOException {
         try {
             if(event.getSource() == loadGame) {
@@ -447,9 +473,13 @@ public class GameInitializer implements Initializable{
     }
 
     /**
-     *
-     * @param files
-     * @return
+     * Method which turns a temporary FileParam object into an Image array.
+     * The object contains the start of the filename, the number of Images to create, and the file extension.
+     * This is then used to create a new Image of each of these files according to the number of Images that the object provides,
+     * and each Image is placed within an array. numberImages variable is used to set number of iterations, and each iteration
+     * is used a a suffix to complete the Images full filenames together with the extension.
+     * @param files Requires a FileParam object.
+     * @return Returns an array of type Image.
      */
     private Image[] loadAnimation(FileParam files) {
         Image[] images = new Image[files.numberImages];
@@ -467,9 +497,13 @@ public class GameInitializer implements Initializable{
     }
 
     /**
-     * Method which
-     * @param files
-     * @return
+     * Method which turns a temporary FileParam array into a 2-dimensional Image array.
+     * Each FileParam object contains the start of the filename, the number of Images to create, and the file extension.
+     * This is then used to create a new Image of each of these files according to the number of Images that the object provides,
+     * and each Image is placed within an array. numberImages variable is used to set number of iterations, and each iteration
+     * is used a a suffix to complete the Images full filenames together with the extension.
+     * @param files Requires a FileParam array.
+     * @return Returns a 2-dimensional array of type Image.
      */
     private Image[][] loadAnimation(FileParam[] files) {
         Image[][] images = new Image[files.length][];
@@ -539,7 +573,7 @@ public class GameInitializer implements Initializable{
         return clips;
     }
 
-    public Image[][] getZombieImages() {
+    Image[][] getZombieImages() {
         return this.zombieImages;
     }
 
@@ -547,31 +581,31 @@ public class GameInitializer implements Initializable{
         return pistolBulletImaqe;
     }
 
-    public Image[] getScoreDropAnimation() {
+    Image[] getScoreDropAnimation() {
         return scoreDropAnimation;
     }
 
-    public Image[] getHpDropImages() {
+    Image[] getHpDropImages() {
         return hpDropImages;
     }
 
-    public Image[] getArmorDropImages() {
+    Image[] getArmorDropImages() {
         return armorDropImages;
     }
 
-    public Image[] getMagDropImages() {
+    Image[] getMagDropImages() {
         return magDropImages;
     }
 
-    public Image[] getPoolDropImages() {
+    Image[] getPoolDropImages() {
         return poolDropImages;
     }
 
-    public Image[] getSpeedDropImages() {
+    Image[] getSpeedDropImages() {
         return speedDropImages;
     }
 
-    public AudioClip[] getZombieAudioClips() {
+    AudioClip[] getZombieAudioClips() {
         return zombieAudioClips;
     }
 
@@ -588,9 +622,10 @@ public class GameInitializer implements Initializable{
     }
 
     /**
-     * Inner class used in conjunction with creating a 2-dimensional array of type Sprite.
-     * Used to create smaller portions of the array, which then are combined with an
-     * ImageView in order to create an object of type Sprite.
+     * Inner class used in conjunction with creating Image arrays for use in AnimationHandler.
+     * It contains the part of the filename, the file extension, and the number of Images.
+     * The number is then used for iteration, whereas the iteration number serves as a suffix
+     * to complete the full filename combined with the extension (as in file_(index).png).
      */
     private class FileParam {
         String filename;

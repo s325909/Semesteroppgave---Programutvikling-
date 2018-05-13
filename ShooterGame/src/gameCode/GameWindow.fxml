@@ -403,7 +403,7 @@
                         <Font size="40.0" />
                      </font>
                   </Label>
-                  <Button fx:id="back_Help" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#hideHelp" text="Back" />
+                  <Button fx:id="back_Help" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#showHelp" text="Back" />
                </children>
             </VBox>
          </children>

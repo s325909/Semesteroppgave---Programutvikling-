@@ -1,6 +1,7 @@
 package entities;
 
 import gameCode.DataHandler;
+import gameCode.Game;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Arc;
@@ -29,6 +30,17 @@ public class Zombie extends Movable {
         this.walkDirection = Direction.IDLE;
         this.placeHolder = images[0];
         this.attackList = new ArrayList<Bullet>();
+    }
+
+    public void removeImage(boolean isAlive, Game game, List<Drop> drops) {
+        if (!isAlive) {
+            if(game.getGameInitializer().isDEBUG())
+                game.getGameWindow().getChildren().remove(getNode());
+            game.getGameWindow().getChildren().remove(getAnimationHandler().getImageView());
+
+            game.scorePerKill();
+            drops.add(game.getRandomDropType(this));
+        }
     }
 
     /***
