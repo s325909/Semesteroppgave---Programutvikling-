@@ -86,7 +86,7 @@ public class GameInitializer implements Initializable{
 
 
         // Select number of zombies to create, and load all assets
-        setNbrZombies(2);
+        setNbrZombies(5);
         loadAssets(nbrZombies);
 
         // Create the Player upon starting a new game
@@ -137,10 +137,6 @@ public class GameInitializer implements Initializable{
         ingameMenu.setVisible(false);
 
         game.clearGame();
-    }
-
-    public void newRound(){
-        setNbrZombies(3);
     }
 
 

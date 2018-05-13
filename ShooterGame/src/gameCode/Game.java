@@ -171,36 +171,6 @@ public class Game {
         zombies.removeIf(Zombie::isDead);
         drops.removeIf(Drop::isDead);
         dropsExtra.removeIf(Drop::isDead);
-
-
-
-
-
-        if (zombies.isEmpty()){
-            System.out.println("NO more zombies");
-
-            //gameInitializer.newRound();
-
-            stopTimer();
-
-
-            try {
-                System.out.println("oooo");
-                createZombies(2);
-            }catch (Exception e){
-                System.out.println("Error" + e.getMessage());
-            }
-
-
-
-
-            //createZombies(3);
-
-            startTimer();
-
-        }
-
-
     }
 
     /**
@@ -633,12 +603,10 @@ public class Game {
      */
     private void createZombies(int nbrZombies) {
         try {
-            System.out.println("array lengde: " + gameInitializer.getZombieAnimation().length);
             this.zombies = new ArrayList<>();
             for (int i = 0; i < nbrZombies; i++) {
                 Zombie zombie = new Zombie(gameInitializer.getZombieAnimation()[i], gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1280), (int) (Math.random() * 720), 100);
                 this.zombies.add(zombie);
-                System.out.println("test" + i);
             }
 
             for (Zombie zombie : zombies) {
@@ -647,7 +615,7 @@ public class Game {
                 gameWindow.getChildren().addAll(zombie.getSprite().getImageView());
             }
         } catch (Exception e) {
-            System.out.println("Unable to reset zombies " + e.getMessage());
+            System.out.println("Unable to reset zombies");
         }
     }
 
