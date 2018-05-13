@@ -3,6 +3,11 @@ package entities;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Class for handling Images and making these usable by the Entity class.
+ * Each constructor handles a different type of Image array, but they are all
+ * turned into the 3-dimensional Image array "frames".
+ */
 public class AnimationHandler {
     private ImageView iv;
     private Image[][][] frames;
@@ -13,6 +18,7 @@ public class AnimationHandler {
     private double width;
     private double height;
 
+    // Determines how quickly images should cycle. A value of 0.016 equates to about 60 frames/second.
     private double duration;
 
     public AnimationHandler(Image[] allImages) {
@@ -61,8 +67,10 @@ public class AnimationHandler {
     }
 
     /***
-     * Method for determining how quickly the array of Sprites should cycle
-     * @param time
+     * Method which handles the cycling of images in order to create an animation.
+     * Duration may be adjusted in order to determine how they should cycle.
+     * A duration value of 0.016 should equate to about 60 frames/second.
+     * @param time Requires the Game's timer.
      */
     protected void setFrame(double time) {
         int index = (int) ((time % (frames[imageType][imageAction].length * duration)) / duration);

@@ -1,13 +1,13 @@
 package gameCode;
 
-import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-
-import javax.naming.Context;
 import java.io.File;
 
+/**
+ * Class used to create a MediaPlayer object set to play as soon as it is created.
+ */
 public class MusicPlayer {
 
     private File file;

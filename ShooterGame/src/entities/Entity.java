@@ -7,6 +7,11 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+/**
+ * Class which handles the most basic statistics of every Entity in the gameWindow.
+ * This includes positioning in the window, creating a Node for collision detection,
+ * creating an AnimationHandler object which contains the images for the Entity.
+ */
 public class Entity{
 
     private int positionX;
@@ -16,11 +21,16 @@ public class Entity{
     private boolean drawn;
 
     private Node node;
-    private ImageView iv;
     private AnimationHandler animationhandler;
 
+    /**
+     * Constructor which creates an AnimationHandler to handle the Entity's images, and creates a Node
+     * on the same position as the object, which is then used for collision check.
+     * @param allAnimation Requires an AnimationHandler object, see AnimationHandler.
+     * @param positionX Requires a desired X-coordinate of where to place object.
+     * @param positionY Requires a desired Y-coordinate of where to place object.
+     */
     public Entity(AnimationHandler allAnimation, int positionX, int positionY) {
-        this.iv = allAnimation.getImageView();
         this.animationhandler = allAnimation;
         this.node = new Circle(this.animationhandler.getWidth() / 2, this.animationhandler.getHeight() / 2, 2 * this.animationhandler.getHeight() / 5, Color.BLUE);
         this.positionX = positionX;
@@ -30,6 +40,10 @@ public class Entity{
         this.alive = true;
     }
 
+    /**
+     * Method which handles animation cycling via setFrame() call.
+     * @param time Requires the Game's timer.
+     */
     public void update(double time) {
         getAnimationHandler().setFrame(time);
     }
@@ -39,15 +53,20 @@ public class Entity{
         this.positionY = positionY;
     }
 
+    /**
+     * Method which places the Node in the same position as the Entity object.
+     * @param positionX Requires Entity's position in X-coordinate.
+     * @param positionY Requires Entity's position in Y-coordinate.
+     */
     public void setTranslateNode(int positionX, int positionY) {
         this.node.setTranslateX(positionX);
         this.node.setTranslateY(positionY);
     }
 
     /***
-     * Method for checking for collision between two objects of type Node
-     * @param otherEntity
-     * @return
+     * Method for checking for collision between two Entity object's by using their given Nodes.
+     * @param otherEntity Requires an Entity object.
+     * @return Returns a boolean based on whether there is collision.
      */
     public boolean isColliding(Entity otherEntity) {
         return this.node.getBoundsInParent().intersects(otherEntity.getNode().getBoundsInParent());
@@ -113,10 +132,6 @@ public class Entity{
 
     public Node getNode() {
         return node;
-    }
-
-    public ImageView getIv() {
-        return this.iv;
     }
 
     public boolean isDrawn() { return drawn; }

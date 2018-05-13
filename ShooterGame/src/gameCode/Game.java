@@ -11,6 +11,12 @@ import java.util.List;
 
 public class Game {
 
+    public enum Difficulty {
+        NORMAL, HARD, INSANE
+    }
+
+    private Difficulty difficulty;
+
     private Player player;
     private List<Zombie> zombies;
     private List<Rock> rocks;
@@ -32,6 +38,7 @@ public class Game {
 
     public Game(Player player, List <Zombie> zombies, List<Rock> rocks, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
 
+        this.difficulty = Difficulty.NORMAL;
         this.player = player;
         this.zombies = zombies;
         this.rocks = rocks;
@@ -181,7 +188,7 @@ public class Game {
                     gameWindow.getChildren().add(drop.getNode());
                 gameWindow.getChildren().add(drop.getAnimationHandler().getImageView());
                 drop.setDrawn();
-                drop.getIv().toBack();
+                drop.getAnimationHandler().getImageView().toBack();
                 drop.getNode().toBack();
             }
         }
@@ -217,9 +224,7 @@ public class Game {
             }
         }
 
-        // Check if Bullet is alive.
-        // If alive, update position and velocity.
-        // If not, remove the ImageView and Node.
+        // Update Bullet's position, Image direction, and handling timeToLive expiration.
         for(Bullet bullet : bullets) {
             bullet.update(time);
         }
@@ -417,7 +422,7 @@ public class Game {
     protected void restartGame() {
         removeBullets();
         clearGame();
-        player.resetPlayer();
+        player.resetPlayer(getDifficulty());
         setScoreNumber(0);
         createZombies(gameInitializer.getNbrZombies());
         gameInitializer.showGameLabel();
@@ -664,6 +669,14 @@ public class Game {
     public void stopTimer() {
         this.timer.stop();
         setRunning(false);
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     public Pane getGameWindow() {

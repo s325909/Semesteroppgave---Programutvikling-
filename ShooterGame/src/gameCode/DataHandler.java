@@ -20,6 +20,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class used for .xml file handling.
+ * Class will turn the given static classes and their respective variables into a structured .xml file,
+ * which then can be read systematically with each variable set to their respective fields.
+ */
 public class DataHandler {
 
     static class GameConfiguration {
@@ -163,7 +168,7 @@ public class DataHandler {
 
         doc.getDocumentElement().normalize();
 
-        //Parse volume settings
+        // Parse volume settings
         NodeList volumeList = doc.getElementsByTagName("Volume");
         Node volumeNode = volumeList.item(0);
         if (volumeNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -174,7 +179,7 @@ public class DataHandler {
             return false;
         }
 
-        //Parse window size settings
+        // Parse window size settings
         NodeList windowList = doc.getElementsByTagName("Size");
         Node windowNode = windowList.item(0);
         if (windowNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -190,12 +195,12 @@ public class DataHandler {
 
     /**
      * Method for creating a .xml save file.
-     * Turns the data retrieved during save() method in Game class into a structured .xml file.
+     * Turns the data retrieved, through the configuration parameter, into a structured .xml file.
      * Each field corresponds to the values of the same name for each Entity, and are turned into String
      * values before storing.
-     * @param fileName Requires a filename of type String, which in turn will be the name for .xml file.
+     * @param fileName Requires a filename of type String, which in turn will be the name for the .xml file.
      * @param configuration Requires an object of type GameConfiguration, which in turn contains all
-     *                      the retrieved data for each type of Entity.
+     *                      the retrieved data for every type of Entity.
      * @return Returns a boolean based on whether the savefile is created successfully, or an exception occurred.
      */
     boolean createSaveFile(String fileName, GameConfiguration configuration) {
@@ -207,12 +212,11 @@ public class DataHandler {
             db = dbf.newDocumentBuilder();
             doc = db.newDocument();
         } catch (ParserConfigurationException pce) {
-            //System.out.println("Caught ParserConfigurationException when reading file: " + pce.getMessage());
             return false;
         }
 
 
-        // Store player information in a XML structure
+        // Store player information
         Element savegame = doc.createElement("Savegame");
         doc.appendChild(savegame);
 
@@ -292,7 +296,7 @@ public class DataHandler {
 
 
 
-        // Store zombie information in a XML structure
+        // Store zombies information
         Element zombies = doc.createElement("Zombies");
         savegame.appendChild(zombies);
 
@@ -331,7 +335,7 @@ public class DataHandler {
 
 
 
-        // Store bullet information in a XML structure
+        // Store bullets information
         Element bullets = doc.createElement("Bullets");
         savegame.appendChild(bullets);
 
@@ -374,7 +378,7 @@ public class DataHandler {
 
 
 
-        // Store drop information in a XML structure
+        // Store drops information
         Element drops = doc.createElement("Drops");
         savegame.appendChild(drops);
 
@@ -407,10 +411,12 @@ public class DataHandler {
             tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
+            // Create the savegame location directory, if one does not exist.
             File directory = new File("./Data/Savegames/");
             directory.mkdirs();
-            File file = new File("./Data/Savegames/" + fileName + ".xml");
 
+            // Create the .xml file
+            File file = new File("./Data/Savegames/" + fileName + ".xml");
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(file);
             tr.transform(source, result);
@@ -424,7 +430,7 @@ public class DataHandler {
 
     /**
      * Method for reading a .xml save file.
-     * It goes through each requested line in the file, takes the String value and transforms it into the appropriate
+     * It cycles through each requested line in the file, takes the String value and transforms it into the appropriate
      * variable type, and finally adds this value to the corresponding variable of each Configuration object.
      * @param fileName Requires a String value that represents the name of the file to read.
      * @param configuration Requires an object of type GameConfiguration, which in turn contains all the retrieved
@@ -452,7 +458,7 @@ public class DataHandler {
 
         doc.getDocumentElement().normalize();
 
-        //Parse game
+        // Parse game
         NodeList gameList = doc.getElementsByTagName("Game");
         Node gameNode = gameList.item(0);
         if (gameNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -462,7 +468,7 @@ public class DataHandler {
             return false;
         }
 
-        //Parse player
+        // Parse player
         NodeList playerList = doc.getElementsByTagName("Player");
         Node playerNode = playerList.item(0);
         configuration.player = new PlayerConfiguration();
@@ -495,7 +501,7 @@ public class DataHandler {
             return false;
         }
 
-        //Parse zombies
+        // Parse zombies
         NodeList zombieList = doc.getElementsByTagName("Zombie");
         configuration.zombies = new ArrayList<>();
         for (int i = 0; i < zombieList.getLength(); i++) {
@@ -520,7 +526,7 @@ public class DataHandler {
             }
         }
 
-        //Parse bullets
+        // Parse bullets
         NodeList bulletList = doc.getElementsByTagName("Bullet");
         configuration.player.bulletListCfg = new ArrayList<>();
         for (int i = 0; i < bulletList.getLength(); i++) {

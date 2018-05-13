@@ -1,6 +1,7 @@
 package entities;
 
 import gameCode.DataHandler;
+import gameCode.Game;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -18,7 +19,7 @@ public class Player extends Movable {
 
     public enum WeaponTypes {
         KNIFE, PISTOL, RIFLE, SHOTGUN
-    }
+}
 
     private enum PlayerDirection {
         LEFT, RIGHT, UP, DOWN, FIRE, RELOAD
@@ -172,7 +173,7 @@ public class Player extends Movable {
                     setAnimation(3,0, 0);
                     break;
             }
-        } else if (keyEvent.getCode() == KeyCode.R && equippedWeapon != WeaponTypes.KNIFE) {
+        } else if (keyEvent.getCode() == KeyCode.R) {
             directionButtonPressed.remove(PlayerDirection.RELOAD);
             switch(this.equippedWeapon) {
                 case KNIFE:
@@ -409,8 +410,9 @@ public class Player extends Movable {
 
     /**
      *
-     * @param animationType fg
-     * @param animationAction fg
+     * @param animationType
+     * @param animationAction
+     * @param animationLength
      */
     private void setAnimation(int animationType, int animationAction, int animationLength) {
         boolean inQueue = false;
@@ -446,12 +448,40 @@ public class Player extends Movable {
      * These include position, healthpoints, armor, and ammunition of each weaponSounds.
      */
 
-    public void resetPlayer() {
+    public void resetPlayer(Game.Difficulty difficulty) {
         setPosition(1280/2,720/2);
         setTranslateNode(1280/2, 720/2);
         setHealthPoints(100);
         setArmor(50);
         setEquippedWeapon(WeaponTypes.KNIFE);
+        getMagazinePistol().setNumberBullets(0);
+        getMagazinePistol().setCurrentPool(0);
+        getMagazineRifle().setNumberBullets(0);
+        getMagazineRifle().setCurrentPool(0);
+        getMagazineShotgun().setNumberBullets(0);
+        getMagazineShotgun().setCurrentPool(0);
+        switch(difficulty) {
+            case NORMAL:
+                getMagazinePistol().setNumberBullets(15);
+                getMagazinePistol().setCurrentPool(15);
+                getMagazineRifle().setNumberBullets(30);
+                getMagazineRifle().setCurrentPool(30);
+                getMagazineShotgun().setNumberBullets(8);
+                getMagazineShotgun().setCurrentPool(8);
+                break;
+            case HARD:
+                setArmor(0);
+                getMagazinePistol().setNumberBullets(15);
+                getMagazinePistol().setCurrentPool(15);
+                break;
+            case INSANE:
+                setHealthPoints(50);
+                setArmor(0);
+                break;
+        }
+        setHealthPoints(100);
+        setArmor(50);
+
         getMagazinePistol().setNumberBullets(15);
         getMagazinePistol().setCurrentPool(15);
         getMagazineRifle().setNumberBullets(30);

@@ -4,7 +4,9 @@ import gameCode.DataHandler;
 import javafx.scene.image.Image;
 import java.util.List;
 
-
+/**
+ *
+ */
 public class Bullet extends Movable {
 
     private int damage;
