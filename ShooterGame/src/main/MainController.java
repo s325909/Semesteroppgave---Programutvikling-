@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import menuOptions.SettingsController;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -58,7 +60,9 @@ public class MainController implements Initializable{
         windowLoading.show();
     }
 
-    public void openSettings(ActionEvent event) throws IOException{
+    public void openSettings(ActionEvent event) throws IOException {
+
+        /*
 
         try {
             if (event.getSource() == options){
@@ -72,6 +76,26 @@ public class MainController implements Initializable{
         Scene settingsScene = new Scene(rootSettings, 1280, 720);
         windowSettings.setScene(settingsScene);
         windowSettings.show();
+
+        */
+
+        try {
+            windowSettings = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Settings.fxml"));
+            rootSettings = loader.load();
+            SettingsController controller = loader.getController();
+            controller.showReturnToGame(false);
+            controller.playMusic();
+
+            Scene settingsScene = new Scene(rootSettings, 1280, 720);
+            windowSettings.setScene(settingsScene);
+            windowSettings.show();
+
+
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void openHowToPlay(ActionEvent event) throws IOException{

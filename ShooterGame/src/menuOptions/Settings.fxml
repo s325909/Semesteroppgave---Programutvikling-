@@ -20,7 +20,7 @@
     <stylesheets><URL value="@StylesMenu.css" /></stylesheets>
 
     <VBox fx:id="settingsBackground" alignment="CENTER" prefHeight="720" prefWidth="1280">
-      <Button fx:id="backGame" mnemonicParsing="false" onAction="#backToGame" text="Back To Game" />
+      <Button fx:id="backGame" mnemonicParsing="false" onAction="#backToGame" text="Return To Game" />
 
         <Label text="Settings" textAlignment="CENTER" textFill="RED">
             <font>

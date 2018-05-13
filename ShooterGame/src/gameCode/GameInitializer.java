@@ -19,6 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import menuOptions.SettingsController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -69,11 +70,11 @@ public class GameInitializer implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Create an object of MusicPlayer, which includes what file to play and automatically starts playing
-//        try {
-//            musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
-//        } catch (Exception e) {
-//            System.out.println("Error: Could not find sound file");
-//        }
+        try {
+            musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
+        } catch (Exception e) {
+            System.out.println("Error: Could not find sound file");
+        }
 
         loadAssets();
         createRocks();
@@ -292,6 +293,8 @@ public class GameInitializer implements Initializable{
 
     public void showSettings(ActionEvent event) throws IOException {
 
+        /*
+
         //musicPlayer.muteVolume();
 
         try {
@@ -307,24 +310,24 @@ public class GameInitializer implements Initializable{
         windowSettings.setScene(sceneSettings);
         windowSettings.show();
 
+        */
 
-        /*
 
         Parent root;
 
         try {
-            Stage windowSettings = new Stage();
+            windowSettings = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Settings.fxml"));
             root = loader.load();
             SettingsController controller = loader.getController();
             controller.showReturnToMenu(false);
-            windowSettings.setScene(new Scene(root, 500, 500));
+            windowSettings.setScene(new Scene(root, 1280, 720));
             windowSettings.show();
         }catch (Exception e){
             System.out.println("Error" + e.getMessage());
         }
 
-        */
+
     }
 
     @FXML Button loadGame;

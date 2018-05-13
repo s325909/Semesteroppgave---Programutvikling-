@@ -36,12 +36,13 @@ public class SettingsController implements Initializable {
     private Stage window_GameMenu;
     private Parent root_GameMenu;
 
+    GameInitializer gameInitializer;
 
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        playMusic();
+        //playMusic();
 
         //Multiply by 10 to get values between 1-10 instead of 0.1-1 to match the slider
         musicVolumeSlider.setValue(MusicPlayer.mediaPlayer.getVolume() * 10);
@@ -104,9 +105,17 @@ public class SettingsController implements Initializable {
         returnToMenu.setVisible(visible);
     }
 
+    public void showReturnToGame(boolean visible) { backGame.setVisible(visible); }
+
 
     @FXML
     public void backToGame(){
+
+        Stage stage = (Stage) backGame.getScene().getWindow();
+        stage.close();
+
+
+        /*
         try{
             Stage stage = (Stage) backGame.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../gameCode/GameWindow.fxml"));
@@ -118,6 +127,7 @@ public class SettingsController implements Initializable {
         }catch (IOException io){
             io.printStackTrace();
         }
+        */
     }
 
     @FXML
