@@ -34,7 +34,6 @@ public class Game {
 
     public Game(Player player, List<Rock> rocks, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
 
-        this.difficulty = Difficulty.NORMAL;
         this.roundNumber = 0;
         this.player = player;
         this.zombies = new ArrayList<>();
@@ -304,7 +303,7 @@ public class Game {
                     difficultyModifier = 2;
                     break;
                 case INSANE:
-                    difficultyModifier += roundNumber;
+                    difficultyModifier = 3;
                     break;
             }
 
@@ -313,31 +312,31 @@ public class Game {
                     createZombies(1);
                     break;
                 case 1:
-                    createZombies(roundNumber + difficultyModifier);
+                    createZombies(roundNumber * difficultyModifier);
                     break;
                 case 2:
-                    createZombies(roundNumber + difficultyModifier);
+                    createZombies(roundNumber * difficultyModifier);
                     break;
                 case 3:
-                    createZombies(roundNumber + difficultyModifier);
+                    createZombies(roundNumber * difficultyModifier);
                     break;
                 case 4:
-                    createZombies(roundNumber + difficultyModifier);
+                    createZombies(roundNumber * difficultyModifier);
                     break;
                 case 5:
-                    createZombies(roundNumber + difficultyModifier);
+                    createZombies(roundNumber * difficultyModifier);
                     break;
                 case 6:
-                    createZombies(roundNumber + difficultyModifier);
+                    createZombies(roundNumber * difficultyModifier);
                     break;
                 case 7:
-                    createZombies(roundNumber + difficultyModifier);
+                    createZombies(roundNumber * difficultyModifier);
                     break;
                 case 8:
-                    createZombies(roundNumber + difficultyModifier);
+                    createZombies(roundNumber * difficultyModifier);
                     break;
                 case 9:
-                    createZombies(roundNumber + difficultyModifier);
+                    createZombies(roundNumber * difficultyModifier);
                     break;
                 case 10:
                     setRunning(false);
