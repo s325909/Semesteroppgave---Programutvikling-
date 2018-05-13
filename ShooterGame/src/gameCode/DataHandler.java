@@ -29,6 +29,7 @@ public class DataHandler {
 
     static class GameConfiguration {
         int gameScore;
+        int roundNbr;
         PlayerConfiguration player;
         List<MovementConfiguration> zombies;
         List<DropConfiguration> drops;
@@ -226,6 +227,10 @@ public class DataHandler {
         Element gameScore = doc.createElement("ScorePoints");
         gameScore.appendChild(doc.createTextNode(String.valueOf(configuration.gameScore)));
         gameInfo.appendChild(gameScore);
+
+        Element roundNbr = doc.createElement("RoundNumber");
+        roundNbr.appendChild(doc.createTextNode(String.valueOf(configuration.roundNbr)));
+        gameInfo.appendChild(roundNbr);
 
         Element playerInfo = doc.createElement("Player");
         savegame.appendChild(playerInfo);
@@ -464,6 +469,7 @@ public class DataHandler {
         if (gameNode.getNodeType() == Node.ELEMENT_NODE) {
             Element gameElement = (Element)gameNode;
             configuration.gameScore = Integer.valueOf(gameElement.getElementsByTagName("ScorePoints").item(0).getTextContent());
+            configuration.roundNbr = Integer.valueOf(gameElement.getElementsByTagName("RoundNumber").item(0).getTextContent());
         } else {
             return false;
         }
