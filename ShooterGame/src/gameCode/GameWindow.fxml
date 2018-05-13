@@ -33,7 +33,7 @@
                               <Image url="@../resources/Art/Icon/hp_icon.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="hudHP" alignment="CENTER" prefHeight="40.0" prefWidth="72.0" text="100">
+                        <Label fx:id="hudHP" alignment="CENTER" prefHeight="40.0" prefWidth="72.0" text="0">
                            <font>
                               <Font size="30.0" />
                            </font></Label>
@@ -46,7 +46,7 @@
                               <Image url="@../resources/Art/Icon/armor_icon.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="hudArmor" alignment="CENTER" prefHeight="40.0" prefWidth="58.0" text="50">
+                        <Label fx:id="hudArmor" alignment="CENTER" prefHeight="40.0" prefWidth="58.0" text="0">
                            <font>
                               <Font size="30.0" />
                            </font></Label>
@@ -185,7 +185,7 @@
             </HBox>
             <VBox fx:id="ingameNormalDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Button fx:id="normalDifficulty" mnemonicParsing="false" onAction="#launchGame" text="NORMAL">
+                  <Button fx:id="normalDifficulty" mnemonicParsing="false" onAction="#selectDifficulty" text="NORMAL">
                      <VBox.margin>
                         <Insets bottom="25.0" />
                      </VBox.margin>
@@ -242,7 +242,7 @@
             </VBox>
             <VBox fx:id="ingameHardDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                <children>
-                  <Button fx:id="hardDifficulty" mnemonicParsing="false" onAction="#launchGame" text="HARD">
+                  <Button fx:id="hardDifficulty" mnemonicParsing="false" onAction="#selectDifficulty" text="HARD">
                      <VBox.margin>
                         <Insets bottom="25.0" />
                      </VBox.margin></Button>
@@ -298,7 +298,7 @@
             </VBox>
             <VBox fx:id="ingameInsaneDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
                <children>
-                  <Button fx:id="insaneDifficulty" mnemonicParsing="false" onAction="#launchInsaneDifficulty" text="HARDCORE">
+                  <Button fx:id="insaneDifficulty" mnemonicParsing="false" onAction="#selectDifficulty" text="HARDCORE">
                      <VBox.margin>
                         <Insets bottom="25.0" />
                      </VBox.margin></Button>

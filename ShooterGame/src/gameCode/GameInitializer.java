@@ -2,7 +2,6 @@ package gameCode;
 
 import entities.Player;
 import entities.Rock;
-import entities.Zombie;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,18 +40,14 @@ public class GameInitializer implements Initializable{
 
     @FXML private Button normalDifficulty, hardDifficulty, insaneDifficulty;
 
-    @FXML private Button button;
-
     private Stage stage = new Stage();
 
     private Player player;
     private List<Rock> rocks;
-    private int nbrZombies;
     private Game game;
     private MusicPlayer musicPlayer;
     private boolean menuVisible;
     private boolean helpVisible;
-    private boolean difficultyVisible;
     private boolean labelVisible;
 
     public static AudioClip[] weaponSounds;
@@ -78,9 +73,6 @@ public class GameInitializer implements Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        loadAssets();
-
         //Create an object of MusicPlayer, which includes what file to play and automatically starts playing
 //        try {
 //            musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
@@ -88,17 +80,50 @@ public class GameInitializer implements Initializable{
 //            System.out.println("Error: Could not find sound file");
 //        }
 
+        loadAssets();
         createRocks();
-        createPlayer();
+        selectDifficulty();
+    }
 
-        // Initialize the Game object, and thus start the game
+    /**
+     * Method for selecting the Game's difficulty, through startGame() method call.
+     */
+    private void selectDifficulty(){
+        normalDifficulty.setOnAction(event->{
+            startGame(Game.Difficulty.NORMAL);
+        });
+        hardDifficulty.setOnAction(event->{
+            startGame(Game.Difficulty.HARD);
+        });
+        insaneDifficulty.setOnAction(event->{
+            startGame(Game.Difficulty.INSANE);
+        });
+    }
+
+    private void startGame(Game.Difficulty difficulty) {
+        createPlayer();
         game = new Game(player, rocks, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
         game.setGameInitializer(this);
-        //Platform.runLater(this::getKeyPressed);
-        
-        game.clearGame();
-        game.setRunning(false);
-        //game.stopTimer();
+        game.setDifficulty(difficulty);
+        player.resetPlayer(difficulty);
+        showDifficulty(false);
+        Platform.runLater(this::getKeyPressed);
+    }
+
+    /**
+     * Create the Player object to use in the Game
+     */
+    private void createPlayer() {
+        try {
+            player = new Player(this.playerImages, this.basicSounds, this.weaponSounds, this.pistolBulletImaqe, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
+        } catch (Exception e) {
+            System.out.println("Error: Player did not load correctly");
+        }
+
+        // Draw Player to the Pane
+        if(isDEBUG())
+            gameWindow.getChildren().add(player.getNode());
+        gameWindow.getChildren().add(player.getAnimationHandler().getImageView());
     }
 
     private void createRocks() {
@@ -131,79 +156,9 @@ public class GameInitializer implements Initializable{
         }
     }
 
-    public void createPlayer() {
-        // Create the Player upon starting a new game
-        try {
-            player = new Player(this.playerImages, this.basicSounds, this.weaponSounds, this.pistolBulletImaqe, (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
-            player.setEquippedWeapon(Player.WeaponTypes.KNIFE);
-        } catch (Exception e) {
-            for (StackTraceElement element : e.getStackTrace()) {
-                System.out.println(element);
-            }
-            System.out.println("Error: Player did not load correctly");
-        }
-
-        if(isDEBUG())
-            gameWindow.getChildren().add(player.getNode());
-        gameWindow.getChildren().add(player.getAnimationHandler().getImageView());
-    }
-
-    @FXML
-    public void launchGame(){
-
-        normalDifficulty.setOnAction(event->{
-            game.setDifficulty(Game.Difficulty.NORMAL);
-            System.out.println("Hei");
-        });
-        hardDifficulty.setOnAction(event->{
-            game.setDifficulty(Game.Difficulty.HARD);
-            System.out.println("På");
-        });
-        insaneDifficulty.setOnAction(event->{
-            game.setDifficulty(Game.Difficulty.INSANE);
-            System.out.println("Deg");
-        });
-
-        hideDifficulty();
-        ingameMenu.setVisible(false);
-        gameState.setVisible(false);
-        game.setRunning(true);
-        Platform.runLater(this::getKeyPressed);
-    }
-
-    public void launchNormalDifficulty(){
-        game.setDifficulty(Game.Difficulty.NORMAL);
-        hideDifficulty();
-        ingameMenu.setVisible(false);
-        gameState.setVisible(false);
-        game.setRunning(true);
-        Platform.runLater(this::getKeyPressed);
-    }
-
-    public void launchHardDifficulty(){
-        game.setDifficulty(Game.Difficulty.HARD);
-        hideDifficulty();
-        ingameMenu.setVisible(false);
-        gameState.setVisible(false);
-        game.setRunning(true);
-        Platform.runLater(this::getKeyPressed);
-    }
-
-    public void launchInsaneDifficulty(){
-        game.setDifficulty(Game.Difficulty.INSANE);
-        hideDifficulty();
-        ingameMenu.setVisible(false);
-        gameState.setVisible(false);
-        game.setRunning(true);
-        Platform.runLater(this::getKeyPressed);
-    }
-
-
-
     /***
-     * Method which takes in user keyboard input.
-     * movePlayer() method in Player is called in order to transfer input into
-     * movement of the Player object.
+     * Method which handles user input.
+     * pressEvent() method call in Player handles movement of the Player object itself.
      */
     private void getKeyPressed(){
 
@@ -229,6 +184,167 @@ public class GameInitializer implements Initializable{
             player.releasedEvent(e);
         });
     }
+
+    /**
+     * Method which displays Labels to the user based on the appropriate state.
+     * These include Game Over, Game Won, and Paused.
+     */
+    protected void showGameLabel() {
+        if(!labelVisible) {
+            gamePaused.setVisible(true);
+            gameState.setVisible(true);
+            labelVisible = true;
+            if(game.isGameOver() && !game.isNewRound()) {
+                gameState.setText("GAME OVER!");
+                gameState.setTextFill(Color.INDIANRED);
+                pressKey.setVisible(true);
+                pressKey.setText("Press ESC to continue");
+            } else if (game.isGameOver() && game.isNewRound()) {
+                gameState.setText("GAME WON!");
+                gameState.setTextFill(Color.DARKGREEN);
+                pressKey.setVisible(true);
+                pressKey.setText("Press ESC to continue");
+            }else {
+                gameState.setText("GAME IS PAUSED");
+                gameState.setTextFill(Color.WHITE);
+            }
+        } else {
+            gamePaused.setVisible(false);
+            gameState.setVisible(false);
+            pressKey.setVisible(false);
+            labelVisible = false;
+        }
+    }
+
+    /**
+     * Method which will open the in-game menu.
+     * It sets a hidden VBox to visible.
+     */
+    protected void showMenu() {
+        if(!menuVisible) {
+            ingameMenu.setVisible(true);
+            menuVisible = true;
+        } else {
+            ingameMenu.setVisible(false);
+            menuVisible = false;
+        }
+    }
+
+    public void hideHelp(){
+        ingameHelp.setVisible(false);
+        ingameMenu.setVisible(true);
+        gameState.setVisible(true);
+    }
+
+    /**
+     * Method which will resume the game
+     */
+    @FXML
+    public void resumeGame(){
+        game.pauseGame();
+        showMenu();
+    }
+
+    @FXML
+    public void restartGame() {
+        game.restartGame();
+        showMenu();
+        showGameLabel();
+        showDifficulty(true);
+    }
+
+    @FXML
+    public void exitGame() {
+        System.exit(0);
+    }
+
+    public void showDifficulty(boolean show){
+        if (show){
+            ingameChooseDifficulty.setVisible(true);
+            ingameNormalDifficulty.setVisible(true);
+            ingameHardDifficulty.setVisible(true);
+            ingameInsaneDifficulty.setVisible(true);
+        } else {
+            ingameChooseDifficulty.setVisible(false);
+            ingameNormalDifficulty.setVisible(false);
+            ingameHardDifficulty.setVisible(false);
+            ingameInsaneDifficulty.setVisible(false);
+        }
+    }
+    
+    public void showHelp() {
+        if (!helpVisible){
+            ingameMenu.setVisible(false);
+            gameState.setVisible(false);
+            ingameHelp.setVisible(true);
+        }else {
+            hideHelp();
+        }
+    }
+
+
+
+    Stage windowSettings;
+    Parent rootSettings;
+    Scene sceneSettings;
+
+    public void showSettings(ActionEvent event) throws IOException {
+
+        //musicPlayer.muteVolume();
+
+        try {
+            if (event.getSource() == settings){
+                windowSettings = (Stage) settings.getScene().getWindow();
+                rootSettings = FXMLLoader.load(getClass().getResource("../menuOptions/Settings.fxml"));
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        sceneSettings = new Scene(rootSettings, 1280, 720);
+        windowSettings.setScene(sceneSettings);
+        windowSettings.show();
+
+
+        /*
+
+        Parent root;
+
+        try {
+            Stage windowSettings = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Settings.fxml"));
+            root = loader.load();
+            SettingsController controller = loader.getController();
+            controller.showReturnToMenu(false);
+            windowSettings.setScene(new Scene(root, 500, 500));
+            windowSettings.show();
+        }catch (Exception e){
+            System.out.println("Error" + e.getMessage());
+        }
+
+        */
+    }
+
+    @FXML Button loadGame;
+    Stage windowLoading;
+    Parent rootLoading;
+    Scene sceneLoading;
+    public void showLoadMenu(ActionEvent event) throws IOException {
+        try {
+            if(event.getSource() == loadGame) {
+                windowLoading = (Stage) loadGame.getScene().getWindow();
+                rootLoading = FXMLLoader.load(getClass().getResource("../menuOptions/Loading.fxml"));
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        Scene loadScene = new Scene(rootLoading, 1280, 720);
+        windowLoading.setScene(loadScene);
+        windowLoading.show();
+    }
+
+
 
     /**
      * Method which finds and loads all necessary assets from disk only once.
@@ -371,7 +487,7 @@ public class GameInitializer implements Initializable{
      * Once found and loaded into memory, these sets of assets are then turned
      * into usable arrays which allows easy access without re-reading from disk.
      */
-    public void loadZombiesAssets() {
+    private void loadZombiesAssets() {
         String[] zombieSounds = {
                 "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
                 "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"};
@@ -385,7 +501,7 @@ public class GameInitializer implements Initializable{
         this.zombieImages = loadAnimation(zombieAnimations);
     }
 
-    public void createDropImages(String[] images) {
+    private void createDropImages(String[] images) {
         this.hpDropImages = new Image[1];
         this.hpDropImages[0] = new Image(images[0], 25, 25, true, false);
         this.armorDropImages = new Image[1];
@@ -410,180 +526,6 @@ public class GameInitializer implements Initializable{
             clips[i].setVolume(0.1);
         }
         return clips;
-    }
-
-    /**
-     * Method which will display a message to the Player upon pausing the game or game over.
-     */
-    protected void showGameLabel() {
-        if(!isLabelVisible()) {
-            gamePaused.setVisible(true);
-            gameState.setVisible(true);
-            setLabelVisible(true);
-            if(game.isGameOver() && !game.isNewRound()) {
-                gameState.setText("GAME OVER!");
-                gameState.setTextFill(Color.INDIANRED);
-                pressKey.setVisible(true);
-                pressKey.setText("Press ESC to continue");
-            } else if (game.isGameOver() && game.isNewRound()) {
-                gameState.setText("GAME WON!");
-                gameState.setTextFill(Color.DARKGREEN);
-                pressKey.setVisible(true);
-                pressKey.setText("Press ESC to continue");
-            }else {
-                gameState.setText("GAME IS PAUSED");
-                gameState.setTextFill(Color.WHITE);
-            }
-        } else {
-            gamePaused.setVisible(false);
-            gameState.setVisible(false);
-            pressKey.setVisible(false);
-            setLabelVisible(false);
-        }
-    }
-
-    /**
-     * Method which will display the in-game menu.
-     * Simply sets an object of type VBox to visible, and this VBox contains the
-     * menu in form av buttons to interact with.
-     */
-    protected void showMenu() {
-        if(!isMenuVisible()) {
-            ingameMenu.setVisible(true);
-            setMenuVisible(true);
-        } else {
-            ingameMenu.setVisible(false);
-            setMenuVisible(false);
-        }
-    }
-
-    public void hideHelp(){
-        ingameHelp.setVisible(false);
-        ingameMenu.setVisible(true);
-        gameState.setVisible(true);
-    }
-
-    public void hideDifficulty() {
-        ingameChooseDifficulty.setVisible(false);
-        ingameNormalDifficulty.setVisible(false);
-        ingameHardDifficulty.setVisible(false);
-        ingameInsaneDifficulty.setVisible(false);
-        ingameMenu.setVisible(true);
-        gameState.setVisible(true);
-    }
-
-    public void resumeGame(){
-        game.pauseGame();
-        showMenu();
-    }
-
-    public void restartGame() {
-        game.restartGame();
-        showMenu();
-        showGameLabel();
-        showDifficulty();
-    }
-
-
-    public void showDifficulty(){
-        if (!difficultyVisible){
-            ingameChooseDifficulty.setVisible(true);
-            ingameNormalDifficulty.setVisible(true);
-            ingameHardDifficulty.setVisible(true);
-            ingameInsaneDifficulty.setVisible(true);
-        }
-    }
-    
-    public void showHelp() {
-        if (!helpVisible){
-            ingameMenu.setVisible(false);
-            gameState.setVisible(false);
-            ingameHelp.setVisible(true);
-        }else {
-            hideHelp();
-        }
-    }
-
-
-
-    Stage windowSettings;
-    Parent rootSettings;
-    Scene sceneSettings;
-
-    public void showSettings(ActionEvent event) throws IOException {
-
-        //musicPlayer.muteVolume();
-
-        try {
-            if (event.getSource() == settings){
-                windowSettings = (Stage) settings.getScene().getWindow();
-                rootSettings = FXMLLoader.load(getClass().getResource("../menuOptions/Settings.fxml"));
-            }
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-
-        sceneSettings = new Scene(rootSettings, 1280, 720);
-        windowSettings.setScene(sceneSettings);
-        windowSettings.show();
-
-
-        /*
-
-        Parent root;
-
-        try {
-            Stage windowSettings = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Settings.fxml"));
-            root = loader.load();
-            SettingsController controller = loader.getController();
-            controller.showReturnToMenu(false);
-            windowSettings.setScene(new Scene(root, 500, 500));
-            windowSettings.show();
-        }catch (Exception e){
-            System.out.println("Error" + e.getMessage());
-        }
-
-        */
-    }
-
-    @FXML Button loadGame;
-    Stage windowLoading;
-    Parent rootLoading;
-    Scene sceneLoading;
-    public void showLoadMenu(ActionEvent event) throws IOException {
-        try {
-            if(event.getSource() == loadGame) {
-                windowLoading = (Stage) loadGame.getScene().getWindow();
-                rootLoading = FXMLLoader.load(getClass().getResource("../menuOptions/Loading.fxml"));
-            }
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-
-        Scene loadScene = new Scene(rootLoading, 1280, 720);
-        windowLoading.setScene(loadScene);
-        windowLoading.show();
-    }
-
-    public void exitGame() {
-        System.exit(0);
-    }
-
-    public boolean isMenuVisible() {
-        return menuVisible;
-    }
-
-    public void setMenuVisible(boolean menuVisible) {
-        this.menuVisible = menuVisible;
-    }
-
-    public boolean isLabelVisible() {
-        return labelVisible;
-    }
-
-    public void setLabelVisible(boolean labelVisible) {
-        this.labelVisible = labelVisible;
     }
 
     public Image[][] getZombieImages() {

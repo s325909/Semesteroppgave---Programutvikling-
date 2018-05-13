@@ -5,7 +5,6 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,6 +158,7 @@ public class Game {
             }
         }
 
+        // Check for collision between Bullets and zombies, and Bullets and rocks
         for(Bullet bullet : bullets) {
             bullet.bulletCollision(zombies, rocks);
         }
@@ -536,7 +536,7 @@ public class Game {
     }
 
     public void clearGame() {
-        //removePlayer();
+        removePlayerVisibility();
         removeZombies();
         removeBullets();
         removeDrops();
@@ -668,9 +668,11 @@ public class Game {
 //        }
     }
 
-    public void removePlayer() {
+    /**
+     * Method which will hide the Player in the gameWindow.
+     */
+    public void removePlayerVisibility() {
         gameWindow.getChildren().removeAll(player.getNode(), player.getAnimationHandler().getImageView());
-        player = null;
     }
 
     /**
@@ -746,14 +748,6 @@ public class Game {
 
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
-    }
-
-    public Pane getGameWindow() {
-        return gameWindow;
-    }
-
-    public void setGameWindow(Pane gameWindow) {
-        this.gameWindow = gameWindow;
     }
 
     public GameInitializer getGameInitializer() {
