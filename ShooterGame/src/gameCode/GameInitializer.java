@@ -97,12 +97,13 @@ public class GameInitializer implements Initializable{
         //Platform.runLater(this::getKeyPressed);
         
         game.clearGame();
-        game.stopTimer();
+        game.setRunning(false);
+        //game.stopTimer();
     }
 
     private void createRocks() {
         try {
-            this.rocks = new ArrayList<Rock>();
+            rocks = new ArrayList<>();
             rocks.add(new Rock(this.rockImage, 240, 400));
             rocks.add(new Rock(this.rockImage, 300, 500));
             rocks.add(new Rock(this.rockImage, 151, 151));
@@ -149,24 +150,25 @@ public class GameInitializer implements Initializable{
 
     @FXML
     public void launchGame(){
+
         normalDifficulty.setOnAction(event->{
             game.setDifficulty(Game.Difficulty.NORMAL);
+            System.out.println("Hei");
         });
         hardDifficulty.setOnAction(event->{
             game.setDifficulty(Game.Difficulty.HARD);
+            System.out.println("På");
         });
         insaneDifficulty.setOnAction(event->{
             game.setDifficulty(Game.Difficulty.INSANE);
+            System.out.println("Deg");
         });
 
         hideDifficulty();
-        game.restartGame();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
-
+        game.setRunning(true);
         Platform.runLater(this::getKeyPressed);
-
-        game.clearGame();
     }
 
     public void launchNormalDifficulty(){
@@ -174,7 +176,7 @@ public class GameInitializer implements Initializable{
         hideDifficulty();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
-        game.startTimer();
+        game.setRunning(true);
         Platform.runLater(this::getKeyPressed);
     }
 
@@ -183,7 +185,7 @@ public class GameInitializer implements Initializable{
         hideDifficulty();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
-        game.startTimer();
+        game.setRunning(true);
         Platform.runLater(this::getKeyPressed);
     }
 
@@ -192,7 +194,7 @@ public class GameInitializer implements Initializable{
         hideDifficulty();
         ingameMenu.setVisible(false);
         gameState.setVisible(false);
-        game.startTimer();
+        game.setRunning(true);
         Platform.runLater(this::getKeyPressed);
     }
 
@@ -207,10 +209,7 @@ public class GameInitializer implements Initializable{
 
         gameWindow.getScene().setOnKeyPressed(e -> {
             player.pressEvent(e);
-            if (e.getCode() == KeyCode.F12) {
-                changeFullScreen();
-
-            } else if (e.getCode() == KeyCode.BACK_SPACE) {
+            if (e.getCode() == KeyCode.BACK_SPACE) {
                 game.removeZombies();
 
             } else if (e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.E) {
@@ -230,12 +229,6 @@ public class GameInitializer implements Initializable{
             player.releasedEvent(e);
         });
     }
-
-    @FXML
-    public void getMessage() {
-        System.out.println("test");
-    }
-
 
     /**
      * Method which finds and loads all necessary assets from disk only once.
@@ -464,7 +457,6 @@ public class GameInitializer implements Initializable{
         }
     }
 
-
     public void hideHelp(){
         ingameHelp.setVisible(false);
         ingameMenu.setVisible(true);
@@ -480,28 +472,15 @@ public class GameInitializer implements Initializable{
         gameState.setVisible(true);
     }
 
-
-    /***
-     * Method which will change the FullScreen state of the application.
-     */
-    private void changeFullScreen() {
-        Stage stage = (Stage) gameWindow.getScene().getWindow();
-        if(stage.isFullScreen()) {
-            stage.setFullScreen(false);
-        } else {
-            stage.setFullScreen(true);
-        }
-    }
-
     public void resumeGame(){
         game.pauseGame();
         showMenu();
     }
 
     public void restartGame() {
-        ingameMenu.setVisible(false);
-        gameState.setVisible(false);
         game.restartGame();
+        showMenu();
+        showGameLabel();
         showDifficulty();
     }
 

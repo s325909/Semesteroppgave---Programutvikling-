@@ -185,7 +185,7 @@
             </HBox>
             <VBox fx:id="ingameNormalDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Button fx:id="normalDifficulty" mnemonicParsing="false" onAction="#launchNormalDifficulty" text="NORMAL">
+                  <Button fx:id="normalDifficulty" mnemonicParsing="false" onAction="#launchGame" text="NORMAL">
                      <VBox.margin>
                         <Insets bottom="25.0" />
                      </VBox.margin>
@@ -242,7 +242,7 @@
             </VBox>
             <VBox fx:id="ingameHardDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                <children>
-                  <Button fx:id="hardDifficulty" mnemonicParsing="false" onAction="#launchHardDifficulty" text="HARD">
+                  <Button fx:id="hardDifficulty" mnemonicParsing="false" onAction="#launchGame" text="HARD">
                      <VBox.margin>
                         <Insets bottom="25.0" />
                      </VBox.margin></Button>

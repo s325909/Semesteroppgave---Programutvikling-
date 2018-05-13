@@ -28,7 +28,6 @@ public class Game {
     private int secondsCounter;
     private int roundNumber;
 
-    private AnimationTimer timer;
     private GameInitializer gameInitializer;
     private boolean running;
     private boolean newRound;
@@ -59,12 +58,12 @@ public class Game {
             @Override
             public void handle(long now) {
                 double time = (now - startNanoTime) / 1000000000.0;
-                onUpdate(time);
                 updateHUD();
+                if(running)
+                    onUpdate(time);
             }
         };
         timer.start();
-        this.timer = timer;
     }
 
     /***
@@ -333,7 +332,7 @@ public class Game {
                             createZombies(roundNumber + 1);
                             break;
                         case 10:
-                            stopTimer();
+                            setRunning(false);
                             setGameOver(true);
                             setNewRound(true);
                             gameInitializer.showGameLabel();
@@ -377,7 +376,7 @@ public class Game {
                             createZombies(roundNumber + 2);
                             break;
                         case 10:
-                            stopTimer();
+                            setRunning(false);
                             setGameOver(true);
                             setNewRound(true);
                             gameInitializer.showGameLabel();
@@ -421,7 +420,7 @@ public class Game {
                             createZombies(roundNumber + 10);
                             break;
                         case 10:
-                            stopTimer();
+                            setRunning(false);
                             setGameOver(true);
                             setNewRound(true);
                             gameInitializer.showGameLabel();
@@ -495,10 +494,10 @@ public class Game {
     public void pauseGame() {
         if(!isGameOver()) {
             if (isRunning()) {
-                stopTimer();
+                setRunning(false);
                 gameInitializer.showGameLabel();
             } else {
-                startTimer();
+                setRunning(true);
                 gameInitializer.showGameLabel();
             }
         }
@@ -509,7 +508,7 @@ public class Game {
      * point where the game is over.
      */
     public void gameOver() {
-        stopTimer();
+        setRunning(false);
         setGameOver(true);
         gameInitializer.showGameLabel();
     }
@@ -533,12 +532,11 @@ public class Game {
         setRoundNumber(0);
         setNewRound(false);
         setGameOver(false);
-        gameInitializer.setLabelVisible(false);
-        gameInitializer.setMenuVisible(false);
-        stopTimer();
+        setRunning(false);
     }
 
     public void clearGame() {
+        //removePlayer();
         removeZombies();
         removeBullets();
         removeDrops();
@@ -592,7 +590,7 @@ public class Game {
     }
 
     private void fileAlert(boolean loadGame) {
-        this.stopTimer();
+        setRunning(false);
 
         ButtonType resume = new ButtonType("Resume", ButtonBar.ButtonData.OK_DONE);
         ButtonType restart = new ButtonType("Restart", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -611,9 +609,9 @@ public class Game {
 
         alert.showAndWait().ifPresent(response -> {
             if (response == resume) {
-                this.startTimer();
+                setRunning(true);
             } else if (response == restart) {
-                this.restartGame();
+                restartGame();
             }
         });
     }
@@ -670,6 +668,11 @@ public class Game {
 //        }
     }
 
+    public void removePlayer() {
+        gameWindow.getChildren().removeAll(player.getNode(), player.getAnimationHandler().getImageView());
+        player = null;
+    }
+
     /**
      * Method for removing all Zombies in the Game.
      */
@@ -678,7 +681,6 @@ public class Game {
             gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getAnimationHandler().getImageView());
             zombie.setAlive(false);
         }
-
         this.zombies.removeIf(Zombie::isDead);
     }
 
@@ -688,9 +690,6 @@ public class Game {
     public void removeBullets() {
         for (Bullet bullet : player.getBulletList()) {
             gameWindow.getChildren().removeAll(bullet.getAnimationHandler().getImageView(), bullet.getNode());
-        }
-
-        for (Bullet bullet : player.getBulletList()) {
             bullet.setAlive(false);
         }
         player.getBulletList().removeIf(Bullet::isDead);
@@ -702,9 +701,6 @@ public class Game {
     public void removeDrops() {
         for (Drop drop : this.drops) {
             gameWindow.getChildren().removeAll(drop.getAnimationHandler().getImageView(), drop.getNode());
-        }
-
-        for (Drop drop : this.drops) {
             drop.setAlive(false);
         }
         this.drops.removeIf(Drop::isDead);
@@ -744,16 +740,6 @@ public class Game {
         }
     }
 
-    public void startTimer() {
-        this.timer.start();
-        setRunning(true);
-    }
-
-    public void stopTimer() {
-        this.timer.stop();
-        setRunning(false);
-    }
-
     public Difficulty getDifficulty() {
         return difficulty;
     }
@@ -782,11 +768,11 @@ public class Game {
         this.scoreNumber = scoreNumber;
     }
 
-    private boolean isRunning() {
+    public boolean isRunning() {
         return running;
     }
 
-    private void setRunning(boolean isRunning) {
+    public void setRunning(boolean isRunning) {
         this.running = isRunning;
     }
 
