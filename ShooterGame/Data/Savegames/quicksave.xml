@@ -1,99 +1,121 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Savegame>
     <Game>
-        <ScorePoints>100</ScorePoints>
+        <ScorePoints>200</ScorePoints>
+        <RoundNumber>3</RoundNumber>
     </Game>
     <Player>
         <HealthPoints>100</HealthPoints>
-        <ArmorPoints>50</ArmorPoints>
-        <PositionX>75</PositionX>
-        <PositionY>345</PositionY>
+        <ArmorPoints>25</ArmorPoints>
+        <PositionX>1025</PositionX>
+        <PositionY>260</PositionY>
         <VelocityX>0.0</VelocityX>
         <VelocityY>0.0</VelocityY>
         <MovementSpeed>5.0</MovementSpeed>
         <Direction>EAST</Direction>
         <Rotation>0.0</Rotation>
         <EquippedWep>PISTOL</EquippedWep>
-        <MagPistol>13</MagPistol>
+        <MagPistol>10</MagPistol>
         <PoolPistol>15</PoolPistol>
-        <MagRifle>30</MagRifle>
-        <PoolRifle>30</PoolRifle>
+        <MagRifle>0</MagRifle>
+        <PoolRifle>0</PoolRifle>
         <MagShotgun>0</MagShotgun>
         <PoolShotgun>0</PoolShotgun>
     </Player>
     <Zombies>
         <Zombie>
-            <HealthPoints>50</HealthPoints>
-            <PositionX>736</PositionX>
-            <PositionY>333</PositionY>
-            <VelocityX>-1.0</VelocityX>
+            <HealthPoints>100</HealthPoints>
+            <PositionX>90</PositionX>
+            <PositionY>151</PositionY>
+            <VelocityX>0.0</VelocityX>
             <VelocityY>0.0</VelocityY>
             <MovementSpeed>1.0</MovementSpeed>
             <Direction>IDLE</Direction>
         </Zombie>
-    </Zombies>
-    <Bullets>
-        <Bullet>
-            <PositionX>350</PositionX>
-            <PositionY>389</PositionY>
-            <VelocityX>10.0</VelocityX>
+        <Zombie>
+            <HealthPoints>100</HealthPoints>
+            <PositionX>639</PositionX>
+            <PositionY>330</PositionY>
+            <VelocityX>1.0</VelocityX>
             <VelocityY>0.0</VelocityY>
-            <MovementSpeed>10.0</MovementSpeed>
-            <Direction>EAST</Direction>
-            <Damage>50</Damage>
-            <RemainingTime>2867</RemainingTime>
-        </Bullet>
-    </Bullets>
+            <MovementSpeed>1.0</MovementSpeed>
+            <Direction>IDLE</Direction>
+        </Zombie>
+        <Zombie>
+            <HealthPoints>100</HealthPoints>
+            <PositionX>739</PositionX>
+            <PositionY>128</PositionY>
+            <VelocityX>1.0</VelocityX>
+            <VelocityY>0.0</VelocityY>
+            <MovementSpeed>1.0</MovementSpeed>
+            <Direction>IDLE</Direction>
+        </Zombie>
+        <Zombie>
+            <HealthPoints>100</HealthPoints>
+            <PositionX>879</PositionX>
+            <PositionY>351</PositionY>
+            <VelocityX>1.0</VelocityX>
+            <VelocityY>-1.0</VelocityY>
+            <MovementSpeed>1.0</MovementSpeed>
+            <Direction>IDLE</Direction>
+        </Zombie>
+    </Zombies>
+    <Bullets/>
     <Drops>
         <Drop>
-            <PositionX>173</PositionX>
-            <PositionY>269</PositionY>
+            <PositionX>905</PositionX>
+            <PositionY>479</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>950</PositionX>
-            <PositionY>206</PositionY>
+            <PositionX>952</PositionX>
+            <PositionY>442</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>600</PositionX>
-            <PositionY>34</PositionY>
+            <PositionX>1240</PositionX>
+            <PositionY>709</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>575</PositionX>
-            <PositionY>609</PositionY>
+            <PositionX>1228</PositionX>
+            <PositionY>9</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>1052</PositionX>
-            <PositionY>551</PositionY>
+            <PositionX>305</PositionX>
+            <PositionY>207</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>271</PositionX>
-            <PositionY>700</PositionY>
+            <PositionX>60</PositionX>
+            <PositionY>223</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>174</PositionX>
-            <PositionY>297</PositionY>
+            <PositionX>824</PositionX>
+            <PositionY>537</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>921</PositionX>
-            <PositionY>609</PositionY>
+            <PositionX>939</PositionX>
+            <PositionY>140</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>1265</PositionX>
-            <PositionY>427</PositionY>
+            <PositionX>103</PositionX>
+            <PositionY>301</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>523</PositionX>
-            <PositionY>384</PositionY>
+            <PositionX>151</PositionX>
+            <PositionY>271</PositionY>
             <DropType>SCORE</DropType>
+        </Drop>
+        <Drop>
+            <PositionX>610</PositionX>
+            <PositionY>342</PositionY>
+            <DropType>SHOTGUNAMMO</DropType>
         </Drop>
     </Drops>
 </Savegame>

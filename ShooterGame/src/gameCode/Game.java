@@ -373,7 +373,7 @@ public class Game {
                     break;
 
                 case INSANE:
-                    switch (roundNumber) {
+                    switch (getRoundNumber()) {
                         case 1:
                             createZombies(roundNumber + 2);
                             break;
@@ -641,6 +641,7 @@ public class Game {
     private DataHandler.GameConfiguration getGameConfiguration() {
         DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
         gameCfg.gameScore = this.getScoreNumber();
+        gameCfg.roundNbr = this.getRoundNumber();
         gameCfg.player = this.player.getPlayerConfiguration();
 
         List<DataHandler.MovementConfiguration> zombieCfg = new ArrayList<>();
@@ -658,6 +659,7 @@ public class Game {
 
     private void setGameConfiguration(DataHandler.GameConfiguration gameCfg) {
         this.setScoreNumber(gameCfg.gameScore);
+        this.setRoundNumber(gameCfg.roundNbr);
         removeBullets();
         this.player.setPlayerConfiguration(gameCfg.player);
 
@@ -816,5 +818,13 @@ public class Game {
 
     public void setZombies(List<Zombie> zombieList) {
         this.zombies = zombieList;
+    }
+
+    public void setRoundNumber(int roundNumber) {
+        this.roundNumber = roundNumber;
+    }
+
+    public int getRoundNumber() {
+        return roundNumber;
     }
 }
