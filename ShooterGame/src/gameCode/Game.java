@@ -510,8 +510,6 @@ public class Game {
         player.resetPlayer(getDifficulty());
         setScoreNumber(0);
         createZombies(gameInitializer.getNbrZombies());
-        gameInitializer.showGameLabel();
-        gameInitializer.showMenu();
         setNewRound(false);
         setGameOver(false);
         startTimer();

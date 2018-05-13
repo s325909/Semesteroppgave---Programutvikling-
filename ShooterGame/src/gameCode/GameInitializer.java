@@ -163,7 +163,9 @@ public class GameInitializer implements Initializable{
         //Platform.runLater(this::getKeyPressed);
 
         sceneChange = new SceneSizeChangeListener(stage.getScene(), 1.6, 1280, 720, gameWindow);
-        
+
+        game.restartGame();
+
         game.clearGame();
     }
 
@@ -214,16 +216,15 @@ public class GameInitializer implements Initializable{
             if (e.getCode() == KeyCode.F12) {
                 changeFullScreen();
 
-            } else if (e.getCode() == KeyCode.P) {
-                game.pauseGame();
+            } else if (e.getCode() == KeyCode.BACK_SPACE) {
+                game.removeZombies();
 
             } else if (e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.E) {
                 game.pauseGame();
                 showMenu();
 
             } else if (e.getCode() == KeyCode.M) {
-                //musicPlayer.muteVolume();
-                game.removeZombies();
+                musicPlayer.muteVolume();
 
             } else if (e.getCode() == KeyCode.F5){
                 game.saveGame("quicksave");
