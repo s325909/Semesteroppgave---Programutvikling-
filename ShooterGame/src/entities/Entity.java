@@ -1,11 +1,11 @@
 package entities;
 
+import gameCode.DataHandler;
+import javafx.geometry.Bounds;
 import javafx.scene.image.ImageView;
 import javafx.scene.Node;
-import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 public class Entity{
 
@@ -17,13 +17,12 @@ public class Entity{
 
     private Node node;
     private ImageView iv;
-    private Sprite sprite;
-    private Sprite spriteDefault;
+    private AnimationHandler animationhandler;
 
-    public Entity(String filename, int positionX, int positionY) {
-        this.iv = new ImageView();
-        this.sprite = new Sprite(this.iv, filename);
-        this.node = new Rectangle(25, 25, Color.GREEN);
+    public Entity(AnimationHandler allAnimation, int positionX, int positionY) {
+        this.iv = allAnimation.getImageView();
+        this.animationhandler = allAnimation;
+        this.node = new Circle(this.animationhandler.getWidth() / 2, this.animationhandler.getHeight() / 2, 2 * this.animationhandler.getHeight() / 5, Color.BLUE);
         this.positionX = positionX;
         this.positionY = positionY;
         this.node.setTranslateX(positionX);
@@ -31,27 +30,8 @@ public class Entity{
         this.alive = true;
     }
 
-    public Entity(String filename, String extension, int numberImages, int positionX, int positionY) {
-        this.iv = new ImageView();
-        this.spriteDefault = new Sprite(this.iv, filename, extension, numberImages);
-        this.sprite = this.spriteDefault;
-        this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.RED);
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.node.setTranslateX(positionX);
-        this.node.setTranslateY(positionY);
-        this.alive = true;
-    }
-
-    public Entity(Sprite idleSprite, int positionX, int positionY) {
-        this.iv = idleSprite.getImageView();
-        this.sprite = idleSprite;
-        this.node = new Circle(this.sprite.getWidth()/2, this.sprite.getHeight()/2, 2*this.sprite.getHeight()/5, Color.BLUE);
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.node.setTranslateX(positionX);
-        this.node.setTranslateY(positionY);
-        this.alive = true;
+    public void update(double time) {
+        getAnimationHandler().setFrame(time);
     }
 
     public void setPosition(int positionX, int positionY) {
@@ -73,18 +53,34 @@ public class Entity{
         return this.node.getBoundsInParent().intersects(otherEntity.getNode().getBoundsInParent());
     }
 
-    public void setSpriteSize(int width, int height) {
-        this.sprite.setWidth(width);
-        this.sprite.setHeight(height);
+    public boolean isColliding(Bounds bounds) {
+        return this.node.getBoundsInParent().intersects(bounds);
     }
 
-    public Sprite[] loadSprite(String[] filename) {
-        Sprite[] sprite = new Sprite[filename.length];
-        for(int i = 0; i < sprite.length; i++) {
-            sprite[i] = new Sprite(this.iv, filename[i]);
-        }
-        System.out.println("Success");
-        return sprite;
+    /**
+     * Method which will retrieve and return requested information about an Entity object.
+     * Creates a new EntityConfiguration object from the DataHandler class, and transfers
+     * variables specific to the Entity class into the corresponding variables in entityCfg.
+     * @return Returns the object entityCfg of type EntityConfiguration.
+     */
+    public DataHandler.EntityConfiguration getEntityConfiguration() {
+        DataHandler.EntityConfiguration entityCfg = new DataHandler.EntityConfiguration();
+        entityCfg.posX = getPositionX();
+        entityCfg.posY = getPositionY();
+        return entityCfg;
+    }
+
+    /**
+     * Method which will transfer provided entityCfg's variables into corresponding variables in Entity.
+     * @param entityCfg Requires an object of type EntityConfiguration.
+     */
+    public void setEntityConfiguration(DataHandler.EntityConfiguration entityCfg) {
+        setPosition(entityCfg.posX, entityCfg.posY);
+        setTranslateNode(entityCfg.posX, entityCfg.posY);
+    }
+
+    public void setNode(Node node) {
+        this.node = node;
     }
 
     public boolean isDead() {
@@ -111,31 +107,19 @@ public class Entity{
 
     public void setPositionY(int positionY) { this.positionY = positionY; }
 
-    public Sprite getSprite() {
-        return sprite;
-    }
-
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
+    public AnimationHandler getAnimationHandler() {
+        return animationhandler;
     }
 
     public Node getNode() {
         return node;
     }
 
-    public void setNode(Node node) {
-        this.node = node;
-    }
-
     public ImageView getIv() {
         return this.iv;
     }
 
-    public void setIv(ImageView iv) {
-        this.iv = iv;
-    }
+    public boolean isDrawn() { return drawn; }
 
-    public boolean isDrawn() { return drawn; };
-
-    public void setDrawn() { drawn = true; };
+    public void setDrawn() { drawn = true; }
 }

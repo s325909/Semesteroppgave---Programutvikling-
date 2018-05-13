@@ -1,40 +1,49 @@
 package entities;
 
+import gameCode.DataHandler;
+import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
+import javafx.scene.shape.Arc;
+import javafx.scene.transform.Rotate;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class Zombie extends Movable {
 
-    private Direction walkDirection;
-    private int walkDistance;
-    private Sprite[] allAnimation;
-    private Queue<SpritePair> animationQueue;
-    private long waitTime;
+    private final int HUNTDISTANCE = 750;
+    private final int ATTACKDISTANCE = 70;
 
-    public Zombie(Sprite[] allAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints) {
-        super(allAnimation[0], audioClips, positionX, positionY, healthPoints, 1.0);
-        this.allAnimation = allAnimation;
-        this.animationQueue = new LinkedList<SpritePair>();
+    private Direction walkDirection;
+    private State state;
+    private int walkDistance;
+    private Queue<AnimationLengthPair> animationQueue;
+    private long waitTime;
+    private Image[] placeHolder;
+    private List<Bullet> attackList;
+
+    public Zombie(Image[][] images, AudioClip[] audioClips, int positionX, int positionY, int healthPoints) {
+        super(new AnimationHandler(images), audioClips, positionX, positionY, healthPoints, 1.0);
+        this.animationQueue = new LinkedList<AnimationLengthPair>();
         this.waitTime = 0;
+        this.state = State.NORMAL;
+        this.walkDirection = Direction.IDLE;
+        this.placeHolder = images[0];
+        this.attackList = new ArrayList<Bullet>();
     }
 
     /***
-     * Method which controls the bulletDirection of enemies, whereas they are drawn towards the Player.
+     * Method which controls the walk direction of enemies, whereas they are drawn towards the Player.
      * @param player Requires an object of type Player in order to decide which Entity the enemies
      *               should pursue.
      */
-    public void movement(Player player) {
-        double diffx = player.getPositionX() - getPositionX();
-        double diffy = player.getPositionY() - getPositionY();
+    public void findDirection(Player player) {
+        double diffx = (player.getPositionX()) - getPositionX();
+        double diffy = (player.getPositionY()) - getPositionY();
         double angle = 180 + Math.atan2(diffy, diffx) * (180 / Math.PI);
         double distance = Math.sqrt(Math.pow(diffx, 2) + Math.pow(diffy, 2));
 
-        if(distance > 50 && distance < 1000 && this.walkDistance <= 0) {
-            if (angle > 340 && angle <= 25) {
+        if (distance < HUNTDISTANCE && distance >= ATTACKDISTANCE && this.walkDistance <= 0) {
+            if (angle > 340 || angle <= 25) {
                 this.walkDirection = Direction.WEST;
                 this.walkDistance = 10;
             } else if (angle > 25 && angle <= 70) {
@@ -61,91 +70,173 @@ public class Zombie extends Movable {
             }
         }
 
-        if(distance <= 50 && this.walkDistance <= 0) {
-            attack();
+        if (distance <= ATTACKDISTANCE && this.walkDistance <= 0) {
+            this.state = State.ATTACK;
+            this.walkDistance = 10;
+        } else {
+            this.state = State.NORMAL;
         }
 
         if (this.walkDistance <= 0) {
             this.walkDirection = Direction.IDLE;
             this.walkDistance = 0;
         }
+    }
+
+    public void move() {
+        int action;
+        int animationLength = 0;
         switch (this.walkDirection) {
             case IDLE:
                 stopX();
                 stopY();
                 this.walkDistance = 0;
-                setAnimation(0);
+                action = 0;
                 break;
             case NORTH:
                 goUp();
                 stopX();
                 this.walkDistance--;
-                setAnimation(1);
+                action = 1;
                 break;
             case NORTHEAST:
                 goUp();
                 goRight();;
                 this.walkDistance--;
-                setAnimation(1);
+                action = 1;
                 break;
             case EAST:
                 goRight();
                 stopY();
                 this.walkDistance--;
-                setAnimation(1);
+                action = 1;
                 break;
             case SOUTHEAST:
                 goDown();
                 goRight();
                 this.walkDistance--;
-                setAnimation(1);
+                action = 1;
                 break;
             case SOUTH:
                 goDown();
                 stopX();
                 this.walkDistance--;
-                setAnimation(1);
+                action = 1;
                 break;
             case SOUTHWEST:
                 goDown();
                 goLeft();
                 this.walkDistance--;
-                setAnimation(1);
+                action = 1;
                 break;
             case WEST:
                 goLeft();
                 stopY();
                 this.walkDistance--;
-                setAnimation(1);
+                action = 1;
                 break;
             case NORTHWEST:
                 goUp();
                 goLeft();
                 this.walkDistance--;
-                setAnimation(1);
+                action = 1;
                 break;
             default:
                 stopX();
                 stopY();
                 this.walkDistance = 0;
-                setAnimation(0);
+                action = 0;
         }
+
+        switch (state) {
+            case NORMAL:
+                break;
+            case ATTACK:
+                stopX();
+                stopY();
+                action = 2;
+                animationLength = 500;
+                attack();
+                this.walkDistance = 0;
+                break;
+            case DAMAGED:
+                break;
+        }
+        setAnimation(action, animationLength);
     }
 
     public void attack() {
-        setAnimation(2);
+        long currentTime = System.currentTimeMillis();
+        if (currentTime > this.waitTime) {
+            int posX = getPositionX();
+            int posY = getPositionY();
+            switch (this.getDirection()) {
+                case EAST:
+                    posX += 2 * this.getAnimationHandler().getImageView().getImage().getWidth() / 3;
+                    posY += this.getAnimationHandler().getImageView().getImage().getHeight() / 2;
+                    break;
+                case NORTHEAST:
+                    posX += 2 * this.getAnimationHandler().getImageView().getImage().getWidth() / 3;
+                    posY += this.getAnimationHandler().getImageView().getImage().getHeight() / 2;
+                    break;
+                case WEST:
+                    posX += this.getAnimationHandler().getImageView().getImage().getWidth() / 3;
+                    posY += 2 * this.getAnimationHandler().getImageView().getImage().getWidth() / 3;
+                    break;
+                case NORTHWEST:
+                    posX += 2 * this.getAnimationHandler().getImageView().getImage().getWidth() / 3;
+                    posY += 2 * this.getAnimationHandler().getImageView().getImage().getHeight() / 3;
+                    break;
+                case NORTH:
+                    posX += 2 * this.getAnimationHandler().getImageView().getImage().getWidth() / 3;
+                    posY += this.getAnimationHandler().getImageView().getImage().getHeight() / 2;
+                    break;
+                case SOUTH:
+                    posX += 2 * this.getAnimationHandler().getImageView().getImage().getWidth() / 3;
+                    posY += this.getAnimationHandler().getImageView().getImage().getHeight() / 2;
+                    break;
+                case SOUTHEAST:
+                    posX += 2 * this.getAnimationHandler().getImageView().getImage().getWidth() / 3;
+                    posY += this.getAnimationHandler().getImageView().getImage().getHeight() / 2;
+                    break;
+                case SOUTHWEST:
+                    posX += 2 * this.getAnimationHandler().getImageView().getImage().getWidth() / 3;
+                    posY += this.getAnimationHandler().getImageView().getImage().getHeight() / 2;
+                    break;
+                case IDLE:
+                    break;
+            }
+
+            int fireRate = 500;
+            Bullet zombieSlash = new Bullet(placeHolder, posX, posY, 0, 20, this.getDirection(), 100);
+            //zombieSlash.setDrawn();
+            zombieSlash.setNewRotation(getNewRotation());
+            Arc knifeArc = new Arc(0, 0, 25, 30.0, 90, 180);
+            knifeArc.setTranslateX(posX);
+            knifeArc.setTranslateY(posY);
+            knifeArc.getTransforms().add(new Rotate(180, 0, 0));
+            zombieSlash.setNode(knifeArc);
+            attackList.add(zombieSlash);
+            this.waitTime = currentTime + fireRate;
+        }
     }
 
     /**
      *
-     * @param i
+     * @param animationAction
      */
-    private void setAnimation(int i) {
-        long time = 0;
-        if(i == 2) {
-            time = 500;
+    private void setAnimation(int animationAction, int animationLength) {
+//        double duration = 0.064;
+//        if(animationAction == 2) {
+//            duration = 0.064;
+//        }
+        boolean not = true;
+        for (AnimationLengthPair pair : animationQueue) {
+            if (pair.animationAction == animationAction)
+                not = false;
         }
-        animationQueue.add(new SpritePair(this.allAnimation[i], time));
+        if (not)
+            animationQueue.add(new AnimationLengthPair(0, animationAction, animationLength, 0.064));
     }
 
     /**
@@ -153,18 +244,40 @@ public class Zombie extends Movable {
      */
     public void updateAnimation() {
         long currentTime = System.currentTimeMillis();
-        SpritePair pair = animationQueue.peek();
+        AnimationLengthPair pair = animationQueue.peek();
         if (pair != null) {
             if (currentTime > this.waitTime) {
-                //System.out.println("Change animation!");
-                super.setSprite(animationQueue.peek().sprite);
+                getAnimationHandler().setImageAction(animationQueue.peek().animationAction);
                 this.waitTime = currentTime + animationQueue.peek().time;
+                getAnimationHandler().setDuration(animationQueue.peek().duration);
                 animationQueue.remove();
             }
         }
     }
 
-//    public void setAnimation(int i) {
-//        super.setSprite(this.allAnimation[i]);
-//    }
+    /**
+     * Method which will retrieve and return requested information about a Zombie object.
+     * In this instance, Zombie shares the same relevant variables as the super class, Movable.
+     * @return Returns an object of type MovementConfiguration set by a super method call.
+     */
+    public DataHandler.MovementConfiguration getZombieConfiguration() {
+        return super.getMovementConfiguration();
+    }
+
+    /**
+     * Method which will transfer provided zombieCfg's variables into corresponding variables in Zombie.
+     * Variables are inherited from Movable, and are thus transferred and set through a super method call.
+     * @param zombieCfg Requires an object of type MovementConfiguration.
+     */
+    public void setZombieConfiguration(DataHandler.MovementConfiguration zombieCfg) {
+        super.setMovementConfiguration(zombieCfg);
+    }
+
+    public List<Bullet> getAttackList() {
+        return attackList;
+    }
+
+    public State getState() {
+        return state;
+    }
 }

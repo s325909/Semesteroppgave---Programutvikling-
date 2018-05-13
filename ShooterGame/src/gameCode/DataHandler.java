@@ -1,8 +1,8 @@
 package gameCode;
 
+import entities.Drop;
 import entities.Player;
 import entities.Movable;
-import javafx.scene.control.Alert;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -20,28 +20,46 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoreData {
+public class DataHandler {
 
-    public static class GameConfiguration {
-        public int gameScore;
-        Configuration player;
-        List<Configuration> zombies;
-        List<Configuration> bullets;
-        List<Configuration> drops;
-        List<Configuration> dropsExtra;
+    static class GameConfiguration {
+        int gameScore;
+        PlayerConfiguration player;
+        List<MovementConfiguration> zombies;
+        List<DropConfiguration> drops;
     }
 
-    public static class Configuration {
-        public int health;
-        public int armor;
+    public static class EntityConfiguration {
         public int posX;
         public int posY;
+    }
+
+    public static class DropConfiguration {
+        public EntityConfiguration entityCfg;
+        public Drop.DropType dropType;
+    }
+
+    public static class MovementConfiguration{
+        public EntityConfiguration entityCfg;
         public double velX;
         public double velY;
+        public double rotation;
         public double movementSpeed;
         public Movable.Direction direction;
-        public Player.WeaponTypes equipped;
+        public int health;
+    }
+
+    public static class BulletConfiguration {
+        public MovementConfiguration movementCfg;
         public int damage;
+        public long remainingTime;
+    }
+
+    public static class PlayerConfiguration {
+        public List<BulletConfiguration> bulletListCfg;
+        public MovementConfiguration movementCfg;
+        public int armor;
+        public Player.WeaponTypes equipped;
         public int magPistol;
         public int poolPistol;
         public int magRifle;
@@ -55,11 +73,11 @@ public class StoreData {
         Settings video;
     }
 
-    public static class Settings {
-        public int soundVolume;
-        public int musicVolume;
-        public int windowWidth;
-        public int windowHeight;
+    static class Settings {
+        int soundVolume;
+        int musicVolume;
+        int windowWidth;
+        int windowHeight;
     }
 
     public boolean createSettingsFile(GameSettings settings) {
@@ -172,7 +190,7 @@ public class StoreData {
 
     /**
      * Method for creating a .xml save file.
-     * Turns the data retrieved during saveTheGame() method in Game class into a structured .xml file.
+     * Turns the data retrieved during save() method in Game class into a structured .xml file.
      * Each field corresponds to the values of the same name for each Entity, and are turned into String
      * values before storing.
      * @param fileName Requires a filename of type String, which in turn will be the name for .xml file.
@@ -180,7 +198,7 @@ public class StoreData {
      *                      the retrieved data for each type of Entity.
      * @return Returns a boolean based on whether the savefile is created successfully, or an exception occurred.
      */
-    public boolean createSaveFile(String fileName, GameConfiguration configuration) {
+    boolean createSaveFile(String fileName, GameConfiguration configuration) {
         DocumentBuilderFactory dbf;
         DocumentBuilder db;
         Document doc;
@@ -209,7 +227,7 @@ public class StoreData {
         savegame.appendChild(playerInfo);
 
         Element playerHP = doc.createElement("HealthPoints");
-        playerHP.appendChild(doc.createTextNode(String.valueOf(configuration.player.health)));
+        playerHP.appendChild(doc.createTextNode(String.valueOf(configuration.player.movementCfg.health)));
         playerInfo.appendChild(playerHP);
 
         Element armor = doc.createElement("ArmorPoints");
@@ -217,28 +235,32 @@ public class StoreData {
         playerInfo.appendChild(armor);
 
         Element playerPosX = doc.createElement("PositionX");
-        playerPosX.appendChild(doc.createTextNode(String.valueOf(configuration.player.posX)));
+        playerPosX.appendChild(doc.createTextNode(String.valueOf(configuration.player.movementCfg.entityCfg.posX)));
         playerInfo.appendChild(playerPosX);
 
         Element playerPosY = doc.createElement("PositionY");
-        playerPosY.appendChild(doc.createTextNode(String.valueOf(configuration.player.posY)));
+        playerPosY.appendChild(doc.createTextNode(String.valueOf(configuration.player.movementCfg.entityCfg.posY)));
         playerInfo.appendChild(playerPosY);
 
         Element playerVelX = doc.createElement("VelocityX");
-        playerVelX.appendChild(doc.createTextNode(String.valueOf(configuration.player.velX)));
+        playerVelX.appendChild(doc.createTextNode(String.valueOf(configuration.player.movementCfg.velX)));
         playerInfo.appendChild(playerVelX);
 
         Element playerVelY = doc.createElement("VelocityY");
-        playerVelY.appendChild(doc.createTextNode(String.valueOf(configuration.player.velY)));
+        playerVelY.appendChild(doc.createTextNode(String.valueOf(configuration.player.movementCfg.velY)));
         playerInfo.appendChild(playerVelY);
 
         Element playerMovement = doc.createElement("MovementSpeed");
-        playerMovement.appendChild(doc.createTextNode(String.valueOf(configuration.player.movementSpeed)));
+        playerMovement.appendChild(doc.createTextNode(String.valueOf(configuration.player.movementCfg.movementSpeed)));
         playerInfo.appendChild(playerMovement);
 
         Element playerDirection = doc.createElement("Direction");
-        playerDirection.appendChild(doc.createTextNode(String.valueOf(configuration.player.direction)));
+        playerDirection.appendChild(doc.createTextNode(String.valueOf(configuration.player.movementCfg.direction)));
         playerInfo.appendChild(playerDirection);
+
+        Element rotation = doc.createElement("Rotation");
+        rotation.appendChild(doc.createTextNode(String.valueOf(configuration.player.movementCfg.rotation)));
+        playerInfo.appendChild(rotation);
 
         Element eqWep = doc.createElement("EquippedWep");
         eqWep.appendChild(doc.createTextNode(String.valueOf(configuration.player.equipped)));
@@ -283,11 +305,11 @@ public class StoreData {
             zombieInfo.appendChild(zombieHP);
 
             Element zombiePosX = doc.createElement("PositionX");
-            zombiePosX.appendChild(doc.createTextNode(String.valueOf(configuration.zombies.get(i).posX)));
+            zombiePosX.appendChild(doc.createTextNode(String.valueOf(configuration.zombies.get(i).entityCfg.posX)));
             zombieInfo.appendChild(zombiePosX);
 
             Element zombiePosY = doc.createElement("PositionY");
-            zombiePosY.appendChild(doc.createTextNode(String.valueOf(configuration.zombies.get(i).posY)));
+            zombiePosY.appendChild(doc.createTextNode(String.valueOf(configuration.zombies.get(i).entityCfg.posY)));
             zombieInfo.appendChild(zombiePosY);
 
             Element zombieVelX = doc.createElement("VelocityX");
@@ -313,37 +335,41 @@ public class StoreData {
         Element bullets = doc.createElement("Bullets");
         savegame.appendChild(bullets);
 
-        for(int i = 0; i < configuration.bullets.size(); i++) {
+        for(int i = 0; i < configuration.player.bulletListCfg.size(); i++) {
             Element bulletInfo = doc.createElement("Bullet");
             bullets.appendChild(bulletInfo);
 
             Element bulletPosX = doc.createElement("PositionX");
-            bulletPosX.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).posX)));
+            bulletPosX.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).movementCfg.entityCfg.posX)));
             bulletInfo.appendChild(bulletPosX);
 
             Element bulletPosY = doc.createElement("PositionY");
-            bulletPosY.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).posY)));
+            bulletPosY.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).movementCfg.entityCfg.posY)));
             bulletInfo.appendChild(bulletPosY);
 
             Element bulletVelX = doc.createElement("VelocityX");
-            bulletVelX.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).velX)));
+            bulletVelX.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).movementCfg.velX)));
             bulletInfo.appendChild(bulletVelX);
 
             Element bulletVelY = doc.createElement("VelocityY");
-            bulletVelY.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).velY)));
+            bulletVelY.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).movementCfg.velY)));
             bulletInfo.appendChild(bulletVelY);
 
             Element bulletMovement = doc.createElement("MovementSpeed");
-            bulletMovement.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).movementSpeed)));
+            bulletMovement.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).movementCfg.movementSpeed)));
             bulletInfo.appendChild(bulletMovement);
 
             Element bulletDirection = doc.createElement("Direction");
-            bulletDirection.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).direction)));
+            bulletDirection.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).movementCfg.direction)));
             bulletInfo.appendChild(bulletDirection);
 
             Element damage = doc.createElement("Damage");
-            damage.appendChild(doc.createTextNode(String.valueOf(configuration.bullets.get(i).damage)));
+            damage.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).damage)));
             bulletInfo.appendChild(damage);
+
+            Element remainingTime = doc.createElement("RemainingTime");
+            remainingTime.appendChild(doc.createTextNode(String.valueOf(configuration.player.bulletListCfg.get(i).remainingTime)));
+            bulletInfo.appendChild(remainingTime);
         }
 
 
@@ -357,12 +383,16 @@ public class StoreData {
             drops.appendChild(dropInfo);
 
             Element dropPosX = doc.createElement("PositionX");
-            dropPosX.appendChild(doc.createTextNode(String.valueOf(configuration.drops.get(i).posX)));
+            dropPosX.appendChild(doc.createTextNode(String.valueOf(configuration.drops.get(i).entityCfg.posX)));
             dropInfo.appendChild(dropPosX);
 
             Element dropPosY = doc.createElement("PositionY");
-            dropPosY.appendChild(doc.createTextNode(String.valueOf(configuration.drops.get(i).posY)));
+            dropPosY.appendChild(doc.createTextNode(String.valueOf(configuration.drops.get(i).entityCfg.posY)));
             dropInfo.appendChild(dropPosY);
+
+            Element dropType = doc.createElement("DropType");
+            dropType.appendChild(doc.createTextNode(String.valueOf(configuration.drops.get(i).dropType)));
+            dropInfo.appendChild(dropType);
         }
 
 
@@ -401,7 +431,7 @@ public class StoreData {
      *                      data for each type of Entity.
      * @return Returns a boolean value based on whether there were any exceptions during file search, read, or parsing.
      */
-    public boolean readSaveFile(String fileName, GameConfiguration configuration) {
+    boolean readSaveFile(String fileName, GameConfiguration configuration) {
         DocumentBuilderFactory dbf;
         DocumentBuilder db;
         Document doc;
@@ -435,17 +465,25 @@ public class StoreData {
         //Parse player
         NodeList playerList = doc.getElementsByTagName("Player");
         Node playerNode = playerList.item(0);
-        configuration.player = new Configuration();
+        configuration.player = new PlayerConfiguration();
         if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
             Element playerElement = (Element) playerNode;
-            configuration.player.health = Integer.valueOf(playerElement.getElementsByTagName("HealthPoints").item(0).getTextContent());
+
+            EntityConfiguration entityCfg = new EntityConfiguration();
+            entityCfg.posX = Integer.valueOf(playerElement.getElementsByTagName("PositionX").item(0).getTextContent());
+            entityCfg.posY = Integer.valueOf(playerElement.getElementsByTagName("PositionY").item(0).getTextContent());
+
+            MovementConfiguration movementCfg = new MovementConfiguration();
+            movementCfg.entityCfg = entityCfg;
+            movementCfg.health = Integer.valueOf(playerElement.getElementsByTagName("HealthPoints").item(0).getTextContent());
+            movementCfg.velX = Double.valueOf(playerElement.getElementsByTagName("VelocityX").item(0).getTextContent());
+            movementCfg.velY = Double.valueOf(playerElement.getElementsByTagName("VelocityY").item(0).getTextContent());
+            movementCfg.movementSpeed = Double.valueOf(playerElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
+            movementCfg.direction = Movable.Direction.valueOf(playerElement.getElementsByTagName("Direction").item(0).getTextContent());
+            movementCfg.rotation = Double.valueOf(playerElement.getElementsByTagName("Rotation").item(0).getTextContent());
+
+            configuration.player.movementCfg = movementCfg;
             configuration.player.armor = Integer.valueOf(playerElement.getElementsByTagName("ArmorPoints").item(0).getTextContent());
-            configuration.player.posX = Integer.valueOf(playerElement.getElementsByTagName("PositionX").item(0).getTextContent());
-            configuration.player.posY = Integer.valueOf(playerElement.getElementsByTagName("PositionY").item(0).getTextContent());
-            configuration.player.velX = Double.valueOf(playerElement.getElementsByTagName("VelocityX").item(0).getTextContent());
-            configuration.player.velY = Double.valueOf(playerElement.getElementsByTagName("VelocityY").item(0).getTextContent());
-            configuration.player.movementSpeed = Double.valueOf(playerElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
-            configuration.player.direction = Movable.Direction.valueOf(playerElement.getElementsByTagName("Direction").item(0).getTextContent());
             configuration.player.equipped =  Player.WeaponTypes.valueOf(playerElement.getElementsByTagName("EquippedWep").item(0).getTextContent());
             configuration.player.magPistol = Integer.valueOf(playerElement.getElementsByTagName("MagPistol").item(0).getTextContent());
             configuration.player.poolPistol = Integer.valueOf(playerElement.getElementsByTagName("PoolPistol").item(0).getTextContent());
@@ -459,15 +497,19 @@ public class StoreData {
 
         //Parse zombies
         NodeList zombieList = doc.getElementsByTagName("Zombie");
-        configuration.zombies = new ArrayList<Configuration>();
+        configuration.zombies = new ArrayList<>();
         for (int i = 0; i < zombieList.getLength(); i++) {
             Node zombieNode = zombieList.item(i);
             if (zombieNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element zombieElement = (Element) zombieNode;
-                Configuration zombieCfg = new Configuration();
+
+                EntityConfiguration entityCfg = new EntityConfiguration();
+                entityCfg.posX = Integer.valueOf(zombieElement.getElementsByTagName("PositionX").item(0).getTextContent());
+                entityCfg.posY = Integer.valueOf(zombieElement.getElementsByTagName("PositionY").item(0).getTextContent());
+
+                MovementConfiguration zombieCfg = new MovementConfiguration();
+                zombieCfg.entityCfg = entityCfg;
                 zombieCfg.health = Integer.valueOf(zombieElement.getElementsByTagName("HealthPoints").item(0).getTextContent());
-                zombieCfg.posX = Integer.valueOf(zombieElement.getElementsByTagName("PositionX").item(0).getTextContent());
-                zombieCfg.posY = Integer.valueOf(zombieElement.getElementsByTagName("PositionY").item(0).getTextContent());
                 zombieCfg.velX = Double.valueOf(zombieElement.getElementsByTagName("VelocityX").item(0).getTextContent());
                 zombieCfg.velY = Double.valueOf(zombieElement.getElementsByTagName("VelocityY").item(0).getTextContent());
                 zombieCfg.movementSpeed = Double.valueOf(zombieElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
@@ -480,20 +522,28 @@ public class StoreData {
 
         //Parse bullets
         NodeList bulletList = doc.getElementsByTagName("Bullet");
-        configuration.bullets = new ArrayList<Configuration>();
+        configuration.player.bulletListCfg = new ArrayList<>();
         for (int i = 0; i < bulletList.getLength(); i++) {
             Node bulletNode = bulletList.item(i);
             if (bulletNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element bulletElement = (Element) bulletNode;
-                Configuration bulletCfg = new Configuration();
-                bulletCfg.posX = Integer.valueOf(bulletElement.getElementsByTagName("PositionX").item(0).getTextContent());
-                bulletCfg.posY = Integer.valueOf(bulletElement.getElementsByTagName("PositionY").item(0).getTextContent());
-                bulletCfg.velX = Double.valueOf(bulletElement.getElementsByTagName("VelocityX").item(0).getTextContent());
-                bulletCfg.velY = Double.valueOf(bulletElement.getElementsByTagName("VelocityY").item(0).getTextContent());
-                bulletCfg.movementSpeed = Double.valueOf(bulletElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
-                bulletCfg.direction = Movable.Direction.valueOf(bulletElement.getElementsByTagName("Direction").item(0).getTextContent());
+
+                EntityConfiguration entityCfg = new EntityConfiguration();
+                entityCfg.posX = Integer.valueOf(bulletElement.getElementsByTagName("PositionX").item(0).getTextContent());
+                entityCfg.posY = Integer.valueOf(bulletElement.getElementsByTagName("PositionY").item(0).getTextContent());
+
+                MovementConfiguration movementCfg = new MovementConfiguration();
+                movementCfg.entityCfg = entityCfg;
+                movementCfg.velX = Double.valueOf(bulletElement.getElementsByTagName("VelocityX").item(0).getTextContent());
+                movementCfg.velY = Double.valueOf(bulletElement.getElementsByTagName("VelocityY").item(0).getTextContent());
+                movementCfg.movementSpeed = Double.valueOf(bulletElement.getElementsByTagName("MovementSpeed").item(0).getTextContent());
+                movementCfg.direction = Movable.Direction.valueOf(bulletElement.getElementsByTagName("Direction").item(0).getTextContent());
+
+                BulletConfiguration bulletCfg = new BulletConfiguration();
+                bulletCfg.movementCfg = movementCfg;
                 bulletCfg.damage = Integer.valueOf(bulletElement.getElementsByTagName("Damage").item(0).getTextContent());
-                configuration.bullets.add(bulletCfg);
+                bulletCfg.remainingTime = Integer.valueOf(bulletElement.getElementsByTagName("RemainingTime").item(0).getTextContent());
+                configuration.player.bulletListCfg.add(bulletCfg);
             } else {
                 return false;
             }
@@ -501,14 +551,19 @@ public class StoreData {
 
         //Parse drops
         NodeList dropList = doc.getElementsByTagName("Drop");
-        configuration.drops = new ArrayList<Configuration>();
+        configuration.drops = new ArrayList<>();
         for (int i = 0; i < dropList.getLength(); i++) {
             Node dropsNode = dropList.item(i);
             if (dropsNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element dropsElement = (Element) dropsNode;
-                Configuration dropCfg = new Configuration();
-                dropCfg.posX = Integer.valueOf(dropsElement.getElementsByTagName("PositionX").item(0).getTextContent());
-                dropCfg.posY = Integer.valueOf(dropsElement.getElementsByTagName("PositionY").item(0).getTextContent());
+
+                EntityConfiguration entityCfg = new EntityConfiguration();
+                entityCfg.posX = Integer.valueOf(dropsElement.getElementsByTagName("PositionX").item(0).getTextContent());
+                entityCfg.posY = Integer.valueOf(dropsElement.getElementsByTagName("PositionY").item(0).getTextContent());
+
+                DropConfiguration dropCfg = new DropConfiguration();
+                dropCfg.entityCfg = entityCfg;
+                dropCfg.dropType = Drop.DropType.valueOf(dropsElement.getElementsByTagName("DropType").item(0).getTextContent());
                 configuration.drops.add(dropCfg);
             } else {
                 return false;
