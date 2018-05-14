@@ -46,7 +46,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Slider fx:id="musicVolumeSlider" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="258.0" snapToTicks="true" />
+                        <Slider fx:id="musicVolumeSlider" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="258.0" snapToTicks="true" />
                         <Text fx:id="musicVolumeNumber" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="56.13671875">
                            <font>
                               <Font size="20.0" />
@@ -61,7 +61,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Slider fx:id="soundVolumeSlider" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="260.0" snapToTicks="true" />
+                        <Slider fx:id="soundVolumeSlider" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="260.0" snapToTicks="true" />
                         <Text fx:id="soundVolumeNumber" strokeType="OUTSIDE" strokeWidth="0.0">
                            <font>
                               <Font size="20.0" />
@@ -133,22 +133,21 @@
             </VBox>
          </children>
       </HBox>
-      <Button fx:id="backGame" mnemonicParsing="false" onAction="#backToGame" text="Return To Game">
-         <VBox.margin>
-            <Insets top="25.0" />
-         </VBox.margin>
-      </Button>
 
     </VBox>
-   <HBox>
+   <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
       <children>
-         <Button fx:id="returnToMenu" mnemonicParsing="false" onAction="#returnToMenu" prefHeight="75.0" prefWidth="250.0" text="Back to Menu">
+         <Button fx:id="backToMenu" mnemonicParsing="false" onAction="#returnToMenu" prefHeight="75.0" prefWidth="250.0" text="Back to Menu">
             <font>
                <Font name="Copperplate Gothic Light" size="24.0" />
             </font>
          </Button>
+         <Button fx:id="backToGame" alignment="CENTER" mnemonicParsing="false" onAction="#returnToGame" text="Return to Game" />
       </children>
-   </HBox>
+      <GridPane.margin>
+         <Insets bottom="25.0" />
+      </GridPane.margin>
+   </VBox>
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>

@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable {
 
-    @FXML private Button returnToMenu, backGame;
+    @FXML private Button backToMenu, backToGame;
     @FXML private Slider musicVolumeSlider, soundVolumeSlider;
     @FXML private Text musicVolumeNumber, soundVolumeNumber;
     @FXML private RadioButton select720, select1080, select1440;
@@ -102,17 +102,25 @@ public class SettingsController implements Initializable {
     }
 
     public void showReturnToMenu(boolean visible){
-        returnToMenu.setVisible(visible);
+        backToMenu.setVisible(visible);
     }
 
-    public void showReturnToGame(boolean visible) { backGame.setVisible(visible); }
+    public void showReturnToGame(boolean visible) { backToGame.setVisible(visible); }
 
 
     @FXML
-    public void backToGame(){
+    public void returnToGame(ActionEvent event) throws IOException{
+        
 
-        Stage stage = (Stage) backGame.getScene().getWindow();
-        stage.close();
+        try {
+            if (event.getSource() == backToGame) {
+                Stage stage = (Stage) backToGame.getScene().getWindow();
+                stage.close();
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
 
 
         /*
@@ -131,22 +139,21 @@ public class SettingsController implements Initializable {
     }
 
     @FXML
-    public void returnToMenu(ActionEvent event) {
+    public void returnToMenu(ActionEvent event) throws IOException {
 
         MusicPlayer.mediaPlayer.stop();
 
         try {
-            if (event.getSource() == returnToMenu) {
-                window_GameMenu = (Stage) returnToMenu.getScene().getWindow();
+            if (event.getSource() == backToMenu) {
+                window_GameMenu = (Stage) backToMenu.getScene().getWindow();
                 root_GameMenu = FXMLLoader.load(getClass().getResource("../main/MainMenu.fxml"));
+                Scene scene_GameMenu = new Scene(root_GameMenu, 1280, 720);
+                window_GameMenu.setScene(scene_GameMenu);
+                window_GameMenu.show();
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
-
-        Scene scene_GameMenu = new Scene(root_GameMenu, 1280, 720);
-        window_GameMenu.setScene(scene_GameMenu);
-        window_GameMenu.show();
     }
 
     public Slider getMusicSlider() {

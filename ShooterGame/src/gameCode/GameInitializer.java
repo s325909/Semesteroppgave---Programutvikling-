@@ -321,6 +321,9 @@ public class GameInitializer implements Initializable{
 
     public void showSettings(ActionEvent event) throws IOException {
 
+
+        musicPlayer.stopMusic();
+
         /*
 
         //musicPlayer.muteVolume();
@@ -344,13 +347,18 @@ public class GameInitializer implements Initializable{
         Parent root;
 
         try {
-            windowSettings = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Settings.fxml"));
-            root = loader.load();
-            SettingsController controller = loader.getController();
-            controller.showReturnToMenu(false);
-            windowSettings.setScene(new Scene(root, 1280, 720));
-            windowSettings.show();
+
+            if (event.getSource() == settings) {
+
+                windowSettings = new Stage();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Settings.fxml"));
+                root = loader.load();
+                SettingsController controller = loader.getController();
+                controller.showReturnToMenu(false);
+                controller.showReturnToGame(true);
+                windowSettings.setScene(new Scene(root, 1280, 720));
+                windowSettings.show();
+            }
         }catch (Exception e){
             System.out.println("Error" + e.getMessage());
         }
