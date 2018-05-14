@@ -1,5 +1,6 @@
 package main;
 
+import gameCode.GameInitializer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,8 +40,11 @@ public class MainController implements Initializable{
     public void launchGame(){
         try{
             Stage stage = (Stage) newGame.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../gameCode/GameWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gameCode/GameWindow.fxml"));
+            Parent root = loader.load();
             Scene scene = new Scene(root);
+            GameInitializer controller = loader.<GameInitializer>getController();
+            controller.setDifficulty();
             scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
             stage.setScene(scene);
             stage.show();

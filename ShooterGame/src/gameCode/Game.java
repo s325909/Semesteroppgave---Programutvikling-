@@ -877,6 +877,7 @@ public class Game {
     }
 
     private void setDifficulty(Difficulty difficulty) {
+        setDifficultyModifiers(difficulty);
         this.difficulty = difficulty;
     }
 

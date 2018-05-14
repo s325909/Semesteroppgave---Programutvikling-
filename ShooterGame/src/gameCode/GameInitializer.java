@@ -67,7 +67,16 @@ public class GameInitializer implements Initializable{
 
         musicPlayer.playMusic();
         musicPlayer.muteVolume();
+    }
+
+    public void setDifficulty() {
         selectDifficulty();
+    }
+
+    public void setLoad(String saveGame) {
+        ingameChooseDifficulty.setVisible(false);
+        startGame(Game.Difficulty.NORMAL);
+        game.loadGame(saveGame);
     }
 
     /**

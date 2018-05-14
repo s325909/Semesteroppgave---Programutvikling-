@@ -52,27 +52,30 @@ public class LoadingController implements Initializable {
      */
     @FXML
     public void loadGame(ActionEvent event) {
+        String saveGame = "save1";
+        if (event.getSource() == loadBtn1) {
+            saveGame = "save1";
+            System.out.println("Button 1");
+        } else if (event.getSource() == loadBtn2) {
+            saveGame = "save2";
+            System.out.println("Button 2");
+        } else if (event.getSource() == loadBtn3) {
+            saveGame = "save3";
+            System.out.println("Button 3");
+        }
 
         try{
             Stage stage = (Stage) loadBtn1.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gameCode/LoadWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gameCode/GameWindow.fxml"));
             Parent root = loader.load();
+            GameInitializer controller = loader.<GameInitializer>getController();
+            controller.setLoad(saveGame);
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
             stage.setScene(scene);
             stage.show();
-
-
         }catch (IOException io){
             io.printStackTrace();
-        }
-
-        if (event.getSource() == loadBtn1) {
-            System.out.println("Button 1");
-        } else if (event.getSource() == loadBtn2) {
-            System.out.println("Button 2");
-        } else if (event.getSource() == loadBtn3) {
-            System.out.println("Button 3");
         }
     }
 
