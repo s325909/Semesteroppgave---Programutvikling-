@@ -22,8 +22,6 @@ public class LoadingController implements Initializable {
     private Stage window_GameMenu;
     private Parent root_GameMenu;
 
-    private Game game;
-
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
@@ -57,7 +55,7 @@ public class LoadingController implements Initializable {
 
         try{
             Stage stage = (Stage) loadBtn1.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gameCode/GameWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gameCode/LoadWindow.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
@@ -71,7 +69,6 @@ public class LoadingController implements Initializable {
 
         if (event.getSource() == loadBtn1) {
             System.out.println("Button 1");
-            //game.saveGame("Save 1");
         } else if (event.getSource() == loadBtn2) {
             System.out.println("Button 2");
         } else if (event.getSource() == loadBtn3) {

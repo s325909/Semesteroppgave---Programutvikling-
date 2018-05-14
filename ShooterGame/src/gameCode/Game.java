@@ -3,6 +3,7 @@ package gameCode;
 import entities.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -42,8 +43,12 @@ public class Game {
     private boolean newRound;
     private boolean gameOver;
 
-    private GameInitializer gameInitializer;
+    GameInitializer gameInitializer;
+
+    private AssetsHandler assetsHandler;
     private DataHandler dataHandler;
+
+    final private boolean DEBUG = true;
 
     /**
      * Constructor which sets all starting attributes, and then creates and starts an AnimationTimer.
@@ -51,8 +56,6 @@ public class Game {
      * These methods include one which updates animations, updates positions and checks collision,
      * and another which updates the HUD elements of the GameWindow FXML.
      * @param difficulty Requires a set Difficulty.
-     * @param player Requires a Player object.
-     * @param rocks Requires Rock objects.
      * @param gameWindow Requires a Pane to draw Images to.
      * @param hudHP requires a Label which represents Player's healthpoints, and will be updated.
      * @param hudArmor requires a Label which represents Player's armor, and will be updated.
@@ -62,13 +65,12 @@ public class Game {
      * @param hudScore requires a Label which represents Game's score value, and will be updated.
      * @param hudTimer requires a Label which represents Game's timer value, and will be updated.
      */
-    public Game(Difficulty difficulty, Player player, List<Rock> rocks, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
-
+    public Game(GameInitializer gameInitializer, Difficulty difficulty, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
+        this.gameInitializer = gameInitializer;
+        this.assetsHandler = new AssetsHandler();
         this.difficulty = difficulty;
         setDifficultyModifiers(difficulty);
-        this.player = player;
         this.zombies = new ArrayList<>();
-        this.rocks = rocks;
         this.gameWindow = gameWindow;
         this.hudHP = hudHP;
         this.hudArmor = hudArmor;
@@ -82,6 +84,9 @@ public class Game {
         this.scoreNumber = 0;
         this.roundNumber = 0;
 
+        createRocks();
+        createPlayer(difficulty);
+
         final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -93,6 +98,138 @@ public class Game {
             }
         };
         timer.start();
+    }
+
+
+    /**
+     * Method which creates and draws the Player object for use in the Game.
+     */
+    private void createPlayer(Game.Difficulty difficulty) {
+        try {
+            player = new Player(assetsHandler.getPlayerImages(), assetsHandler.getBasicSounds(), assetsHandler.getWeaponSounds(), assetsHandler.getPistolBulletImaqe(), (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
+            player.resetPlayer(difficulty);
+        } catch (Exception e) {
+            System.out.println("Error: Player did not load correctly");
+        }
+
+        // Draw Player to the Pane
+        if(DEBUG)
+            gameWindow.getChildren().add(player.getNode());
+        gameWindow.getChildren().add(player.getAnimationHandler().getImageView());
+    }
+
+    /**
+     * Method which creates and draws the Rock objects for use in the Game.
+     */
+    private void createRocks() {
+        try {
+            rocks = new ArrayList<>();
+            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 400));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 430));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 450));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 470));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 500));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 530));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 560));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 590));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 620));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 400));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 220, 400));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 200, 400));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 180, 400));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 160, 400));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 140, 400));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 120, 400));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 100, 400));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 80, 400));
+
+            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 300));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 330));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 350));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 370));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 390));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 410));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 430));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 450));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 300));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 670, 300));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 640, 300));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 610, 300));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 580, 300));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 550, 300));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 300));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 320));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 340));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 360));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 380));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 400));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 420));
+
+            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 130));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 150));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 170));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 190));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 210));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 1000, 210));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 980, 210));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 960, 210));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 940, 210));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 920, 210));
+
+            rocks.add(new Rock(assetsHandler.getRockImage(), 940, 400));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 400, 250));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 200, 140));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 500, 40));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 1000, 500));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 300, 500));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 151, 151));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 800));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 300, 1000));
+            rocks.add(new Rock(assetsHandler.getRockImage(), 800, 100));
+
+        } catch (Exception e) {
+            System.out.println("Error: Rocks did not load correctly");
+        }
+
+        // Draw rocks to the Pane
+        for (Rock rock : rocks) {
+            if (DEBUG)
+                gameWindow.getChildren().add(rock.getNode());
+            gameWindow.getChildren().add(rock.getAnimationHandler().getImageView());
+        }
+    }
+
+    public boolean isDEBUG() {
+        return DEBUG;
+    }
+
+    /***
+     * Method which handles user input.
+     * pressEvent() method call in Player handles movement of the Player object itself.
+     */
+    public void getKeyPressed(){
+
+        gameWindow.getScene().setOnKeyPressed(e -> {
+            player.pressEvent(e);
+            if (e.getCode() == KeyCode.BACK_SPACE) {
+                removeZombies();
+
+            } else if (e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.P) {
+                pauseGame();
+                gameInitializer.showMenu();
+
+            } else if (e.getCode() == KeyCode.M) {
+                gameInitializer.musicPlayer.muteVolume();
+
+            } else if (e.getCode() == KeyCode.F5){
+                saveGame("quicksave");
+            } else if (e.getCode() == KeyCode.F9) {
+                loadGame("quicksave");
+            }
+        });
+        gameWindow.getScene().setOnKeyReleased(e -> {
+            player.releasedEvent(e);
+        });
     }
 
     /***
@@ -138,26 +275,23 @@ public class Game {
 
         //////////////////////////////////////////////////////////
 
-        //Check Player collision with edges
-        if(player.getNode().getTranslateX() < 0 || player.getNode().getTranslateY() < 0 || player.getNode().getTranslateX() > (gameWindow.getWidth() - 60) || player.getNode().getTranslateY() > (gameWindow.getHeight() - 100)) {
-            player.moveBack();
+        List<Movable> moveableList = new ArrayList<>();
+        moveableList.add(player); //Check Player collision with edges
+        moveableList.addAll(zombies); // Check Zombie collision with edges
+        for (Movable moveable : moveableList) {
+            if (moveable.getNode().getTranslateX() < 0 || moveable.getNode().getTranslateY() < 0 || moveable.getNode().getTranslateX() > (gameWindow.getWidth() - 60) || moveable.getNode().getTranslateY() > (gameWindow.getHeight() - 100)) {
+                moveable.moveBack();
+            }
         }
 
-        // Check Zombie collision with edges
+        List<Bullet> bulletList = new ArrayList<>();
+        bulletList.addAll(bullets);
         for (Zombie zombie : zombies) {
-            if (zombie.getNode().getTranslateX() < 0 || zombie.getNode().getTranslateY() < 0 || zombie.getNode().getTranslateX() > (gameWindow.getWidth()) || zombie.getNode().getTranslateY() > (gameWindow.getHeight())) {
-                zombie.moveBack();
-            }
-            // Check Zombie's attack collision with edges
-            for (Bullet zombieAttack : zombie.getAttackList()) {
-                if (zombieAttack.getNode().getTranslateX() < 0 || zombieAttack.getNode().getTranslateY() < 0 || zombieAttack.getNode().getTranslateX() > (gameWindow.getWidth()) || zombieAttack.getNode().getTranslateY() > (gameWindow.getHeight())) {
-                    zombieAttack.setAlive(false);
-                }
-            }
+            bulletList.addAll(zombie.getAttackList());
         }
 
         // Check Bullet collision with edges
-        for (Bullet bullet : bullets) {
+        for (Bullet bullet : bulletList) {
             if (bullet.getNode().getTranslateX() < 0 || bullet.getNode().getTranslateY() < 0 || bullet.getNode().getTranslateX() > (gameWindow.getWidth()) || bullet.getNode().getTranslateY() > (gameWindow.getHeight())) {
                 bullet.setAlive(false);
             }
@@ -201,48 +335,25 @@ public class Game {
 
         //////////////////////////////////////////////////////////
 
-        // Draw zombies to the pane
-        for (Zombie zombie : zombies) {
-            zombie.drawImage(zombie.isDrawn(), this);
+        List<Entity> wholeWorld = new ArrayList<>();
+        wholeWorld.addAll(zombies); // Draw zombies to the pane
+        wholeWorld.addAll(bullets); // Draw bullets to the pane
+        wholeWorld.addAll(drops); // Draws drops to the pane, placing them furthest back
+        for (Zombie zombie : zombies) { // Draws Zombie's attack briefly to the pane
+            wholeWorld.addAll(zombie.getAttackList());
         }
 
-        // Draw bullets to the pane
-        for(Bullet bullet : bullets) {
-            bullet.drawImage(bullet.isDrawn(), this);
-        }
-
-        // Draws drops to the pane, placing them furthest back
-        for (Drop drop : drops) {
-            drop.drawImage(drop.isDrawn(), this);
-        }
-
-        // Draws Zombie's attack briefly to the pane
-        for (Zombie zombie : zombies) {
-            for (Bullet zombieAttack : zombie.getAttackList()) {
-                zombieAttack.drawImage(zombieAttack.isDrawn(), this);
-            }
+        for (Entity entity : wholeWorld) {
+            entity.drawImage(this);
         }
 
         //////////////////////////////////////////////////////////
 
-        // Update animation, position and Image rotation of Player
-        player.updateAnimation();
-        player.update(time);
-
-        // Update animation, position and Image rotation of Zombie
-        for(Zombie zombie : zombies) {
-            zombie.updateAnimation();
-            zombie.update(time);
-
-            // Update animation, position and Image rotation of Zombie's attack
-            for (Bullet zombieAttack : zombie.getAttackList()) {
-                zombieAttack.update(time);
-            }
-        }
-
-        // Update Bullet's position, Image rotation, and handling timeToLive expiration
-        for(Bullet bullet : bullets) {
-            bullet.update(time);
+        // Update animation, position and Image rotation
+        moveableList.addAll(bulletList); // Update Bullet's position, Image rotation, and handling timeToLive expiration
+        for (Movable moveable : moveableList) {
+            moveable.updateAnimation();
+            moveable.update(time);
         }
 
         // Update Drop's position and Image animation, if any
@@ -252,24 +363,8 @@ public class Game {
 
         //////////////////////////////////////////////////////////
 
-        // Remove Zombie's Image if set to dead
-        for(Zombie zombie : zombies) {
-            zombie.removeImage(zombie.isAlive(), this, drops);
-
-            // Remove Zombie's attack Image if set to dead
-            for (Bullet zombieAttack : zombie.getAttackList()) {
-                zombieAttack.removeImage(zombieAttack.isAlive(), this);
-            }
-        }
-
-        // Remove Bullet's Image if set to dead
-        for(Bullet bullet : bullets) {
-            bullet.removeImage(bullet.isAlive(), this);
-        }
-
-        // Remove Drop's Image if set to dead
-        for(Drop drop : drops) {
-            drop.removeImage(drop.isAlive(), this);
+        for (Entity remove : wholeWorld) {
+            remove.removeImage(this);
         }
 
         //////////////////////////////////////////////////////////
@@ -307,14 +402,14 @@ public class Game {
             int random = (int) Math.floor(Math.random() * 100);
             if (random < 4) {
                 int[] randomPosition = getRandomPosition();
-                Drop drop = new Drop(gameInitializer.getScoreDropAnimation(), randomPosition[0], randomPosition[1], Drop.DropType.SCORE);
+                Drop drop = new Drop(assetsHandler.getScoreDropAnimation(), randomPosition[0], randomPosition[1], Drop.DropType.SCORE);
 
                 int nbrClearedRocks = 0;
                 while (nbrClearedRocks < rocks.size()) {
                     for (Rock rock : rocks) {
                         if (rock.isColliding(drop)) {
                             randomPosition = getRandomPosition();
-                            drop = new Drop(gameInitializer.getScoreDropAnimation(), randomPosition[0], randomPosition[1], Drop.DropType.SCORE);
+                            drop = new Drop(assetsHandler.getScoreDropAnimation(), randomPosition[0], randomPosition[1], Drop.DropType.SCORE);
                         } else {
                             nbrClearedRocks++;
                         }
@@ -415,14 +510,14 @@ public class Game {
             // The check is basic and requires improvement, but works mostly as desired
             for (int i = 0; i < nbrZombies; i++) {
                 int[] randomPosition = getRandomPosition();
-                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), randomPosition[0], randomPosition[1], zombieHealth);
+                Zombie zombie = new Zombie(assetsHandler.getZombieImages(), assetsHandler.getZombieAudioClips(), randomPosition[0], randomPosition[1], zombieHealth);
 
                 int nbrClearedRocks = 0;
                 while (nbrClearedRocks < rocks.size()) {
                     for (Rock rock : rocks) {
                         if (rock.isColliding(zombie)) {
                             randomPosition = getRandomPosition();
-                            zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), randomPosition[0], randomPosition[1], zombieHealth);
+                            zombie = new Zombie(assetsHandler.getZombieImages(), assetsHandler.getZombieAudioClips(), randomPosition[0], randomPosition[1], zombieHealth);
                         } else {
                             nbrClearedRocks++;
                         }
@@ -466,17 +561,17 @@ public class Game {
 
         switch(randomNumber) {
             case 0:
-                return new Drop(gameInitializer.getHpDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.HP);
+                return new Drop(assetsHandler.getHpDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.HP);
             case 1:
-                return new Drop(gameInitializer.getArmorDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.ARMOR);
+                return new Drop(assetsHandler.getArmorDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.ARMOR);
             case 2:
-                return new Drop(gameInitializer.getPistolDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.PISTOLAMMO);
+                return new Drop(assetsHandler.getPistolDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.PISTOLAMMO);
             case 3:
-                return new Drop(gameInitializer.getRifleDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.RIFLEAMMO);
+                return new Drop(assetsHandler.getRifleDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.RIFLEAMMO);
             case 4:
-                return new Drop(gameInitializer.getShotgunDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.SHOTGUNAMMO);
+                return new Drop(assetsHandler.getShotgunDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.SHOTGUNAMMO);
             default:
-                return new Drop(gameInitializer.getScoreDropAnimation(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.SCORE);
+                return new Drop(assetsHandler.getScoreDropAnimation(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.SCORE);
         }
     }
 
@@ -677,14 +772,10 @@ public class Game {
         player.setPlayerConfiguration(gameCfg.player);
 
         for (int i = 0; i < gameCfg.zombies.size(); i++) {
-            Zombie zombie = new Zombie(this.getGameInitializer().getZombieImages(), this.getGameInitializer().getZombieAudioClips(),
+            Zombie zombie = new Zombie(assetsHandler.getZombieImages(), assetsHandler.getZombieAudioClips(),
                     gameCfg.zombies.get(i).entityCfg.posX, gameCfg.zombies.get(i).entityCfg.posY, gameCfg.zombies.get(i).health);
             zombie.setZombieConfiguration(gameCfg.zombies.get(i));
             this.zombies.add(zombie);
-
-            if(this.getGameInitializer().isDEBUG())
-                gameWindow.getChildren().add(zombie.getNode());
-            gameWindow.getChildren().add(zombie.getAnimationHandler().getImageView());
         }
 
 
@@ -789,10 +880,6 @@ public class Game {
         this.difficulty = difficulty;
     }
 
-    public GameInitializer getGameInitializer() {
-        return gameInitializer;
-    }
-
     public int getScoreNumber() {
         return scoreNumber;
     }
@@ -818,9 +905,6 @@ public class Game {
         this.gameOver = gameOver;
     }
 
-    void setGameInitializer(GameInitializer gameInitializer) {
-        this.gameInitializer = gameInitializer;
-    }
 
     private void setRoundNumber(int roundNumber) {
         this.roundNumber = roundNumber;

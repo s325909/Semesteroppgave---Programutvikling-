@@ -427,6 +427,7 @@ public class Player extends Movable {
     /**
      *
      */
+    @Override
     public void updateAnimation() {
         long currentTime = System.currentTimeMillis();
         AnimationLengthPair pair = animationQueue.peek();

@@ -35,7 +35,7 @@ public class Zombie extends Movable {
 
     public void removeImage(boolean isAlive, Game game, List<Drop> drops) {
         if (!isAlive) {
-            if(game.getGameInitializer().isDEBUG())
+            if(game.isDEBUG())
                 game.getGameWindow().getChildren().remove(getNode());
             game.getGameWindow().getChildren().remove(getAnimationHandler().getImageView());
 
@@ -245,6 +245,7 @@ public class Zombie extends Movable {
     /**
      *
      */
+    @Override
     public void updateAnimation() {
         long currentTime = System.currentTimeMillis();
         AnimationLengthPair pair = animationQueue.peek();

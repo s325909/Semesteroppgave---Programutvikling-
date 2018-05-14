@@ -37,16 +37,15 @@ public class Drop extends Entity {
 
     /**
      * Method which functions mostly as its superclass equivalent, but draws the Image furthest to the back.
-     * @param isDrawn Requires the boolean which determines whether the Entity has been drawn.
      * @param game Requires the Game object of which to draw the Image and Node to.
      */
-    public void drawImage(boolean isDrawn, Game game) {
-        if (!isDrawn) {
-            super.drawImage(isDrawn, game);
+    @Override
+    public void drawImage(Game game) {
+        if (!isDrawn()) {
+            super.drawImage(game);
 
             getAnimationHandler().getImageView().toBack();
             getNode().toBack();
-
         }
     }
 

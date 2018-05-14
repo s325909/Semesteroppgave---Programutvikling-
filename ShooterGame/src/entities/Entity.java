@@ -43,15 +43,14 @@ public class Entity{
      * Method which draws the ImageView and Node of the Entity to the gameWindow Pane.
      * Will draw the ImageView containing the Image to the gameWindow Pane, including the Node if DEBUG is set to true.
      * Sets the boolean drawn to true, as this method is continuously called in the onUpdate() method in Game, to duplicate Exception.
-     * @param isDrawn Requires the boolean which determines whether the Entity has been drawn.
      * @param game Requires the Game object of which to draw the Image and Node to.
      */
-    public void drawImage(boolean isDrawn, Game game) {
-        if(!isDrawn) {
-            if(game.getGameInitializer().isDEBUG())
+    public void drawImage(Game game) {
+        if(!drawn) {
+            if(game.isDEBUG())
                 game.getGameWindow().getChildren().add(getNode());
             game.getGameWindow().getChildren().add(getAnimationHandler().getImageView());
-            setDrawn();
+            drawn = true;
         }
     }
 
@@ -59,12 +58,11 @@ public class Entity{
      * Method which removes the ImageView and Node of the Entity from the gameWindow Pane.
      * Will remove the ImageView containing the Image from the gameWindow Pane, including the Node if DEBUG is set to true.
      * This method is run continuously in the onUpdate() method in Game, and as such only removes the Entity if set to dead.
-     * @param isAlive Requires the boolean which determines whether the Entity is dead.
      * @param game Requires the Game object of which to remove the Image and Node from.
      */
-    public void removeImage(boolean isAlive, Game game) {
-        if(!isAlive){
-            if(game.getGameInitializer().isDEBUG())
+    public void removeImage(Game game) {
+        if(!alive){
+            if(game.isDEBUG())
                 game.getGameWindow().getChildren().remove(getNode());
             game.getGameWindow().getChildren().remove(getAnimationHandler().getImageView());
         }

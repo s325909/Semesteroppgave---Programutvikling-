@@ -51,3 +51,5 @@ fabric.properties
 # Editor-based Rest Client
 **/.idea/httpRequests
 ShooterGame/.idea/workspace.xml
+ShooterGame/src/gameCode/LoadInitializer.java
+ShooterGame/src/gameCode/LoadWindow.fxml

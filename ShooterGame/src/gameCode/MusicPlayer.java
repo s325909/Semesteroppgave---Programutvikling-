@@ -23,7 +23,6 @@ public class MusicPlayer {
         file = new File(filename);
         media = new Media(this.file.toURI().toString());
         mediaPlayer = new MediaPlayer(this.media);
-        mediaPlayer.setAutoPlay(true);
     }
 
     /**
@@ -35,7 +34,10 @@ public class MusicPlayer {
         media = new Media(this.file.toURI().toString());
         mediaPlayer = new MediaPlayer(this.media);
         mediaPlayer.setVolume(0.05);
-        mediaPlayer.setAutoPlay(true);
+    }
+
+    public void playMusic() {
+        mediaPlayer.play();
     }
 
     public void pauseMusic() {

@@ -99,7 +99,7 @@ public class SettingsController implements Initializable {
         }
     }
 
-    public void soundClip(){
+    /*public void soundClip(){
         //Loops ArrayList for weaponSound and multiplies each soundclip by 10 to match the slider
         for (int i = 0; i < GameInitializer.weaponSounds.length; i++){
             soundVolumeSlider.setValue(GameInitializer.weaponSounds[i].getVolume() * 10);
@@ -122,7 +122,7 @@ public class SettingsController implements Initializable {
         for (int i = 0; i < GameInitializer.zombieAudioClips.length; i++){
             GameInitializer.zombieAudioClips[i].setVolume(soundVolumeSlider.getValue() / 10);
         }
-    }
+    }*/
 
     public void showReturnToMenu(boolean visible){
         backToMenu.setVisible(visible);

@@ -160,6 +160,10 @@ public class Movable extends Entity {
         getNode().setRotate(newRotation);
     }
 
+    public void updateAnimation() {
+
+    }
+
     public void playIdleSound(double time, int everyNthSecond) {
         int dur = (int)(time % everyNthSecond);
         System.out.println(dur);
