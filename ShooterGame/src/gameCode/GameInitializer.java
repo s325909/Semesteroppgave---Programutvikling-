@@ -55,10 +55,10 @@ public class GameInitializer implements Initializable{
     private boolean helpVisible;
     private boolean labelVisible;
 
-    private static AudioClip[] weaponSounds;
-    private AudioClip[] basicSounds;
+    public static AudioClip[] weaponSounds;
+    public static AudioClip[] basicSounds;
     private Image[][][] playerImages;
-    private AudioClip[] zombieAudioClips;
+    public static AudioClip[] zombieAudioClips;
     private Image[][] zombieImages;
     private Image[] hpDropImages;
     private Image[] armorDropImages;
@@ -658,4 +658,5 @@ public class GameInitializer implements Initializable{
             this.numberImages = numberImages;
         }
     }
+
 }
