@@ -65,6 +65,7 @@ public class SettingsController implements Initializable {
 
 
 
+        /*
 
         soundClip();
 
@@ -86,7 +87,7 @@ public class SettingsController implements Initializable {
             }
         });
 
-
+        */
 
     }
 

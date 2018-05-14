@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/***
+ * Class that controls the fxml used for the main menu.
+ */
 public class MainController implements Initializable{
 
     private Stage windowLoading, windowSettings, windowHowToPlay;
@@ -29,6 +32,10 @@ public class MainController implements Initializable{
 
     }
 
+    /**
+     * Method that open the GameWindow whe the NewGame Button is clicked.
+     * The scene also fetches a style sheet.
+     */
     public void launchGame(){
         try{
             Stage stage = (Stage) newGame.getScene().getWindow();
@@ -44,13 +51,14 @@ public class MainController implements Initializable{
 
     }
 
-    public void openLoadMenu(ActionEvent event) throws IOException{
+    /**
+     * Method that opens the Loading.fxml when the loadGame Button is clciked.
+     */
+    public void openLoadMenu(){
 
         try {
-            if(event.getSource() == loadGame) {
-                windowLoading = (Stage) loadGame.getScene().getWindow();
-                rootLoading = FXMLLoader.load(getClass().getResource("../menuOptions/Loading.fxml"));
-            }
+            windowLoading = (Stage) loadGame.getScene().getWindow();
+            rootLoading = FXMLLoader.load(getClass().getResource("../menuOptions/Loading.fxml"));
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -60,37 +68,38 @@ public class MainController implements Initializable{
         windowLoading.show();
     }
 
-    public void openSettings(ActionEvent event) throws IOException {
+    /**
+     * Method that opens Settings.fxml when the options Button is clicked
+     */
+    public void openSettings(){
 
         try {
+            windowSettings = (Stage) options.getScene().getWindow();
 
-            if (event.getSource() == options) {
-                windowSettings = (Stage) options.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Settings.fxml"));
+            rootSettings = loader.load();
+            SettingsController controller = loader.getController();
+            controller.showReturnToGame(false);
+            controller.playMusic();
 
+            Scene settingsScene = new Scene(rootSettings, 1280, 720);
+            windowSettings.setScene(settingsScene);
+            windowSettings.show();
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Settings.fxml"));
-                rootSettings = loader.load();
-                SettingsController controller = loader.getController();
-                controller.showReturnToGame(false);
-                controller.playMusic();
-
-                Scene settingsScene = new Scene(rootSettings, 1280, 720);
-                windowSettings.setScene(settingsScene);
-                windowSettings.show();
-            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void openHowToPlay(ActionEvent event) throws IOException{
-
+    /**
+     * Method that opens the HowToPlay.fxml when the howToPlay Button is clicked.
+     * @throws IOException when loading the fxml.
+     */
+    public void openHowToPlay() throws IOException{
         try {
-            if (event.getSource() == howToPlay){
-                windowHowToPlay = (Stage) howToPlay.getScene().getWindow();
-                rootHowToPlay = FXMLLoader.load(getClass().getResource("../menuOptions/HowToPlay.fxml"));
+            windowHowToPlay = (Stage) howToPlay.getScene().getWindow();
+            rootHowToPlay = FXMLLoader.load(getClass().getResource("../menuOptions/HowToPlay.fxml"));
 
-            }
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -100,6 +109,9 @@ public class MainController implements Initializable{
         windowHowToPlay.show();
     }
 
+    /**
+     * Method used to shut down the program when the exit Button is clicked.
+     */
     public void exitGame(){
 
         Stage stage = (Stage)
