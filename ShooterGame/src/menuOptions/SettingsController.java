@@ -42,7 +42,7 @@ public class SettingsController implements Initializable {
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        //playMusic();
+        playMusic();
 
         //Multiply by 10 to get values between 1-10 instead of 0.1-1 to match the slider
         musicVolumeSlider.setValue(MusicPlayer.mediaPlayer.getVolume() * 10);

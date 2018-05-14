@@ -20,7 +20,6 @@
     <stylesheets><URL value="@StylesMenu.css" /></stylesheets>
 
     <VBox fx:id="settingsBackground" alignment="CENTER" prefHeight="720" prefWidth="1280">
-      <Button fx:id="backGame" mnemonicParsing="false" onAction="#backToGame" text="Return To Game" />
 
         <Label text="Settings" textAlignment="CENTER" textFill="RED">
             <font>
@@ -134,15 +133,22 @@
             </VBox>
          </children>
       </HBox>
-      <Button fx:id="returnToMenu" mnemonicParsing="false" onAction="#returnToMenu" prefHeight="75.0" prefWidth="250.0" text="Back to Menu">
-         <font>
-            <Font name="Copperplate Gothic Light" size="24.0" />
-         </font>
+      <Button fx:id="backGame" mnemonicParsing="false" onAction="#backToGame" text="Return To Game">
          <VBox.margin>
-            <Insets bottom="15.0" top="15.0" />
-         </VBox.margin></Button>
+            <Insets top="25.0" />
+         </VBox.margin>
+      </Button>
 
     </VBox>
+   <HBox>
+      <children>
+         <Button fx:id="returnToMenu" mnemonicParsing="false" onAction="#returnToMenu" prefHeight="75.0" prefWidth="250.0" text="Back to Menu">
+            <font>
+               <Font name="Copperplate Gothic Light" size="24.0" />
+            </font>
+         </Button>
+      </children>
+   </HBox>
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>

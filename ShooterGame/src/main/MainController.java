@@ -62,37 +62,22 @@ public class MainController implements Initializable{
 
     public void openSettings(ActionEvent event) throws IOException {
 
-        /*
-
         try {
-            if (event.getSource() == options){
+
+            if (event.getSource() == options) {
                 windowSettings = (Stage) options.getScene().getWindow();
-                rootSettings = FXMLLoader.load(getClass().getResource("../menuOptions/Settings.fxml"));
+
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Settings.fxml"));
+                rootSettings = loader.load();
+                SettingsController controller = loader.getController();
+                controller.showReturnToGame(false);
+                controller.playMusic();
+
+                Scene settingsScene = new Scene(rootSettings, 1280, 720);
+                windowSettings.setScene(settingsScene);
+                windowSettings.show();
             }
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-
-        Scene settingsScene = new Scene(rootSettings, 1280, 720);
-        windowSettings.setScene(settingsScene);
-        windowSettings.show();
-
-        */
-
-        try {
-            windowSettings = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Settings.fxml"));
-            rootSettings = loader.load();
-            SettingsController controller = loader.getController();
-            controller.showReturnToGame(false);
-            controller.playMusic();
-
-            Scene settingsScene = new Scene(rootSettings, 1280, 720);
-            windowSettings.setScene(settingsScene);
-            windowSettings.show();
-
-
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
