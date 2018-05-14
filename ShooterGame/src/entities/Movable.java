@@ -3,6 +3,12 @@ package entities;
 import gameCode.DataHandler;
 import javafx.scene.media.AudioClip;
 
+/**
+ * Class which handles all Entities in the gameWindow that can move around. As such these
+ * have statistics regarding health, velocity. As they can move around, their Image direction
+ * is updated based on the direction of the inputted velocity. In turn, the Image may be directed
+ * correctly in the direction of where the Movable Entity is headed.
+ */
 public class Movable extends Entity {
     public enum Direction {
         IDLE, NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST
@@ -23,29 +29,40 @@ public class Movable extends Entity {
     private AudioClip[] audioClips;
     private Direction direction;
 
-
-    public Movable(AnimationHandler allAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed) {
+    /**
+     * Constructor which creates an AnimationHandler to handle the Entity's Images, and creates a Node
+     * on the same position as the object, which is then used for collision check. The other fields sets a number of
+     * necessary statistics for all Movable Entities, so that movement and interaction with other Entities can be altered.
+     * @param allAnimation Requires an AnimationHandler object, see AnimationHandler.
+     * @param audioClips Requires an array of type AudioClip, which must contain the desired sounds for the Entity.
+     * @param positionX Requires a desired X-coordinate of where to place the object.
+     * @param positionY Requires a desired Y-coordinate of where to place the object.
+     * @param healthPoints Requires a set number of healthpoints to alter and decide when the object is dead.
+     * @param movementSpeed Requires a number to decide the object's movementspeed, which in turn is set as the object's velocity.
+     */
+    Movable(AnimationHandler allAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed) {
         super(allAnimation, positionX, positionY);
         this.audioClips = audioClips;
         this.healthPoints = healthPoints;
-        this.movementSpeed = movementSpeed;
         this.movementSpeed = movementSpeed;
         this.velocityX = 0;
         this.velocityY = 0;
         this.direction = Direction.IDLE;
     }
 
-    public void movement() { //List<Entity> objects) {
-        //Also, need to replace position if window is resized.
-        //Calculates the new position on the screen
+    /**
+     * Method which updates the position of the Entity, and adjusts the Image direction based on velocity direction.
+     */
+    public void movement() {
+        // The new position of the Entity
         newPositionX = (int)(getNode().getTranslateX() + velocityX);
         newPositionY = (int)(getNode().getTranslateY() + velocityY);
 
-        //Move node to check for collision
+        // Set the Node to this position
         getNode().setTranslateX(newPositionX);
         getNode().setTranslateY(newPositionY);
 
-        // Change sprite direction upon entity direction change based on user input
+        // Change image direction based on velocity direction
         if (getVelocityX() > 0) {
             if (getVelocityY() < 0) {
                 newRotation = 315;
@@ -81,6 +98,11 @@ public class Movable extends Entity {
         }
     }
 
+    /**
+     * Method which sets the object's desired location back to the original position.
+     * This is called when an Entity collides with either another Entity or the edge of the screen.
+     * This will make the Entity unable to move into another Entity or past the screen.
+     */
     public void moveBack() {
         newPositionX = getPositionX();
         newPositionY = getPositionY();
@@ -119,6 +141,10 @@ public class Movable extends Entity {
         newPositionY = (int)(getNode().getTranslateY() - changeInY);
     }
 
+    /**
+     * Method which handles animation, and updates the position and rotation of the Entity, and its Node and Image.
+     * @param time Requires the Game's timer.
+     */
     @Override
     public void update(double time) {
         super.update(time);
@@ -132,30 +158,6 @@ public class Movable extends Entity {
         getAnimationHandler().getImageView().setTranslateY(newPositionY);
         getAnimationHandler().getImageView().setRotate(newRotation);
         getNode().setRotate(newRotation);
-    }
-
-    public void goLeft() {
-        setVelocityX(-movementSpeed);
-    }
-
-    public void goRight() {
-        setVelocityX(movementSpeed);
-    }
-
-    public void stopX() {
-        setVelocityX(0.0);
-    }
-
-    public void goUp() {
-        setVelocityY(-movementSpeed);
-    }
-
-    public void goDown() {
-        setVelocityY(movementSpeed);
-    }
-
-    public void stopY() {
-        setVelocityY(0.0);
     }
 
     public void playIdleSound(double time, int everyNthSecond) {
@@ -176,7 +178,7 @@ public class Movable extends Entity {
      * into the corresponding variables in movementCfg.
      * @return Returns the object movementCfg of type MovementConfiguration.
      */
-    public DataHandler.MovementConfiguration getMovementConfiguration() {
+    DataHandler.MovementConfiguration getMovementConfiguration() {
         DataHandler.MovementConfiguration movementCfg = new DataHandler.MovementConfiguration();
         movementCfg.entityCfg = super.getEntityConfiguration();
         movementCfg.health = getHealthPoints();
@@ -194,7 +196,7 @@ public class Movable extends Entity {
      * Further, variables specific to the Movable class are transferred and set.
      * @param movementCfg Requires an object of type MovementConfiguration.
      */
-    public void setMovementConfiguration(DataHandler.MovementConfiguration movementCfg) {
+    void setMovementConfiguration(DataHandler.MovementConfiguration movementCfg) {
         super.setEntityConfiguration(movementCfg.entityCfg);
         setHealthPoints(movementCfg.health);
         setVelocity(movementCfg.velX, movementCfg.velY);
@@ -207,35 +209,35 @@ public class Movable extends Entity {
         return this.healthPoints;
     }
 
-    public void setHealthPoints(int health) {
+    void setHealthPoints(int health) {
         this.healthPoints = health;
     }
 
-    public double getVelocityX() {
+    private double getVelocityX() {
         return velocityX;
     }
 
-    public void setVelocityX(double velocityX) {
+    void setVelocityX(double velocityX) {
         this.velocityX = velocityX;
     }
 
-    public void addVelocityX(double velocityX) {
+    void addVelocityX(double velocityX) {
         this.velocityX += velocityX;
     }
 
-    public double getVelocityY() {
+    private double getVelocityY() {
         return velocityY;
     }
 
-    public void setVelocityY(double velocityY) {
+    void setVelocityY(double velocityY) {
         this.velocityY = velocityY;
     }
 
-    public void addVelocityY(double velocityY) {
+    void addVelocityY(double velocityY) {
         this.velocityY += velocityY;
     }
 
-    public void setVelocity(double velocityX, double velocityY) {
+    void setVelocity(double velocityX, double velocityY) {
         this.velocityX = velocityX;
         this.velocityY = velocityY;
     }

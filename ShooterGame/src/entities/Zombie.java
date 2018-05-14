@@ -14,22 +14,23 @@ public class Zombie extends Movable {
     private final int HUNTDISTANCE = 750;
     private final int ATTACKDISTANCE = 70;
 
+    private int walkDistance;
+    private long waitTime;
+
     private Direction walkDirection;
     private State state;
-    private int walkDistance;
     private Queue<AnimationLengthPair> animationQueue;
-    private long waitTime;
     private Image[] placeHolder;
     private List<Bullet> attackList;
 
     public Zombie(Image[][] images, AudioClip[] audioClips, int positionX, int positionY, int healthPoints) {
         super(new AnimationHandler(images), audioClips, positionX, positionY, healthPoints, 1.0);
-        this.animationQueue = new LinkedList<AnimationLengthPair>();
+        this.animationQueue = new LinkedList<>();
         this.waitTime = 0;
         this.state = State.NORMAL;
         this.walkDirection = Direction.IDLE;
         this.placeHolder = images[0];
-        this.attackList = new ArrayList<Bullet>();
+        this.attackList = new ArrayList<>();
     }
 
     public void removeImage(boolean isAlive, Game game, List<Drop> drops) {
@@ -100,62 +101,52 @@ public class Zombie extends Movable {
         int animationLength = 0;
         switch (this.walkDirection) {
             case IDLE:
-                stopX();
-                stopY();
+                setVelocity(0,0);
                 this.walkDistance = 0;
                 action = 0;
                 break;
             case NORTH:
-                goUp();
-                stopX();
+                setVelocity(0, -getMovementSpeed());
                 this.walkDistance--;
                 action = 1;
                 break;
             case NORTHEAST:
-                goUp();
-                goRight();;
+                setVelocity(getMovementSpeed(), -getMovementSpeed());
                 this.walkDistance--;
                 action = 1;
                 break;
             case EAST:
-                goRight();
-                stopY();
+                setVelocity(getMovementSpeed(), 0);
                 this.walkDistance--;
                 action = 1;
                 break;
             case SOUTHEAST:
-                goDown();
-                goRight();
+                setVelocity(getMovementSpeed(), getMovementSpeed());
                 this.walkDistance--;
                 action = 1;
                 break;
             case SOUTH:
-                goDown();
-                stopX();
+                setVelocity(0, getMovementSpeed());
                 this.walkDistance--;
                 action = 1;
                 break;
             case SOUTHWEST:
-                goDown();
-                goLeft();
+                setVelocity(-getMovementSpeed(), getMovementSpeed());
                 this.walkDistance--;
                 action = 1;
                 break;
             case WEST:
-                goLeft();
-                stopY();
+                setVelocity(-getMovementSpeed(), 0);
                 this.walkDistance--;
                 action = 1;
                 break;
             case NORTHWEST:
-                goUp();
-                goLeft();
+                setVelocity(-getMovementSpeed(), -getMovementSpeed());
                 this.walkDistance--;
                 action = 1;
                 break;
             default:
-                stopX();
-                stopY();
+                setVelocity(0, 0);
                 this.walkDistance = 0;
                 action = 0;
         }
@@ -164,8 +155,7 @@ public class Zombie extends Movable {
             case NORMAL:
                 break;
             case ATTACK:
-                stopX();
-                stopY();
+                setVelocity(0, 0);
                 action = 2;
                 animationLength = 500;
                 attack(damageMod);

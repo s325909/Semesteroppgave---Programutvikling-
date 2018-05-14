@@ -707,10 +707,10 @@ public class Game {
      * @param difficulty Requires an enum of type Difficulty to set difficultModifier.
      */
     private void setDifficultyModifiers(Difficulty difficulty) {
-        scoreMod = 0;   // Times 100 for score per Zombie killed
-        healthMod = 0;  // Times 100 for health per Zombie spawned
-        damageMod = 0;  // Times 10 for damage per Zombie attack
-        spawnMod = 0;   // Times roundNumber for number of Zombies to spawn each round
+        scoreMod = 0;   // INT - Times 100 for score per Zombie killed
+        healthMod = 0;  // DOUBLE - Times 100 for health per Zombie spawned
+        damageMod = 0;  // INT - Times 10 for damage per Zombie attack
+        spawnMod = 0;   // INT - Times roundNumber for number of Zombies to spawn each round
 
         switch (difficulty) {
             case NORMAL:

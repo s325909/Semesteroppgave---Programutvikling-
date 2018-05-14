@@ -38,7 +38,6 @@ public class Player extends Movable {
     private long waitTime;
     private long invTime;
     private long fireWaitTime;
-    private List<Rock> rocks;
     private List<PlayerDirection> directionButtonPressed;
 
     public Player(Image[][][] images, AudioClip[] basicSounds, AudioClip[] weaponSounds, Image[] bulletImages, int positionX, int positionY, int healthPoints, int armor) {
@@ -53,16 +52,14 @@ public class Player extends Movable {
         magazineRifle = new Magazine(30,90);
         magazineShotgun = new Magazine(8,32);
         this.armor = armor;
-        this.bulletList = new ArrayList<Bullet>();
+        this.bulletList = new ArrayList<>();
         playerState = State.NORMAL;
         setDirection(Direction.EAST);
-        this.rocks = rocks;
         directionButtonPressed = new ArrayList<>();
     }
 
     public void move() {
-        stopX();
-        stopY();
+        setVelocity(0, 0);
         for (PlayerDirection playerDirection : directionButtonPressed) {
             switch (playerDirection) {
                 case LEFT:
