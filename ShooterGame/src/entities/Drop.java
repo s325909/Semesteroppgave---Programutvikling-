@@ -40,18 +40,13 @@ public class Drop extends Entity {
      * @param isDrawn Requires the boolean which determines whether the Entity has been drawn.
      * @param game Requires the Game object of which to draw the Image and Node to.
      */
-    public void drawImage(boolean isDrawn, Game game, List<Rock> rocks) {
+    public void drawImage(boolean isDrawn, Game game) {
         if (!isDrawn) {
             super.drawImage(isDrawn, game);
 
             getAnimationHandler().getImageView().toBack();
             getNode().toBack();
 
-            // Updates the Rocks to be furthest back whenever a Drop is drawn.
-            for (Rock rock : rocks) {
-                rock.getAnimationHandler().getImageView().toBack();
-                rock.getNode().toBack();
-            }
         }
     }
 

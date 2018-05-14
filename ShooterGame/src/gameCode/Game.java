@@ -213,7 +213,7 @@ public class Game {
 
         // Draws drops to the pane, placing them furthest back
         for (Drop drop : drops) {
-            drop.drawImage(drop.isDrawn(), this, rocks);
+            drop.drawImage(drop.isDrawn(), this);
         }
 
         // Draws Zombie's attack briefly to the pane
