@@ -133,21 +133,21 @@
             </VBox>
          </children>
       </HBox>
+      <VBox alignment="BOTTOM_CENTER">
+         <children>
+            <Button fx:id="backToMenu" mnemonicParsing="false" onAction="#returnToMenu" prefHeight="75.0" prefWidth="250.0" text="Back to Menu">
+               <font>
+                  <Font name="Copperplate Gothic Light" size="24.0" />
+               </font>
+            </Button>
+            <Button fx:id="backToGame" alignment="CENTER" mnemonicParsing="false" onAction="#returnToGame" text="Return to Game" />
+         </children>
+         <VBox.margin>
+            <Insets top="25.0" />
+         </VBox.margin>
+      </VBox>
 
     </VBox>
-   <VBox alignment="BOTTOM_CENTER" prefHeight="720.0" prefWidth="1280.0">
-      <children>
-         <Button fx:id="backToMenu" mnemonicParsing="false" onAction="#returnToMenu" prefHeight="75.0" prefWidth="250.0" text="Back to Menu">
-            <font>
-               <Font name="Copperplate Gothic Light" size="24.0" />
-            </font>
-         </Button>
-         <Button fx:id="backToGame" alignment="CENTER" mnemonicParsing="false" onAction="#returnToGame" text="Return to Game" />
-      </children>
-      <GridPane.margin>
-         <Insets bottom="25.0" />
-      </GridPane.margin>
-   </VBox>
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>

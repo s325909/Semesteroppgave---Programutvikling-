@@ -71,7 +71,7 @@ public class MainController implements Initializable{
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Settings.fxml"));
                 rootSettings = loader.load();
                 SettingsController controller = loader.getController();
-                controller.showReturnToGame(true);
+                controller.showReturnToGame(false);
                 controller.playMusic();
 
                 Scene settingsScene = new Scene(rootSettings, 1280, 720);
