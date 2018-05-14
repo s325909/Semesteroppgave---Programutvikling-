@@ -306,9 +306,21 @@ public class Game {
         if (drops.size() < number) {
             int random = (int) Math.floor(Math.random() * 100);
             if (random < 4) {
-                int x = (int) Math.floor(Math.random() * gameWindow.getWidth());
-                int y = (int) Math.floor(Math.random() * gameWindow.getHeight());
-                drops.add(new Drop(gameInitializer.getScoreDropAnimation(), x, y, Drop.DropType.SCORE));
+                int[] randomPosition = getRandomPosition();
+                Drop drop = new Drop(gameInitializer.getScoreDropAnimation(), randomPosition[0], randomPosition[1], Drop.DropType.SCORE);
+
+                int nbrClearedRocks = 0;
+                while (nbrClearedRocks < rocks.size()) {
+                    for (Rock rock : rocks) {
+                        if (rock.isColliding(drop)) {
+                            randomPosition = getRandomPosition();
+                            drop = new Drop(gameInitializer.getScoreDropAnimation(), randomPosition[0], randomPosition[1], Drop.DropType.SCORE);
+                        } else {
+                            nbrClearedRocks++;
+                        }
+                    }
+                }
+                drops.add(drop);
             }
         }
     }
@@ -399,17 +411,48 @@ public class Game {
             if (this.zombies == null)
                 this.zombies = new ArrayList<>();
 
+            // Checks for collision with the Game's Rocks before placing the Zombie for good
+            // The check is basic and requires improvement, but works mostly as desired
             for (int i = 0; i < nbrZombies; i++) {
-                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), (int) (Math.random() * 1200), (int) (Math.random() * 650), zombieHealth);
+                int[] randomPosition = getRandomPosition();
+                Zombie zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), randomPosition[0], randomPosition[1], zombieHealth);
+
+                int nbrClearedRocks = 0;
+                while (nbrClearedRocks < rocks.size()) {
+                    for (Rock rock : rocks) {
+                        if (rock.isColliding(zombie)) {
+                            randomPosition = getRandomPosition();
+                            zombie = new Zombie(gameInitializer.getZombieImages(), gameInitializer.getZombieAudioClips(), randomPosition[0], randomPosition[1], zombieHealth);
+                        } else {
+                            nbrClearedRocks++;
+                        }
+                    }
+                }
                 this.zombies.add(zombie);
+
             }
         } catch (Exception e) {
-            System.out.println("Unable to reset zombies");
             System.out.println(e.getMessage());
             //stack trace
             System.exit(0);
         }
     }
+
+    private int[] getRandomPosition() {
+        int[] randomPosition = new int[2];
+        double distance;
+
+        do {
+            randomPosition[0] = (int) (Math.random() * gameWindow.getWidth());
+            randomPosition[1] = (int) (Math.random() * gameWindow.getHeight());
+            double diffx = (player.getPositionX()) - randomPosition[0];
+            double diffy = (player.getPositionY()) - randomPosition[1];
+            distance = Math.sqrt(Math.pow(diffx, 2) + Math.pow(diffy, 2));
+        } while(distance < 100);
+
+        return randomPosition;
+    }
+
 
     /**
      * Method which will create a random type of Drop on the position of a Zombie.
