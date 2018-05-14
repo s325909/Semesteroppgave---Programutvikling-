@@ -55,10 +55,10 @@ public class GameInitializer implements Initializable{
     private boolean helpVisible;
     private boolean labelVisible;
 
-    private static AudioClip[] weaponSounds;
-    private AudioClip[] basicSounds;
+    public static AudioClip[] weaponSounds;
+    public static AudioClip[] basicSounds;
     private Image[][][] playerImages;
-    private AudioClip[] zombieAudioClips;
+    public static AudioClip[] zombieAudioClips;
     private Image[][] zombieImages;
     private Image[] hpDropImages;
     private Image[] armorDropImages;
@@ -147,20 +147,68 @@ public class GameInitializer implements Initializable{
         try {
             rocks = new ArrayList<>();
             rocks.add(new Rock(rockImage, 240, 400));
-            rocks.add(new Rock(rockImage, 300, 500));
-            rocks.add(new Rock(rockImage, 151, 151));
-            rocks.add(new Rock(rockImage, 500, 500));
-            rocks.add(new Rock(rockImage, 800, 100));
+            rocks.add(new Rock(rockImage, 240, 430));
+            rocks.add(new Rock(rockImage, 240, 450));
+            rocks.add(new Rock(rockImage, 240, 470));
+            rocks.add(new Rock(rockImage, 240, 500));
+            rocks.add(new Rock(rockImage, 240, 530));
+            rocks.add(new Rock(rockImage, 240, 560));
+            rocks.add(new Rock(rockImage, 240, 590));
+            rocks.add(new Rock(rockImage, 240, 620));
+            rocks.add(new Rock(rockImage, 240, 400));
+            rocks.add(new Rock(rockImage, 220, 400));
+            rocks.add(new Rock(rockImage, 200, 400));
+            rocks.add(new Rock(rockImage, 180, 400));
+            rocks.add(new Rock(rockImage, 160, 400));
+            rocks.add(new Rock(rockImage, 140, 400));
+            rocks.add(new Rock(rockImage, 120, 400));
+            rocks.add(new Rock(rockImage, 100, 400));
+            rocks.add(new Rock(rockImage, 80, 400));
+
             rocks.add(new Rock(rockImage, 700, 300));
-            rocks.add(new Rock(rockImage, 1000, 500));
-            rocks.add(new Rock(rockImage, 900, 800));
-            rocks.add(new Rock(rockImage, 1200, 1000));
-            rocks.add(new Rock(rockImage, 600, 450));
-            rocks.add(new Rock(rockImage, 1200, 100));
+            rocks.add(new Rock(rockImage, 700, 330));
+            rocks.add(new Rock(rockImage, 700, 350));
+            rocks.add(new Rock(rockImage, 700, 370));
+            rocks.add(new Rock(rockImage, 700, 390));
+            rocks.add(new Rock(rockImage, 700, 410));
+            rocks.add(new Rock(rockImage, 700, 430));
+            rocks.add(new Rock(rockImage, 700, 450));
+            rocks.add(new Rock(rockImage, 700, 300));
+            rocks.add(new Rock(rockImage, 670, 300));
+            rocks.add(new Rock(rockImage, 640, 300));
+            rocks.add(new Rock(rockImage, 610, 300));
+            rocks.add(new Rock(rockImage, 580, 300));
+            rocks.add(new Rock(rockImage, 550, 300));
+            rocks.add(new Rock(rockImage, 520, 300));
+            rocks.add(new Rock(rockImage, 520, 320));
+            rocks.add(new Rock(rockImage, 520, 340));
+            rocks.add(new Rock(rockImage, 520, 360));
+            rocks.add(new Rock(rockImage, 520, 380));
+            rocks.add(new Rock(rockImage, 520, 400));
+            rocks.add(new Rock(rockImage, 520, 420));
+
+            rocks.add(new Rock(rockImage, 900, 130));
+            rocks.add(new Rock(rockImage, 900, 150));
+            rocks.add(new Rock(rockImage, 900, 170));
+            rocks.add(new Rock(rockImage, 900, 190));
+            rocks.add(new Rock(rockImage, 900, 210));
+            rocks.add(new Rock(rockImage, 1000, 210));
+            rocks.add(new Rock(rockImage, 980, 210));
+            rocks.add(new Rock(rockImage, 960, 210));
+            rocks.add(new Rock(rockImage, 940, 210));
+            rocks.add(new Rock(rockImage, 920, 210));
+
             rocks.add(new Rock(rockImage, 940, 400));
             rocks.add(new Rock(rockImage, 400, 250));
-            rocks.add(new Rock(rockImage, 200, 40));
+            rocks.add(new Rock(rockImage, 200, 140));
             rocks.add(new Rock(rockImage, 500, 40));
+            rocks.add(new Rock(rockImage, 1000, 500));
+            rocks.add(new Rock(rockImage, 300, 500));
+            rocks.add(new Rock(rockImage, 151, 151));
+            rocks.add(new Rock(rockImage, 900, 800));
+            rocks.add(new Rock(rockImage, 300, 1000));
+            rocks.add(new Rock(rockImage, 800, 100));
+
         } catch (Exception e) {
             System.out.println("Error: Rocks did not load correctly");
         }
@@ -184,7 +232,7 @@ public class GameInitializer implements Initializable{
             if (e.getCode() == KeyCode.BACK_SPACE) {
                 game.removeZombies();
 
-            } else if (e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.E) {
+            } else if (e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.P) {
                 game.pauseGame();
                 showMenu();
 
@@ -658,4 +706,5 @@ public class GameInitializer implements Initializable{
             this.numberImages = numberImages;
         }
     }
+
 }

@@ -12,6 +12,11 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This class controls the HowToPlay.fxml,
+ * and is used to make returnToMenu button.
+ */
+
 public class HowToPlayController implements Initializable {
     @FXML
     private Button returnToMenu;
@@ -19,10 +24,15 @@ public class HowToPlayController implements Initializable {
     private Stage window_GameMenu;
     private Parent root_GameMenu;
 
+
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
+    /***
+     * Method that makes it possible to return to the main menu
+     * @param event that takes the button's id
+     */
     @FXML
     public void returnToMenu(ActionEvent event) {
         try {

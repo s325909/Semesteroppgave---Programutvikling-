@@ -63,12 +63,12 @@ public class SettingsController implements Initializable {
             }
         });
 
+
+
         /*
 
-        //Loops ArrayList for weaponSound and multiplies each soundclip by 10 to match the slider
-        for (int i = 0; i < GameInitializer.weaponSounds.length; i++){
-            soundVolumeSlider.setValue(GameInitializer.weaponSounds[i].getVolume() * 10);
-        }
+        soundClip();
+
 
         //Shows the value of the soundVolumeSlider in text-format
         soundVolumeNumber.textProperty().setValue(
@@ -79,9 +79,7 @@ public class SettingsController implements Initializable {
         soundVolumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                for (int i = 0; i < GameInitializer.weaponSounds.length; i++){
-                    GameInitializer.weaponSounds[i].setVolume(soundVolumeSlider.getValue() / 10);
-                }
+                changeSoundClip();
 
                 soundVolumeNumber.textProperty().setValue(
                         String.valueOf((int) soundVolumeSlider.getValue())
@@ -98,6 +96,31 @@ public class SettingsController implements Initializable {
             MusicPlayer musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
         } catch (Exception e) {
             System.out.println("Error: Could not find sound file");
+        }
+    }
+
+    public void soundClip(){
+        //Loops ArrayList for weaponSound and multiplies each soundclip by 10 to match the slider
+        for (int i = 0; i < GameInitializer.weaponSounds.length; i++){
+            soundVolumeSlider.setValue(GameInitializer.weaponSounds[i].getVolume() * 10);
+        }
+        for (int i = 0; i < GameInitializer.basicSounds.length; i++){
+            soundVolumeSlider.setValue(GameInitializer.basicSounds[i].getVolume() * 10);
+        }
+        for (int i = 0; i < GameInitializer.zombieAudioClips.length; i++){
+            soundVolumeSlider.setValue(GameInitializer.zombieAudioClips[i].getVolume() * 10);
+        }
+    }
+
+    public void changeSoundClip(){
+        for (int i = 0; i < GameInitializer.weaponSounds.length; i++){
+            GameInitializer.weaponSounds[i].setVolume(soundVolumeSlider.getValue() / 10);
+        }
+        for (int i = 0; i < GameInitializer.basicSounds.length; i++){
+            GameInitializer.basicSounds[i].setVolume(soundVolumeSlider.getValue() / 10);
+        }
+        for (int i = 0; i < GameInitializer.zombieAudioClips.length; i++){
+            GameInitializer.zombieAudioClips[i].setVolume(soundVolumeSlider.getValue() / 10);
         }
     }
 
