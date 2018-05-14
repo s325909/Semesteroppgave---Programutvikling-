@@ -1,6 +1,7 @@
 package main;
 
 import gameCode.GameInitializer;
+import gameCode.SettingsHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,8 +27,6 @@ public class MainController implements Initializable{
     @FXML
     Button newGame, loadGame, options, howToPlay, exit;
 
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -45,6 +44,7 @@ public class MainController implements Initializable{
             Scene scene = new Scene(root);
             GameInitializer controller = loader.<GameInitializer>getController();
             controller.setDifficulty();
+            controller.setSettings((new SettingsHandler()).loadSettings());
             scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
             stage.setScene(scene);
             stage.show();
@@ -84,7 +84,6 @@ public class MainController implements Initializable{
             rootSettings = loader.load();
             SettingsController controller = loader.getController();
             controller.showReturnToGame(false);
-            controller.playMusic();
 
             Scene settingsScene = new Scene(rootSettings, 1280, 720);
             windowSettings.setScene(settingsScene);

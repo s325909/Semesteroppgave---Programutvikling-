@@ -2,6 +2,7 @@ package menuOptions;
 
 import gameCode.GameInitializer;
 import gameCode.MusicPlayer;
+import gameCode.SettingsHandler;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
@@ -35,17 +36,18 @@ public class SettingsController implements Initializable {
 
     private Stage window_GameMenu;
     private Parent root_GameMenu;
+    private MusicPlayer musicPlayer;
 
-    GameInitializer gameInitializer;
-
+    private int horizontalResolution = 1280;
+    private int verticalResolution = 720;
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        playMusic();
+        SettingsHandler.SettingsParameters settings = (new SettingsHandler()).loadSettings();
+        playMusic(settings.musicVolume);
 
         //Multiply by 10 to get values between 1-10 instead of 0.1-1 to match the slider
-        musicVolumeSlider.setValue(MusicPlayer.mediaPlayer.getVolume() * 10);
+        musicVolumeSlider.setValue(musicPlayer.getVolume() * 10);
 
         //Shows the value of the musicVolumeSlider in text-format
         musicVolumeNumber.textProperty().setValue(
@@ -56,7 +58,7 @@ public class SettingsController implements Initializable {
         musicVolumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                MusicPlayer.mediaPlayer.setVolume(musicVolumeSlider.getValue() / 10);
+                musicPlayer.setVolume(musicVolumeSlider.getValue() / 10);
                 musicVolumeNumber.textProperty().setValue(
                         String.valueOf((int) musicVolumeSlider.getValue())
                 );
@@ -91,9 +93,11 @@ public class SettingsController implements Initializable {
 
     }
 
-    public void playMusic(){
+    public void playMusic(double volume){
         try {
-            MusicPlayer musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
+            musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
+            musicPlayer.setVolume(volume/10);
+            musicPlayer.playMusic();
         } catch (Exception e) {
             System.out.println("Error: Could not find sound file");
         }
@@ -137,6 +141,7 @@ public class SettingsController implements Initializable {
 
         try {
             if (event.getSource() == backToGame) {
+                (new SettingsHandler()).storeSettings(horizontalResolution, verticalResolution, musicVolumeSlider.getValue(), soundVolumeSlider.getValue());
                 Stage stage = (Stage) backToGame.getScene().getWindow();
                 stage.close();
             }
@@ -164,7 +169,8 @@ public class SettingsController implements Initializable {
     @FXML
     public void returnToMenu(ActionEvent event) throws IOException {
 
-        MusicPlayer.mediaPlayer.stop();
+        musicPlayer.stopMusic();
+        (new SettingsHandler()).storeSettings(horizontalResolution, verticalResolution, musicVolumeSlider.getValue(), soundVolumeSlider.getValue());
 
         try {
             if (event.getSource() == backToMenu) {

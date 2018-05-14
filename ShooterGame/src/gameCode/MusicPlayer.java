@@ -13,7 +13,7 @@ public class MusicPlayer {
 
     private File file;
     private Media media;
-    public static MediaPlayer mediaPlayer;
+    public MediaPlayer mediaPlayer;
 
     private boolean paused = false;
     private boolean muted = false;
@@ -23,6 +23,14 @@ public class MusicPlayer {
         file = new File(filename);
         media = new Media(this.file.toURI().toString());
         mediaPlayer = new MediaPlayer(this.media);
+    }
+
+    public double getVolume() {
+        return mediaPlayer.getVolume();
+    }
+
+    public void setVolume(double volume) {
+        mediaPlayer.setVolume(volume);
     }
 
     /**

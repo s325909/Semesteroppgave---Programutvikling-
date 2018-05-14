@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<GameSettings>
+    <Volume>
+        <Sound>0.0</Sound>
+        <Music>5.0</Music>
+    </Volume>
+    <Size>
+        <Width>1280</Width>
+        <Height>720</Height>
+    </Size>
+</GameSettings>

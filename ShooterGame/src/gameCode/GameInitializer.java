@@ -73,6 +73,10 @@ public class GameInitializer implements Initializable{
         selectDifficulty();
     }
 
+    public void setSettings(SettingsHandler.SettingsParameters settings) {
+        musicPlayer.setVolume(settings.musicVolume/10);
+    }
+
     public void setLoad(String saveGame) {
         ingameChooseDifficulty.setVisible(false);
         startGame(Game.Difficulty.NORMAL);
@@ -256,6 +260,7 @@ public class GameInitializer implements Initializable{
                 SettingsController controller = loader.getController();
                 controller.showReturnToMenu(false);
                 controller.showReturnToGame(true);
+                setSettings((new SettingsHandler()).loadSettings());
                 windowSettings.setScene(new Scene(root, 1280, 720));
                 windowSettings.show();
             }
