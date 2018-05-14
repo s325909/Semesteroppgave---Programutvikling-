@@ -184,7 +184,7 @@ public class GameInitializer implements Initializable{
             if (e.getCode() == KeyCode.BACK_SPACE) {
                 game.removeZombies();
 
-            } else if (e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.E) {
+            } else if (e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.P) {
                 game.pauseGame();
                 showMenu();
 

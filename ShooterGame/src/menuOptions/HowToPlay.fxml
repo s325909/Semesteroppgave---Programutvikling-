@@ -25,6 +25,11 @@
    <children>
       <VBox fx:id="howToPlayBackground" alignment="CENTER" prefHeight="310.0" prefWidth="744.0">
          <children>
+            <Label layoutX="414.0" layoutY="100.0" text="HOW TO PLAY:" textFill="RED" underline="true">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Label>
             <Label text="WASD/ArrowKeys to move" textFill="RED">
                <font>
                   <Font size="40.0" />
@@ -44,17 +49,7 @@
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label layoutX="395.0" layoutY="428.0" text="F12 for fullscreen" textFill="RED">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
             <Label layoutX="395.0" layoutY="457.0" text="F5 to quick save, F9 to quick load" textFill="RED">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label layoutX="395.0" layoutY="428.0" text="P to pause" textFill="RED">
                <font>
                   <Font size="40.0" />
                </font>
@@ -64,7 +59,7 @@
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label layoutX="557.0" layoutY="544.0" text="ESC for menu/pause" textFill="RED">
+            <Label layoutX="557.0" layoutY="544.0" text="ESC/P for menu/pause" textFill="RED">
                <font>
                   <Font size="40.0" />
                </font>
