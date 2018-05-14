@@ -49,7 +49,7 @@ public class Zombie extends Movable {
      * @param player Requires an object of type Player in order to decide which Entity the enemies
      *               should pursue.
      */
-    public void findDirection(Player player) {
+    public void chasePlayer(Player player) {
         double diffx = (player.getPositionX()) - getPositionX();
         double diffy = (player.getPositionY()) - getPositionY();
         double angle = 180 + Math.atan2(diffy, diffx) * (180 / Math.PI);
@@ -96,7 +96,7 @@ public class Zombie extends Movable {
         }
     }
 
-    public void move(int damageMod) {
+    public void action(int damageMod) {
         int action;
         int animationLength = 0;
         switch (this.walkDirection) {

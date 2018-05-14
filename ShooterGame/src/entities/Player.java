@@ -58,7 +58,7 @@ public class Player extends Movable {
         directionButtonPressed = new ArrayList<>();
     }
 
-    public void move() {
+    public void action() {
         setVelocity(0, 0);
         for (PlayerDirection playerDirection : directionButtonPressed) {
             switch (playerDirection) {

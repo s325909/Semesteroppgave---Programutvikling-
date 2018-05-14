@@ -115,15 +115,15 @@ public class Game {
         List<Entity> playerObjectCollidingList = new ArrayList<>();
         playerObjectCollidingList.addAll(rocks);
         playerObjectCollidingList.addAll(zombies);
-        player.move();
+        player.action();
         player.movement();
 
         List<Entity> zombieObjectCollidingList = new ArrayList<>();
         zombieObjectCollidingList.add(player);
         zombieObjectCollidingList.addAll(rocks);
         for (Zombie zombie : zombies) {
-            zombie.findDirection(player);
-            zombie.move(damageMod);
+            zombie.chasePlayer(player);
+            zombie.action(damageMod);
             zombie.movement();
 
             for (Bullet zombieAttack : zombie.getAttackList()) {
