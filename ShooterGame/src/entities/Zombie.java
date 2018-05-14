@@ -95,7 +95,7 @@ public class Zombie extends Movable {
         }
     }
 
-    public void move(int difficultyModifier) {
+    public void move(int damageMod) {
         int action;
         int animationLength = 0;
         switch (this.walkDirection) {
@@ -168,7 +168,7 @@ public class Zombie extends Movable {
                 stopY();
                 action = 2;
                 animationLength = 500;
-                attack(difficultyModifier);
+                attack(damageMod);
                 this.walkDistance = 0;
                 break;
             case DAMAGED:
@@ -177,7 +177,7 @@ public class Zombie extends Movable {
         setAnimation(action, animationLength);
     }
 
-    public void attack(int difficultyModifier) {
+    public void attack(int damageMod) {
         long currentTime = System.currentTimeMillis();
         if (currentTime > this.waitTime) {
             int posX = getPositionX();
@@ -220,7 +220,7 @@ public class Zombie extends Movable {
             }
 
             int fireRate = 500;
-            int damage = 20 * difficultyModifier - 10 * (difficultyModifier - 1);
+            int damage = 10 * damageMod;
             Bullet zombieSlash = new Bullet(placeHolder, posX, posY, 0, damage, this.getDirection(), 0);
             //zombieSlash.setDrawn();
             zombieSlash.setNewRotation(getNewRotation());

@@ -23,7 +23,11 @@ public class Game {
     }
 
     private Difficulty difficulty;
-    private int difficultyModifier;
+    private int scoreMod;
+    private double healthMod;
+    private int damageMod;
+    private int spawnMod;
+
     private Player player;
     private List<Zombie> zombies;
     private List<Rock> rocks;
@@ -61,7 +65,7 @@ public class Game {
     public Game(Difficulty difficulty, Player player, List<Rock> rocks, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
 
         this.difficulty = difficulty;
-        setDifficultyModifier(difficulty);
+        setDifficultyModifiers(difficulty);
         this.player = player;
         this.zombies = new ArrayList<>();
         this.rocks = rocks;
@@ -119,7 +123,7 @@ public class Game {
         zombieObjectCollidingList.addAll(rocks);
         for (Zombie zombie : zombies) {
             zombie.findDirection(player);
-            zombie.move(difficultyModifier);
+            zombie.move(damageMod);
             zombie.movement();
 
             for (Bullet zombieAttack : zombie.getAttackList()) {
@@ -315,13 +319,13 @@ public class Game {
     public void scorePerKill() {
         switch(difficulty) {
             case NORMAL:
-                setScoreNumber(getScoreNumber() + 100*difficultyModifier);
+                setScoreNumber(getScoreNumber() + 100 * scoreMod);
                 break;
             case HARD:
-                setScoreNumber(getScoreNumber() + 100*difficultyModifier);
+                setScoreNumber(getScoreNumber() + 100 * scoreMod);
                 break;
             case INSANE:
-                setScoreNumber(getScoreNumber() + 100*difficultyModifier);
+                setScoreNumber(getScoreNumber() + 100 * scoreMod);
                 break;
         }
     }
@@ -341,31 +345,31 @@ public class Game {
                     createZombies(1);
                     break;
                 case 1:
-                    createZombies(roundNumber * difficultyModifier);
+                    createZombies(roundNumber * spawnMod);
                     break;
                 case 2:
-                    createZombies(roundNumber * difficultyModifier);
+                    createZombies(roundNumber * spawnMod);
                     break;
                 case 3:
-                    createZombies(roundNumber * difficultyModifier);
+                    createZombies(roundNumber * spawnMod);
                     break;
                 case 4:
-                    createZombies(roundNumber * difficultyModifier);
+                    createZombies(roundNumber * spawnMod);
                     break;
                 case 5:
-                    createZombies(roundNumber * difficultyModifier);
+                    createZombies(roundNumber * spawnMod);
                     break;
                 case 6:
-                    createZombies(roundNumber * difficultyModifier);
+                    createZombies(roundNumber * spawnMod);
                     break;
                 case 7:
-                    createZombies(roundNumber * difficultyModifier);
+                    createZombies(roundNumber * spawnMod);
                     break;
                 case 8:
-                    createZombies(roundNumber * difficultyModifier);
+                    createZombies(roundNumber * spawnMod);
                     break;
                 case 9:
-                    createZombies(roundNumber * difficultyModifier);
+                    createZombies(roundNumber * spawnMod);
                     break;
                 case 10:
                     running = false;
@@ -389,7 +393,7 @@ public class Game {
      * @param nbrZombies Requires a number to determine how many Zombies to create.
      */
     private void createZombies(int nbrZombies) {
-        int zombieHealth = 100 * difficultyModifier - 50*(difficultyModifier-1);
+        int zombieHealth = (int)(100 * healthMod);
 
         try {
             if (this.zombies == null)
@@ -699,29 +703,39 @@ public class Game {
     }
 
     /**
-     * Method which alters the int variable difficultyModifier based on the Game's difficulty.
+     * Method which alters values regarding Zombie attributes and reward for killing a Zombie, according to the set Difficulty.
      * @param difficulty Requires an enum of type Difficulty to set difficultModifier.
      */
-    private void setDifficultyModifier(Difficulty difficulty) {
+    private void setDifficultyModifiers(Difficulty difficulty) {
+        scoreMod = 0;   // Times 100 for score per Zombie killed
+        healthMod = 0;  // Times 100 for health per Zombie spawned
+        damageMod = 0;  // Times 10 for damage per Zombie attack
+        spawnMod = 0;   // Times roundNumber for number of Zombies to spawn each round
+
         switch (difficulty) {
             case NORMAL:
-                difficultyModifier = 1;
+                scoreMod = 1;
+                healthMod = 1;
+                damageMod = 2;
+                spawnMod = 1;
                 break;
             case HARD:
-                difficultyModifier = 2;
+                scoreMod = 2;
+                healthMod = 1.5;
+                damageMod = 3;
+                spawnMod = 2;
                 break;
             case INSANE:
-                difficultyModifier = 3;
+                scoreMod = 3;
+                healthMod = 2;
+                damageMod = 4;
+                spawnMod = 3;
                 break;
         }
     }
 
     public Pane getGameWindow() {
         return gameWindow;
-    }
-
-    public void setGameWindow(Pane gameWindow) {
-        this.gameWindow = gameWindow;
     }
 
     private Difficulty getDifficulty() {
