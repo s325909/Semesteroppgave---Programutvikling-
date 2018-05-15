@@ -61,6 +61,8 @@ public class GameInitializer implements Initializable{
             File file = new File("src/resources/Sound/Soundtrack/Doom2.mp3");
             Media media = new Media(file.toURI().toString());
             mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setVolume(0.5);
+            mediaPlayer.play();
         } catch (Exception e) {
             System.out.println("Error: Could not find sound file");
         }
@@ -90,7 +92,6 @@ public class GameInitializer implements Initializable{
         });
 
         showDifficulty(true);
-        //mediaPlayer.play();
     }
 
     /**
@@ -297,9 +298,5 @@ public class GameInitializer implements Initializable{
 
     public void setDifficulty() {
         selectDifficulty();
-    }
-
-    public void setSettings(SettingsHandler.SettingsParameters settings) {
-        mediaPlayer.setVolume(settings.musicVolume/10);
     }
 }

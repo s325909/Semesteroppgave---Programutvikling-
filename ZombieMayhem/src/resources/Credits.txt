@@ -1,4 +1,7 @@
-Art:
+////////// Art //////////
+
+Main source: https://opengameart.org/
+
 Animated Top Down Survivor
 Animated Top Down Zombie 
 by Riley Gombart
@@ -31,10 +34,13 @@ https://opengameart.org/content/free-survival-props-pack
 Background:
 http://steamtradingcards.wikia.com/wiki/File:Zombie_Army_Trilogy_Background_ZAT_Zombies.jpg
 
-///////////////////////////
 
-Sounds:
-freesound.org
+
+
+
+////////// Sounds //////////
+
+Main source: freesound.org
 
 Calm breathing by fuchsrodolfo
 https://freesound.org/people/fuchsrodolfo/sounds/391175/
@@ -75,8 +81,11 @@ https://freesound.org/people/NoiseCollector/sounds/55138/
 Zombie Moan by gneube
 https://freesound.org/people/gneube/sounds/315845/
 
-////////////////////////////
 
-Soundtrack:
+
+
+
+////////// Soundtrack //////////
+
 Doom (1993) by id Software
 https://en.wikipedia.org/wiki/Doom_(1993_video_game)

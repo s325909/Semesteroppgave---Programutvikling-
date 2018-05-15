@@ -26,8 +26,7 @@ public class HowToPlayController implements Initializable {
 
 
     @FXML
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-    }
+    public void initialize(URL url, ResourceBundle resourceBundle) {}
 
     /***
      * Method that makes it possible to return to the main menu

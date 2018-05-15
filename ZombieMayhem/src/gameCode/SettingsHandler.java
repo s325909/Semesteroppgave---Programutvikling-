@@ -18,7 +18,16 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Class for handling the Game's settings, so that the user may restart the application with the same settings, and
+ * also grant the ability to set settings before the creation of a new Game. Albeit, this is not that dire as
+ * adjusting the volume is more intuitive once you can hear the sounds anyhow.
+ */
 public class SettingsHandler {
+
+    /**
+     * Inner class used for handling each of the Game's settings.
+     */
     public class SettingsParameters {
         public int horizontalResolution;
         public int verticalResolution;
@@ -33,6 +42,10 @@ public class SettingsHandler {
         }
     }
 
+    /**
+     * Method for retrieving settings from a .xml file.
+     * @return Returns an object of type SettingsParameters, which contains the Game's settings.
+     */
     public SettingsParameters loadSettings() {
         SettingsParameters settings = new SettingsParameters();
         DocumentBuilderFactory dbf;
@@ -80,6 +93,13 @@ public class SettingsHandler {
         return settings;
     }
 
+    /**
+     * Method for storing the Game's settings.
+     * @param horizontalResolution Requires desired horizontal resolution to store.
+     * @param verticalResolution Requires desired vertical resolution to s+tore.
+     * @param musicVolume Requires desired music volume to store.
+     * @param soundVolume Requires desired sound volume to store.
+     */
     public void storeSettings(int horizontalResolution, int verticalResolution, double musicVolume, double soundVolume) {
         System.out.println("Stroing " + musicVolume);
         SettingsParameters settings = new SettingsParameters();

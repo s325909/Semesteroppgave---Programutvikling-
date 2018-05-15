@@ -22,29 +22,7 @@ public class LoadingController implements Initializable {
     private Parent root_GameMenu;
 
     @FXML
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-    }
-
-    @FXML
-    public void returnToMenu(ActionEvent event) {
-        try {
-            if (event.getSource() == returnToMenu) {
-                window_GameMenu = (Stage) returnToMenu.getScene().getWindow();
-                root_GameMenu = FXMLLoader.load(getClass().getResource("../main/MainMenu.fxml"));
-            }
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-
-        Scene scene_GameMenu = new Scene(root_GameMenu, 1280, 720);
-        window_GameMenu.setScene(scene_GameMenu);
-        window_GameMenu.show();
-    }
-
-    public void showReturnToMenu() {
-        returnToMenu.setVisible(false);
-    }
-
+    public void initialize(URL url, ResourceBundle resourceBundle) {}
 
     /***
      * Method which establishes load function by clicking load button.
@@ -75,5 +53,20 @@ public class LoadingController implements Initializable {
         }
     }
 
+    @FXML
+    public void returnToMenu(ActionEvent event) {
+        try {
+            if (event.getSource() == returnToMenu) {
+                window_GameMenu = (Stage) returnToMenu.getScene().getWindow();
+                root_GameMenu = FXMLLoader.load(getClass().getResource("../main/MainMenu.fxml"));
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        Scene scene_GameMenu = new Scene(root_GameMenu, 1280, 720);
+        window_GameMenu.setScene(scene_GameMenu);
+        window_GameMenu.show();
+    }
 }
 
