@@ -320,7 +320,7 @@ public class Game {
             }
 
             else if ((e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.P) && gameInitializer.getIngameChooseDifficulty().isVisible() && gameInitializer.getIngameNormalDifficulty().isVisible() && gameInitializer.getIngameHardDifficulty().isVisible() && gameInitializer.getIngameInsaneDifficulty().isVisible()) {
-                System.out.println("NO!");
+                System.out.println("NOT ALLOWED!");
             }
             else if (e.getCode() == KeyCode.M) {
                 gameInitializer.muteMediaPlayer();
