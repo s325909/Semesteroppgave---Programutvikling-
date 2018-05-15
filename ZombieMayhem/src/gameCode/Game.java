@@ -178,31 +178,33 @@ public class Game {
             bullet.movement();
         }
 
-        //////////////////////////////////////////////////////////
+        ////////// Check collision with edges //////////
 
+        // Add Player and Zombies to a List for collision check with edges
         List<Movable> moveableList = new ArrayList<>();
-        moveableList.add(player); //Check Player collision with edges
-        moveableList.addAll(zombies); // Check Zombie collision with edges
+        moveableList.add(player);
+        moveableList.addAll(zombies);
         for (Movable moveable : moveableList) {
             if (moveable.getNode().getTranslateX() < 0 || moveable.getNode().getTranslateY() < 0 || moveable.getNode().getTranslateX() > (gameWindow.getWidth() - 60) || moveable.getNode().getTranslateY() > (gameWindow.getHeight() - 100)) {
                 moveable.moveBack();
             }
         }
 
+        // Add all Zombie attacks to the list of Bullets in the Game
         List<Bullet> bulletList = new ArrayList<>();
         bulletList.addAll(bullets);
         for (Zombie zombie : zombies) {
             bulletList.addAll(zombie.getAttackList());
         }
 
-        // Check Bullet collision with edges
+        // Check Bullet collision with edges, and if true, set to dead
         for (Bullet bullet : bulletList) {
             if (bullet.getNode().getTranslateX() < 0 || bullet.getNode().getTranslateY() < 0 || bullet.getNode().getTranslateX() > (gameWindow.getWidth()) || bullet.getNode().getTranslateY() > (gameWindow.getHeight())) {
                 bullet.setAlive(false);
             }
         }
 
-        //////////////////////////////////////////////////////////
+        ////////// Check for collision between Entities //////////
 
         // Check Player collision with other entities
         for (Entity obj : playerObjectCollidingList) {
@@ -219,7 +221,7 @@ public class Game {
                 }
             }
 
-            //Damage Player if colliding with zombie attack
+            // Damage Player if colliding with zombie attack
             for (Bullet zombieAttack : zombie.getAttackList()) {
                 if(zombieAttack.isColliding(player)) {
                     player.receivedDamage(zombieAttack.getDamage());
@@ -238,44 +240,44 @@ public class Game {
             drop.dropCollision(player, this);
         }
 
-        //////////////////////////////////////////////////////////
+        ////////// Draw Entities //////////
 
+        // Add all Entities to a List for drawing
         List<Entity> wholeWorld = new ArrayList<>();
-        wholeWorld.addAll(zombies);     // Draw zombies to the pane
-        wholeWorld.addAll(bullets);     // Draw bullets to the pane
-        wholeWorld.addAll(drops);       // Draw drops to the pane, placing them furthest back
-        wholeWorld.addAll(rocks);       // Draw rocks to the pane, placing them furthest back
-        for (Zombie zombie : zombies) { // Draw Zombie's attack briefly to the pane
+        wholeWorld.add(player);
+        wholeWorld.addAll(zombies);
+        wholeWorld.addAll(bullets);
+        wholeWorld.addAll(drops);
+        wholeWorld.addAll(rocks);
+        for (Zombie zombie : zombies) {
             wholeWorld.addAll(zombie.getAttackList());
         }
 
+        // Draw all Entities in List
         for (Entity entity : wholeWorld) {
             entity.drawImage(this);
         }
 
-        //////////////////////////////////////////////////////////
+        ////////// Update animation, position and Image rotation //////////
 
-        // Update animation, position and Image rotation
         moveableList.addAll(bulletList); // Update Bullet's position, Image rotation, and handling timeToLive expiration
         for (Movable moveable : moveableList) {
             moveable.updateAnimation();
             moveable.update(time);
         }
 
-        // Update Drop's position and Image animation, if any
         for(Drop drop : drops) {
             drop.update(time);
         }
 
-        //////////////////////////////////////////////////////////
+        ////////// Remove Entities' Node and Image //////////
 
         for (Entity remove : wholeWorld) {
             remove.removeImage(this);
         }
 
-        //////////////////////////////////////////////////////////
+        ////////// Remove the objects of dead Entities //////////
 
-        // Finally remove the object itself if isDead() equals true
         zombies.removeIf(Zombie::isDead);
         bullets.removeIf(Bullet::isDead);
         drops.removeIf(Drop::isDead);
@@ -284,16 +286,14 @@ public class Game {
             zombie.getAttackList().removeIf(Bullet::isDead);
         }
 
-        //////////////////////////////////////////////////////////
+        ////////// End game if Player is dead //////////
 
-        // Set the Game state to over upon Player death
         if (!player.isAlive()) {
             gameOver();
         }
 
-        //////////////////////////////////////////////////////////
+        ////////// Create new Zombies each round //////////
 
-        // Create new zombies if they're dead
         if (zombies.isEmpty()) {
             spawnNewRound();
         }
@@ -341,11 +341,6 @@ public class Game {
         } catch (Exception e) {
             System.out.println("Error: Player did not load correctly");
         }
-
-        // Draw Player to the Pane
-        if(DEBUG)
-            gameWindow.getChildren().add(player.getNode());
-        gameWindow.getChildren().add(player.getAnimationHandler().getImageView());
     }
 
     /**
@@ -363,7 +358,6 @@ public class Game {
         }
     }
 
-
     /**
      * Method which handles spawning of Zombie's in a round-based design.
      * Killing the current Zombies will run this method, and the roundNumber will increase, and
@@ -372,7 +366,7 @@ public class Game {
     private void spawnNewRound() {
 
         if (!isNewRound()) {
-            if (roundNumber < 10) {
+            if (roundNumber < maxRound) {
                 roundNumber++;
                 createZombies(roundNumber * spawnMod);
             } else {
@@ -887,7 +881,6 @@ public class Game {
         this.newRound = newRound;
     }
 
-
     boolean isGameOver() {
         return gameOver;
     }
@@ -908,78 +901,4 @@ public class Game {
     public void setRunning(boolean running) {
         this.running = running;
     }
-
-//    /**
-//     * Method which creates and draws the Rock objects for use in the Game.
-//     */
-//    private void createRocks(int posX, int posY) {
-//        try {
-//            rocks = new ArrayList<>();
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 400));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 430));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 450));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 470));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 500));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 530));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 560));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 590));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 620));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 400));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 220, 400));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 200, 400));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 180, 400));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 160, 400));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 140, 400));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 120, 400));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 100, 400));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 80, 400));
-//
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 300));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 330));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 350));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 370));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 390));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 410));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 430));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 450));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 300));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 670, 300));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 640, 300));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 610, 300));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 580, 300));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 550, 300));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 300));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 320));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 340));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 360));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 380));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 400));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 420));
-//
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 130));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 150));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 170));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 190));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 210));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 1000, 210));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 980, 210));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 960, 210));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 940, 210));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 920, 210));
-//
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 940, 400));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 400, 250));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 200, 140));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 500, 40));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 1000, 500));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 300, 500));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 151, 151));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 800));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 300, 1000));
-//            rocks.add(new Rock(assetsHandler.getRockImage(), 800, 100));
-//
-//        } catch (Exception e) {
-//            System.out.println("Error: Rocks did not load correctly");
-//        }
-//    }
 }

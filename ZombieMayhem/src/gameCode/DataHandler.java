@@ -393,25 +393,6 @@ public class DataHandler {
 
 
 
-        // Store drops information
-        Element rocks = doc.createElement("Rocks");
-        savegame.appendChild(rocks);
-
-        for (int i = 0; i < configuration.rocks.size(); i++) {
-            Element rockInfo = doc.createElement("Rock");
-            rocks.appendChild(rockInfo);
-
-            Element rockPosX = doc.createElement("PositionX");
-            rockPosX.appendChild(doc.createTextNode(String.valueOf(configuration.rocks.get(i).posX)));
-            rockInfo.appendChild(rockPosX);
-
-            Element rockPosY = doc.createElement("PositionY");
-            rockPosY.appendChild(doc.createTextNode(String.valueOf(configuration.rocks.get(i).posY)));
-            rockInfo.appendChild(rockPosY);
-        }
-
-
-
         // Turn the information into a file named according to the given fileName String.
         try {
             TransformerFactory trf = TransformerFactory.newInstance();
@@ -584,24 +565,6 @@ public class DataHandler {
                 dropCfg.entityCfg = entityCfg;
                 dropCfg.dropType = Drop.DropType.valueOf(dropsElement.getElementsByTagName("DropType").item(0).getTextContent());
                 configuration.drops.add(dropCfg);
-            } else {
-                return false;
-            }
-        }
-
-        //Parse rocks
-        NodeList rockList = doc.getElementsByTagName("Rock");
-        configuration.rocks = new ArrayList<>();
-        for (int i = 0; i < rockList.getLength(); i++) {
-            Node rocksNode = rockList.item(i);
-            if (rocksNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element rocksElement = (Element) rocksNode;
-
-                EntityConfiguration rockCfg = new EntityConfiguration();
-                rockCfg.posX = Integer.valueOf(rocksElement.getElementsByTagName("PositionX").item(0).getTextContent());
-                rockCfg.posY = Integer.valueOf(rocksElement.getElementsByTagName("PositionY").item(0).getTextContent());
-
-                configuration.rocks.add(rockCfg);
             } else {
                 return false;
             }

@@ -2,14 +2,14 @@
 <Savegame>
     <Game>
         <Difficulty>HARD</Difficulty>
-        <ScorePoints>200</ScorePoints>
+        <ScorePoints>0</ScorePoints>
         <RoundNumber>1</RoundNumber>
     </Game>
     <Player>
         <HealthPoints>100</HealthPoints>
         <ArmorPoints>0</ArmorPoints>
-        <PositionX>690</PositionX>
-        <PositionY>125</PositionY>
+        <PositionX>640</PositionX>
+        <PositionY>360</PositionY>
         <VelocityX>0.0</VelocityX>
         <VelocityY>0.0</VelocityY>
         <MovementSpeed>5.0</MovementSpeed>
@@ -26,107 +26,74 @@
     <Zombies>
         <Zombie>
             <HealthPoints>150</HealthPoints>
-            <PositionX>664</PositionX>
-            <PositionY>186</PositionY>
-            <VelocityX>0.0</VelocityX>
+            <PositionX>57</PositionX>
+            <PositionY>643</PositionY>
+            <VelocityX>1.0</VelocityX>
+            <VelocityY>-1.0</VelocityY>
+            <MovementSpeed>1.0</MovementSpeed>
+            <Direction>IDLE</Direction>
+        </Zombie>
+        <Zombie>
+            <HealthPoints>150</HealthPoints>
+            <PositionX>1036</PositionX>
+            <PositionY>216</PositionY>
+            <VelocityX>-1.0</VelocityX>
             <VelocityY>0.0</VelocityY>
             <MovementSpeed>1.0</MovementSpeed>
-            <Direction>NORTHEAST</Direction>
+            <Direction>IDLE</Direction>
         </Zombie>
     </Zombies>
     <Bullets/>
     <Drops>
         <Drop>
-            <PositionX>660</PositionX>
-            <PositionY>485</PositionY>
+            <PositionX>731</PositionX>
+            <PositionY>599</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>88</PositionX>
-            <PositionY>709</PositionY>
+            <PositionX>158</PositionX>
+            <PositionY>676</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>635</PositionX>
-            <PositionY>96</PositionY>
+            <PositionX>388</PositionX>
+            <PositionY>467</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>853</PositionX>
-            <PositionY>278</PositionY>
+            <PositionX>1199</PositionX>
+            <PositionY>583</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>958</PositionX>
-            <PositionY>87</PositionY>
+            <PositionX>409</PositionX>
+            <PositionY>79</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>120</PositionX>
-            <PositionY>561</PositionY>
+            <PositionX>124</PositionX>
+            <PositionY>274</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>757</PositionX>
-            <PositionY>14</PositionY>
+            <PositionX>950</PositionX>
+            <PositionY>125</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>1164</PositionX>
-            <PositionY>697</PositionY>
+            <PositionX>345</PositionX>
+            <PositionY>181</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>1075</PositionX>
-            <PositionY>470</PositionY>
+            <PositionX>1188</PositionX>
+            <PositionY>75</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>1126</PositionX>
-            <PositionY>265</PositionY>
+            <PositionX>684</PositionX>
+            <PositionY>154</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
     </Drops>
-    <Rocks>
-        <Rock>
-            <PositionX>240</PositionX>
-            <PositionY>400</PositionY>
-        </Rock>
-        <Rock>
-            <PositionX>240</PositionX>
-            <PositionY>430</PositionY>
-        </Rock>
-        <Rock>
-            <PositionX>240</PositionX>
-            <PositionY>450</PositionY>
-        </Rock>
-        <Rock>
-            <PositionX>240</PositionX>
-            <PositionY>470</PositionY>
-        </Rock>
-        <Rock>
-            <PositionX>240</PositionX>
-            <PositionY>500</PositionY>
-        </Rock>
-        <Rock>
-            <PositionX>240</PositionX>
-            <PositionY>530</PositionY>
-        </Rock>
-        <Rock>
-            <PositionX>240</PositionX>
-            <PositionY>560</PositionY>
-        </Rock>
-        <Rock>
-            <PositionX>240</PositionX>
-            <PositionY>590</PositionY>
-        </Rock>
-        <Rock>
-            <PositionX>240</PositionX>
-            <PositionY>620</PositionY>
-        </Rock>
-        <Rock>
-            <PositionX>240</PositionX>
-            <PositionY>400</PositionY>
-        </Rock>
-    </Rocks>
 </Savegame>
