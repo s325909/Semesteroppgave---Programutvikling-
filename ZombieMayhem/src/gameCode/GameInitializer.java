@@ -224,27 +224,15 @@ public class GameInitializer implements Initializable{
      * It sets a hidden VBox to visible.
      */
     public void showMenu() {
-        System.out.println("show menu "+ menuVisible);
 
         if (ingameMenu.isVisible() == false && menuVisible == false){
             ingameMenu.setVisible(true);
             menuVisible = true;
-            //hideMenuElements();
         }else {
             ingameMenu.setVisible(false);
             menuVisible = false;
-            //hideMenuElements();
         }
 
-
-
-
-        /*
-        if(ingameMenu.isVisible() == false && !menuElementVisible) {
-            ingameMenu.setVisible(true);
-            menuVisible = true;
-        }
-        */
     }
 
     //Hides the topp level menu
@@ -257,8 +245,6 @@ public class GameInitializer implements Initializable{
 
     @FXML
     public void showMenuElement(ActionEvent event) {
-        //menuVisible = false;
-
         if (ingameMenu.isVisible()) {
             if (event.getSource() == howToPlay) {
                 showHelpMenu();
@@ -273,11 +259,6 @@ public class GameInitializer implements Initializable{
                 showSettingsMenu();
                 hideInGameMenu();
             }
-
-
-            //ingameMenu.setVisible(false);
-            //menuElementVisible = true;
-
         } else {
             menuVisible = false;
             if (event.getSource() == backHelp) {
@@ -293,55 +274,15 @@ public class GameInitializer implements Initializable{
                 ingameSettings.setVisible(false);
                 showMenu();
             }
-
-            menuVisible = false;
-
-            //hideInGameMenu();
-
-            //ingameMenu.setVisible(true);
-            //menuElementVisible = false;
-
         }
-        /*
-        if (menuElementVisible){
-            ingameMenu.setVisible(false);
-        }
-        */
     }
 
 
-
     public void hideMenuElements() {
-
         ingameSave.setVisible(false);
         ingameLoad.setVisible(false);
         ingameHelp.setVisible(false);
         ingameSettings.setVisible(false);
-
-        /*
-        if (!menuVisible){
-            ingameSave.setVisible(false);
-            ingameLoad.setVisible(false);
-            ingameHelp.setVisible(false);
-            ingameSettings.setVisible(false);
-            hideInGameMenu();
-        }
-        */
-
-        /*
-        showSaveMenu();
-        showLoadMenu();
-        showHelpMenu();
-        showSettingsMenu();
-        */
-
-
-        //ingameHelp.setVisible(false);
-        //helpMenuVisible = false;
-
-
-        //hideInGameMenu();
-
     }
 
     /**
