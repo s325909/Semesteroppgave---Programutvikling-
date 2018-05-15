@@ -1,6 +1,6 @@
 package entities;
 
-import gameCode.DataHandler;
+import gameCode.SaveHandler;
 import javafx.scene.media.AudioClip;
 
 /**
@@ -177,13 +177,13 @@ public class Movable extends Entity {
 
     /**
      * Method which will retrieve and return requested information about a Movable object.
-     * Creates a new MovementConfiguration object from the DataHandler class, and transfers
+     * Creates a new MovementConfiguration object from the SaveHandler class, and transfers
      * variables inherited from Entity, combined with variables specific to the Movable class,
      * into the corresponding variables in movementCfg.
      * @return Returns the object movementCfg of type MovementConfiguration.
      */
-    DataHandler.MovementConfiguration getMovementConfiguration() {
-        DataHandler.MovementConfiguration movementCfg = new DataHandler.MovementConfiguration();
+    SaveHandler.MovementConfiguration getMovementConfiguration() {
+        SaveHandler.MovementConfiguration movementCfg = new SaveHandler.MovementConfiguration();
         movementCfg.entityCfg = super.getEntityConfiguration();
         movementCfg.health = getHealthPoints();
         movementCfg.velX = getVelocityX();
@@ -200,7 +200,7 @@ public class Movable extends Entity {
      * Further, variables specific to the Movable class are transferred and set.
      * @param movementCfg Requires an object of type MovementConfiguration.
      */
-    void setMovementConfiguration(DataHandler.MovementConfiguration movementCfg) {
+    void setMovementConfiguration(SaveHandler.MovementConfiguration movementCfg) {
         super.setEntityConfiguration(movementCfg.entityCfg);
         setHealthPoints(movementCfg.health);
         setVelocity(movementCfg.velX, movementCfg.velY);

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Savegame>
+    <Game>
+        <Difficulty>HARD</Difficulty>
+        <ScorePoints>0</ScorePoints>
+        <RoundNumber>1</RoundNumber>
+    </Game>
+    <Player>
+        <HealthPoints>100</HealthPoints>
+        <ArmorPoints>0</ArmorPoints>
+        <PositionX>640</PositionX>
+        <PositionY>360</PositionY>
+        <VelocityX>0.0</VelocityX>
+        <VelocityY>0.0</VelocityY>
+        <MovementSpeed>5.0</MovementSpeed>
+        <Direction>EAST</Direction>
+        <Rotation>0.0</Rotation>
+        <EquippedWep>KNIFE</EquippedWep>
+        <MagPistol>15</MagPistol>
+        <PoolPistol>15</PoolPistol>
+        <MagRifle>0</MagRifle>
+        <PoolRifle>0</PoolRifle>
+        <MagShotgun>0</MagShotgun>
+        <PoolShotgun>0</PoolShotgun>
+    </Player>
+    <Zombies>
+        <Zombie>
+            <HealthPoints>150</HealthPoints>
+            <PositionX>895</PositionX>
+            <PositionY>267</PositionY>
+            <VelocityX>-1.0</VelocityX>
+            <VelocityY>0.0</VelocityY>
+            <MovementSpeed>1.0</MovementSpeed>
+            <Direction>WEST</Direction>
+        </Zombie>
+    </Zombies>
+    <Bullets/>
+    <Drops/>
+</Savegame>

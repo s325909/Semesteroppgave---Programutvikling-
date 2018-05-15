@@ -1,28 +1,22 @@
 package gameCode;
 
-import entities.Player;
-import entities.Rock;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import menuOptions.SettingsController;
+import javafx.scene.text.Text;
 
-import java.io.IOException;
+import java.io.File;
 import java.net.URL;
-import java.lang.*;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -39,16 +33,20 @@ public class GameInitializer implements Initializable{
 
     @FXML private Pane gameWindow;
     @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, roundNbr, gameState, pressKey;
-    @FXML private VBox gamePaused, ingameMenu, ingameHelp, ingameNormalDifficulty, ingameHardDifficulty, ingameInsaneDifficulty;
+    @FXML private VBox gamePaused, ingameMenu, ingameHelp, ingameSave, ingameLoad, ingameSettings, ingameNormalDifficulty, ingameHardDifficulty, ingameInsaneDifficulty;
     @FXML private HBox ingameChooseDifficulty;
-    @FXML private Button back_Help, settings;
+    @FXML private Button howToPlay, saveGame, loadGame, settings, backHelp, backSave, backLoad, backSettings;
+    @FXML private Button saveBtn1, saveBtn2, saveBtn3, loadBtn1, loadBtn2, loadBtn3;
     @FXML private Button normalDifficulty, hardDifficulty, insaneDifficulty;
+    @FXML private Slider musicSlider, soundSlider;
+    @FXML private Text musicNbr, soundNbr;
 
     private Game game;
-    public MusicPlayer musicPlayer;
-    private boolean menuVisible;
-    private boolean helpVisible;
+    public MediaPlayer mediaPlayer;
     private boolean labelVisible;
+    private boolean menuVisible;
+    private boolean menuElementVisible;
+    private boolean muted;
 
     /***
      * Method which will load all assets used in the Game, create the level design, and allow the user to select a Difficulty.
@@ -60,27 +58,39 @@ public class GameInitializer implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         //Create an object of MusicPlayer, which includes what file to play and automatically starts playing
         try {
-            musicPlayer = new MusicPlayer("src/resources/Sound/Soundtrack/Doom2.mp3");
+            File file = new File("src/resources/Sound/Soundtrack/Doom2.mp3");
+            Media media = new Media(file.toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
         } catch (Exception e) {
             System.out.println("Error: Could not find sound file");
         }
 
-        musicPlayer.playMusic();
-        musicPlayer.muteVolume();
-    }
+        musicSlider.setValue(5);
+        musicNbr.setText(
+                String.valueOf(5)
+        );
 
-    public void setDifficulty() {
-        selectDifficulty();
-    }
+        soundSlider.setValue(1);
+        soundNbr.setText(
+                String.valueOf(1)
+        );
 
-    public void setSettings(SettingsHandler.SettingsParameters settings) {
-        musicPlayer.setVolume(settings.musicVolume/10);
-    }
+        musicSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            musicNbr.setText(String.valueOf((int)musicSlider.getValue()));
+            mediaPlayer.setVolume(musicSlider.getValue()/10);
+        });
 
-    public void setLoad(String saveGame) {
-        ingameChooseDifficulty.setVisible(false);
-        startGame(Game.Difficulty.NORMAL);
-        game.loadGame(saveGame);
+        soundSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+
+            soundNbr.setText(String.valueOf((int)soundSlider.getValue()));
+
+            for(int i = 0; i < game.getAllAudioClips().length; i++) {
+                game.getAllAudioClips()[i].setVolume(soundSlider.getValue()/10);
+            }
+        });
+
+        showDifficulty(true);
+        //mediaPlayer.play();
     }
 
     /**
@@ -142,17 +152,69 @@ public class GameInitializer implements Initializable{
         }
     }
 
+
+    /**
+     * Method which will show the Difficulty selection screen.
+     * @param show Requires a boolean to switch between the visibility.
+     */
+    private void showDifficulty(boolean show){
+        if (show){
+            ingameChooseDifficulty.setVisible(true);
+            ingameNormalDifficulty.setVisible(true);
+            ingameHardDifficulty.setVisible(true);
+            ingameInsaneDifficulty.setVisible(true);
+        } else {
+            ingameChooseDifficulty.setVisible(false);
+            ingameNormalDifficulty.setVisible(false);
+            ingameHardDifficulty.setVisible(false);
+            ingameInsaneDifficulty.setVisible(false);
+        }
+    }
+
     /**
      * Method which will open the in-game menu.
      * It sets a hidden VBox to visible.
      */
     public void showMenu() {
-        if(!menuVisible) {
+        if(!menuVisible && !menuElementVisible) {
             ingameMenu.setVisible(true);
             menuVisible = true;
         } else {
             ingameMenu.setVisible(false);
             menuVisible = false;
+        }
+    }
+
+    @FXML
+    public void showMenuElement(ActionEvent event) {
+        if (!menuElementVisible) {
+            if (event.getSource() == howToPlay) {
+                ingameHelp.setVisible(true);
+            } else if (event.getSource() == saveGame) {
+                ingameSave.setVisible(true);
+            } else if (event.getSource() == loadGame){
+                ingameLoad.setVisible(true);
+            } else if (event.getSource() == settings) {
+                ingameSettings.setVisible(true);
+            }
+
+            ingameMenu.setVisible(false);
+            gameState.setVisible(false);
+            menuElementVisible = true;
+        } else {
+            if (event.getSource() == backHelp) {
+                ingameHelp.setVisible(false);
+            } else if (event.getSource() == backSave) {
+                ingameSave.setVisible(false);
+            } else if (event.getSource() == backLoad) {
+                ingameLoad.setVisible(false);
+            } else if (event.getSource() == backSettings) {
+                ingameSettings.setVisible(false);
+            }
+
+            ingameMenu.setVisible(true);
+            gameState.setVisible(true);
+            menuElementVisible = false;
         }
     }
 
@@ -178,23 +240,34 @@ public class GameInitializer implements Initializable{
         showDifficulty(true);
     }
 
-    /**
-     * Method which will show the Help portion of the inGameMenu.
-     * It is run when pressing the How to Play button in the inGameMenu.
-     */
     @FXML
-    public void showHelp() {
-        if (!helpVisible){
-            ingameMenu.setVisible(false);
-            gameState.setVisible(false);
-            ingameHelp.setVisible(true);
-            helpVisible = true;
-        }else {
-            ingameHelp.setVisible(false);
-            ingameMenu.setVisible(true);
-            gameState.setVisible(true);
-            helpVisible = false;
+    public void saveGame(ActionEvent event) {
+        if (event.getSource() == saveBtn1) {
+            game.saveGame("Savegame1");
+        } else if (event.getSource() == saveBtn2) {
+            game.saveGame("Savegame2");
+        } else if (event.getSource() == saveBtn3) {
+            game.saveGame("Savegame3");
         }
+        ingameSave.setVisible(false);
+        menuVisible = false;
+        menuElementVisible = false;
+        game.setRunning(true);
+    }
+
+    @FXML
+    public void loadGame(ActionEvent event) {
+        if (event.getSource() == loadBtn1) {
+            game.loadGame("Savegame1");
+        } else if (event.getSource() == loadBtn2) {
+            game.loadGame("Savegame2");
+        } else if (event.getSource() == loadBtn3) {
+            game.loadGame("Savegame3");
+        }
+        ingameLoad.setVisible(false);
+        menuVisible = false;
+        menuElementVisible = false;
+        game.setRunning(true);
     }
 
     /**
@@ -206,87 +279,27 @@ public class GameInitializer implements Initializable{
         System.exit(0);
     }
 
-    /**
-     * Method which will show the Difficulty selection screen.
-     * @param show Requires a boolean to switch between the visibility.
-     */
-    private void showDifficulty(boolean show){
-        if (show){
-            ingameChooseDifficulty.setVisible(true);
-            ingameNormalDifficulty.setVisible(true);
-            ingameHardDifficulty.setVisible(true);
-            ingameInsaneDifficulty.setVisible(true);
+    public void muteMediaPlayer() {
+        if(!muted) {
+            mediaPlayer.setMute(true);
+            muted = true;
         } else {
-            ingameChooseDifficulty.setVisible(false);
-            ingameNormalDifficulty.setVisible(false);
-            ingameHardDifficulty.setVisible(false);
-            ingameInsaneDifficulty.setVisible(false);
+            mediaPlayer.setMute(false);
+            muted = false;
         }
     }
 
-    private Stage windowSettings;
-    private Parent rootSettings;
-    private Scene sceneSettings;
-
-    public void showSettings(ActionEvent event) throws IOException {
-        /*
-
-        //musicPlayer.muteVolume();
-
-        try {
-            if (event.getSource() == settings){
-                windowSettings = (Stage) settings.getScene().getWindow();
-                rootSettings = FXMLLoader.load(getClass().getResource("../menuOptions/Settings.fxml"));
-            }
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-
-        sceneSettings = new Scene(rootSettings, 1280, 720);
-        windowSettings.setScene(sceneSettings);
-        windowSettings.show();
-
-        */
-
-        Parent root;
-
-        try {
-
-            if (event.getSource() == settings) {
-
-                windowSettings = new Stage();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../menuOptions/Settings.fxml"));
-                root = loader.load();
-                SettingsController controller = loader.getController();
-                controller.showReturnToMenu(false);
-                controller.showReturnToGame(true);
-                setSettings((new SettingsHandler()).loadSettings());
-                windowSettings.setScene(new Scene(root, 1280, 720));
-                windowSettings.show();
-            }
-        }catch (Exception e){
-            System.out.println("Error" + e.getMessage());
-        }
-
-
+    public void setLoad(String saveGame) {
+        ingameChooseDifficulty.setVisible(false);
+        startGame(Game.Difficulty.NORMAL);
+        game.loadGame(saveGame);
     }
 
-    @FXML Button loadGame;
-    private Stage windowLoading;
-    private Parent rootLoading;
-    private Scene sceneLoading;
-    public void showLoadMenu(ActionEvent event) throws IOException {
-        try {
-            if(event.getSource() == loadGame) {
-                windowLoading = (Stage) loadGame.getScene().getWindow();
-                rootLoading = FXMLLoader.load(getClass().getResource("../menuOptions/Loading.fxml"));
-            }
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+    public void setDifficulty() {
+        selectDifficulty();
+    }
 
-        Scene loadScene = new Scene(rootLoading, 1280, 720);
-        windowLoading.setScene(loadScene);
-        windowLoading.show();
+    public void setSettings(SettingsHandler.SettingsParameters settings) {
+        mediaPlayer.setVolume(settings.musicVolume/10);
     }
 }

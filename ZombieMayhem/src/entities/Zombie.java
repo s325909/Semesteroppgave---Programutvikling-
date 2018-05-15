@@ -1,6 +1,6 @@
 package entities;
 
-import gameCode.DataHandler;
+import gameCode.SaveHandler;
 import gameCode.Game;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
@@ -264,7 +264,7 @@ public class Zombie extends Movable {
      * In this instance, Zombie shares the same relevant variables as the super class, Movable.
      * @return Returns an object of type MovementConfiguration set by a super method call.
      */
-    public DataHandler.MovementConfiguration getZombieConfiguration() {
+    public SaveHandler.MovementConfiguration getZombieConfiguration() {
         return super.getMovementConfiguration();
     }
 
@@ -273,7 +273,7 @@ public class Zombie extends Movable {
      * Variables are inherited from Movable, and are thus transferred and set through a super method call.
      * @param zombieCfg Requires an object of type MovementConfiguration.
      */
-    public void setZombieConfiguration(DataHandler.MovementConfiguration zombieCfg) {
+    public void setZombieConfiguration(SaveHandler.MovementConfiguration zombieCfg) {
         super.setMovementConfiguration(zombieCfg);
     }
 

@@ -2,9 +2,13 @@ package gameCode;
 
 import entities.*;
 import javafx.animation.AnimationTimer;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +50,7 @@ public class Game {
     GameInitializer gameInitializer;
 
     private AssetsHandler assetsHandler;
-    private DataHandler dataHandler;
+    private SaveHandler saveHandler;
 
     final private boolean DEBUG = true;
 
@@ -79,7 +83,7 @@ public class Game {
         this.hudPool = hudPool;
         this.hudScore = hudScore;
         this.hudTimer = hudTimer;
-        this.dataHandler = new DataHandler();
+        this.saveHandler = new SaveHandler();
         this.running = true;
         this.scoreNumber = 0;
         this.roundNumber = 0;
@@ -219,7 +223,7 @@ public class Game {
                 gameInitializer.showMenu();
 
             } else if (e.getCode() == KeyCode.M) {
-                gameInitializer.musicPlayer.muteVolume();
+                gameInitializer.muteMediaPlayer();
 
             } else if (e.getCode() == KeyCode.F5){
                 saveGame("quicksave");
@@ -644,16 +648,16 @@ public class Game {
 
     /**
      * Method which handles saving of the Game.
-     * Creates a GameConfiguration from the DataHandler class and calls the getGameConfiguration() method
-     * in order to retrieve values about the Game, and turn these into an .xml file through DataHandler class.
+     * Creates a GameConfiguration from the SaveHandler class and calls the getGameConfiguration() method
+     * in order to retrieve values about the Game, and turn these into an .xml file through SaveHandler class.
      * Method call createSaveFile() will return a boolean based on whether there was an Exception during creation,
      * and a false return will display an Alert to the user.
      * @param filename Requires a String to represent the name of the file.
      */
     public void saveGame(String filename) {
-        DataHandler.GameConfiguration gameCfg = getGameConfiguration();
+        SaveHandler.GameConfiguration gameCfg = getGameConfiguration();
 
-        if (dataHandler.createSaveFile(filename, gameCfg)) {
+        if (saveHandler.createSaveFile(filename, gameCfg)) {
             System.out.println("Save game");
             System.out.println("GameScore: " + gameCfg.gameScore);
             System.out.println("Player HP: " + gameCfg.player.movementCfg.health);
@@ -670,7 +674,7 @@ public class Game {
 
     /**
      * Method which handles loading of a Game.
-     * Creates a new GameConfiguration object from the DataHandler class.
+     * Creates a new GameConfiguration object from the SaveHandler class.
      * Calls the method readSaveFile() which will transfer each field in the .xml file into variables
      * in GameConfiguration, which then can be used to set the values in the Game.
      * This method returns a false boolean if an Exception occurred, and this will in turn
@@ -678,9 +682,9 @@ public class Game {
      * @param filename Requires a String which represents the name of the file.
      */
     public void loadGame(String filename) {
-        DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
+        SaveHandler.GameConfiguration gameCfg = new SaveHandler.GameConfiguration();
 
-        if (dataHandler.readSaveFile(filename, gameCfg)) {
+        if (saveHandler.readSaveFile(filename, gameCfg)) {
             System.out.println("Load game");
             System.out.println("GameScore: " + gameCfg.gameScore);
             System.out.println("Player HP: " + gameCfg.player.movementCfg.health);
@@ -732,22 +736,22 @@ public class Game {
 
     /**
      * Method for retrieving all information about all objects in the gameWindow and parsing these over to
-     * DataHandler.GameConfiguration for use during saving.
-     * @return Returns an object of type DataHandler.GameConfiguration.
+     * SaveHandler.GameConfiguration for use during saving.
+     * @return Returns an object of type SaveHandler.GameConfiguration.
      */
-    private DataHandler.GameConfiguration getGameConfiguration() {
-        DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
+    private SaveHandler.GameConfiguration getGameConfiguration() {
+        SaveHandler.GameConfiguration gameCfg = new SaveHandler.GameConfiguration();
         gameCfg.difficulty = getDifficulty();
         gameCfg.gameScore = getScoreNumber();
         gameCfg.roundNbr = getRoundNumber();
         gameCfg.player = player.getPlayerConfiguration();
 
-        List<DataHandler.MovementConfiguration> zombieCfg = new ArrayList<>();
+        List<SaveHandler.MovementConfiguration> zombieCfg = new ArrayList<>();
         for (Zombie zombie : this.zombies)
             zombieCfg.add(zombie.getZombieConfiguration());
         gameCfg.zombies = zombieCfg;
 
-        List<DataHandler.DropConfiguration> dropCfg = new ArrayList<>();
+        List<SaveHandler.DropConfiguration> dropCfg = new ArrayList<>();
         for (Drop drop : this.drops)
             dropCfg.add(drop.getDropConfiguration());
         gameCfg.drops = dropCfg;
@@ -759,10 +763,10 @@ public class Game {
      * Method for setting all saved information about all saved objects in the gameWindow.
      * Method clears the Game of current Entities. Further, the attributes of Game and Player
      * are set, and every Entity that was saved is created according to the saved attributes.
-     * @param gameCfg Requires an object of type GameConfiguration in DataHandler, containing
+     * @param gameCfg Requires an object of type GameConfiguration in SaveHandler, containing
      *                information about the saved Game.
      */
-    private void setGameConfiguration(DataHandler.GameConfiguration gameCfg) {
+    private void setGameConfiguration(SaveHandler.GameConfiguration gameCfg) {
         clearGame(false);
 
         setDifficulty(gameCfg.difficulty);
@@ -780,7 +784,7 @@ public class Game {
 
 
 //          Får et problem forhold til å hente riktig bilde
-//        for (DataHandler.DropConfiguration dropCfg : gameCfg.drops) {
+//        for (SaveHandler.DropConfiguration dropCfg : gameCfg.drops) {
 //            Drop drop = new Drop(getGameInitializer().getArmorDropImages())
 //        }
     }
@@ -868,6 +872,26 @@ public class Game {
         }
     }
 
+    public AudioClip[] getAllAudioClips() {
+        int basicLength = assetsHandler.getBasicSounds().length;
+        int weaponLength = assetsHandler.getWeaponSounds().length;
+        int zombieLength = assetsHandler.getZombieAudioClips().length;
+        AudioClip[] sounds = new AudioClip[basicLength + weaponLength + zombieLength];
+
+        for(int i = 0; i < basicLength; i++) {
+            sounds[i] = assetsHandler.getBasicSounds()[i];
+        }
+
+        for(int i = basicLength; i < basicLength + weaponLength; i++) {
+            sounds[i] = assetsHandler.getWeaponSounds()[i - basicLength];
+        }
+
+        for(int i = basicLength + weaponLength; i < basicLength + weaponLength + zombieLength; i++) {
+            sounds[i] = assetsHandler.getZombieAudioClips()[i - basicLength - weaponLength];
+        }
+        return sounds;
+    }
+
     public Pane getGameWindow() {
         return gameWindow;
     }
@@ -913,5 +937,9 @@ public class Game {
 
     private int getRoundNumber() {
         return roundNumber;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
     }
 }

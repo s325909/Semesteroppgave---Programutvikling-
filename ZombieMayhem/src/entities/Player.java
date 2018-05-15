@@ -1,13 +1,12 @@
 package entities;
 
-import gameCode.DataHandler;
+import gameCode.SaveHandler;
 import gameCode.Game;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Arc;
-import javafx.scene.shape.ArcType;
 import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
@@ -570,13 +569,13 @@ public class Player extends Movable {
 
     /**
      * Method which will retrieve and return requested information about a Player object.
-     * Creates a new PlayerConfiguration object from the DataHandler class, and transfers
+     * Creates a new PlayerConfiguration object from the SaveHandler class, and transfers
      * variables inherited from Movable, combined with variables specific to the Player class,
      * into the corresponding variables in playerCfg.
      * @return Returns the object playerCfg of type PlayerConfiguration.
      */
-    public DataHandler.PlayerConfiguration getPlayerConfiguration() {
-        DataHandler.PlayerConfiguration playerCfg = new DataHandler.PlayerConfiguration();
+    public SaveHandler.PlayerConfiguration getPlayerConfiguration() {
+        SaveHandler.PlayerConfiguration playerCfg = new SaveHandler.PlayerConfiguration();
         playerCfg.movementCfg = super.getMovementConfiguration();
         playerCfg.armor = this.getArmor();
         playerCfg.equipped = this.getEquippedWeapon();
@@ -587,7 +586,7 @@ public class Player extends Movable {
         playerCfg.magShotgun = this.getMagazineShotgun().getNumberBullets();
         playerCfg.poolShotgun = this.getMagazineShotgun().getCurrentPool();
 
-        List<DataHandler.BulletConfiguration> bulletListCfg = new ArrayList<>();
+        List<SaveHandler.BulletConfiguration> bulletListCfg = new ArrayList<>();
         for (Bullet bullet : bulletList)
             bulletListCfg.add(bullet.getBulletConfiguration());
         playerCfg.bulletListCfg = bulletListCfg;
@@ -601,7 +600,7 @@ public class Player extends Movable {
      * Further, variables specific to the Player class are transferred and set.
      * @param playerCfg Requires and object of type PlayerConfiguration.
      */
-    public void setPlayerConfiguration(DataHandler.PlayerConfiguration playerCfg) {
+    public void setPlayerConfiguration(SaveHandler.PlayerConfiguration playerCfg) {
         super.setMovementConfiguration(playerCfg.movementCfg);
         this.setArmor(playerCfg.armor);
         this.setEquippedWeapon(playerCfg.equipped);
@@ -613,7 +612,7 @@ public class Player extends Movable {
         this.getMagazineShotgun().setCurrentPool(playerCfg.poolShotgun);
 
         bulletList = new ArrayList<>();
-        for (DataHandler.BulletConfiguration bulletCfg : playerCfg.bulletListCfg)
+        for (SaveHandler.BulletConfiguration bulletCfg : playerCfg.bulletListCfg)
             bulletList.add(new Bullet(bulletImages, bulletCfg.movementCfg.entityCfg.posX, bulletCfg.movementCfg.entityCfg.posY, bulletCfg.movementCfg.movementSpeed, bulletCfg.damage, bulletCfg.movementCfg.direction, bulletCfg.remainingTime));
     }
 

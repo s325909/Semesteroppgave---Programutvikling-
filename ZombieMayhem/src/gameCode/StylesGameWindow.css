@@ -9,6 +9,10 @@
     -fx-border-color: black;
 }
 
+#ingameHelp, #ingameVolume {
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+}
+
 .button{
     -fx-background-color: rgba(0, 0, 0, 0.7);
     -fx-text-fill: white;

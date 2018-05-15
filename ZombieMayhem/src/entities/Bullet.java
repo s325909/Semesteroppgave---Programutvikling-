@@ -1,6 +1,6 @@
 package entities;
 
-import gameCode.DataHandler;
+import gameCode.SaveHandler;
 import javafx.scene.image.Image;
 import java.util.List;
 
@@ -142,13 +142,13 @@ public class Bullet extends Movable {
 
     /**
      * Method which will retrieve and return requested information about a Bullet object.
-     * Creates a new BulletConfiguration object from the DataHandler class, and transfers
+     * Creates a new BulletConfiguration object from the SaveHandler class, and transfers
      * variables inherited from Movable, combined with variables specific to the Bullet class,
      * into the corresponding variables in bulletCfg.
      * @return Returns the object bulletCfg of type BulletConfiguration.
      */
-    public DataHandler.BulletConfiguration getBulletConfiguration() {
-        DataHandler.BulletConfiguration bulletCfg = new DataHandler.BulletConfiguration();
+    public SaveHandler.BulletConfiguration getBulletConfiguration() {
+        SaveHandler.BulletConfiguration bulletCfg = new SaveHandler.BulletConfiguration();
         bulletCfg.movementCfg = super.getMovementConfiguration();
         bulletCfg.damage = getDamage();
         bulletCfg.remainingTime = timeToLive - System.currentTimeMillis();
@@ -161,7 +161,7 @@ public class Bullet extends Movable {
      * Further, variables specific to the Bullet class are transferred and set.
      * @param bulletCfg Requires an object of type BulletConfiguration.
      */
-    public void setBulletConfiguration(DataHandler.BulletConfiguration bulletCfg) {
+    public void setBulletConfiguration(SaveHandler.BulletConfiguration bulletCfg) {
         super.setMovementConfiguration(bulletCfg.movementCfg);
         this.setDamage(bulletCfg.damage);
     }

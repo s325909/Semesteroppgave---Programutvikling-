@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -16,7 +23,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" hgap="10" prefHeight="720.0" prefWidth="1280.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameCode.GameInitializer">
+<GridPane alignment="center" hgap="10" prefHeight="720.0" prefWidth="1280.0" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameCode.GameInitializer">
     <stylesheets><URL value="@StylesGameWindow.css" /></stylesheets>
 
     <children>
@@ -161,17 +168,119 @@
                   </Label>
                </children>
             </HBox>
+            <VBox fx:id="ingameSettings" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Music Volume" textFill="DARKRED">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="58.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Slider fx:id="musicSlider" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="14.0" prefWidth="350.0" snapToTicks="true" />
+                        <Text fx:id="musicNbr" fill="DARKRED" strokeType="OUTSIDE" strokeWidth="0.0" text="10">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="24.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Sound Volume" textFill="DARKRED">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="58.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Slider fx:id="soundSlider" blockIncrement="1.0" max="10.0" prefWidth="350.0" />
+                        <Text fx:id="soundNbr" fill="DARKRED" strokeType="OUTSIDE" strokeWidth="0.0" text="10">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="24.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <Button fx:id="backSettings" mnemonicParsing="false" onAction="#showMenuElement" text="Back" />
+               </children>
+            </VBox>
+            <VBox fx:id="ingameSave" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="72.0" prefWidth="630.0">
+                     <children>
+                        <Label text="Save Game" textFill="DARKRED">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="58.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="393.0" prefWidth="630.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="364.0" prefWidth="630.0">
+                           <children>
+                              <Button fx:id="saveBtn1" mnemonicParsing="false" onAction="#saveGame" text="Savegame 1" />
+                              <Button fx:id="saveBtn2" mnemonicParsing="false" onAction="#saveGame" text="Savegame 2" />
+                              <Button fx:id="saveBtn3" mnemonicParsing="false" onAction="#saveGame" text="Savegame 3" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="backSave" mnemonicParsing="false" onAction="#showMenuElement" text="Back" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox fx:id="ingameLoad" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="72.0" prefWidth="630.0">
+                     <children>
+                        <Label text="Load Game" textFill="DARKRED">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="58.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="393.0" prefWidth="630.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="364.0" prefWidth="630.0">
+                           <children>
+                              <Button fx:id="loadBtn1" mnemonicParsing="false" onAction="#loadGame" text="Loadgame 1" />
+                              <Button fx:id="loadBtn2" mnemonicParsing="false" onAction="#loadGame" text="Loadgame 2" />
+                              <Button fx:id="loadBtn3" mnemonicParsing="false" onAction="#loadGame" text="Loadgame 3" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="backLoad" mnemonicParsing="false" onAction="#showMenuElement" text="Back" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
             <VBox fx:id="ingameMenu" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
                <children>
                   <Button mnemonicParsing="false" onAction="#resumeGame" text="Resume Game" />
                   <Button mnemonicParsing="false" onAction="#restartGame" text="Restart Game" />
-                  <Button fx:id="loadGame" mnemonicParsing="false" onAction="#showLoadMenu" text="Load Game" />
-                  <Button fx:id="howToPlay" mnemonicParsing="false" onAction="#showHelp" text="How to Play" />
-                  <Button fx:id="settings" mnemonicParsing="false" onAction="#showSettings" text="Settings" />
+                  <Button fx:id="saveGame" mnemonicParsing="false" onAction="#showMenuElement" text="Save Game" />
+                  <Button fx:id="loadGame" mnemonicParsing="false" onAction="#showMenuElement" text="Load Game" />
+                  <Button fx:id="howToPlay" mnemonicParsing="false" onAction="#showMenuElement" text="How to Play" />
+                  <Button fx:id="settings" mnemonicParsing="false" onAction="#showMenuElement" text="Settings" />
                   <Button mnemonicParsing="false" onAction="#exitGame" text="Exit Game" />
                </children>
             </VBox>
-            <HBox fx:id="ingameChooseDifficulty" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+            <HBox fx:id="ingameChooseDifficulty" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnIndex="1">
                <children>
                   <Label text="Choose Difficulty" textFill="DARKRED">
                      <font>
@@ -183,7 +292,7 @@
                   </Label>
                </children>
             </HBox>
-            <VBox fx:id="ingameNormalDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <VBox fx:id="ingameNormalDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false">
                <children>
                   <Button fx:id="normalDifficulty" mnemonicParsing="false" onAction="#selectDifficulty" text="NORMAL">
                      <VBox.margin>
@@ -240,7 +349,7 @@
                   </Label>
                </children>
             </VBox>
-            <VBox fx:id="ingameHardDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+            <VBox fx:id="ingameHardDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="1">
                <children>
                   <Button fx:id="hardDifficulty" mnemonicParsing="false" onAction="#selectDifficulty" text="HARD">
                      <VBox.margin>
@@ -296,7 +405,7 @@
                   </Label>
                </children>
             </VBox>
-            <VBox fx:id="ingameInsaneDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
+            <VBox fx:id="ingameInsaneDifficulty" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false" GridPane.columnIndex="2">
                <children>
                   <Button fx:id="insaneDifficulty" mnemonicParsing="false" onAction="#selectDifficulty" text="HARDCORE">
                      <VBox.margin>
@@ -388,12 +497,12 @@
                         <Font size="40.0" />
                      </font>
                   </Label>
-                  <Label layoutX="557.0" layoutY="544.0" text="ESC/P for menu/pause" textFill="RED">
+                  <Label layoutX="557.0" layoutY="544.0" text="ESC for menu" textFill="RED">
                      <font>
                         <Font size="40.0" />
                      </font>
                   </Label>
-                  <Button fx:id="back_Help" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#showHelp" text="Back" />
+                  <Button fx:id="backHelp" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#showMenuElement" text="Back" />
                </children>
             </VBox>
          </children>

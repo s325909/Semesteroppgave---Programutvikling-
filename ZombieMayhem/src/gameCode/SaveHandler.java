@@ -25,7 +25,7 @@ import java.util.List;
  * Class will turn the given static classes and their respective variables into a structured .xml file,
  * which then can be read systematically with each variable set to their respective fields.
  */
-public class DataHandler {
+public class SaveHandler {
 
     static class GameConfiguration {
         Game.Difficulty difficulty;
