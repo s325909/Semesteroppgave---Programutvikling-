@@ -41,7 +41,6 @@ public class GameInitializer implements Initializable{
     private boolean menuVisible;
     private boolean difficultyVisisble;
     private boolean menuElementVisible;
-    private boolean saveMenuVisible, loadMenuVisible, helpMenuVisible, settingsMenuVisible;
 
     private AssetsHandler assetsHandler;
 
@@ -358,22 +357,7 @@ public class GameInitializer implements Initializable{
     public void exitGame() {
         System.exit(0);
     }
-
-    public HBox getIngameChooseDifficulty() {
-        return ingameChooseDifficulty;
-    }
-
-    public VBox getIngameNormalDifficulty() {
-        return ingameNormalDifficulty;
-    }
-
-    public VBox getIngameHardDifficulty() {
-        return ingameHardDifficulty;
-    }
-
-    public VBox getIngameInsaneDifficulty() {
-        return ingameInsaneDifficulty;
-    }
+    
 
     /**
      * Method for showing the select difficulty screen once GameWindow FXML is called during MainController.launchGame().
