@@ -1,6 +1,5 @@
 package menuOptions;
 
-import gameCode.Game;
 import gameCode.GameInitializer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,14 +53,11 @@ public class LoadingController implements Initializable {
     public void loadGame(ActionEvent event) {
         String saveGame = "save1";
         if (event.getSource() == loadBtn1) {
-            saveGame = "save1";
-            System.out.println("Button 1");
+            saveGame = "Savegame1";
         } else if (event.getSource() == loadBtn2) {
-            saveGame = "save2";
-            System.out.println("Button 2");
+            saveGame = "Savegame2";
         } else if (event.getSource() == loadBtn3) {
-            saveGame = "save3";
-            System.out.println("Button 3");
+            saveGame = "Savegame3";
         }
 
         try{
@@ -69,7 +65,7 @@ public class LoadingController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../gameCode/GameWindow.fxml"));
             Parent root = loader.load();
             GameInitializer controller = loader.<GameInitializer>getController();
-            controller.setLoad(saveGame);
+            controller.loadGame(saveGame);
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
             stage.setScene(scene);

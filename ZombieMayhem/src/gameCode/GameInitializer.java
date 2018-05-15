@@ -121,6 +121,12 @@ public class GameInitializer implements Initializable{
         Platform.runLater(game::getKeyPressed);
     }
 
+    public void loadGame(String saveGame) {
+        ingameChooseDifficulty.setVisible(false);
+        startGame(Game.Difficulty.NORMAL);
+        game.loadGame(saveGame);
+    }
+
     /**
      * Method which displays Labels to the user based on the appropriate state.
      * These include Game Over, Game Won, and Paused.
@@ -287,12 +293,6 @@ public class GameInitializer implements Initializable{
             mediaPlayer.setMute(false);
             muted = false;
         }
-    }
-
-    public void setLoad(String saveGame) {
-        ingameChooseDifficulty.setVisible(false);
-        startGame(Game.Difficulty.NORMAL);
-        game.loadGame(saveGame);
     }
 
     public void setDifficulty() {
