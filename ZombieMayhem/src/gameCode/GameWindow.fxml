@@ -118,19 +118,7 @@
          <top>
             <FlowPane fx:id="topBar" alignment="CENTER" prefHeight="0.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox fx:id="hudTimerBackground" alignment="CENTER" prefHeight="40.0" prefWidth="125.0">
-                     <children>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/Art/Icon/watch.png" />
-                           </image>
-                        </ImageView>
-                        <Label fx:id="hudTimer" alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="77.0" text="0" textFill="#170101">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Label>
-                     </children></HBox>
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="125.0" visible="false" />
                   <HBox prefHeight="47.0" prefWidth="1020.0" />
                   <HBox fx:id="hudScoreBackground" alignment="CENTER" prefHeight="40.0" prefWidth="135.0">
                      <children>

@@ -42,7 +42,6 @@ public class Game {
     private Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer;
 
     private int scoreNumber;
-    private int secondsCounter;
     private int roundNumber;
     private int maxRound;
     private boolean running;
@@ -70,9 +69,8 @@ public class Game {
      * @param hudMag requires a Label which represents Player's current weapon magazine count, and will be updated.
      * @param hudPool requires a Label which represents Player's current weapon ammopool, and will be updated.
      * @param hudScore requires a Label which represents Game's score value, and will be updated.
-     * @param hudTimer requires a Label which represents Game's timer value, and will be updated.
      */
-    public Game(GameInitializer gameInitializer, AssetsHandler assetsHandler, Difficulty difficulty, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
+    public Game(GameInitializer gameInitializer, AssetsHandler assetsHandler, Difficulty difficulty, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore){
         this.gameInitializer = gameInitializer;
         this.assetsHandler = assetsHandler;
         this.difficulty = difficulty;
@@ -119,7 +117,6 @@ public class Game {
         String magazineLevel = String.valueOf(player.getMagazineCount());
         String poolLevel = String.format("%02d", player.getAmmoPool());
         String score = String.format("%05d", this.getScoreNumber());
-        String timer = String.valueOf(this.secondsCounter);
 
         this.hudHP.setText(hpLevel);
         this.hudArmor.setText(armorLevel);
@@ -127,7 +124,6 @@ public class Game {
         this.hudMag.setText(magazineLevel);
         this.hudPool.setText(poolLevel);
         this.hudScore.setText(score);
-        this.hudTimer.setText(timer);
 
         if (roundNumber < maxRound)
             gameInitializer.roundNbr.setText("Round: " + roundNumber);
@@ -143,13 +139,12 @@ public class Game {
      *             the AnimationTimer
      */
     private void onUpdate(double time) {
-        secondsCounter = (int)time;
         List<Bullet> bullets = player.getBulletList();
 
         // Create Drop entities with random position
         randomDropCreation(10);
 
-        //////////////////////////////////////////////////////////
+        ////////// Calculate new positions, before moving and drawing //////////
 
         //Calculate new position for all objects
         List<Entity> playerObjectCollidingList = new ArrayList<>();
@@ -179,12 +174,12 @@ public class Game {
         ////////// Check collision with edges //////////
 
         // Add Player and Zombies to a List for collision check with edges
-        List<Movable> moveableList = new ArrayList<>();
-        moveableList.add(player);
-        moveableList.addAll(zombies);
-        for (Movable moveable : moveableList) {
-            if (moveable.getNode().getTranslateX() < 0 || moveable.getNode().getTranslateY() < 0 || moveable.getNode().getTranslateX() > (gameWindow.getWidth() - 60) || moveable.getNode().getTranslateY() > (gameWindow.getHeight() - 100)) {
-                moveable.moveBack();
+        List<Movable> movableList = new ArrayList<>();
+        movableList.add(player);
+        movableList.addAll(zombies);
+        for (Movable movable : movableList) {
+            if (movable.getNode().getTranslateX() < 0 || movable.getNode().getTranslateY() < 0 || movable.getNode().getTranslateX() > (gameWindow.getWidth() - 60) || movable.getNode().getTranslateY() > (gameWindow.getHeight() - 100)) {
+                movable.moveBack();
             }
         }
 
@@ -258,8 +253,8 @@ public class Game {
 
         ////////// Update animation, position and Image rotation //////////
 
-        moveableList.addAll(bulletList); // Update Bullet's position, Image rotation, and handling timeToLive expiration
-        for (Movable moveable : moveableList) {
+        movableList.addAll(bulletList); // Update Bullet's position, Image rotation, and handling timeToLive expiration
+        for (Movable moveable : movableList) {
             moveable.updateAnimation();
             moveable.update(time);
         }

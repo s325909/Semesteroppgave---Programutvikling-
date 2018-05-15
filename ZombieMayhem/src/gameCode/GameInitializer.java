@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 public class GameInitializer implements Initializable{
 
     @FXML private Pane gameWindow;
-    @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer, roundNbr, gameState, pressKey;
+    @FXML protected Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, roundNbr, gameState, pressKey;
     @FXML private VBox gamePaused, ingameMenu, ingameHelp, ingameSave, ingameLoad, ingameSettings, ingameNormalDifficulty, ingameHardDifficulty, ingameInsaneDifficulty;
     @FXML private HBox ingameChooseDifficulty;
     @FXML private Button howToPlay, saveGame, loadGame, settings, backHelp, backSave, backLoad, backSettings;
@@ -38,10 +38,8 @@ public class GameInitializer implements Initializable{
 
     private Game game;
     private boolean labelVisible;
-    private boolean menuVisible;
     private boolean difficultyVisisble;
     private boolean menuElementVisible;
-    private boolean saveMenuVisible, loadMenuVisible, helpMenuVisible, settingsMenuVisible;
 
     private AssetsHandler assetsHandler;
 
@@ -112,7 +110,7 @@ public class GameInitializer implements Initializable{
      * @param difficulty Requires the user selected difficulty in order to adjust the Game.
      */
     private void startGame(Game.Difficulty difficulty) {
-        game = new Game(this, assetsHandler, difficulty, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer);
+        game = new Game(this, assetsHandler, difficulty, gameWindow, hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore);
         showDifficulty(false);
 
         // Method getKeyPressed() is run continuously, and monitors user input
@@ -224,7 +222,6 @@ public class GameInitializer implements Initializable{
                 showMenu();
             }
         } else {
-            menuVisible = false;
             if (event.getSource() == backHelp) {
                 ingameHelp.setVisible(false);
                 menuElementVisible = false;
