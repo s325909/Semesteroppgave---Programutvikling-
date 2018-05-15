@@ -144,6 +144,10 @@ public class Game {
         // Create Drop entities with random position
         randomDropCreation(10);
 
+        player.playIdleSound(0.5, 20);
+        for (Zombie zombie : zombies)
+            zombie.playIdleSound(0.5, 30);
+
         ////////// Calculate new positions, before moving and drawing //////////
 
         //Calculate new position for all objects
@@ -217,6 +221,7 @@ public class Game {
             // Damage Player if colliding with zombie attack
             for (Bullet zombieAttack : zombie.getAttackList()) {
                 if(zombieAttack.isColliding(player)) {
+                    player.hitSound(zombieAttack.getDamage());
                     player.receivedDamage(zombieAttack.getDamage());
                     zombieAttack.setAlive(false);
                 }
@@ -225,7 +230,20 @@ public class Game {
 
         // Check for Bullet collision with zombies and rocks
         for(Bullet bullet : bullets) {
-            bullet.bulletCollision(zombies, rocks);
+            for (Zombie zombie : zombies) {
+                if (bullet.isColliding(zombie)) {
+                    zombie.hitSound(bullet.getDamage());
+                    bullet.setAlive(false);
+                    zombie.setHealthPoints(zombie.getHealthPoints() - bullet.getDamage());
+                    if (zombie.getHealthPoints() <= 0) {
+                        zombie.setAlive(false);
+                    }
+                }
+            }
+            for (Rock rock : rocks) {
+                if (bullet.isColliding(rock))
+                    bullet.setAlive(false);
+            }
         }
 
         // Check for Drop collision with Player
@@ -253,7 +271,7 @@ public class Game {
 
         ////////// Update animation, position and Image rotation //////////
 
-        movableList.addAll(bulletList); // Update Bullet's position, Image rotation, and handling timeToLive expiration
+        movableList.addAll(bulletList); // Also handling timeToLive expiration
         for (Movable moveable : movableList) {
             moveable.updateAnimation();
             moveable.update(time);
@@ -358,7 +376,6 @@ public class Game {
      * a new set of Zombies will be created. The number is dependent on the round and Difficulty.
      */
     private void spawnNewRound() {
-
         if (!isNewRound()) {
             if (roundNumber < maxRound) {
                 roundNumber++;
@@ -373,7 +390,6 @@ public class Game {
         } else {
             gameOver();
         }
-
     }
 
     /**
@@ -421,15 +437,16 @@ public class Game {
      */
     private int[] getRandomPosition() {
         int[] randomPosition = new int[2];
-        double distance;
+        double distanceFromPlayer;
+        int distanceFromWindowEdge = 100;
 
         do {
-            randomPosition[0] = (int) (Math.random() * gameWindow.getWidth());
-            randomPosition[1] = (int) (Math.random() * gameWindow.getHeight());
-            double diffx = (player.getPositionX()) - randomPosition[0];
-            double diffy = (player.getPositionY()) - randomPosition[1];
-            distance = Math.sqrt(Math.pow(diffx, 2) + Math.pow(diffy, 2));
-        } while(distance < 100);
+            randomPosition[0] = (int) (Math.random() * (gameWindow.getWidth() - distanceFromWindowEdge));
+            randomPosition[1] = (int) (Math.random() * (gameWindow.getHeight() - distanceFromWindowEdge));
+            double differenceX = (player.getPositionX()) - randomPosition[0];
+            double differenceY = (player.getPositionY()) - randomPosition[1];
+            distanceFromPlayer = Math.sqrt(Math.pow(differenceX, 2) + Math.pow(differenceY, 2));
+        } while(distanceFromPlayer < 100);
 
         return randomPosition;
     }
