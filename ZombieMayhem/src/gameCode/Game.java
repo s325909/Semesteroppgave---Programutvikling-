@@ -222,6 +222,8 @@ public class Game {
                 pauseGame();
                 gameInitializer.showMenu();
 
+                gameInitializer.hideMenuElements();
+
             } else if (e.getCode() == KeyCode.M) {
                 gameInitializer.muteMediaPlayer();
 
@@ -386,7 +388,7 @@ public class Game {
 
         // Set the Game state to over upon Player death
         if (!player.isAlive()) {
-            //gameOver();
+            gameOver();
         }
 
         //////////////////////////////////////////////////////////
