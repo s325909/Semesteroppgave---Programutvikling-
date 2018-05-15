@@ -47,11 +47,13 @@ public class LoadingController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../gameCode/GameWindow.fxml"));
             Parent root = loader.load();
             GameInitializer controller = loader.<GameInitializer>getController();
-            controller.loadGame(saveGame);
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
-            stage.setScene(scene);
-            stage.show();
+            boolean succcess = controller.loadGame(saveGame);
+            if (succcess) {
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
+                stage.setScene(scene);
+                stage.show();
+            }
         }catch (IOException io){
             io.printStackTrace();
         }

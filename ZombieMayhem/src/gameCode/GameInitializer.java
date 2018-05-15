@@ -123,13 +123,15 @@ public class GameInitializer implements Initializable{
      * Method for loading a saved game file from outside this controller.
      * @param saveGame Requires the string name of the file.
      */
-    public void loadGame(String saveGame) {
+    public boolean loadGame(String saveGame) {
         if (checkFile(saveGame)) {
             ingameChooseDifficulty.setVisible(false);
             startGame(Game.Difficulty.NORMAL);
             game.loadGame(saveGame);
+            return true;
         } else {
             fileAlert(true);
+            return false;
         }
     }
 
