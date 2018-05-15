@@ -305,18 +305,24 @@ public class Game {
      */
     public void getKeyPressed(){
 
+
         gameWindow.getScene().setOnKeyPressed(e -> {
             player.pressEvent(e);
             if (e.getCode() == KeyCode.BACK_SPACE) {
                 removeZombies();
 
-            } else if (e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.P) {
+            }
+            else if ((e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.P) && !gameInitializer.getIngameChooseDifficulty().isVisible() && !gameInitializer.getIngameNormalDifficulty().isVisible() && !gameInitializer.getIngameHardDifficulty().isVisible() && !gameInitializer.getIngameInsaneDifficulty().isVisible()) {
                 pauseGame();
                 gameInitializer.showGameLabel();
                 gameInitializer.showMenu();
                 gameInitializer.hideMenuElements();
+            }
 
-            } else if (e.getCode() == KeyCode.M) {
+            else if ((e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.P) && gameInitializer.getIngameChooseDifficulty().isVisible() && gameInitializer.getIngameNormalDifficulty().isVisible() && gameInitializer.getIngameHardDifficulty().isVisible() && gameInitializer.getIngameInsaneDifficulty().isVisible()) {
+                System.out.println("NO!");
+            }
+            else if (e.getCode() == KeyCode.M) {
                 gameInitializer.muteMediaPlayer();
 
             } else if (e.getCode() == KeyCode.F5){
