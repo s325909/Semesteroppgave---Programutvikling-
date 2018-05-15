@@ -38,10 +38,6 @@
             <PositionY>620</PositionY>
         </Rock>
         <Rock>
-            <PositionX>240</PositionX>
-            <PositionY>400</PositionY>
-        </Rock>
-        <Rock>
             <PositionX>220</PositionX>
             <PositionY>400</PositionY>
         </Rock>
@@ -71,6 +67,10 @@
         </Rock>
         <Rock>
             <PositionX>80</PositionX>
+            <PositionY>400</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>60</PositionX>
             <PositionY>400</PositionY>
         </Rock>
         <Rock>
@@ -106,64 +106,76 @@
             <PositionY>450</PositionY>
         </Rock>
         <Rock>
-            <PositionX>700</PositionX>
-            <PositionY>300</PositionY>
+            <PositionX>680</PositionX>
+            <PositionY>320</PositionY>
         </Rock>
         <Rock>
-            <PositionX>670</PositionX>
-            <PositionY>300</PositionY>
+            <PositionX>660</PositionX>
+            <PositionY>320</PositionY>
         </Rock>
         <Rock>
             <PositionX>640</PositionX>
-            <PositionY>300</PositionY>
+            <PositionY>320</PositionY>
         </Rock>
         <Rock>
-            <PositionX>610</PositionX>
-            <PositionY>300</PositionY>
+            <PositionX>620</PositionX>
+            <PositionY>320</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>600</PositionX>
+            <PositionY>320</PositionY>
         </Rock>
         <Rock>
             <PositionX>580</PositionX>
-            <PositionY>300</PositionY>
+            <PositionY>320</PositionY>
         </Rock>
         <Rock>
-            <PositionX>550</PositionX>
-            <PositionY>300</PositionY>
+            <PositionX>560</PositionX>
+            <PositionY>320</PositionY>
         </Rock>
         <Rock>
-            <PositionX>520</PositionX>
-            <PositionY>300</PositionY>
+            <PositionX>540</PositionX>
+            <PositionY>320</PositionY>
         </Rock>
         <Rock>
             <PositionX>520</PositionX>
             <PositionY>320</PositionY>
         </Rock>
         <Rock>
-            <PositionX>520</PositionX>
+            <PositionX>500</PositionX>
+            <PositionY>320</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>480</PositionX>
+            <PositionY>320</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>460</PositionX>
             <PositionY>340</PositionY>
         </Rock>
         <Rock>
-            <PositionX>520</PositionX>
+            <PositionX>460</PositionX>
             <PositionY>360</PositionY>
         </Rock>
         <Rock>
-            <PositionX>520</PositionX>
+            <PositionX>460</PositionX>
             <PositionY>380</PositionY>
         </Rock>
         <Rock>
-            <PositionX>520</PositionX>
+            <PositionX>460</PositionX>
             <PositionY>400</PositionY>
         </Rock>
         <Rock>
-            <PositionX>520</PositionX>
+            <PositionX>460</PositionX>
             <PositionY>420</PositionY>
         </Rock>
         <Rock>
-            <PositionX>900</PositionX>
-            <PositionY>130</PositionY>
+            <PositionX>460</PositionX>
+            <PositionY>440</PositionY>
         </Rock>
         <Rock>
-            <PositionX>900</PositionX>
-            <PositionY>150</PositionY>
+            <PositionX>460</PositionX>
+            <PositionY>460</PositionY>
         </Rock>
         <Rock>
             <PositionX>900</PositionX>
@@ -178,36 +190,44 @@
             <PositionY>210</PositionY>
         </Rock>
         <Rock>
+            <PositionX>900</PositionX>
+            <PositionY>230</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>900</PositionX>
+            <PositionY>250</PositionY>
+        </Rock>
+        <Rock>
             <PositionX>1000</PositionX>
-            <PositionY>210</PositionY>
+            <PositionY>250</PositionY>
         </Rock>
         <Rock>
             <PositionX>980</PositionX>
-            <PositionY>210</PositionY>
+            <PositionY>250</PositionY>
         </Rock>
         <Rock>
             <PositionX>960</PositionX>
-            <PositionY>210</PositionY>
+            <PositionY>250</PositionY>
         </Rock>
         <Rock>
             <PositionX>940</PositionX>
-            <PositionY>210</PositionY>
+            <PositionY>250</PositionY>
         </Rock>
         <Rock>
             <PositionX>920</PositionX>
-            <PositionY>210</PositionY>
+            <PositionY>250</PositionY>
         </Rock>
         <Rock>
             <PositionX>940</PositionX>
             <PositionY>400</PositionY>
         </Rock>
         <Rock>
-            <PositionX>400</PositionX>
+            <PositionX>850</PositionX>
             <PositionY>250</PositionY>
         </Rock>
         <Rock>
-            <PositionX>200</PositionX>
-            <PositionY>140</PositionY>
+            <PositionX>1200</PositionX>
+            <PositionY>700</PositionY>
         </Rock>
         <Rock>
             <PositionX>500</PositionX>
@@ -236,6 +256,14 @@
         <Rock>
             <PositionX>800</PositionX>
             <PositionY>100</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>500</PositionX>
+            <PositionY>100</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>300</PositionX>
+            <PositionY>200</PositionY>
         </Rock>
     </Rocks>
 </Environment>
