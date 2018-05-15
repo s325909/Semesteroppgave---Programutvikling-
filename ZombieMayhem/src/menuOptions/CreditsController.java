@@ -17,6 +17,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+/***
+ * This class controls the Credits.fxml,
+ * and is used to show credits and make a returnToMenu button
+ */
 public class CreditsController implements Initializable {
 
     @FXML private Button backToMenu;
@@ -24,6 +28,12 @@ public class CreditsController implements Initializable {
     private Stage window_GameMenu;
     private Parent root_GameMenu;
 
+    /**
+     * Fetches a text document containing credits,
+     * which is shown upon opening the Credits.fxml
+     * @param url Method is run upon Credits FXML being loaded.
+     * @param resourceBundle Method is run upon Credits FXML being loaded.
+     */
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -38,6 +48,11 @@ public class CreditsController implements Initializable {
 
     }
 
+    /**
+     * Method that makes it possible to return to the main menu
+     * @param event that takes the Button's id
+     * @throws IOException
+     */
     @FXML
     public void returnToMenu(ActionEvent event) throws IOException {
         try {

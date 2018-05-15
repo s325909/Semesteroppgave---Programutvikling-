@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 
 /**
  * This class controls the HowToPlay.fxml,
- * and is used to make returnToMenu button.
+ * and is used to make a returnToMenu button.
  */
 
 public class HowToPlayController implements Initializable {
