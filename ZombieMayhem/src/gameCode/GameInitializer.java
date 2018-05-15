@@ -42,14 +42,17 @@ public class GameInitializer implements Initializable{
     private boolean menuElementVisible;
     private boolean muted;
 
+    private boolean saveMenuVisible, loadMenuVisible, helpMenuVisible, settingsMenuVisible;
+
     /***
      * Method which will load all assets used in the Game, create the level design, and allow the user to select a Difficulty.
      * Upon selecting the Difficulty, the rest of the Game is created and the game loop starts to run.
      * @param location Method is run upon GameWindow FXML being loaded.
      * @param resources Method is run upon GameWindow FXML being loaded.
      */
-    @Override
+
     public void initialize(URL location, ResourceBundle resources) {
+
         //Create an object of MusicPlayer, which includes what file to play and automatically starts playing
 
 
@@ -136,22 +139,14 @@ public class GameInitializer implements Initializable{
      */
     void showGameLabel() {
         if(!labelVisible) {
-            gamePaused.setVisible(true);
-            gameState.setVisible(true);
-            labelVisible = true;
             if(game.isGameOver() && !game.isNewRound()) {
-                gameState.setText("GAME OVER!");
-                gameState.setTextFill(Color.INDIANRED);
+                setAndShowGameStateLabel("GAME OVER!", Color.INDIANRED);
                 pressKey.setVisible(true);
                 pressKey.setText("Press ESC to continue");
             } else if (game.isGameOver() && game.isNewRound()) {
-                gameState.setText("GAME WON!");
-                gameState.setTextFill(Color.DARKGREEN);
+                setAndShowGameStateLabel("GAME WON!", Color.DARKGREEN);
                 pressKey.setVisible(true);
                 pressKey.setText("Press ESC to continue");
-            }else {
-                gameState.setText("GAME IS PAUSED");
-                gameState.setTextFill(Color.WHITE);
             }
         } else {
             gamePaused.setVisible(false);
@@ -159,6 +154,14 @@ public class GameInitializer implements Initializable{
             pressKey.setVisible(false);
             labelVisible = false;
         }
+    }
+
+    void setAndShowGameStateLabel(String labelText, Color textColor) {
+        gamePaused.setVisible(true);
+        gameState.setVisible(true);
+        labelVisible = true;
+        gameState.setText(labelText);
+        gameState.setTextFill(textColor);
     }
 
 
@@ -180,17 +183,28 @@ public class GameInitializer implements Initializable{
         }
     }
 
+
     /**
      * Method which will open the in-game menu.
      * It sets a hidden VBox to visible.
      */
     public void showMenu() {
-        if(!menuVisible && !menuElementVisible) {
+
+        if (ingameMenu.isVisible() == false && menuVisible == false){
             ingameMenu.setVisible(true);
             menuVisible = true;
-        } else {
+        }else {
             ingameMenu.setVisible(false);
             menuVisible = false;
+        }
+
+    }
+
+    //Hides the topp level menu
+    private void hideInGameMenu() {
+        if (ingameMenu.isVisible()) {
+            ingameMenu.setVisible(false);
+            menuVisible = true;
         }
     }
 
@@ -200,36 +214,84 @@ public class GameInitializer implements Initializable{
      */
     @FXML
     public void showMenuElement(ActionEvent event) {
-        if (!menuElementVisible) {
+        if (ingameMenu.isVisible()) {
             if (event.getSource() == howToPlay) {
-                ingameHelp.setVisible(true);
+                showHelpMenu();
+                hideInGameMenu();
             } else if (event.getSource() == saveGame) {
-                ingameSave.setVisible(true);
-            } else if (event.getSource() == loadGame){
-                ingameLoad.setVisible(true);
+                showSaveMenu();
+                hideInGameMenu();
+            } else if (event.getSource() == loadGame) {
+                showLoadMenu();
+                hideInGameMenu();
             } else if (event.getSource() == settings) {
-                ingameSettings.setVisible(true);
+                showSettingsMenu();
+                hideInGameMenu();
             }
-
-            ingameMenu.setVisible(false);
-            gameState.setVisible(false);
-            menuElementVisible = true;
         } else {
+            menuVisible = false;
             if (event.getSource() == backHelp) {
                 ingameHelp.setVisible(false);
+                showMenu();
             } else if (event.getSource() == backSave) {
                 ingameSave.setVisible(false);
+                showMenu();
             } else if (event.getSource() == backLoad) {
                 ingameLoad.setVisible(false);
+                showMenu();
             } else if (event.getSource() == backSettings) {
                 ingameSettings.setVisible(false);
+                showMenu();
             }
-
-            ingameMenu.setVisible(true);
-            gameState.setVisible(true);
-            menuElementVisible = false;
         }
     }
+
+    private void showSaveMenu(){
+        if (!saveMenuVisible){
+            ingameSave.setVisible(true);
+            menuVisible = true;
+        } else {
+            ingameSave.setVisible(false);
+            menuVisible = false;
+        }
+    }
+
+    private void showLoadMenu() {
+        if (!loadMenuVisible){
+            ingameLoad.setVisible(true);
+        } else {
+            ingameLoad.setVisible(false);
+        }
+    }
+
+    private void showHelpMenu() {
+        if (!helpMenuVisible){
+            ingameHelp.setVisible(true);
+        } else {
+            ingameHelp.setVisible(false);
+        }
+    }
+
+    private void showSettingsMenu() {
+        if (!settingsMenuVisible){
+            ingameSettings.setVisible(true);
+        } else {
+            ingameSettings.setVisible(false);
+        }
+    }
+
+
+    /**
+     * Method that will hide the sub-menu elements.
+     * Used in Game's getKeyPressed() to resume game with esc from every sub-menu.
+     */
+    public void hideMenuElements() {
+        ingameSave.setVisible(false);
+        ingameLoad.setVisible(false);
+        ingameHelp.setVisible(false);
+        ingameSettings.setVisible(false);
+    }
+
 
     /**
      * Method which will resume the Game.
@@ -249,7 +311,6 @@ public class GameInitializer implements Initializable{
     public void restartGame() {
         game.restartGame();
         showMenu();
-        showGameLabel();
         showDifficulty(true);
     }
 

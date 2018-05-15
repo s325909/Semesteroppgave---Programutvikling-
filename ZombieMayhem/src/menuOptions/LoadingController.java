@@ -14,6 +14,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/***
+ * The class is used to control the Loading.fxml,
+ * and is used to make loadGame() and returnToMenu()
+ */
 public class LoadingController implements Initializable {
 
     @FXML private Button returnToMenu, loadBtn1, loadBtn2, loadBtn3;
