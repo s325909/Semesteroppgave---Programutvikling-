@@ -303,6 +303,7 @@ public class Game {
      */
     public void getKeyPressed(){
 
+
         gameWindow.getScene().setOnKeyPressed(e -> {
             player.pressEvent(e);
             if (e.getCode() == KeyCode.BACK_SPACE) {

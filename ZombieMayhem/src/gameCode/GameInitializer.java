@@ -165,6 +165,7 @@ public class GameInitializer implements Initializable{
     }
 
 
+
     /**
      * Method which will show the Difficulty selection screen.
      * @param show Requires a boolean to switch between the visibility.
@@ -397,6 +398,18 @@ public class GameInitializer implements Initializable{
 
     public HBox getIngameChooseDifficulty() {
         return ingameChooseDifficulty;
+    }
+
+    public VBox getIngameNormalDifficulty() {
+        return ingameNormalDifficulty;
+    }
+
+    public VBox getIngameHardDifficulty() {
+        return ingameHardDifficulty;
+    }
+
+    public VBox getIngameInsaneDifficulty() {
+        return ingameInsaneDifficulty;
     }
 
     /**
