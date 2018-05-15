@@ -27,6 +27,7 @@ public class Player extends Movable {
     private WeaponTypes equippedWeapon;
     private State playerState;
     private int armor;
+    private AudioClip[] basicSounds;
     private AudioClip[] weaponSounds;
     private Image[] bulletImages;
     private Magazine magazinePistol;
@@ -37,14 +38,17 @@ public class Player extends Movable {
     private long waitTime;
     private long invTime;
     private long fireWaitTime;
+    private long soundWaitTime;
     private List<PlayerDirection> directionButtonPressed;
 
     public Player(Image[][][] images, AudioClip[] basicSounds, AudioClip[] weaponSounds, Image[] bulletImages, int positionX, int positionY, int healthPoints, int armor) {
         super(new AnimationHandler(images), basicSounds, positionX, positionY, healthPoints, 5.0);
+        this.basicSounds = basicSounds;
         this.weaponSounds = weaponSounds;
         this.bulletImages = bulletImages;
         this.animationQueue = new LinkedList<AnimationLengthPair>();
         this.waitTime = 0;
+        this.soundWaitTime = 0;
         setEquippedWeapon(WeaponTypes.KNIFE);
         setAnimation(0,0, 0);
         magazinePistol = new Magazine(15, 30);
@@ -395,7 +399,7 @@ public class Player extends Movable {
                 case SHOTGUN:
                     if (!magazineShotgun.isPoolEmpty() && !magazineShotgun.isMagazineFull()) {
                         magazineShotgun.reloadMagazine();
-                        playWeaponSounds(6, 3);
+                        playWeaponSounds(6, 1);
                         setAnimation(3, 3, 500);
                     }
                     break;
@@ -620,11 +624,11 @@ public class Player extends Movable {
         return armor;
     }
 
-    public void setArmor(int armor) {
+    private void setArmor(int armor) {
         this.armor = armor;
     }
 
-    public void playWeaponSounds(int i, double rate) {
+    private void playWeaponSounds(int i, double rate) {
         this.weaponSounds[i].setRate(rate);
         this.weaponSounds[i].play();
     }
@@ -637,15 +641,15 @@ public class Player extends Movable {
         this.bulletList = bulletList;
     }
 
-    public Magazine getMagazinePistol() {
+    Magazine getMagazinePistol() {
         return magazinePistol;
     }
 
-    public Magazine getMagazineRifle() {
+    Magazine getMagazineRifle() {
         return magazineRifle;
     }
 
-    public Magazine getMagazineShotgun() {
+    Magazine getMagazineShotgun() {
         return magazineShotgun;
     }
 
@@ -653,11 +657,9 @@ public class Player extends Movable {
         return equippedWeapon;
     }
 
-    public void setEquippedWeapon(WeaponTypes equippedWeapon) {
+    private void setEquippedWeapon(WeaponTypes equippedWeapon) {
         this.equippedWeapon = equippedWeapon;
     }
-
-
 
     /***
      * Inner class for handling magazine count and ammunition pool for the Player.

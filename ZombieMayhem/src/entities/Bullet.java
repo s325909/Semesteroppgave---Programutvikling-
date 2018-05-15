@@ -2,7 +2,6 @@ package entities;
 
 import gameCode.DataHandler;
 import javafx.scene.image.Image;
-import java.util.List;
 
 /**
  * Class which handles the creation of bullets when the Player fires a weapon, and is also used for handling
@@ -98,30 +97,6 @@ public class Bullet extends Movable {
             default:
                 setVelocityX(0 + adjustVelX);
                 setVelocityY(0 + adjustVelY);
-        }
-    }
-
-    /**
-     * Method which handles collision with Zombies and Rocks.
-     * Bullet is set to dead in either case, but Zombie will lose health equivalent to Bullet's damage.
-     * @param zombieList Requires the Game's list of Zombies.
-     * @param rocksList Requires the Game's list of Rocks.
-     */
-    public void bulletCollision(List<Zombie> zombieList, List<Rock> rocksList) {
-        for (Zombie zombie : zombieList) {
-            if (isColliding(zombie)) {
-                this.setAlive(false);
-                zombie.setHealthPoints(zombie.getHealthPoints() - this.getDamage());
-                if (zombie.getHealthPoints() <= 0) {
-                    zombie.setAlive(false);
-                }
-            }
-        }
-
-        for (Rock rock : rocksList) {
-            if (isColliding(rock)){
-                this.setAlive(false);
-            }
         }
     }
 

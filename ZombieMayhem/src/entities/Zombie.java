@@ -16,6 +16,7 @@ public class Zombie extends Movable {
 
     private int walkDistance;
     private long waitTime;
+    private long soundWaitTime;
 
     private Direction walkDirection;
     private State state;

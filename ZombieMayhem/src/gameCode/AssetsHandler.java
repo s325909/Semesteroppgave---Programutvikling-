@@ -44,11 +44,17 @@ public class AssetsHandler {
         String musicFile = "src/resources/Sound/Soundtrack/Doom2.mp3";
         this.mediaPlayer = loadMusic(musicFile, musicVolume);
 
-        // Create Player's sounds. Turns Strings into usable AudioClips
+
+
+        ////////// Create Player's sounds. Turns Strings into usable AudioClips //////////
         String[] playerSounds = {
                 "/resources/Sound/Sound Effects/Player/player_breathing_calm.wav",
-                "/resources/Sound/Sound Effects/Player/footsteps_single.wav"
+                "/resources/Sound/Sound Effects/Player/footsteps_single.wav",
+                "/resources/Sound/Sound Effects/Player/soft_grunt.wav",
+                "/resources/Sound/Sound Effects/Player/rough_grunt.wav",
+                "/resources/Sound/Sound Effects/Player/death_grunt.wav"
         };
+
         this.basicSounds = loadAudio(playerSounds, soundVolume);
 
         String[] weaponSounds = {
@@ -59,11 +65,14 @@ public class AssetsHandler {
                 "/resources/Sound/Sound Effects/Player/Rifle/rifle_reload.mp3",
                 "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_shot.wav",
                 "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_reload.wav",
-                "/resources/Sound/Sound Effects/Player/Pistol/pistol_empty.mp3"
+                "/resources/Sound/Sound Effects/Player/weapon_empty.mp3"
         };
+
         this.weaponSounds = loadAudio(weaponSounds, soundVolume);
 
-        // Create Player's animations. Combines several arrays into one
+
+
+        ////////// Create Player's animations. Combines several arrays into one //////////
         FileParam[] knife = {
                 new FileParam("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20),
                 new FileParam("/resources/Art/Player/knife/move/survivor-move_knife_", ".png", 20),
@@ -103,14 +112,38 @@ public class AssetsHandler {
             this.playerImages[i] = loadAnimation(all[i]);
         }
 
-        // Create Zombie's animations
-        loadZombiesAssets();
 
-        // Create Drop's animations
-        FileParam scoreDrop = new FileParam("/resources/Art/Icon/Coin/coin_rotate_", ".png", 6);
+
+        // Create Zombie's animations
+        String[] zombieSounds = {
+                "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
+                "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav",
+                "/resources/Sound/Sound Effects/Zombie/zombie_hit_1.wav",
+                "/resources/Sound/Sound Effects/Zombie/zombie_hit_2.wav",
+                "/resources/Sound/Sound Effects/Zombie/zombie_death.mp3"
+        };
+
+        FileParam[] zombieAnimations = {
+                new FileParam("/resources/Art/Zombie/skeleton-idle_", ".png", 17),
+                new FileParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
+                new FileParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)
+        };
+
+        this.zombieAudioClips = loadAudio(zombieSounds, soundVolume);
+        this.zombieImages = loadAnimation(zombieAnimations);
+
+
+
+        ////////// Create Drop's animations //////////
+        FileParam scoreDrop = new FileParam(
+                "/resources/Art/Icon/Coin/coin_rotate_", ".png", 6
+        );
+
         this.scoreDropAnimation = loadAnimation(scoreDrop);
 
-        // Create all of Drop's images
+
+
+        ////////// Create all of Drop's images //////////
         String[] dropImageStrings = new String[] {
                 "/resources/Art/Icon/hp_icon.png",
                 "/resources/Art/Icon/armor_icon.png",
@@ -118,22 +151,29 @@ public class AssetsHandler {
                 "/resources/Art/Icon/rifle_ammo.png",
                 "/resources/Art/Icon/shotgun_ammo.png"
         };
+
         createDropImages(dropImageStrings);
 
-        // Create all of Bullet's images
+
+
+        ////////// Create all of Bullet's images //////////
         String[] bulletImageStrings = {
                 "/resources/Art/Icon/pistol_bullet.png",
                 "/resources/Art/Icon/single_rifle_bullet.png"
         };
+
         this.pistolBulletImaqe = new Image[1];
         this.pistolBulletImaqe[0] = new Image(bulletImageStrings[0], 25, 25, true, false);
         this.rifleBulletImage = new Image[1];
         this.rifleBulletImage[0] = new Image(bulletImageStrings[1], 25, 25, true, false);
 
-        // Create all of Rock's images
+
+
+        ////////// Create all of Rock's images //////////
         String[] rockImageStrings = {
                 "/resources/Art/Icon/rock.png"
         };
+
         this.rockImage = new Image[1];
         this.rockImage[0] = new Image(rockImageStrings[0], 50, 50, true, false);
     }
@@ -201,25 +241,6 @@ public class AssetsHandler {
             }
         }
         return images;
-    }
-
-    /**
-     * Method which finds and loads all necessary Zombie assets from disk only once.
-     * Once found and loaded into memory, these sets of assets are then turned
-     * into usable arrays which allows easy access without re-reading from disk.
-     */
-    private void loadZombiesAssets() {
-        String[] zombieSounds = {
-                "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
-                "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav"};
-
-        FileParam[] zombieAnimations = {
-                new FileParam("/resources/Art/Zombie/skeleton-idle_", ".png", 17),
-                new FileParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
-                new FileParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
-
-        this.zombieAudioClips = loadAudio(zombieSounds, soundVolume);
-        this.zombieImages = loadAnimation(zombieAnimations);
     }
 
     /**

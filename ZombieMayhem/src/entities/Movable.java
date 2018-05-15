@@ -26,6 +26,7 @@ public class Movable extends Entity {
     private double newRotation;
     private double movementSpeed;
 
+    private long soundWaitTime;
     private AudioClip[] audioClips;
     private Direction direction;
 
@@ -164,15 +165,21 @@ public class Movable extends Entity {
 
     }
 
-    public void playIdleSound(double time, int everyNthSecond) {
-        int dur = (int)(time % everyNthSecond);
-        System.out.println(dur);
-        if (dur == 0) {
-        }
-    }
+    public void playIdleSound(double minThreshold, int maxSeconds ) {
+        long currentTime = System.currentTimeMillis();
+        int clipIndex = 0;
 
-    public void playAudioClip(int i) {
-        this.audioClips[i].play();
+        if (!audioClips[clipIndex].isPlaying()) {
+            if (currentTime > soundWaitTime) {
+                double random = Math.random();
+                int duration = 0;
+                if (random > minThreshold) {
+                    duration = (int) (random * (maxSeconds * 1000));
+                }
+                playSound(0, 1);
+                soundWaitTime = currentTime + duration;
+            }
+        }
     }
 
     /**
@@ -209,11 +216,40 @@ public class Movable extends Entity {
         setNewRotation(movementCfg.rotation);
     }
 
+    public void hitSound(int damage) {
+        int i;
+
+        if (healthPoints > damage) {
+            double random = Math.random();
+            if (random > 0.5)
+                i = 2;
+            else
+                i = 3;
+        } else
+            i = 4;
+
+        if (!audioClips[i].isPlaying())
+            playSound(i, 1);
+    }
+
+    public void playSound(int i, double rate) {
+        audioClips[i].setRate(rate);
+        audioClips[i].play();
+    }
+
+    public AudioClip[] getAudioClips() {
+        return audioClips;
+    }
+
+    public void setAudioClips(AudioClip[] audioClips) {
+        this.audioClips = audioClips;
+    }
+
     public int getHealthPoints() {
         return this.healthPoints;
     }
 
-    void setHealthPoints(int health) {
+    public void setHealthPoints(int health) {
         this.healthPoints = health;
     }
 
