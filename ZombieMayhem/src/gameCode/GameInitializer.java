@@ -182,6 +182,31 @@ public class GameInitializer implements Initializable{
     }
 
 
+    /**
+     * Method which will open the in-game menu.
+     * It sets a hidden VBox to visible.
+     */
+    public void showMenu() {
+
+        if (ingameMenu.isVisible() == false && menuVisible == false){
+            ingameMenu.setVisible(true);
+            menuVisible = true;
+        }else {
+            ingameMenu.setVisible(false);
+            menuVisible = false;
+        }
+
+    }
+
+    //Hides the topp level menu
+    private void hideInGameMenu() {
+        if (ingameMenu.isVisible()) {
+            ingameMenu.setVisible(false);
+            menuVisible = true;
+        }
+    }
+
+
     //TODO make seperate bool for each sub menu?
 
     private void showSaveMenu(){
@@ -215,31 +240,6 @@ public class GameInitializer implements Initializable{
             ingameSettings.setVisible(true);
         } else {
             ingameSettings.setVisible(false);
-        }
-    }
-
-
-    /**
-     * Method which will open the in-game menu.
-     * It sets a hidden VBox to visible.
-     */
-    public void showMenu() {
-
-        if (ingameMenu.isVisible() == false && menuVisible == false){
-            ingameMenu.setVisible(true);
-            menuVisible = true;
-        }else {
-            ingameMenu.setVisible(false);
-            menuVisible = false;
-        }
-
-    }
-
-    //Hides the topp level menu
-    public void hideInGameMenu() {
-        if (ingameMenu.isVisible()) {
-            ingameMenu.setVisible(false);
-            menuVisible = true;
         }
     }
 
