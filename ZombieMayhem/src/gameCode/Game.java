@@ -312,7 +312,9 @@ public class Game {
 
             } else if (e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.P) {
                 pauseGame();
+                gameInitializer.showGameLabel();
                 gameInitializer.showMenu();
+                gameInitializer.hideMenuElements();
 
             } else if (e.getCode() == KeyCode.M) {
                 gameInitializer.muteMediaPlayer();
