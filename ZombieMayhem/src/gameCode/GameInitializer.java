@@ -164,8 +164,6 @@ public class GameInitializer implements Initializable{
         gameState.setTextFill(textColor);
     }
 
-
-
     /**
      * Method which will show the Difficulty selection screen.
      * @param show Requires a boolean to switch between the visibility.
@@ -186,28 +184,18 @@ public class GameInitializer implements Initializable{
         }
     }
 
-
     /**
      * Method which will open the in-game menu.
      * It sets a hidden VBox to visible.
      */
     public void showMenu() {
-
-        if (!ingameMenu.isVisible() && !menuVisible){
-            ingameMenu.setVisible(true);
-            menuVisible = true;
-        }else {
+        if (!ingameMenu.isVisible()){
+            if (!menuElementVisible)
+                ingameMenu.setVisible(true);
+            else
+                hideMenuElements();
+        } else {
             ingameMenu.setVisible(false);
-            menuVisible = false;
-        }
-
-    }
-
-    //Hides the topp level menu
-    private void hideInGameMenu() {
-        if (ingameMenu.isVisible()) {
-            ingameMenu.setVisible(false);
-            menuVisible = true;
         }
     }
 
@@ -219,70 +207,43 @@ public class GameInitializer implements Initializable{
     public void showMenuElement(ActionEvent event) {
         if (ingameMenu.isVisible()) {
             if (event.getSource() == howToPlay) {
-                showHelpMenu();
-                hideInGameMenu();
+                ingameHelp.setVisible(true);
+                menuElementVisible = true;
+                showMenu();
             } else if (event.getSource() == saveGame) {
-                showSaveMenu();
-                hideInGameMenu();
+                ingameSave.setVisible(true);
+                menuElementVisible = true;
+                showMenu();
             } else if (event.getSource() == loadGame) {
-                showLoadMenu();
-                hideInGameMenu();
+                ingameLoad.setVisible(true);
+                menuElementVisible = true;
+                showMenu();
             } else if (event.getSource() == settings) {
-                showSettingsMenu();
-                hideInGameMenu();
+                ingameSettings.setVisible(true);
+                menuElementVisible = true;
+                showMenu();
             }
         } else {
             menuVisible = false;
             if (event.getSource() == backHelp) {
                 ingameHelp.setVisible(false);
+                menuElementVisible = false;
                 showMenu();
             } else if (event.getSource() == backSave) {
                 ingameSave.setVisible(false);
+                menuElementVisible = false;
                 showMenu();
             } else if (event.getSource() == backLoad) {
                 ingameLoad.setVisible(false);
+                menuElementVisible = false;
                 showMenu();
             } else if (event.getSource() == backSettings) {
                 ingameSettings.setVisible(false);
+                menuElementVisible = false;
                 showMenu();
             }
         }
     }
-
-    private void showSaveMenu(){
-        if (!saveMenuVisible){
-            ingameSave.setVisible(true);
-            menuVisible = true;
-        } else {
-            ingameSave.setVisible(false);
-            menuVisible = false;
-        }
-    }
-
-    private void showLoadMenu() {
-        if (!loadMenuVisible){
-            ingameLoad.setVisible(true);
-        } else {
-            ingameLoad.setVisible(false);
-        }
-    }
-
-    private void showHelpMenu() {
-        if (!helpMenuVisible){
-            ingameHelp.setVisible(true);
-        } else {
-            ingameHelp.setVisible(false);
-        }
-    }
-
-    private void showSettingsMenu() {
-        if (!settingsMenuVisible){
-            ingameSettings.setVisible(true);
-        } else {
-            ingameSettings.setVisible(false);
-        }
-    }
-
 
     /**
      * Method that will hide the sub-menu elements.
@@ -293,6 +254,7 @@ public class GameInitializer implements Initializable{
         ingameLoad.setVisible(false);
         ingameHelp.setVisible(false);
         ingameSettings.setVisible(false);
+        menuElementVisible = false;
     }
 
 
@@ -314,6 +276,7 @@ public class GameInitializer implements Initializable{
     public void restartGame() {
         game.restartGame();
         showMenu();
+        showGameLabel();
         showDifficulty(true);
     }
 
@@ -334,8 +297,8 @@ public class GameInitializer implements Initializable{
 
         if(success) {
             ingameSave.setVisible(false);
-            menuVisible = false;
-            menuElementVisible = false;
+            showGameLabel();
+            hideMenuElements();
             game.setRunning(true);
         } else {
             fileAlert(false);
@@ -359,8 +322,8 @@ public class GameInitializer implements Initializable{
 
         if(success) {
             ingameLoad.setVisible(false);
-            menuVisible = false;
-            menuElementVisible = false;
+            showGameLabel();
+            hideMenuElements();
             game.setRunning(true);
         } else {
             fileAlert(true);
@@ -419,7 +382,11 @@ public class GameInitializer implements Initializable{
         selectDifficulty();
     }
 
-    public boolean getDifficultyVisible() {
+    public boolean isDifficultyVisible() {
         return difficultyVisisble;
+    }
+
+    public boolean isMenuElementVisible() {
+        return menuElementVisible;
     }
 }

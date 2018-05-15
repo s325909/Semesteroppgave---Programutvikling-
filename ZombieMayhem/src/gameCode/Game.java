@@ -310,11 +310,9 @@ public class Game {
                 removeZombies();
 
             } else if (e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.P) {
-                if (!gameInitializer.getDifficultyVisible()) {
+                if (!gameInitializer.isDifficultyVisible()) {
                     pauseGame();
-                    gameInitializer.showGameLabel();
                     gameInitializer.showMenu();
-                    gameInitializer.hideMenuElements();
                 }
 
             } else if (e.getCode() == KeyCode.M) {
