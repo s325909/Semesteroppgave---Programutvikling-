@@ -1,6 +1,6 @@
 package entities;
 
-import gameCode.SaveHandler;
+import gameCode.DataHandler;
 import gameCode.Game;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
@@ -87,12 +87,12 @@ public class Entity{
 
     /**
      * Method which will retrieve and return requested information about an Entity object.
-     * Creates a new EntityConfiguration object from the SaveHandler class, and transfers
+     * Creates a new EntityConfiguration object from the DataHandler class, and transfers
      * variables specific to the Entity class into the corresponding variables in entityCfg.
      * @return Returns the object entityCfg of type EntityConfiguration.
      */
-    public SaveHandler.EntityConfiguration getEntityConfiguration() {
-        SaveHandler.EntityConfiguration entityCfg = new SaveHandler.EntityConfiguration();
+    public DataHandler.EntityConfiguration getEntityConfiguration() {
+        DataHandler.EntityConfiguration entityCfg = new DataHandler.EntityConfiguration();
         entityCfg.posX = getPositionX();
         entityCfg.posY = getPositionY();
         return entityCfg;
@@ -102,7 +102,7 @@ public class Entity{
      * Method which will transfer provided entityCfg's variables into corresponding variables in Entity.
      * @param entityCfg Requires an object of type EntityConfiguration.
      */
-    public void setEntityConfiguration(SaveHandler.EntityConfiguration entityCfg) {
+    public void setEntityConfiguration(DataHandler.EntityConfiguration entityCfg) {
         setPosition(entityCfg.posX, entityCfg.posY);
         setTranslateNode(entityCfg.posX, entityCfg.posY);
     }

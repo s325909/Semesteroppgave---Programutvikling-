@@ -1,6 +1,6 @@
 package entities;
 
-import gameCode.SaveHandler;
+import gameCode.DataHandler;
 import gameCode.Game;
 import javafx.scene.image.Image;
 
@@ -84,13 +84,13 @@ public class Drop extends Entity {
 
     /**
      * Method which will retrieve and return requested information about a Drop object.
-     * Creates a new DropConfiguration object from the SaveHandler class, and transfers
+     * Creates a new DropConfiguration object from the DataHandler class, and transfers
      * variables inherited from Entity, combined with variables specific to the Drop class,
      * into the corresponding variables in dropCfg.
      * @return Returns an object of type DropConfiguration.
      */
-    public SaveHandler.DropConfiguration getDropConfiguration() {
-        SaveHandler.DropConfiguration dropCfg = new SaveHandler.DropConfiguration();
+    public DataHandler.DropConfiguration getDropConfiguration() {
+        DataHandler.DropConfiguration dropCfg = new DataHandler.DropConfiguration();
         dropCfg.entityCfg = super.getEntityConfiguration();
         dropCfg.dropType = this.getDropType();
         return dropCfg;
@@ -102,7 +102,7 @@ public class Drop extends Entity {
      * Further, variables specific to the Drop class are transferred and set.
      * @param dropCfg Requires an object of type DropConfiguration.
      */
-    public void setDropConfiguration(SaveHandler.DropConfiguration dropCfg) {
+    public void setDropConfiguration(DataHandler.DropConfiguration dropCfg) {
         super.setEntityConfiguration(dropCfg.entityCfg);
         this.setDropType(dropCfg.dropType);
     }

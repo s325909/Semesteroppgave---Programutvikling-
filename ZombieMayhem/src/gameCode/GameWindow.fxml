@@ -161,7 +161,7 @@
          <children>
             <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
-                  <Label fx:id="roundNbr" text="ROUND 1" textFill="#170101">
+                  <Label fx:id="roundNbr" text="ROUND 0" textFill="#170101">
                      <font>
                         <Font name="Copperplate Gothic Light" size="42.0" />
                      </font>

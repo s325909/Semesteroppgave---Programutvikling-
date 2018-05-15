@@ -35,7 +35,6 @@ public class CreditsController implements Initializable {
             System.out.println("File not found");
             creditsText.appendText("Unable to find credits file");
         }
-
     }
 
     @FXML

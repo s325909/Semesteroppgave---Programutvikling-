@@ -20,8 +20,9 @@ import java.io.IOException;
 
 /**
  * Class for handling the Game's settings, so that the user may restart the application with the same settings, and
- * also grant the ability to set settings before the creation of a new Game. Albeit, this is not that dire as
- * adjusting the volume is more intuitive once you can hear the sounds anyhow.
+ * also grant the ability to set settings before the creation of a new Game.
+ *
+ * This class is currently not in use, but volume can be adjusted while in-game.
  */
 public class SettingsHandler {
 
@@ -101,7 +102,7 @@ public class SettingsHandler {
      * @param soundVolume Requires desired sound volume to store.
      */
     public void storeSettings(int horizontalResolution, int verticalResolution, double musicVolume, double soundVolume) {
-        System.out.println("Stroing " + musicVolume);
+        System.out.println("String " + musicVolume);
         SettingsParameters settings = new SettingsParameters();
         settings.horizontalResolution = horizontalResolution;
         settings.verticalResolution = verticalResolution;
