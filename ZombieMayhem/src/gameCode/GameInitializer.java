@@ -4,18 +4,13 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -42,7 +37,6 @@ public class GameInitializer implements Initializable{
     @FXML private Text musicNbr, soundNbr;
 
     private Game game;
-    public MediaPlayer mediaPlayer;
     private boolean labelVisible;
     private boolean menuVisible;
     private boolean menuElementVisible;
@@ -60,41 +54,41 @@ public class GameInitializer implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         //Create an object of MusicPlayer, which includes what file to play and automatically starts playing
-        try {
-            File file = new File("src/resources/Sound/Soundtrack/Doom2.mp3");
-            Media media = new Media(file.toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.setVolume(0.5);
-            mediaPlayer.play();
-        } catch (Exception e) {
-            System.out.println("Error: Could not find sound file");
-        }
 
-        musicSlider.setValue(5);
+
+        // Sets the value of the Slider and Text to represent the volume value
+        // These assets haven't yet been loaded, and as such the values must be set to the same values as in AssetsHandler * 10
+        // Implement SettingsHandler for a more generic system for later
+        musicSlider.setValue(4);
         musicNbr.setText(
-                String.valueOf(5)
+                String.valueOf(4)
         );
-
-        soundSlider.setValue(1);
+        soundSlider.setValue(4);
         soundNbr.setText(
-                String.valueOf(1)
+                String.valueOf(4)
         );
 
+        // Listener which detects slider value change, and updates both the number next to the slider and the volume of the MediaPlayer
         musicSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             musicNbr.setText(String.valueOf((int)musicSlider.getValue()));
-            mediaPlayer.setVolume(musicSlider.getValue()/10);
+            game.getMediaPlayer().setVolume(musicSlider.getValue() / 10);
         });
 
+        // Listener which detects slider value change, and updates both the number next to the slider and the volume of the Game's AudioClips
         soundSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-
             soundNbr.setText(String.valueOf((int)soundSlider.getValue()));
-
             for(int i = 0; i < game.getAllAudioClips().length; i++) {
-                game.getAllAudioClips()[i].setVolume(soundSlider.getValue()/10);
+                game.getAllAudioClips()[i].setVolume(soundSlider.getValue() / 10);
             }
         });
 
         showDifficulty(true);
+    }
+
+    public boolean checkFile(String saveGame) {
+        DataHandler dataHandler = new DataHandler();
+        DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
+        return dataHandler.readSaveFile(saveGame, gameCfg);
     }
 
     /**
@@ -125,10 +119,18 @@ public class GameInitializer implements Initializable{
         Platform.runLater(game::getKeyPressed);
     }
 
+    /**
+     * Method for loading a saved game file from outside this controller.
+     * @param saveGame Requires the string name of the file.
+     */
     public void loadGame(String saveGame) {
-        ingameChooseDifficulty.setVisible(false);
-        startGame(Game.Difficulty.NORMAL);
-        game.loadGame(saveGame);
+        if (checkFile(saveGame)) {
+            ingameChooseDifficulty.setVisible(false);
+            startGame(Game.Difficulty.NORMAL);
+            game.loadGame(saveGame);
+        } else {
+            fileAlert(true);
+        }
     }
 
     /**
@@ -206,7 +208,10 @@ public class GameInitializer implements Initializable{
         }
     }
 
-
+    /**
+     * Method for switching between the various menu elements of the ingame menu.
+     * @param event Requires a Button event in order to determine which element to show.
+     */
     @FXML
     public void showMenuElement(ActionEvent event) {
         if (ingameMenu.isVisible()) {
@@ -309,6 +314,10 @@ public class GameInitializer implements Initializable{
         showDifficulty(true);
     }
 
+    /**
+     * Method for saving the current game. See saveGame().
+     * @param event Requires a Button event in order to determine which file to save to.
+     */
     @FXML
     public void saveGame(ActionEvent event) {
         if (event.getSource() == saveBtn1) {
@@ -324,19 +333,49 @@ public class GameInitializer implements Initializable{
         game.setRunning(true);
     }
 
+    /**
+     * Method for loading the current game. See loadGame().
+     * @param event Requires a Button event in order to determine which file to load from.
+     */
     @FXML
     public void loadGame(ActionEvent event) {
+        boolean success = false;
         if (event.getSource() == loadBtn1) {
-            game.loadGame("Savegame1");
+            success = game.loadGame("Savegame1");
         } else if (event.getSource() == loadBtn2) {
-            game.loadGame("Savegame2");
+            success = game.loadGame("Savegame2");
         } else if (event.getSource() == loadBtn3) {
-            game.loadGame("Savegame3");
+            success = game.loadGame("Savegame3");
         }
-        ingameLoad.setVisible(false);
-        menuVisible = false;
-        menuElementVisible = false;
-        game.setRunning(true);
+
+        if(success) {
+            ingameLoad.setVisible(false);
+            menuVisible = false;
+            menuElementVisible = false;
+            game.setRunning(true);
+        } else {
+            fileAlert(true);
+        }
+    }
+
+    private void fileAlert(boolean loadGame) {
+
+        ButtonType resume = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.getButtonTypes().setAll(resume);
+        alert.setHeaderText(null);
+
+        if (loadGame) {
+            alert.setTitle("Loadgame Error");
+            alert.contentTextProperty().set("Unable to load the save file." +
+                    "\n\nEither it doesn't exist, or it cannot be read.");
+        } else {
+            alert.setTitle("Savegame Error");
+            alert.contentTextProperty().set("Unable to create the save file.");
+        }
+
+        alert.showAndWait().ifPresent(response -> { });
     }
 
     /**
@@ -348,16 +387,26 @@ public class GameInitializer implements Initializable{
         System.exit(0);
     }
 
+    /**
+     * Method which mutes/unmutes the MediaPlayer each time M key is pressed during Game.getKeyPressed().
+     */
     public void muteMediaPlayer() {
         if(!muted) {
-            mediaPlayer.setMute(true);
+            game.getMediaPlayer().setMute(true);
             muted = true;
         } else {
-            mediaPlayer.setMute(false);
+            game.getMediaPlayer().setMute(false);
             muted = false;
         }
     }
 
+    public HBox getIngameChooseDifficulty() {
+        return ingameChooseDifficulty;
+    }
+
+    /**
+     * Method for showing the select difficulty screen once GameWindow FXML is called during MainController.launchGame().
+     */
     public void setDifficulty() {
         selectDifficulty();
     }

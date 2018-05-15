@@ -6,9 +6,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,22 +37,24 @@ public class Game {
 
     private Player player;
     private List<Zombie> zombies;
-    private List<Rock> rocks;
     private List<Drop> drops = new ArrayList<>();
+    private List<Rock> rocks;
     private Pane gameWindow;
     private Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer;
 
     private int scoreNumber;
     private int secondsCounter;
     private int roundNumber;
+    private int maxRound;
     private boolean running;
     private boolean newRound;
     private boolean gameOver;
+    private boolean quickload;
 
-    GameInitializer gameInitializer;
+    private GameInitializer gameInitializer;
 
     private AssetsHandler assetsHandler;
-    private SaveHandler saveHandler;
+    private DataHandler dataHandler;
 
     final private boolean DEBUG = true;
 
@@ -83,13 +87,15 @@ public class Game {
         this.hudPool = hudPool;
         this.hudScore = hudScore;
         this.hudTimer = hudTimer;
-        this.saveHandler = new SaveHandler();
+        this.dataHandler = new DataHandler();
         this.running = true;
         this.scoreNumber = 0;
         this.roundNumber = 0;
+        this.maxRound = 10;
 
         createRocks();
         createPlayer(difficulty);
+        getMediaPlayer().play();
 
         final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
@@ -104,138 +110,31 @@ public class Game {
         timer.start();
     }
 
-
     /**
-     * Method which creates and draws the Player object for use in the Game.
+     * Method for updating the datafields playerHP, magazineSize, poolSize of type Label.
+     * These will in turn update the Label values in GameWindow FXML.
      */
-    private void createPlayer(Game.Difficulty difficulty) {
-        try {
-            player = new Player(assetsHandler.getPlayerImages(), assetsHandler.getBasicSounds(), assetsHandler.getWeaponSounds(), assetsHandler.getPistolBulletImaqe(), (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
-            player.resetPlayer(difficulty);
-        } catch (Exception e) {
-            System.out.println("Error: Player did not load correctly");
-        }
+    private void updateHUD() {
+        String hpLevel = String.valueOf(player.getHealthPoints());
+        String armorLevel = String.valueOf(player.getArmor());
+        String weapon = player.getEquippedWeapon().toString().toUpperCase();
+        String magazineLevel = String.valueOf(player.getMagazineCount());
+        String poolLevel = String.format("%02d", player.getAmmoPool());
+        String score = String.format("%05d", this.getScoreNumber());
+        String timer = String.valueOf(this.secondsCounter);
 
-        // Draw Player to the Pane
-        if(DEBUG)
-            gameWindow.getChildren().add(player.getNode());
-        gameWindow.getChildren().add(player.getAnimationHandler().getImageView());
-    }
+        this.hudHP.setText(hpLevel);
+        this.hudArmor.setText(armorLevel);
+        this.hudWeapon.setText(weapon);
+        this.hudMag.setText(magazineLevel);
+        this.hudPool.setText(poolLevel);
+        this.hudScore.setText(score);
+        this.hudTimer.setText(timer);
 
-    /**
-     * Method which creates and draws the Rock objects for use in the Game.
-     */
-    private void createRocks() {
-        try {
-            rocks = new ArrayList<>();
-            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 400));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 430));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 450));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 470));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 500));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 530));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 560));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 590));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 620));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 400));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 220, 400));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 200, 400));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 180, 400));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 160, 400));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 140, 400));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 120, 400));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 100, 400));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 80, 400));
-
-            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 300));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 330));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 350));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 370));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 390));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 410));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 430));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 450));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 300));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 670, 300));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 640, 300));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 610, 300));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 580, 300));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 550, 300));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 300));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 320));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 340));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 360));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 380));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 400));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 420));
-
-            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 130));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 150));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 170));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 190));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 210));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 1000, 210));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 980, 210));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 960, 210));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 940, 210));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 920, 210));
-
-            rocks.add(new Rock(assetsHandler.getRockImage(), 940, 400));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 400, 250));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 200, 140));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 500, 40));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 1000, 500));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 300, 500));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 151, 151));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 800));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 300, 1000));
-            rocks.add(new Rock(assetsHandler.getRockImage(), 800, 100));
-
-        } catch (Exception e) {
-            System.out.println("Error: Rocks did not load correctly");
-        }
-
-        // Draw rocks to the Pane
-        for (Rock rock : rocks) {
-            if (DEBUG)
-                gameWindow.getChildren().add(rock.getNode());
-            gameWindow.getChildren().add(rock.getAnimationHandler().getImageView());
-        }
-    }
-
-    public boolean isDEBUG() {
-        return DEBUG;
-    }
-
-    /***
-     * Method which handles user input.
-     * pressEvent() method call in Player handles movement of the Player object itself.
-     */
-    public void getKeyPressed(){
-
-        gameWindow.getScene().setOnKeyPressed(e -> {
-            player.pressEvent(e);
-            if (e.getCode() == KeyCode.BACK_SPACE) {
-                removeZombies();
-
-            } else if (e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.P) {
-                pauseGame();
-                gameInitializer.showGameLabel();
-                gameInitializer.showMenu();
-                gameInitializer.hideMenuElements();
-
-            } else if (e.getCode() == KeyCode.M) {
-                gameInitializer.muteMediaPlayer();
-
-            } else if (e.getCode() == KeyCode.F5){
-                saveGame("quicksave");
-            } else if (e.getCode() == KeyCode.F9) {
-                loadGame("quicksave");
-            }
-        });
-        gameWindow.getScene().setOnKeyReleased(e -> {
-            player.releasedEvent(e);
-        });
+        if (roundNumber < maxRound)
+            gameInitializer.roundNbr.setText("Round: " + roundNumber);
+        else
+            gameInitializer.roundNbr.setText("FINAL ROUND!");
     }
 
     /***
@@ -342,10 +241,11 @@ public class Game {
         //////////////////////////////////////////////////////////
 
         List<Entity> wholeWorld = new ArrayList<>();
-        wholeWorld.addAll(zombies); // Draw zombies to the pane
-        wholeWorld.addAll(bullets); // Draw bullets to the pane
-        wholeWorld.addAll(drops); // Draws drops to the pane, placing them furthest back
-        for (Zombie zombie : zombies) { // Draws Zombie's attack briefly to the pane
+        wholeWorld.addAll(zombies);     // Draw zombies to the pane
+        wholeWorld.addAll(bullets);     // Draw bullets to the pane
+        wholeWorld.addAll(drops);       // Draw drops to the pane, placing them furthest back
+        wholeWorld.addAll(rocks);       // Draw rocks to the pane, placing them furthest back
+        for (Zombie zombie : zombies) { // Draw Zombie's attack briefly to the pane
             wholeWorld.addAll(zombie.getAttackList());
         }
 
@@ -399,49 +299,68 @@ public class Game {
         }
     }
 
-    /**
-     * Method which creates a Drop of type Score at a random location.
-     * @param number Requires a number to determine how many Drops to create.
+    /***
+     * Method which handles user input.
+     * pressEvent() method call in Player handles movement of the Player object itself.
      */
-    private void randomDropCreation(int number) {
-        if (drops.size() < number) {
-            int random = (int) Math.floor(Math.random() * 100);
-            if (random < 4) {
-                int[] randomPosition = getRandomPosition();
-                Drop drop = new Drop(assetsHandler.getScoreDropAnimation(), randomPosition[0], randomPosition[1], Drop.DropType.SCORE);
+    public void getKeyPressed(){
 
-                int nbrClearedRocks = 0;
-                while (nbrClearedRocks < rocks.size()) {
-                    for (Rock rock : rocks) {
-                        if (rock.isColliding(drop)) {
-                            randomPosition = getRandomPosition();
-                            drop = new Drop(assetsHandler.getScoreDropAnimation(), randomPosition[0], randomPosition[1], Drop.DropType.SCORE);
-                        } else {
-                            nbrClearedRocks++;
-                        }
-                    }
-                }
-                drops.add(drop);
+        gameWindow.getScene().setOnKeyPressed(e -> {
+            player.pressEvent(e);
+            if (e.getCode() == KeyCode.BACK_SPACE) {
+                removeZombies();
+
+            } else if (e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.P) {
+                pauseGame();
+                gameInitializer.showMenu();
+
+            } else if (e.getCode() == KeyCode.M) {
+                gameInitializer.muteMediaPlayer();
+
+            } else if (e.getCode() == KeyCode.F5){
+                saveGame("Quicksave");
+            } else if (e.getCode() == KeyCode.F9) {
+                if(!loadGame("Quicksave"))
+                    fileAlert(true);
             }
-        }
+        });
+        gameWindow.getScene().setOnKeyReleased(e -> {
+            player.releasedEvent(e);
+        });
     }
 
     /**
-     * Method which updates the Game's score value based on the Difficulty.
+     * Method which creates and draws the Player object for use in the Game.
      */
-    public void scorePerKill() {
-        switch(difficulty) {
-            case NORMAL:
-                setScoreNumber(getScoreNumber() + 100 * scoreMod);
-                break;
-            case HARD:
-                setScoreNumber(getScoreNumber() + 100 * scoreMod);
-                break;
-            case INSANE:
-                setScoreNumber(getScoreNumber() + 100 * scoreMod);
-                break;
+    private void createPlayer(Game.Difficulty difficulty) {
+        try {
+            player = new Player(assetsHandler.getPlayerImages(), assetsHandler.getBasicSounds(), assetsHandler.getWeaponSounds(), assetsHandler.getPistolBulletImaqe(), (int)gameWindow.getPrefWidth()/2, (int)gameWindow.getPrefHeight()/2, 100,50);
+            player.resetPlayer(difficulty);
+        } catch (Exception e) {
+            System.out.println("Error: Player did not load correctly");
+        }
+
+        // Draw Player to the Pane
+        if(DEBUG)
+            gameWindow.getChildren().add(player.getNode());
+        gameWindow.getChildren().add(player.getAnimationHandler().getImageView());
+    }
+
+    /**
+     * Method which creates and draws the Rock objects for use in the Game.
+     */
+    private void createRocks() {
+        DataHandler.GameConfiguration rockCfg = new DataHandler.GameConfiguration();
+        rocks = new ArrayList<>();
+        if(dataHandler.readEnvironment(rockCfg)) {
+            rocks = new ArrayList<>();
+            for (int i = 0; i < rockCfg.rocks.size(); i++)
+                rocks.add(new Rock(assetsHandler.getRockImage(), rockCfg.rocks.get(i).posX, rockCfg.rocks.get(i).posY));
+        } else {
+            System.out.println("Unable to create Rocks");
         }
     }
+
 
     /**
      * Method which handles spawning of Zombie's in a round-based design.
@@ -451,49 +370,16 @@ public class Game {
     private void spawnNewRound() {
 
         if (!isNewRound()) {
-            setNewRound(true);
-
-            switch (roundNumber) {
-                case 0:
-                    createZombies(1);
-                    break;
-                case 1:
-                    createZombies(roundNumber * spawnMod);
-                    break;
-                case 2:
-                    createZombies(roundNumber * spawnMod);
-                    break;
-                case 3:
-                    createZombies(roundNumber * spawnMod);
-                    break;
-                case 4:
-                    createZombies(roundNumber * spawnMod);
-                    break;
-                case 5:
-                    createZombies(roundNumber * spawnMod);
-                    break;
-                case 6:
-                    createZombies(roundNumber * spawnMod);
-                    break;
-                case 7:
-                    createZombies(roundNumber * spawnMod);
-                    break;
-                case 8:
-                    createZombies(roundNumber * spawnMod);
-                    break;
-                case 9:
-                    createZombies(roundNumber * spawnMod);
-                    break;
-                case 10:
-                    running = false;
-                    setGameOver(true);
-                    setNewRound(true);
-                    gameInitializer.showGameLabel();
-                    gameInitializer.roundNbr.setText("FINAL ROUND");
-                    roundNumber = 0;
+            if (roundNumber < 10) {
+                roundNumber++;
+                createZombies(roundNumber * spawnMod);
+            } else {
+                running = false;
+                setGameOver(true);
+                setNewRound(true);
+                gameInitializer.showGameLabel();
+                roundNumber = 0;
             }
-            setNewRound(false);
-            roundNumber++;
         } else {
             gameOver();
         }
@@ -539,6 +425,10 @@ public class Game {
         }
     }
 
+    /**
+     * Method which checks if Player is at the location.
+     * @return Returins an array which contains position
+     */
     private int[] getRandomPosition() {
         int[] randomPosition = new int[2];
         double distance;
@@ -554,6 +444,32 @@ public class Game {
         return randomPosition;
     }
 
+    /**
+     * Method which creates a Drop of type Score at a random location.
+     * @param number Requires a number to determine how many Drops to create.
+     */
+    private void randomDropCreation(int number) {
+        if (drops.size() < number) {
+            int random = (int) Math.floor(Math.random() * 100);
+            if (random < 4) {
+                int[] randomPosition = getRandomPosition();
+                Drop drop = new Drop(assetsHandler.getScoreDropAnimation(), randomPosition[0], randomPosition[1], Drop.DropType.SCORE);
+
+                int nbrClearedRocks = 0;
+                while (nbrClearedRocks < rocks.size()) {
+                    for (Rock rock : rocks) {
+                        if (rock.isColliding(drop)) {
+                            randomPosition = getRandomPosition();
+                            drop = new Drop(assetsHandler.getScoreDropAnimation(), randomPosition[0], randomPosition[1], Drop.DropType.SCORE);
+                        } else {
+                            nbrClearedRocks++;
+                        }
+                    }
+                }
+                drops.add(drop);
+            }
+        }
+    }
 
     /**
      * Method which will create a random type of Drop on the position of a Zombie.
@@ -582,27 +498,20 @@ public class Game {
     }
 
     /**
-     * Method for updating the datafields playerHP, magazineSize, poolSize of type Label.
-     * These will in turn update the Label values in GameWindow FXML.
+     * Method which updates the Game's score value based on the Difficulty.
      */
-    private void updateHUD() {
-        String hpLevel = String.valueOf(player.getHealthPoints());
-        String armorLevel = String.valueOf(player.getArmor());
-        String weapon = player.getEquippedWeapon().toString().toUpperCase();
-        String magazineLevel = String.valueOf(player.getMagazineCount());
-        String poolLevel = String.format("%02d", player.getAmmoPool());
-        String score = String.format("%05d", this.getScoreNumber());
-        String timer = String.valueOf(this.secondsCounter);
-
-        this.hudHP.setText(hpLevel);
-        this.hudArmor.setText(armorLevel);
-        this.hudWeapon.setText(weapon);
-        this.hudMag.setText(magazineLevel);
-        this.hudPool.setText(poolLevel);
-        this.hudScore.setText(score);
-        this.hudTimer.setText(timer);
-
-        gameInitializer.roundNbr.setText("Round: " + roundNumber);
+    public void scorePerKill() {
+        switch(difficulty) {
+            case NORMAL:
+                setScoreNumber(getScoreNumber() + 100 * scoreMod);
+                break;
+            case HARD:
+                setScoreNumber(getScoreNumber() + 100 * scoreMod);
+                break;
+            case INSANE:
+                setScoreNumber(getScoreNumber() + 100 * scoreMod);
+                break;
+        }
     }
 
     /***
@@ -650,16 +559,16 @@ public class Game {
 
     /**
      * Method which handles saving of the Game.
-     * Creates a GameConfiguration from the SaveHandler class and calls the getGameConfiguration() method
-     * in order to retrieve values about the Game, and turn these into an .xml file through SaveHandler class.
+     * Creates a GameConfiguration from the DataHandler class and calls the getGameConfiguration() method
+     * in order to retrieve values about the Game, and turn these into an .xml file through DataHandler class.
      * Method call createSaveFile() will return a boolean based on whether there was an Exception during creation,
      * and a false return will display an Alert to the user.
      * @param filename Requires a String to represent the name of the file.
      */
     public void saveGame(String filename) {
-        SaveHandler.GameConfiguration gameCfg = getGameConfiguration();
+        DataHandler.GameConfiguration gameCfg = getGameConfiguration();
 
-        if (saveHandler.createSaveFile(filename, gameCfg)) {
+        if (dataHandler.createSaveFile(filename, gameCfg)) {
             System.out.println("Save game");
             System.out.println("GameScore: " + gameCfg.gameScore);
             System.out.println("Player HP: " + gameCfg.player.movementCfg.health);
@@ -668,7 +577,7 @@ public class Game {
             System.out.println("Player Y: " + gameCfg.player.movementCfg.entityCfg.posY);
             System.out.println("Player Rotation: " + gameCfg.player.movementCfg.rotation);
             System.out.println("NbrZombies: " + gameCfg.zombies.size());
-            System.out.println("NbrZombies: " + gameCfg.player.bulletListCfg.size());
+            System.out.println("NbrBullets: " + gameCfg.player.bulletListCfg.size());
         } else {
             fileAlert(false);
         }
@@ -676,17 +585,17 @@ public class Game {
 
     /**
      * Method which handles loading of a Game.
-     * Creates a new GameConfiguration object from the SaveHandler class.
+     * Creates a new GameConfiguration object from the DataHandler class.
      * Calls the method readSaveFile() which will transfer each field in the .xml file into variables
      * in GameConfiguration, which then can be used to set the values in the Game.
      * This method returns a false boolean if an Exception occurred, and this will in turn
      * display an Alert to the user.
      * @param filename Requires a String which represents the name of the file.
      */
-    public void loadGame(String filename) {
-        SaveHandler.GameConfiguration gameCfg = new SaveHandler.GameConfiguration();
+    public boolean loadGame(String filename) {
+        DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
 
-        if (saveHandler.readSaveFile(filename, gameCfg)) {
+        if (dataHandler.readSaveFile(filename, gameCfg)) {
             System.out.println("Load game");
             System.out.println("GameScore: " + gameCfg.gameScore);
             System.out.println("Player HP: " + gameCfg.player.movementCfg.health);
@@ -695,11 +604,12 @@ public class Game {
             System.out.println("Player Y: " + gameCfg.player.movementCfg.entityCfg.posY);
             System.out.println("Player Rotation: " + gameCfg.player.movementCfg.rotation);
             System.out.println("NbrZombies: " + gameCfg.zombies.size());
-            System.out.println("NbrZombies: " + gameCfg.player.bulletListCfg.size());
+            System.out.println("NbrBullets: " + gameCfg.player.bulletListCfg.size());
 
             setGameConfiguration(gameCfg);
+            return true;
         } else {
-            fileAlert(true);
+            return false;
         }
     }
 
@@ -712,51 +622,55 @@ public class Game {
     private void fileAlert(boolean loadGame) {
         running = false;
 
-        ButtonType resume = new ButtonType("Resume", ButtonBar.ButtonData.OK_DONE);
-        ButtonType restart = new ButtonType("Restart", ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType resume = new ButtonType("Resume Game", ButtonBar.ButtonData.OK_DONE);
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.getButtonTypes().setAll(restart, resume);
+        alert.getButtonTypes().setAll(resume);
         alert.setHeaderText(null);
 
         if (loadGame) {
-            alert.contentTextProperty().set("Unable to load the savegame.\nIt's either lost, or corrupted.");
             alert.setTitle("Loadgame Error");
+            alert.contentTextProperty().set("Unable to load the save file." +
+                    "\n\nEither it doesn't exist, or it cannot be read.");
         } else {
-            alert.contentTextProperty().set("Unable to save the game.");
             alert.setTitle("Savegame Error");
+            alert.contentTextProperty().set("Unable to create the save file.");
+
         }
 
         alert.showAndWait().ifPresent(response -> {
             if (response == resume) {
                 running = true;
-            } else if (response == restart) {
-                restartGame();
             }
         });
     }
 
     /**
      * Method for retrieving all information about all objects in the gameWindow and parsing these over to
-     * SaveHandler.GameConfiguration for use during saving.
-     * @return Returns an object of type SaveHandler.GameConfiguration.
+     * DataHandler.GameConfiguration for use during saving.
+     * @return Returns an object of type DataHandler.GameConfiguration.
      */
-    private SaveHandler.GameConfiguration getGameConfiguration() {
-        SaveHandler.GameConfiguration gameCfg = new SaveHandler.GameConfiguration();
+    private DataHandler.GameConfiguration getGameConfiguration() {
+        DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
         gameCfg.difficulty = getDifficulty();
         gameCfg.gameScore = getScoreNumber();
         gameCfg.roundNbr = getRoundNumber();
         gameCfg.player = player.getPlayerConfiguration();
 
-        List<SaveHandler.MovementConfiguration> zombieCfg = new ArrayList<>();
-        for (Zombie zombie : this.zombies)
+        List<DataHandler.MovementConfiguration> zombieCfg = new ArrayList<>();
+        for (Zombie zombie : zombies)
             zombieCfg.add(zombie.getZombieConfiguration());
         gameCfg.zombies = zombieCfg;
 
-        List<SaveHandler.DropConfiguration> dropCfg = new ArrayList<>();
-        for (Drop drop : this.drops)
+        List<DataHandler.DropConfiguration> dropCfg = new ArrayList<>();
+        for (Drop drop : drops)
             dropCfg.add(drop.getDropConfiguration());
         gameCfg.drops = dropCfg;
+
+        List<DataHandler.EntityConfiguration> rockCfg = new ArrayList<>();
+        for (Rock rock : rocks)
+            rockCfg.add(rock.getRockConfiguration());
+        gameCfg.rocks = rockCfg;
 
         return gameCfg;
     }
@@ -765,10 +679,10 @@ public class Game {
      * Method for setting all saved information about all saved objects in the gameWindow.
      * Method clears the Game of current Entities. Further, the attributes of Game and Player
      * are set, and every Entity that was saved is created according to the saved attributes.
-     * @param gameCfg Requires an object of type GameConfiguration in SaveHandler, containing
+     * @param gameCfg Requires an object of type GameConfiguration in DataHandler, containing
      *                information about the saved Game.
      */
-    private void setGameConfiguration(SaveHandler.GameConfiguration gameCfg) {
+    private void setGameConfiguration(DataHandler.GameConfiguration gameCfg) {
         clearGame(false);
 
         setDifficulty(gameCfg.difficulty);
@@ -781,14 +695,42 @@ public class Game {
             Zombie zombie = new Zombie(assetsHandler.getZombieImages(), assetsHandler.getZombieAudioClips(),
                     gameCfg.zombies.get(i).entityCfg.posX, gameCfg.zombies.get(i).entityCfg.posY, gameCfg.zombies.get(i).health);
             zombie.setZombieConfiguration(gameCfg.zombies.get(i));
-            this.zombies.add(zombie);
+            zombies.add(zombie);
         }
 
+        for (int i = 0; i < gameCfg.drops.size(); i++) {
+            Image[] images;
+            switch (gameCfg.drops.get(i).dropType) {
+                case SCORE:
+                    images = assetsHandler.getScoreDropAnimation();
+                    break;
+                case HP:
+                    images = assetsHandler.getHpDropImages();
+                    break;
+                case ARMOR:
+                    images = assetsHandler.getArmorDropImages();
+                    break;
+                case PISTOLAMMO:
+                    images = assetsHandler.getPistolDropImages();
+                    break;
+                case RIFLEAMMO:
+                    images = assetsHandler.getRifleDropImages();
+                    break;
+                case SHOTGUNAMMO:
+                    images = assetsHandler.getShotgunDropImages();
+                    break;
+                default:
+                    images = assetsHandler.getScoreDropAnimation();
+            }
+            Drop drop = new Drop(images, gameCfg.drops.get(i).entityCfg.posX, gameCfg.drops.get(i).entityCfg.posY, gameCfg.drops.get(i).dropType);
+            drops.add(drop);
+            drop.setDropConfiguration(gameCfg.drops.get(i));
+        }
 
-//          Får et problem forhold til å hente riktig bilde
-//        for (SaveHandler.DropConfiguration dropCfg : gameCfg.drops) {
-//            Drop drop = new Drop(getGameInitializer().getArmorDropImages())
-//        }
+        for (int i = 0; i < gameCfg.rocks.size(); i++) {
+            Rock rock = new Rock(assetsHandler.getRockImage(), gameCfg.rocks.get(i).posX, gameCfg.rocks.get(i).posY);
+            rocks.add(rock);
+        }
     }
 
     /**
@@ -800,6 +742,7 @@ public class Game {
         removeZombies();
         removeBullets();
         removeDrops();
+        removeRocks();
     }
 
     /**
@@ -813,11 +756,11 @@ public class Game {
      * Method for removing all Zombies in the Game.
      */
     void removeZombies() {
-        for (Zombie zombie : this.zombies) {
+        for (Zombie zombie : zombies) {
             gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getAnimationHandler().getImageView());
             zombie.setAlive(false);
         }
-        this.zombies.removeIf(Zombie::isDead);
+        zombies.removeIf(Zombie::isDead);
     }
 
     /**
@@ -835,11 +778,22 @@ public class Game {
      * Method for removing all Drops in the Game.
      */
     private void removeDrops() {
-        for (Drop drop : this.drops) {
+        for (Drop drop : drops) {
             gameWindow.getChildren().removeAll(drop.getAnimationHandler().getImageView(), drop.getNode());
             drop.setAlive(false);
         }
-        this.drops.removeIf(Drop::isDead);
+        drops.removeIf(Drop::isDead);
+    }
+
+    /**
+     * Method for removing all Rocks in the Game.
+     */
+    private void removeRocks() {
+        for (Rock rock : rocks) {
+            gameWindow.getChildren().removeAll(rock.getAnimationHandler().getImageView(), rock.getNode());
+            rock.setAlive(false);
+        }
+        rocks.removeIf(Rock::isDead);
     }
 
     /**
@@ -884,18 +838,26 @@ public class Game {
             sounds[i] = assetsHandler.getBasicSounds()[i];
         }
 
-        for(int i = basicLength; i < basicLength + weaponLength; i++) {
-            sounds[i] = assetsHandler.getWeaponSounds()[i - basicLength];
+        for(int i = 0; i < weaponLength; i++) {
+            sounds[i + basicLength] = assetsHandler.getWeaponSounds()[i];
         }
 
-        for(int i = basicLength + weaponLength; i < basicLength + weaponLength + zombieLength; i++) {
-            sounds[i] = assetsHandler.getZombieAudioClips()[i - basicLength - weaponLength];
+        for(int i = 0; i < zombieLength; i++) {
+            sounds[i + basicLength + weaponLength] = assetsHandler.getZombieAudioClips()[i];
         }
         return sounds;
     }
 
+    public boolean isDEBUG() {
+        return DEBUG;
+    }
+
     public Pane getGameWindow() {
         return gameWindow;
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return assetsHandler.getMediaPlayer();
     }
 
     private Difficulty getDifficulty() {
@@ -944,4 +906,78 @@ public class Game {
     public void setRunning(boolean running) {
         this.running = running;
     }
+
+//    /**
+//     * Method which creates and draws the Rock objects for use in the Game.
+//     */
+//    private void createRocks(int posX, int posY) {
+//        try {
+//            rocks = new ArrayList<>();
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 400));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 430));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 450));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 470));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 500));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 530));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 560));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 590));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 620));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 240, 400));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 220, 400));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 200, 400));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 180, 400));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 160, 400));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 140, 400));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 120, 400));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 100, 400));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 80, 400));
+//
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 300));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 330));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 350));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 370));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 390));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 410));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 430));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 450));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 700, 300));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 670, 300));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 640, 300));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 610, 300));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 580, 300));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 550, 300));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 300));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 320));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 340));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 360));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 380));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 400));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 520, 420));
+//
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 130));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 150));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 170));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 190));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 210));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 1000, 210));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 980, 210));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 960, 210));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 940, 210));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 920, 210));
+//
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 940, 400));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 400, 250));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 200, 140));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 500, 40));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 1000, 500));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 300, 500));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 151, 151));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 900, 800));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 300, 1000));
+//            rocks.add(new Rock(assetsHandler.getRockImage(), 800, 100));
+//
+//        } catch (Exception e) {
+//            System.out.println("Error: Rocks did not load correctly");
+//        }
+//    }
 }

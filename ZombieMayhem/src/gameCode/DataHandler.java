@@ -25,7 +25,7 @@ import java.util.List;
  * Class will turn the given static classes and their respective variables into a structured .xml file,
  * which then can be read systematically with each variable set to their respective fields.
  */
-public class SaveHandler {
+public class DataHandler {
 
     static class GameConfiguration {
         Game.Difficulty difficulty;
@@ -34,6 +34,7 @@ public class SaveHandler {
         PlayerConfiguration player;
         List<MovementConfiguration> zombies;
         List<DropConfiguration> drops;
+        List<EntityConfiguration> rocks;
     }
 
     public static class EntityConfiguration {
@@ -73,6 +74,107 @@ public class SaveHandler {
         public int poolRifle;
         public int magShotgun;
         public int poolShotgun;
+    }
+
+    boolean saveEnvironment(GameConfiguration configuration) {
+        DocumentBuilderFactory dbf;
+        DocumentBuilder db;
+        Document doc;
+        try {
+            dbf = DocumentBuilderFactory.newInstance();
+            db = dbf.newDocumentBuilder();
+            doc = db.newDocument();
+        } catch (ParserConfigurationException pce) {
+            return false;
+        }
+
+        // Store player information
+        Element environment = doc.createElement("Environment");
+        doc.appendChild(environment);
+
+        // Store drops information
+        Element rocks = doc.createElement("Rocks");
+        environment.appendChild(rocks);
+
+        for (int i = 0; i < configuration.rocks.size(); i++) {
+            Element rockInfo = doc.createElement("Rock");
+            rocks.appendChild(rockInfo);
+
+            Element rockPosX = doc.createElement("PositionX");
+            rockPosX.appendChild(doc.createTextNode(String.valueOf(configuration.rocks.get(i).posX)));
+            rockInfo.appendChild(rockPosX);
+
+            Element rockPosY = doc.createElement("PositionY");
+            rockPosY.appendChild(doc.createTextNode(String.valueOf(configuration.rocks.get(i).posY)));
+            rockInfo.appendChild(rockPosY);
+        }
+
+        // Turn the information into a file named according to the given fileName String.
+        try {
+            TransformerFactory trf = TransformerFactory.newInstance();
+            Transformer tr = trf.newTransformer();
+
+            tr.setOutputProperty(OutputKeys.INDENT, "yes");
+            tr.setOutputProperty(OutputKeys.METHOD, "xml");
+            tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+            // Create the savegame location directory, if one does not exist.
+            File directory = new File("./Data/");
+            directory.mkdirs();
+
+            // Create the .xml file
+            File file = new File("./Data/Environment.xml");
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(file);
+            tr.transform(source, result);
+        } catch (TransformerException tre) {
+            System.out.println("TransformerException");
+            System.out.println(tre.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    boolean readEnvironment(GameConfiguration configuration) {
+        DocumentBuilderFactory dbf;
+        DocumentBuilder db;
+        Document doc;
+        try {
+            dbf = DocumentBuilderFactory.newInstance();
+            db = dbf.newDocumentBuilder();
+            doc = db.parse("./Data/Environment.xml");
+        } catch (IOException ioe) {
+            System.out.println("Caught IOException when reading file: " + ioe.getMessage());
+            return false;
+        } catch (SAXException sax) {
+            System.out.println("Caught SAXException when reading file: " + sax.getMessage());
+            return false;
+        } catch (ParserConfigurationException pce) {
+            System.out.println("Caught ParserConfigurationException when reading file: " + pce.getMessage());
+            return false;
+        }
+
+        doc.getDocumentElement().normalize();
+
+        //Parse rocks
+        NodeList rockList = doc.getElementsByTagName("Rock");
+        configuration.rocks = new ArrayList<>();
+        for (int i = 0; i < rockList.getLength(); i++) {
+            Node rocksNode = rockList.item(i);
+            if (rocksNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element rocksElement = (Element) rocksNode;
+
+                EntityConfiguration rockCfg = new EntityConfiguration();
+                rockCfg.posX = Integer.valueOf(rocksElement.getElementsByTagName("PositionX").item(0).getTextContent());
+                rockCfg.posY = Integer.valueOf(rocksElement.getElementsByTagName("PositionY").item(0).getTextContent());
+
+                configuration.rocks.add(rockCfg);
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -291,6 +393,25 @@ public class SaveHandler {
 
 
 
+        // Store drops information
+        Element rocks = doc.createElement("Rocks");
+        savegame.appendChild(rocks);
+
+        for (int i = 0; i < configuration.rocks.size(); i++) {
+            Element rockInfo = doc.createElement("Rock");
+            rocks.appendChild(rockInfo);
+
+            Element rockPosX = doc.createElement("PositionX");
+            rockPosX.appendChild(doc.createTextNode(String.valueOf(configuration.rocks.get(i).posX)));
+            rockInfo.appendChild(rockPosX);
+
+            Element rockPosY = doc.createElement("PositionY");
+            rockPosY.appendChild(doc.createTextNode(String.valueOf(configuration.rocks.get(i).posY)));
+            rockInfo.appendChild(rockPosY);
+        }
+
+
+
         // Turn the information into a file named according to the given fileName String.
         try {
             TransformerFactory trf = TransformerFactory.newInstance();
@@ -463,6 +584,24 @@ public class SaveHandler {
                 dropCfg.entityCfg = entityCfg;
                 dropCfg.dropType = Drop.DropType.valueOf(dropsElement.getElementsByTagName("DropType").item(0).getTextContent());
                 configuration.drops.add(dropCfg);
+            } else {
+                return false;
+            }
+        }
+
+        //Parse rocks
+        NodeList rockList = doc.getElementsByTagName("Rock");
+        configuration.rocks = new ArrayList<>();
+        for (int i = 0; i < rockList.getLength(); i++) {
+            Node rocksNode = rockList.item(i);
+            if (rocksNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element rocksElement = (Element) rocksNode;
+
+                EntityConfiguration rockCfg = new EntityConfiguration();
+                rockCfg.posX = Integer.valueOf(rocksElement.getElementsByTagName("PositionX").item(0).getTextContent());
+                rockCfg.posY = Integer.valueOf(rocksElement.getElementsByTagName("PositionY").item(0).getTextContent());
+
+                configuration.rocks.add(rockCfg);
             } else {
                 return false;
             }

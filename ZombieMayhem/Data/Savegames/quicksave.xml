@@ -1,75 +1,132 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Savegame>
     <Game>
-        <Difficulty>NORMAL</Difficulty>
+        <Difficulty>HARD</Difficulty>
         <ScorePoints>200</ScorePoints>
         <RoundNumber>1</RoundNumber>
     </Game>
     <Player>
         <HealthPoints>100</HealthPoints>
-        <ArmorPoints>50</ArmorPoints>
-        <PositionX>745</PositionX>
-        <PositionY>160</PositionY>
+        <ArmorPoints>0</ArmorPoints>
+        <PositionX>690</PositionX>
+        <PositionY>125</PositionY>
         <VelocityX>0.0</VelocityX>
         <VelocityY>0.0</VelocityY>
         <MovementSpeed>5.0</MovementSpeed>
-        <Direction>WEST</Direction>
-        <Rotation>180.0</Rotation>
-        <EquippedWep>SHOTGUN</EquippedWep>
+        <Direction>EAST</Direction>
+        <Rotation>0.0</Rotation>
+        <EquippedWep>KNIFE</EquippedWep>
         <MagPistol>15</MagPistol>
         <PoolPistol>15</PoolPistol>
-        <MagRifle>30</MagRifle>
-        <PoolRifle>30</PoolRifle>
-        <MagShotgun>6</MagShotgun>
-        <PoolShotgun>6</PoolShotgun>
+        <MagRifle>0</MagRifle>
+        <PoolRifle>0</PoolRifle>
+        <MagShotgun>0</MagShotgun>
+        <PoolShotgun>0</PoolShotgun>
     </Player>
     <Zombies>
         <Zombie>
-            <HealthPoints>100</HealthPoints>
-            <PositionX>90</PositionX>
-            <PositionY>106</PositionY>
-            <VelocityX>1.0</VelocityX>
+            <HealthPoints>150</HealthPoints>
+            <PositionX>664</PositionX>
+            <PositionY>186</PositionY>
+            <VelocityX>0.0</VelocityX>
             <VelocityY>0.0</VelocityY>
             <MovementSpeed>1.0</MovementSpeed>
-            <Direction>IDLE</Direction>
+            <Direction>NORTHEAST</Direction>
         </Zombie>
     </Zombies>
     <Bullets/>
     <Drops>
         <Drop>
-            <PositionX>1086</PositionX>
-            <PositionY>695</PositionY>
-            <DropType>SCORE</DropType>
-        </Drop>
-        <Drop>
-            <PositionX>1004</PositionX>
-            <PositionY>142</PositionY>
-            <DropType>SCORE</DropType>
-        </Drop>
-        <Drop>
-            <PositionX>374</PositionX>
-            <PositionY>719</PositionY>
-            <DropType>SCORE</DropType>
-        </Drop>
-        <Drop>
-            <PositionX>667</PositionX>
-            <PositionY>47</PositionY>
-            <DropType>SCORE</DropType>
-        </Drop>
-        <Drop>
-            <PositionX>1190</PositionX>
-            <PositionY>199</PositionY>
-            <DropType>SCORE</DropType>
-        </Drop>
-        <Drop>
-            <PositionX>345</PositionX>
+            <PositionX>660</PositionX>
             <PositionY>485</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
+            <PositionX>88</PositionX>
+            <PositionY>709</PositionY>
+            <DropType>SCORE</DropType>
+        </Drop>
+        <Drop>
+            <PositionX>635</PositionX>
+            <PositionY>96</PositionY>
+            <DropType>SCORE</DropType>
+        </Drop>
+        <Drop>
             <PositionX>853</PositionX>
-            <PositionY>263</PositionY>
+            <PositionY>278</PositionY>
+            <DropType>SCORE</DropType>
+        </Drop>
+        <Drop>
+            <PositionX>958</PositionX>
+            <PositionY>87</PositionY>
+            <DropType>SCORE</DropType>
+        </Drop>
+        <Drop>
+            <PositionX>120</PositionX>
+            <PositionY>561</PositionY>
+            <DropType>SCORE</DropType>
+        </Drop>
+        <Drop>
+            <PositionX>757</PositionX>
+            <PositionY>14</PositionY>
+            <DropType>SCORE</DropType>
+        </Drop>
+        <Drop>
+            <PositionX>1164</PositionX>
+            <PositionY>697</PositionY>
+            <DropType>SCORE</DropType>
+        </Drop>
+        <Drop>
+            <PositionX>1075</PositionX>
+            <PositionY>470</PositionY>
+            <DropType>SCORE</DropType>
+        </Drop>
+        <Drop>
+            <PositionX>1126</PositionX>
+            <PositionY>265</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
     </Drops>
+    <Rocks>
+        <Rock>
+            <PositionX>240</PositionX>
+            <PositionY>400</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>240</PositionX>
+            <PositionY>430</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>240</PositionX>
+            <PositionY>450</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>240</PositionX>
+            <PositionY>470</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>240</PositionX>
+            <PositionY>500</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>240</PositionX>
+            <PositionY>530</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>240</PositionX>
+            <PositionY>560</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>240</PositionX>
+            <PositionY>590</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>240</PositionX>
+            <PositionY>620</PositionY>
+        </Rock>
+        <Rock>
+            <PositionX>240</PositionX>
+            <PositionY>400</PositionY>
+        </Rock>
+    </Rocks>
 </Savegame>

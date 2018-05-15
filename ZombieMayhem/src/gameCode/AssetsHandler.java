@@ -2,8 +2,13 @@ package gameCode;
 
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.io.File;
 
 public class AssetsHandler {
+    private MediaPlayer mediaPlayer;
     private AudioClip[] weaponSounds;
     private AudioClip[] basicSounds;
     private Image[][][] playerImages;
@@ -20,7 +25,12 @@ public class AssetsHandler {
     private Image[] shotgunPelletImage;
     private Image[] rockImage;
 
+    private double musicVolume;
+    private double soundVolume;
+
     public AssetsHandler() {
+        musicVolume = 0.4;
+        soundVolume = 0.4;
         loadAssets();
     }
 
@@ -31,12 +41,15 @@ public class AssetsHandler {
      */
     private void loadAssets() {
 
+        String musicFile = "src/resources/Sound/Soundtrack/Doom2.mp3";
+        this.mediaPlayer = loadMusic(musicFile, musicVolume);
+
         // Create Player's sounds. Turns Strings into usable AudioClips
         String[] playerSounds = {
                 "/resources/Sound/Sound Effects/Player/player_breathing_calm.wav",
                 "/resources/Sound/Sound Effects/Player/footsteps_single.wav"
         };
-        this.basicSounds = loadAudio(playerSounds);
+        this.basicSounds = loadAudio(playerSounds, soundVolume);
 
         String[] weaponSounds = {
                 "/resources/Sound/Sound Effects/Player/Knife/knife_swish.mp3",
@@ -48,7 +61,7 @@ public class AssetsHandler {
                 "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_reload.wav",
                 "/resources/Sound/Sound Effects/Player/Pistol/pistol_empty.mp3"
         };
-        this.weaponSounds = loadAudio(weaponSounds);
+        this.weaponSounds = loadAudio(weaponSounds, soundVolume);
 
         // Create Player's animations. Combines several arrays into one
         FileParam[] knife = {
@@ -125,6 +138,20 @@ public class AssetsHandler {
         this.rockImage[0] = new Image(rockImageStrings[0], 50, 50, true, false);
     }
 
+    private MediaPlayer loadMusic(String fileName, double volume) {
+        MediaPlayer mp = null;
+        try {
+            File file = new File(fileName);
+            Media media = new Media(file.toURI().toString());
+            mp = new MediaPlayer(media);
+            mp.setVolume(volume);
+            return mp;
+        } catch (Exception e) {
+            System.out.println("Error: Could not find sound file");
+        }
+        return mp;
+    }
+
     /**
      * Method which turns a temporary FileParam object into an Image array.
      * The object contains the start of the filename, the number of Images to create, and the file extension.
@@ -191,7 +218,7 @@ public class AssetsHandler {
                 new FileParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
                 new FileParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)};
 
-        this.zombieAudioClips = loadAudio(zombieSounds);
+        this.zombieAudioClips = loadAudio(zombieSounds, soundVolume);
         this.zombieImages = loadAnimation(zombieAnimations);
     }
 
@@ -217,13 +244,33 @@ public class AssetsHandler {
      * @param audioFiles Requires an array of type String, which must contain a valid sound files.
      * @return Returns an array of type AudioClip, which may then be applied to each Entity.
      */
-    private AudioClip[] loadAudio(String[] audioFiles) {
+    private AudioClip[] loadAudio(String[] audioFiles, double volume) {
         AudioClip[] clips = new AudioClip[audioFiles.length];
         for(int i = 0; i < clips.length; i++) {
             clips[i] = new AudioClip(this.getClass().getResource(audioFiles[i]).toExternalForm());
-            clips[i].setVolume(0.1);
+            clips[i].setVolume(volume);
         }
         return clips;
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
+
+    public double getMusicVolume() {
+        return musicVolume;
+    }
+
+    public void setMusicVolume(double musicVolume) {
+        this.musicVolume = musicVolume;
+    }
+
+    public double getSoundVolume() {
+        return soundVolume;
+    }
+
+    public void setSoundVolume(double soundVolume) {
+        this.soundVolume = soundVolume;
     }
 
     Image[][] getZombieImages() {
