@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
-import javafx.scene.media.MediaPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,7 @@ public class Game {
     private boolean running;
     private boolean newRound;
     private boolean gameOver;
-    private boolean quickload;
+    private boolean muted;
 
     private GameInitializer gameInitializer;
 
@@ -73,9 +72,9 @@ public class Game {
      * @param hudScore requires a Label which represents Game's score value, and will be updated.
      * @param hudTimer requires a Label which represents Game's timer value, and will be updated.
      */
-    public Game(GameInitializer gameInitializer, Difficulty difficulty, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
+    public Game(GameInitializer gameInitializer, AssetsHandler assetsHandler, Difficulty difficulty, Pane gameWindow, Label hudHP, Label hudArmor, Label hudWeapon, Label hudMag, Label hudPool, Label hudScore, Label hudTimer){
         this.gameInitializer = gameInitializer;
-        this.assetsHandler = new AssetsHandler();
+        this.assetsHandler = assetsHandler;
         this.difficulty = difficulty;
         setDifficultyModifiers(difficulty);
         this.zombies = new ArrayList<>();
@@ -95,7 +94,6 @@ public class Game {
 
         createRocks();
         createPlayer(difficulty);
-        getMediaPlayer().play();
 
         final long startNanoTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
@@ -311,13 +309,15 @@ public class Game {
                 removeZombies();
 
             } else if (e.getCode() == KeyCode.ESCAPE || e.getCode() == KeyCode.P) {
-                pauseGame();
-                gameInitializer.showGameLabel();
-                gameInitializer.showMenu();
-                gameInitializer.hideMenuElements();
+                if (!gameInitializer.getDifficultyVisible()) {
+                    pauseGame();
+                    gameInitializer.showGameLabel();
+                    gameInitializer.showMenu();
+                    gameInitializer.hideMenuElements();
+                }
 
             } else if (e.getCode() == KeyCode.M) {
-                gameInitializer.muteMediaPlayer();
+                muteMediaPlayer();
 
             } else if (e.getCode() == KeyCode.F5){
                 saveGame("Quicksave");
@@ -479,17 +479,17 @@ public class Game {
 
         switch(randomNumber) {
             case 0:
-                return new Drop(assetsHandler.getHpDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.HP);
+                return new Drop(assetsHandler.getHpDropImages(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.HP);
             case 1:
-                return new Drop(assetsHandler.getArmorDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.ARMOR);
+                return new Drop(assetsHandler.getArmorDropImages(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.ARMOR);
             case 2:
-                return new Drop(assetsHandler.getPistolDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.PISTOLAMMO);
+                return new Drop(assetsHandler.getPistolDropImages(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.PISTOLAMMO);
             case 3:
-                return new Drop(assetsHandler.getRifleDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.RIFLEAMMO);
+                return new Drop(assetsHandler.getRifleDropImages(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.RIFLEAMMO);
             case 4:
-                return new Drop(assetsHandler.getShotgunDropImages(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.SHOTGUNAMMO);
+                return new Drop(assetsHandler.getShotgunDropImages(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.SHOTGUNAMMO);
             default:
-                return new Drop(assetsHandler.getScoreDropAnimation(), zombie.getPositionX(), zombie.getPositionY(), Drop.DropType.SCORE);
+                return new Drop(assetsHandler.getScoreDropAnimation(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.SCORE);
         }
     }
 
@@ -561,7 +561,7 @@ public class Game {
      * and a false return will display an Alert to the user.
      * @param filename Requires a String to represent the name of the file.
      */
-    public void saveGame(String filename) {
+    public boolean saveGame(String filename) {
         DataHandler.GameConfiguration gameCfg = getGameConfiguration();
 
         if (dataHandler.createSaveFile(filename, gameCfg)) {
@@ -574,8 +574,10 @@ public class Game {
             System.out.println("Player Rotation: " + gameCfg.player.movementCfg.rotation);
             System.out.println("NbrZombies: " + gameCfg.zombies.size());
             System.out.println("NbrBullets: " + gameCfg.player.bulletListCfg.size());
+
+            return true;
         } else {
-            fileAlert(false);
+            return false;
         }
     }
 
@@ -663,11 +665,6 @@ public class Game {
             dropCfg.add(drop.getDropConfiguration());
         gameCfg.drops = dropCfg;
 
-        List<DataHandler.EntityConfiguration> rockCfg = new ArrayList<>();
-        for (Rock rock : rocks)
-            rockCfg.add(rock.getRockConfiguration());
-        gameCfg.rocks = rockCfg;
-
         return gameCfg;
     }
 
@@ -722,11 +719,6 @@ public class Game {
             drops.add(drop);
             drop.setDropConfiguration(gameCfg.drops.get(i));
         }
-
-        for (int i = 0; i < gameCfg.rocks.size(); i++) {
-            Rock rock = new Rock(assetsHandler.getRockImage(), gameCfg.rocks.get(i).posX, gameCfg.rocks.get(i).posY);
-            rocks.add(rock);
-        }
     }
 
     /**
@@ -738,7 +730,6 @@ public class Game {
         removeZombies();
         removeBullets();
         removeDrops();
-        removeRocks();
     }
 
     /**
@@ -844,16 +835,25 @@ public class Game {
         return sounds;
     }
 
+    /**
+     * Method which mutes/unmutes the MediaPlayer each time M key is pressed during Game.getKeyPressed().
+     */
+    public void muteMediaPlayer() {
+        if(!muted) {
+            assetsHandler.getMediaPlayer().setMute(true);
+            muted = true;
+        } else {
+            assetsHandler.getMediaPlayer().setMute(false);
+            muted = false;
+        }
+    }
+
     public boolean isDEBUG() {
         return DEBUG;
     }
 
     public Pane getGameWindow() {
         return gameWindow;
-    }
-
-    public MediaPlayer getMediaPlayer() {
-        return assetsHandler.getMediaPlayer();
     }
 
     private Difficulty getDifficulty() {
@@ -900,5 +900,9 @@ public class Game {
 
     public void setRunning(boolean running) {
         this.running = running;
+    }
+
+    public List<Drop> getDrops() {
+        return drops;
     }
 }

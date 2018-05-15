@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class DataHandler {
 
-    static class GameConfiguration {
+    public static class GameConfiguration {
         Game.Difficulty difficulty;
         int gameScore;
         int roundNbr;
@@ -429,7 +429,7 @@ public class DataHandler {
      *                      data for each type of Entity.
      * @return Returns a boolean value based on whether there were any exceptions during file search, read, or parsing.
      */
-    boolean readSaveFile(String fileName, GameConfiguration configuration) {
+    public boolean readSaveFile(String fileName, GameConfiguration configuration) {
         DocumentBuilderFactory dbf;
         DocumentBuilder db;
         Document doc;

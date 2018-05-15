@@ -12,7 +12,7 @@ import java.util.*;
 public class Zombie extends Movable {
 
     private final int HUNTDISTANCE = 750;
-    private final int ATTACKDISTANCE = 70;
+    private final int ATTACKDISTANCE = 80;
 
     private int walkDistance;
     private long waitTime;
@@ -33,14 +33,12 @@ public class Zombie extends Movable {
         this.attackList = new ArrayList<>();
     }
 
-    public void removeImage(boolean isAlive, Game game, List<Drop> drops) {
-        if (!isAlive) {
-            if(game.isDEBUG())
-                game.getGameWindow().getChildren().remove(getNode());
-            game.getGameWindow().getChildren().remove(getAnimationHandler().getImageView());
-
+    @Override
+    public void removeImage(Game game) {
+        if (!isAlive()) {
+            super.removeImage(game);
             game.scorePerKill();
-            drops.add(game.getRandomDropType(this));
+            game.getDrops().add(game.getRandomDropType(this));
         }
     }
 
