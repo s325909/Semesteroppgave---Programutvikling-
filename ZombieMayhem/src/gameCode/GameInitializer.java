@@ -207,7 +207,39 @@ public class GameInitializer implements Initializable{
     }
 
 
-    //TODO make seperate bool for each sub menu?
+    @FXML
+    public void showMenuElement(ActionEvent event) {
+        if (ingameMenu.isVisible()) {
+            if (event.getSource() == howToPlay) {
+                showHelpMenu();
+                hideInGameMenu();
+            } else if (event.getSource() == saveGame) {
+                showSaveMenu();
+                hideInGameMenu();
+            } else if (event.getSource() == loadGame) {
+                showLoadMenu();
+                hideInGameMenu();
+            } else if (event.getSource() == settings) {
+                showSettingsMenu();
+                hideInGameMenu();
+            }
+        } else {
+            menuVisible = false;
+            if (event.getSource() == backHelp) {
+                ingameHelp.setVisible(false);
+                showMenu();
+            } else if (event.getSource() == backSave) {
+                ingameSave.setVisible(false);
+                showMenu();
+            } else if (event.getSource() == backLoad) {
+                ingameLoad.setVisible(false);
+                showMenu();
+            } else if (event.getSource() == backSettings) {
+                ingameSettings.setVisible(false);
+                showMenu();
+            }
+        }
+    }
 
     private void showSaveMenu(){
         if (!saveMenuVisible){
@@ -243,47 +275,18 @@ public class GameInitializer implements Initializable{
         }
     }
 
-    @FXML
-    public void showMenuElement(ActionEvent event) {
-        if (ingameMenu.isVisible()) {
-            if (event.getSource() == howToPlay) {
-                showHelpMenu();
-                hideInGameMenu();
-            } else if (event.getSource() == saveGame) {
-                showSaveMenu();
-                hideInGameMenu();
-            } else if (event.getSource() == loadGame) {
-                showLoadMenu();
-                hideInGameMenu();
-            } else if (event.getSource() == settings) {
-                showSettingsMenu();
-                hideInGameMenu();
-            }
-        } else {
-            menuVisible = false;
-            if (event.getSource() == backHelp) {
-                ingameHelp.setVisible(false);
-                showMenu();
-            } else if (event.getSource() == backSave) {
-                ingameSave.setVisible(false);
-                showMenu();
-            } else if (event.getSource() == backLoad) {
-                ingameLoad.setVisible(false);
-                showMenu();
-            } else if (event.getSource() == backSettings) {
-                ingameSettings.setVisible(false);
-                showMenu();
-            }
-        }
-    }
 
-
+    /**
+     * Method that will hide the sub-menu elements.
+     * Used in Game's getKeyPressed() to resume game with esc from every sub-menu.
+     */
     public void hideMenuElements() {
         ingameSave.setVisible(false);
         ingameLoad.setVisible(false);
         ingameHelp.setVisible(false);
         ingameSettings.setVisible(false);
     }
+
 
     /**
      * Method which will resume the Game.
