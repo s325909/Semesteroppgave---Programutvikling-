@@ -9,28 +9,34 @@ import java.io.File;
 
 public class AssetsHandler {
     private MediaPlayer mediaPlayer;
+
     private AudioClip[] weaponSounds;
     private AudioClip[] basicSounds;
     private Image[][][] playerImages;
+
     private AudioClip[] zombieAudioClips;
     private Image[][] zombieImages;
+
+    private AudioClip[] dropSounds;
     private Image[] hpDropImages;
     private Image[] armorDropImages;
     private Image[] pistolDropImages;
     private Image[] rifleDropImages;
     private Image[] shotgunDropImages;
     private Image[] scoreDropAnimation;
+
     private Image[] pistolBulletImaqe;
     private Image[] rifleBulletImage;
     private Image[] shotgunPelletImage;
+
     private Image[] rockImage;
 
     private double musicVolume;
     private double soundVolume;
 
     public AssetsHandler() {
-        musicVolume = 0.4;
-        soundVolume = 0.4;
+        musicVolume = 0.15;
+        soundVolume = 0.5;
         loadAssets();
     }
 
@@ -42,20 +48,18 @@ public class AssetsHandler {
     private void loadAssets() {
 
         String musicFile = "src/resources/Sound/Soundtrack/Doom2.mp3";
-        this.mediaPlayer = loadMusic(musicFile, musicVolume);
+        mediaPlayer = loadMusic(musicFile, musicVolume);
 
 
 
         ////////// Create Player's sounds. Turns Strings into usable AudioClips //////////
         String[] playerSounds = {
                 "/resources/Sound/Sound Effects/Player/player_breathing_calm.wav",
-                "/resources/Sound/Sound Effects/Player/footsteps_single.wav",
+                "/resources/Sound/Sound Effects/Player/2footsteps.wav",
                 "/resources/Sound/Sound Effects/Player/soft_grunt.wav",
                 "/resources/Sound/Sound Effects/Player/rough_grunt.wav",
                 "/resources/Sound/Sound Effects/Player/death_grunt.wav"
         };
-
-        this.basicSounds = loadAudio(playerSounds, soundVolume);
 
         String[] weaponSounds = {
                 "/resources/Sound/Sound Effects/Player/Knife/knife_swish.mp3",
@@ -67,10 +71,6 @@ public class AssetsHandler {
                 "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_reload.wav",
                 "/resources/Sound/Sound Effects/Player/weapon_empty.mp3"
         };
-
-        this.weaponSounds = loadAudio(weaponSounds, soundVolume);
-
-
 
         ////////// Create Player's animations. Combines several arrays into one //////////
         FileParam[] knife = {
@@ -107,9 +107,12 @@ public class AssetsHandler {
                 shotgun
         };
 
-        this.playerImages = new Image[all.length][][];
+        basicSounds = loadAudio(playerSounds, soundVolume);
+        this.weaponSounds = loadAudio(weaponSounds, soundVolume);
+
+        playerImages = new Image[all.length][][];
         for (int i = 0; i < all.length; ++i) {
-            this.playerImages[i] = loadAnimation(all[i]);
+            playerImages[i] = loadAnimation(all[i]);
         }
 
 
@@ -117,7 +120,7 @@ public class AssetsHandler {
         // Create Zombie's animations
         String[] zombieSounds = {
                 "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
-                "/resources/Sound/Sound Effects/Zombie/zombie_walking_concrete.wav",
+                "/resources/Sound/Sound Effects/Zombie/zombie_walk.aiff",
                 "/resources/Sound/Sound Effects/Zombie/zombie_hit_1.wav",
                 "/resources/Sound/Sound Effects/Zombie/zombie_hit_2.wav",
                 "/resources/Sound/Sound Effects/Zombie/zombie_death.mp3"
@@ -129,21 +132,23 @@ public class AssetsHandler {
                 new FileParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)
         };
 
-        this.zombieAudioClips = loadAudio(zombieSounds, soundVolume);
-        this.zombieImages = loadAnimation(zombieAnimations);
+        zombieAudioClips = loadAudio(zombieSounds, soundVolume);
+        zombieImages = loadAnimation(zombieAnimations);
 
 
 
-        ////////// Create Drop's animations //////////
+        ////////// Create all of Drop's images and animations //////////
+        String[] dropSounds = {
+                "/resources/Sound/Sound Effects/Drop/coin_pickup.wav",
+                "/resources/Sound/Sound Effects/Drop/health_pickup.wav",
+                "/resources/Sound/Sound Effects/Drop/armor_pickup.wav",
+                "/resources/Sound/Sound Effects/Drop/ammo_pickup.wav"
+        };
+
         FileParam scoreDrop = new FileParam(
                 "/resources/Art/Icon/Coin/coin_rotate_", ".png", 6
         );
 
-        this.scoreDropAnimation = loadAnimation(scoreDrop);
-
-
-
-        ////////// Create all of Drop's images //////////
         String[] dropImageStrings = new String[] {
                 "/resources/Art/Icon/hp_icon.png",
                 "/resources/Art/Icon/armor_icon.png",
@@ -152,7 +157,13 @@ public class AssetsHandler {
                 "/resources/Art/Icon/shotgun_ammo.png"
         };
 
-        createDropImages(dropImageStrings);
+        this.dropSounds = loadAudio(dropSounds, soundVolume);
+        scoreDropAnimation = loadAnimation(scoreDrop);
+        hpDropImages = createImage(dropImageStrings[0], 25, 25);
+        armorDropImages = createImage(dropImageStrings[1], 25, 25);
+        pistolDropImages = createImage(dropImageStrings[2], 25, 25);
+        rifleDropImages = createImage(dropImageStrings[3], 25, 25);
+        shotgunDropImages = createImage(dropImageStrings[4], 25, 25);
 
 
 
@@ -162,10 +173,8 @@ public class AssetsHandler {
                 "/resources/Art/Icon/single_rifle_bullet.png"
         };
 
-        this.pistolBulletImaqe = new Image[1];
-        this.pistolBulletImaqe[0] = new Image(bulletImageStrings[0], 25, 25, true, false);
-        this.rifleBulletImage = new Image[1];
-        this.rifleBulletImage[0] = new Image(bulletImageStrings[1], 25, 25, true, false);
+        pistolBulletImaqe = createImage(bulletImageStrings[0], 25, 25);
+        rifleBulletImage = createImage(bulletImageStrings[1], 25 ,25);
 
 
 
@@ -174,8 +183,7 @@ public class AssetsHandler {
                 "/resources/Art/Icon/rock.png"
         };
 
-        this.rockImage = new Image[1];
-        this.rockImage[0] = new Image(rockImageStrings[0], 50, 50, true, false);
+        rockImage = createImage(rockImageStrings[0], 50, 50);
     }
 
     private MediaPlayer loadMusic(String fileName, double volume) {
@@ -190,6 +198,20 @@ public class AssetsHandler {
             System.out.println("Error: Could not find sound file");
         }
         return mp;
+    }
+
+    /**
+     * Method which turns an array of Strings into AudioClips, and adjusts the volume.
+     * @param audioFiles Requires an array of type String, which must contain a valid sound files.
+     * @return Returns an array of type AudioClip, which may then be applied to each Entity.
+     */
+    private AudioClip[] loadAudio(String[] audioFiles, double volume) {
+        AudioClip[] clips = new AudioClip[audioFiles.length];
+        for(int i = 0; i < clips.length; i++) {
+            clips[i] = new AudioClip(this.getClass().getResource(audioFiles[i]).toExternalForm());
+            clips[i].setVolume(volume);
+        }
+        return clips;
     }
 
     /**
@@ -243,6 +265,11 @@ public class AssetsHandler {
         return images;
     }
 
+    public Image[] createImage(String imageFile, int width, int height) {
+        Image[] image = {new Image((imageFile), width, height, true, false)};
+        return image;
+    }
+
     /**
      * Method which turns an array of type String into sets of Images, where each Image is put into single arrays of length 1.
      * @param images Requires an array of type String, and uses each of these Strings to create an Image.
@@ -260,38 +287,26 @@ public class AssetsHandler {
         this.shotgunDropImages[0] = new Image(images[4], 25, 25, true, false);
     }
 
-    /**
-     * Method which turns an array of Strings into AudioClips, and adjusts the volume.
-     * @param audioFiles Requires an array of type String, which must contain a valid sound files.
-     * @return Returns an array of type AudioClip, which may then be applied to each Entity.
-     */
-    private AudioClip[] loadAudio(String[] audioFiles, double volume) {
-        AudioClip[] clips = new AudioClip[audioFiles.length];
-        for(int i = 0; i < clips.length; i++) {
-            clips[i] = new AudioClip(this.getClass().getResource(audioFiles[i]).toExternalForm());
-            clips[i].setVolume(volume);
-        }
-        return clips;
-    }
-
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }
 
-    public double getMusicVolume() {
-        return musicVolume;
+
+
+    public AudioClip[] getBasicSounds() {
+        return basicSounds;
     }
 
-    public void setMusicVolume(double musicVolume) {
-        this.musicVolume = musicVolume;
+    public AudioClip[] getWeaponSounds() {
+        return weaponSounds;
     }
 
-    public double getSoundVolume() {
-        return soundVolume;
+    public Image[][][] getPlayerImages() {
+        return playerImages;
     }
 
-    public void setSoundVolume(double soundVolume) {
-        this.soundVolume = soundVolume;
+    AudioClip[] getZombieAudioClips() {
+        return zombieAudioClips;
     }
 
     Image[][] getZombieImages() {
@@ -304,6 +319,14 @@ public class AssetsHandler {
 
     public Image[] getRifleBulletImage() {
         return rifleBulletImage;
+    }
+
+    public Image[] getShotgunPelletImage() {
+        return shotgunPelletImage;
+    }
+
+    public AudioClip[] getDropSounds() {
+        return dropSounds;
     }
 
     Image[] getScoreDropAnimation() {
@@ -330,26 +353,22 @@ public class AssetsHandler {
         return shotgunDropImages;
     }
 
-    AudioClip[] getZombieAudioClips() {
-        return zombieAudioClips;
-    }
-
-    public AudioClip[] getBasicSounds() {
-        return basicSounds;
-    }
-
-    public AudioClip[] getWeaponSounds() {
-        return weaponSounds;
-    }
-
     public Image[] getRockImage() { return rockImage; }
 
-    public Image[][][] getPlayerImages() {
-        return playerImages;
+    public double getMusicVolume() {
+        return musicVolume;
     }
 
-    public Image[] getShotgunPelletImage() {
-        return shotgunPelletImage;
+    public void setMusicVolume(double musicVolume) {
+        this.musicVolume = musicVolume;
+    }
+
+    public double getSoundVolume() {
+        return soundVolume;
+    }
+
+    public void setSoundVolume(double soundVolume) {
+        this.soundVolume = soundVolume;
     }
 
     /**

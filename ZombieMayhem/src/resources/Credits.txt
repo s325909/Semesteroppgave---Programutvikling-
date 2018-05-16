@@ -45,6 +45,9 @@ Main source: freesound.org
 Calm breathing by fuchsrodolfo
 https://freesound.org/people/fuchsrodolfo/sounds/391175/
 
+Two Footsteps by Natty23
+https://freesound.org/people/Natty23/sounds/257276/
+
 Light Footsteps by kupp2
 https://freesound.org/people/kupp2/sounds/360800/
 
@@ -87,6 +90,9 @@ https://freesound.org/people/Folamh3/sounds/335254/
 Zombie Walk Concrete by NoiseCollector
 https://freesound.org/people/NoiseCollector/sounds/55138/
 
+Walking Zombie by Slave2theLight
+https://freesound.org/people/Slave2theLight/sounds/157035/
+
 Zombie Moan by gneube
 https://freesound.org/people/gneube/sounds/315845/
 
@@ -99,8 +105,17 @@ https://freesound.org/people/Robinhood76/sounds/66134/
 Zombie Grunt by bigmonmulgrew
 https://freesound.org/people/bigmonmulgrew/sounds/346625/
 
+Coins by D W
+https://freesound.org/people/D%20W/sounds/140382/
 
+Collecting Ammo by rdaly95
+https://freesound.org/people/rdaly95/sounds/387134/
 
+Pick-up Health by juancamiloorjuela
+https://freesound.org/people/juancamiloorjuela/sounds/204318/
+
+Pickups Armor Chest by runningmind
+https://freesound.org/people/runningmind/sounds/363173/
 
 ////////// Soundtrack //////////
 

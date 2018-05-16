@@ -24,10 +24,7 @@ import java.util.ResourceBundle;
  */
 public class LoadingController implements Initializable {
 
-    @FXML private Button returnToMenu, loadBtn1, loadBtn2, loadBtn3;
-
-    private Stage window_GameMenu;
-    private Parent root_GameMenu;
+    @FXML private Button backToMenu, loadBtn1, loadBtn2, loadBtn3;
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {}
@@ -38,18 +35,22 @@ public class LoadingController implements Initializable {
     @FXML
     public void loadGame(ActionEvent event) {
         String saveGame = "save1";
+        Stage stage = (Stage) backToMenu.getScene().getWindow();
         if (event.getSource() == loadBtn1) {
             saveGame = "Savegame1";
+            stage = (Stage) loadBtn1.getScene().getWindow();
         } else if (event.getSource() == loadBtn2) {
             saveGame = "Savegame2";
+            stage = (Stage) loadBtn2.getScene().getWindow();
         } else if (event.getSource() == loadBtn3) {
             saveGame = "Savegame3";
+            stage = (Stage) loadBtn3.getScene().getWindow();
         }
 
         if (checkFile(saveGame)) {
-            goToGame(saveGame, true);
+            goToGame(stage, saveGame, true);
         } else {
-            fileAlert(saveGame);
+            fileAlert(stage, saveGame);
         }
     }
 
@@ -59,18 +60,17 @@ public class LoadingController implements Initializable {
         return dataHandler.readSaveFile(saveGame, gameCfg);
     }
 
-    private void goToGame(String saveGame, boolean loadGame) {
+    private void goToGame(Stage stage, String saveGame, boolean loadGame) {
         try{
-            Stage stage = (Stage) loadBtn1.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gameCode/GameWindow.fxml"));
+            URL url = getClass().getResource("/gameCode/GameWindow.fxml");
+            FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
-            Scene scene = new Scene(root);
 
             GameInitializer controller = loader.getController();
             if (loadGame)
                 controller.loadAndCreateGame(saveGame);
 
-            scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
+            Scene scene = new Scene(root, 1280, 720);
             stage.setScene(scene);
             stage.show();
         }catch (IOException io){
@@ -78,7 +78,7 @@ public class LoadingController implements Initializable {
         }
     }
 
-    private void fileAlert(String saveGame) {
+    private void fileAlert(Stage stage, String saveGame) {
 
         ButtonType resume = new ButtonType("Resume", ButtonBar.ButtonData.CANCEL_CLOSE);
         ButtonType newGame = new ButtonType("New Game", ButtonBar.ButtonData.OK_DONE);
@@ -95,25 +95,24 @@ public class LoadingController implements Initializable {
             if (response == resume) {
 
             } else if (response == newGame) {
-                goToGame(saveGame, false);
+                goToGame(stage, saveGame, false);
             }
         });
     }
 
     @FXML
-    public void returnToMenu(ActionEvent event) {
+    public void returnToMenu() {
         try {
-            if (event.getSource() == returnToMenu) {
-                window_GameMenu = (Stage) returnToMenu.getScene().getWindow();
-                root_GameMenu = FXMLLoader.load(getClass().getResource("../main/MainMenu.fxml"));
-            }
-        } catch (Exception e){
-            System.out.println(e.getMessage());
+            Stage stage = (Stage) backToMenu.getScene().getWindow();
+            URL url = getClass().getResource("/main/MainMenu.fxml");
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 1280, 720);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        Scene scene_GameMenu = new Scene(root_GameMenu, 1280, 720);
-        window_GameMenu.setScene(scene_GameMenu);
-        window_GameMenu.show();
     }
 }
 

@@ -27,7 +27,6 @@ public class Player extends Movable {
     private WeaponTypes equippedWeapon;
     private State playerState;
     private int armor;
-    private AudioClip[] basicSounds;
     private AudioClip[] weaponSounds;
     private Image[] bulletImages;
     private Magazine magazinePistol;
@@ -38,17 +37,16 @@ public class Player extends Movable {
     private long waitTime;
     private long invTime;
     private long fireWaitTime;
-    private long soundWaitTime;
     private List<PlayerDirection> directionButtonPressed;
 
+    private final int secondsInvulnerable = 3;
+
     public Player(Image[][][] images, AudioClip[] basicSounds, AudioClip[] weaponSounds, Image[] bulletImages, int positionX, int positionY, int healthPoints, int armor) {
-        super(new AnimationHandler(images), basicSounds, positionX, positionY, healthPoints, 5.0);
-        this.basicSounds = basicSounds;
+        super(new AnimationHandler(images), basicSounds, positionX, positionY, healthPoints, 2.5);
         this.weaponSounds = weaponSounds;
         this.bulletImages = bulletImages;
         this.animationQueue = new LinkedList<AnimationLengthPair>();
         this.waitTime = 0;
-        this.soundWaitTime = 0;
         setEquippedWeapon(WeaponTypes.KNIFE);
         setAnimation(0,0, 0);
         magazinePistol = new Magazine(15, 30);
@@ -67,15 +65,19 @@ public class Player extends Movable {
             switch (playerDirection) {
                 case LEFT:
                     addVelocityX(-getMovementSpeed());
+                    walkSound(1000);
                     break;
                 case RIGHT:
                     addVelocityX(getMovementSpeed());
+                    walkSound(1000);
                     break;
                 case UP:
                     addVelocityY(-getMovementSpeed());
+                    walkSound(1000);
                     break;
                 case DOWN:
                     addVelocityY(getMovementSpeed());
+                    walkSound(1000);
                     break;
                 case FIRE:
                     fire();
@@ -274,10 +276,10 @@ public class Player extends Movable {
                     setAnimation(0,2, 500);
                     break;
                 case PISTOL:
-                    fireRate = 500;
+                    fireRate = 350;
                     if (!magazinePistol.isMagazineEmpty()) {
                         magazinePistol.changeBulletNumber(-1);
-                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 50, this.getDirection(), 3000);
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 8, 50, this.getDirection(), 3000);
                         bulletList.add(bullet);
                         playWeaponSounds(1, 1);
                     } else {
@@ -286,10 +288,10 @@ public class Player extends Movable {
                     setAnimation(1,2, 100);
                     break;
                 case RIFLE:
-                    fireRate = 500;
+                    fireRate = 100;
                     if (!magazineRifle.isMagazineEmpty()) {
                         magazineRifle.changeBulletNumber(-1);
-                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 35, this.getDirection(), 3000);
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 16, 40, this.getDirection(), 3000);
                         bulletList.add(bullet);
                         playWeaponSounds(3, 1);
                     } else {
@@ -298,7 +300,7 @@ public class Player extends Movable {
                     setAnimation(2,2, 100);
                     break;
                 case SHOTGUN:
-                    fireRate = 500;
+                    fireRate = 1000;
                     if (!magazineShotgun.isMagazineEmpty()) {
                         magazineShotgun.changeBulletNumber(-1);
 
@@ -355,11 +357,11 @@ public class Player extends Movable {
                                 break;
                         }
 
-                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(), 300);
+                        Bullet bullet = new Bullet(this.bulletImages, posX, posY, 12, 20, this.getDirection(), 300);
                         this.bulletList.add(bullet);
-                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(),300, adjustVelX1, adjustVelY1);
+                        bullet = new Bullet(this.bulletImages, posX, posY, 12, 20, this.getDirection(),300, adjustVelX1, adjustVelY1);
                         this.bulletList.add(bullet);
-                        bullet = new Bullet(this.bulletImages, posX, posY, 10, 20, this.getDirection(),300, adjustVelX2, adjustVelY2);
+                        bullet = new Bullet(this.bulletImages, posX, posY, 12, 20, this.getDirection(),300, adjustVelX2, adjustVelY2);
                         this.bulletList.add(bullet);
                         playWeaponSounds(5, 1);
                     } else {
@@ -416,6 +418,10 @@ public class Player extends Movable {
      */
     private void setAnimation(int animationType, int animationAction, int animationLength) {
         boolean inQueue = false;
+        double duration = 0.032;
+
+        if (animationAction == 2)
+            duration = 0.256;
 
         for (AnimationLengthPair pair : animationQueue) {
             if (pair.animationType == animationType && pair.animationAction == animationAction)
@@ -423,7 +429,7 @@ public class Player extends Movable {
         }
 
         if (!inQueue) {
-            animationQueue.add(new AnimationLengthPair(animationType, animationAction, animationLength, 0.032));
+            animationQueue.add(new AnimationLengthPair(animationType, animationAction, animationLength, duration));
         }
     }
 
@@ -507,7 +513,7 @@ public class Player extends Movable {
                 this.setHealthPoints(this.getHealthPoints() - (damage/2));
             }
             playerState = State.DAMAGED;
-            this.invTime = currentTime + 1000;
+            this.invTime = currentTime + secondsInvulnerable * 1000;
         }
     }
 
@@ -569,6 +575,23 @@ public class Player extends Movable {
             default:
                 return 0;
         }
+    }
+
+    @Override
+    public void hitSound(int damage) {
+        int i;
+
+        if ((getArmor() + getHealthPoints()/2) > damage) {
+            double random = Math.random();
+            if (random > 0.5)
+                i = 2;
+            else
+                i = 3;
+        } else
+            i = 4;
+
+        if (!getAudioClips()[i].isPlaying())
+            super.playSound(i, 1);
     }
 
     /**

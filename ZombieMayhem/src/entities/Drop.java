@@ -3,12 +3,13 @@ package entities;
 import gameCode.DataHandler;
 import gameCode.Game;
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 
 /**
  * Class which represents Entities on the ground which will provide the Player with attribute increases,
  * or increase the Game's score value. They are either created randomly, or upon Zombie death.
  */
-public class Drop extends Entity {
+public class Drop extends Movable {
     public enum DropType {
         SCORE, HP, ARMOR, PISTOLAMMO, RIFLEAMMO, SHOTGUNAMMO
     }
@@ -25,8 +26,8 @@ public class Drop extends Entity {
      * @param dropType Requires DropType to be set in order to determine what
      *                 happens upon collision with Player.
      */
-    public Drop(Image[] images, int positionX, int positionY, DropType dropType) {
-        super(new AnimationHandler(images), positionX, positionY);
+    public Drop(Image[] images, AudioClip[] audioClips, int positionX, int positionY, DropType dropType) {
+        super(new AnimationHandler(images), audioClips, positionX, positionY);
         this.dropType = dropType;
         this.getAnimationHandler().getImageView().setTranslateX(this.getNode().getTranslateX());
         this.getAnimationHandler().getImageView().setTranslateY(this.getNode().getTranslateY());
@@ -48,6 +49,15 @@ public class Drop extends Entity {
     }
 
     /**
+     * Method which handles animation cycling via setFrame() call.
+     * @param time Requires the Game's timer.
+     */
+    @Override
+    public void update(double time) {
+        getAnimationHandler().setFrame(time);
+    }
+
+    /**
      * Method which handles collision between an object of type Drop and a Player.
      * Based on the DropType, the Game's score is increased, or the Player's attributes are increased
      * in the form of health, armor, or ammunition.
@@ -59,24 +69,31 @@ public class Drop extends Entity {
             switch(dropType) {
                 case SCORE:
                     game.setScoreNumber(game.getScoreNumber() + 100);
+                    super.playSound(0, 1);
                     break;
                 case HP:
                     player.healthPickup(25);
+                    super.playSound(1, 1);
                     break;
                 case ARMOR:
                     player.armorPickup(25);
+                    super.playSound(2, 1);
                     break;
                 case PISTOLAMMO:
                     player.getMagazinePistol().changeBulletNumber(15);
+                    super.playSound(3, 1);
                     break;
                 case RIFLEAMMO:
                     player.getMagazineRifle().changeBulletNumber(30);
+                    super.playSound(3, 1);
                     break;
                 case SHOTGUNAMMO:
                     player.getMagazineShotgun().changeBulletNumber(8);
+                    super.playSound(3, 1);
                     break;
                 default:
                     game.setScoreNumber(game.getScoreNumber() + 100);
+                    super.playSound(0, 1);
             }
             setAlive(false);
         }

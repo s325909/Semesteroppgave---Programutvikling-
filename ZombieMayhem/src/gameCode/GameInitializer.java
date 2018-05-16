@@ -56,26 +56,26 @@ public class GameInitializer implements Initializable{
         assetsHandler.getMediaPlayer().play();
 
         // Sets the values of the Settings slider and number equivalent to the MediaPlayer and all AudioClips volume values.
-        musicSlider.setValue((int)(assetsHandler.getMusicVolume() * 10));
+        musicSlider.setValue((int)(assetsHandler.getMusicVolume() * 100));
         musicNbr.setText(
-                String.valueOf((int)(assetsHandler.getMusicVolume() * 10))
+                String.valueOf((int)(assetsHandler.getMusicVolume() * 100))
         );
-        soundSlider.setValue((int)(assetsHandler.getSoundVolume() * 10));
+        soundSlider.setValue((int)(assetsHandler.getSoundVolume() * 100));
         soundNbr.setText(
-                String.valueOf((int)(assetsHandler.getSoundVolume() * 10))
+                String.valueOf((int)(assetsHandler.getSoundVolume() * 100))
         );
 
         // Listener which detects slider value change, and updates both the number next to the slider and the volume of the MediaPlayer
         musicSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             musicNbr.setText(String.valueOf((int)musicSlider.getValue()));
-            assetsHandler.getMediaPlayer().setVolume(musicSlider.getValue() / 10);
+            assetsHandler.getMediaPlayer().setVolume(musicSlider.getValue() / 100);
         });
 
         // Listener which detects slider value change, and updates both the number next to the slider and the volume of the Game's AudioClips
         soundSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             soundNbr.setText(String.valueOf((int)soundSlider.getValue()));
             for(int i = 0; i < game.getAllAudioClips().length; i++) {
-                game.getAllAudioClips()[i].setVolume(soundSlider.getValue() / 10);
+                game.getAllAudioClips()[i].setVolume(soundSlider.getValue() / 100);
             }
         });
 
@@ -354,14 +354,6 @@ public class GameInitializer implements Initializable{
     @FXML
     public void exitGame() {
         System.exit(0);
-    }
-    
-
-    /**
-     * Method for showing the select difficulty screen once GameWindow FXML is called during MainController.launchGame().
-     */
-    public void setDifficulty() {
-        selectDifficulty();
     }
 
     public boolean isDifficultyVisible() {

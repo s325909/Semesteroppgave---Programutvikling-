@@ -11,7 +11,7 @@ import java.util.*;
 
 public class Zombie extends Movable {
 
-    private final int HUNTDISTANCE = 750;
+    private final int HUNTDISTANCE = 500;
     private final int ATTACKDISTANCE = 80;
 
     private int walkDistance;
@@ -21,8 +21,8 @@ public class Zombie extends Movable {
     private Direction walkDirection;
     private State state;
     private Queue<AnimationLengthPair> animationQueue;
-    private Image[] placeHolder;
     private List<Bullet> attackList;
+    private Image[] placeHolder;
 
     public Zombie(Image[][] images, AudioClip[] audioClips, int positionX, int positionY, int healthPoints) {
         super(new AnimationHandler(images), audioClips, positionX, positionY, healthPoints, 1.0);
@@ -30,8 +30,8 @@ public class Zombie extends Movable {
         this.waitTime = 0;
         this.state = State.NORMAL;
         this.walkDirection = Direction.IDLE;
-        this.placeHolder = images[0];
         this.attackList = new ArrayList<>();
+        this.placeHolder = images[0];
     }
 
     @Override
@@ -207,10 +207,9 @@ public class Zombie extends Movable {
                 case IDLE:
                     break;
             }
-
             int fireRate = 500;
             int damage = 10 * damageMod;
-            Bullet zombieSlash = new Bullet(placeHolder, posX, posY, 0, damage, this.getDirection(), 0);
+            Bullet zombieSlash = new Bullet(placeHolder, posX, posY, 0, damage, this.getDirection(), 1000);
             //zombieSlash.setDrawn();
             zombieSlash.setNewRotation(getNewRotation());
             Arc knifeArc = new Arc(0, 0, 25, 30.0, 90, 180);
@@ -228,17 +227,17 @@ public class Zombie extends Movable {
      * @param animationAction
      */
     private void setAnimation(int animationAction, int animationLength) {
-//        double duration = 0.064;
-//        if(animationAction == 2) {
-//            duration = 0.064;
-//        }
+        double duration = 0.064;
+        if(animationAction == 2) {
+            duration = 0.128;
+        }
         boolean not = true;
         for (AnimationLengthPair pair : animationQueue) {
             if (pair.animationAction == animationAction)
                 not = false;
         }
         if (not)
-            animationQueue.add(new AnimationLengthPair(0, animationAction, animationLength, 0.064));
+            animationQueue.add(new AnimationLengthPair(0, animationAction, animationLength, duration));
     }
 
     /**
@@ -278,9 +277,5 @@ public class Zombie extends Movable {
 
     public List<Bullet> getAttackList() {
         return attackList;
-    }
-
-    public State getState() {
-        return state;
     }
 }

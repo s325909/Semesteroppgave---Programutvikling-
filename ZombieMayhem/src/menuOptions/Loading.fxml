@@ -46,7 +46,7 @@
             <font>
                 <Font name="Copperplate Gothic Light" size="24.0" />
             </font></Button>
-      <Button fx:id="returnToMenu" mnemonicParsing="false" onAction="#returnToMenu" text="Back to Menu" />
+      <Button fx:id="backToMenu" mnemonicParsing="false" onAction="#returnToMenu" text="Back to Menu" />
 
     </VBox>
    <columnConstraints>

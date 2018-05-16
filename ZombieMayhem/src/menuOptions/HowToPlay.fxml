@@ -64,7 +64,7 @@
                   <Font size="40.0" />
                </font>
             </Label>
-            <Button fx:id="returnToMenu" mnemonicParsing="false" onAction="#returnToMenu" text="Back to Menu" />
+            <Button fx:id="backToMenu" mnemonicParsing="false" onAction="#returnToMenu" text="Back to Menu" />
          </children></VBox>
    </children>
 </GridPane>

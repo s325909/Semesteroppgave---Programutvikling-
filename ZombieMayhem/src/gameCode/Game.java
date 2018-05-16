@@ -39,7 +39,7 @@ public class Game {
     private List<Drop> drops = new ArrayList<>();
     private List<Rock> rocks;
     private Pane gameWindow;
-    private Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore, hudTimer;
+    private Label hudHP, hudArmor, hudWeapon, hudMag, hudPool, hudScore;
 
     private int scoreNumber;
     private int roundNumber;
@@ -83,7 +83,6 @@ public class Game {
         this.hudMag = hudMag;
         this.hudPool = hudPool;
         this.hudScore = hudScore;
-        this.hudTimer = hudTimer;
         this.dataHandler = new DataHandler();
         this.running = true;
         this.scoreNumber = 0;
@@ -221,8 +220,8 @@ public class Game {
             // Damage Player if colliding with zombie attack
             for (Bullet zombieAttack : zombie.getAttackList()) {
                 if(zombieAttack.isColliding(player)) {
-                    player.hitSound(zombieAttack.getDamage());
                     player.receivedDamage(zombieAttack.getDamage());
+                    player.hitSound(zombieAttack.getDamage());
                     zombieAttack.setAlive(false);
                 }
             }
@@ -460,14 +459,14 @@ public class Game {
             int random = (int) Math.floor(Math.random() * 100);
             if (random < 4) {
                 int[] randomPosition = getRandomPosition();
-                Drop drop = new Drop(assetsHandler.getScoreDropAnimation(), randomPosition[0], randomPosition[1], Drop.DropType.SCORE);
+                Drop drop = new Drop(assetsHandler.getScoreDropAnimation(), assetsHandler.getDropSounds(), randomPosition[0], randomPosition[1], Drop.DropType.SCORE);
 
                 int nbrClearedRocks = 0;
                 while (nbrClearedRocks < rocks.size()) {
                     for (Rock rock : rocks) {
                         if (rock.isColliding(drop)) {
                             randomPosition = getRandomPosition();
-                            drop = new Drop(assetsHandler.getScoreDropAnimation(), randomPosition[0], randomPosition[1], Drop.DropType.SCORE);
+                            drop = new Drop(assetsHandler.getScoreDropAnimation(), assetsHandler.getDropSounds(), randomPosition[0], randomPosition[1], Drop.DropType.SCORE);
                         } else {
                             nbrClearedRocks++;
                         }
@@ -490,17 +489,17 @@ public class Game {
 
         switch(randomNumber) {
             case 0:
-                return new Drop(assetsHandler.getHpDropImages(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.HP);
+                return new Drop(assetsHandler.getHpDropImages(), assetsHandler.getDropSounds(),zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.HP);
             case 1:
-                return new Drop(assetsHandler.getArmorDropImages(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.ARMOR);
+                return new Drop(assetsHandler.getArmorDropImages(), assetsHandler.getDropSounds(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.ARMOR);
             case 2:
-                return new Drop(assetsHandler.getPistolDropImages(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.PISTOLAMMO);
+                return new Drop(assetsHandler.getPistolDropImages(), assetsHandler.getDropSounds(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.PISTOLAMMO);
             case 3:
-                return new Drop(assetsHandler.getRifleDropImages(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.RIFLEAMMO);
+                return new Drop(assetsHandler.getRifleDropImages(), assetsHandler.getDropSounds(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.RIFLEAMMO);
             case 4:
-                return new Drop(assetsHandler.getShotgunDropImages(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.SHOTGUNAMMO);
+                return new Drop(assetsHandler.getShotgunDropImages(), assetsHandler.getDropSounds(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.SHOTGUNAMMO);
             default:
-                return new Drop(assetsHandler.getScoreDropAnimation(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.SCORE);
+                return new Drop(assetsHandler.getScoreDropAnimation(), assetsHandler.getDropSounds(), zombie.getPositionX() + 25, zombie.getPositionY() + 25, Drop.DropType.SCORE);
         }
     }
 
@@ -726,7 +725,7 @@ public class Game {
                 default:
                     images = assetsHandler.getScoreDropAnimation();
             }
-            Drop drop = new Drop(images, gameCfg.drops.get(i).entityCfg.posX, gameCfg.drops.get(i).entityCfg.posY, gameCfg.drops.get(i).dropType);
+            Drop drop = new Drop(images, assetsHandler.getDropSounds(), gameCfg.drops.get(i).entityCfg.posX, gameCfg.drops.get(i).entityCfg.posY, gameCfg.drops.get(i).dropType);
             drops.add(drop);
             drop.setDropConfiguration(gameCfg.drops.get(i));
         }

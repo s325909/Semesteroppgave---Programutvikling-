@@ -2,6 +2,7 @@ package entities;
 
 import gameCode.DataHandler;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 
 /**
  * Class which handles the creation of bullets when the Player fires a weapon, and is also used for handling
@@ -112,6 +113,18 @@ public class Bullet extends Movable {
 
         if(System.currentTimeMillis() > timeToLive) {
             setAlive(false);
+        }
+    }
+
+
+
+    public void drawImage(Pane pane) {
+        pane.getChildren().add(getNode());
+    }
+
+    public void removeImage(Pane pane) {
+        if(isAlive()){
+            pane.getChildren().remove(getNode());
         }
     }
 

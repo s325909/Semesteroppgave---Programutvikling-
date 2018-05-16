@@ -169,12 +169,20 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Slider fx:id="musicSlider" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="14.0" prefWidth="350.0" snapToTicks="true" />
-                        <Text fx:id="musicNbr" fill="DARKRED" strokeType="OUTSIDE" strokeWidth="0.0" text="10">
-                           <font>
-                              <Font name="Copperplate Gothic Bold" size="24.0" />
-                           </font>
-                        </Text>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="350.0">
+                           <children>
+                              <Slider fx:id="musicSlider" blockIncrement="1.0" majorTickUnit="1.0" minorTickCount="0" prefWidth="350.0" snapToTicks="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="40.0">
+                           <children>
+                              <Text fx:id="musicNbr" fill="DARKRED" strokeType="OUTSIDE" strokeWidth="0.0" text="100" wrappingWidth="53.36328125">
+                                 <font>
+                                    <Font name="Copperplate Gothic Bold" size="24.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -188,12 +196,20 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Slider fx:id="soundSlider" blockIncrement="1.0" max="10.0" prefWidth="350.0" />
-                        <Text fx:id="soundNbr" fill="DARKRED" strokeType="OUTSIDE" strokeWidth="0.0" text="10">
-                           <font>
-                              <Font name="Copperplate Gothic Bold" size="24.0" />
-                           </font>
-                        </Text>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="350.0">
+                           <children>
+                              <Slider fx:id="soundSlider" blockIncrement="1.0" majorTickUnit="1.0" minorTickCount="0" prefWidth="350.0" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="50.0">
+                           <children>
+                              <Text fx:id="soundNbr" fill="DARKRED" strokeType="OUTSIDE" strokeWidth="0.0" text="100">
+                                 <font>
+                                    <Font name="Copperplate Gothic Bold" size="24.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
                   <Button fx:id="backSettings" mnemonicParsing="false" onAction="#showMenuElement" text="Back" />

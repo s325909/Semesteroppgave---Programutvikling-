@@ -26,9 +26,15 @@ public class Movable extends Entity {
     private double newRotation;
     private double movementSpeed;
 
-    private long soundWaitTime;
+    private long idleSoundWait;
+    private long walkSoundWait;
     private AudioClip[] audioClips;
     private Direction direction;
+
+    Movable(AnimationHandler allAnimation, AudioClip[] audioClips, int positionX, int positionY) {
+        super(allAnimation, positionX, positionY);
+        this.audioClips = audioClips;
+    }
 
     /**
      * Constructor which creates an AnimationHandler to handle the Entity's Images, and creates a Node
@@ -42,8 +48,7 @@ public class Movable extends Entity {
      * @param movementSpeed Requires a number to decide the object's movementspeed, which in turn is set as the object's velocity.
      */
     Movable(AnimationHandler allAnimation, AudioClip[] audioClips, int positionX, int positionY, int healthPoints, double movementSpeed) {
-        super(allAnimation, positionX, positionY);
-        this.audioClips = audioClips;
+        this(allAnimation, audioClips, positionX, positionY);
         this.healthPoints = healthPoints;
         this.movementSpeed = movementSpeed;
         this.velocityX = 0;
@@ -170,14 +175,14 @@ public class Movable extends Entity {
         int clipIndex = 0;
 
         if (!audioClips[clipIndex].isPlaying()) {
-            if (currentTime > soundWaitTime) {
+            if (currentTime > idleSoundWait) {
                 double random = Math.random();
                 int duration = 0;
                 if (random > minThreshold) {
                     duration = (int) (random * (maxSeconds * 1000));
                 }
                 playSound(0, 1);
-                soundWaitTime = currentTime + duration;
+                idleSoundWait = currentTime + duration;
             }
         }
     }
@@ -216,11 +221,23 @@ public class Movable extends Entity {
         setNewRotation(movementCfg.rotation);
     }
 
+    public void walkSound(int clipLength) {
+        long currentTime = System.currentTimeMillis();
+        int i = 1;
+
+        if(!audioClips[i].isPlaying()) {
+            if (currentTime > walkSoundWait) {
+                playSound(i, 1);
+                walkSoundWait = currentTime + clipLength;
+            }
+        }
+    }
+
     public void hitSound(int damage) {
+        double random = Math.random();
         int i;
 
         if (healthPoints > damage) {
-            double random = Math.random();
             if (random > 0.5)
                 i = 2;
             else

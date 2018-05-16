@@ -1,6 +1,5 @@
 package main;
 
-import gameCode.GameInitializer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,11 +17,7 @@ import java.util.ResourceBundle;
  */
 public class MainController implements Initializable{
 
-    private Stage windowLoading, windowSettings, windowHowToPlay;
-    private Parent rootLoading, rootSettings, rootHowToPlay;
-
-    @FXML
-    Button newGame, loadGame, credits, howToPlay, exit;
+    @FXML Button newGame, loadGame, howToPlay, credits, exit;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {}
@@ -35,17 +30,14 @@ public class MainController implements Initializable{
     public void launchGame(){
         try{
             Stage stage = (Stage) newGame.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gameCode/GameWindow.fxml"));
+            URL url = getClass().getResource("/gameCode/GameWindow.fxml");
+            FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
-            Scene scene = new Scene(root);
-            GameInitializer controller = loader.getController();
-            controller.setDifficulty();
-            scene.getStylesheets().add(getClass().getResource("../menuOptions/StylesMenu.css").toExternalForm());
+            Scene scene = new Scene(root, 1280, 720);
             stage.setScene(scene);
             stage.show();
-
-        }catch (IOException io){
-            io.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -54,17 +46,17 @@ public class MainController implements Initializable{
      */
     @FXML
     public void openLoadMenu(){
-
-        try {
-            windowLoading = (Stage) loadGame.getScene().getWindow();
-            rootLoading = FXMLLoader.load(getClass().getResource("../menuOptions/Loading.fxml"));
+        try{
+            Stage stage = (Stage) loadGame.getScene().getWindow();
+            URL url = getClass().getResource("/menuOptions/Loading.fxml");
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 1280, 720);
+            stage.setScene(scene);
+            stage.show();
         } catch (Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
-
-        Scene loadScene = new Scene(rootLoading, 1280, 720);
-        windowLoading.setScene(loadScene);
-        windowLoading.show();
     }
 
     /**
@@ -72,18 +64,18 @@ public class MainController implements Initializable{
      * @throws IOException when loading the fxml.
      */
     @FXML
-    public void openHowToPlay() throws IOException{
-        try {
-            windowHowToPlay = (Stage) howToPlay.getScene().getWindow();
-            rootHowToPlay = FXMLLoader.load(getClass().getResource("../menuOptions/HowToPlay.fxml"));
-
+    public void openHowToPlay() {
+        try{
+            Stage stage = (Stage) howToPlay.getScene().getWindow();
+            URL url = getClass().getResource("/menuOptions/HowToPlay.fxml");
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 1280, 720);
+            stage.setScene(scene);
+            stage.show();
         } catch (Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
-
-        Scene howToPlayScene = new Scene(rootHowToPlay, 1280, 720);
-        windowHowToPlay.setScene(howToPlayScene);
-        windowHowToPlay.show();
     }
 
     /**
@@ -91,16 +83,17 @@ public class MainController implements Initializable{
      */
     @FXML
     public void openCredits() throws IOException{
-        try {
-            windowSettings = (Stage) credits.getScene().getWindow();
-            rootSettings = FXMLLoader.load(getClass().getResource("../menuOptions/Credits.fxml"));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        try{
+            Stage stage = (Stage) credits.getScene().getWindow();
+            URL url = getClass().getResource("/menuOptions/Credits.fxml");
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 1280, 720);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e){
+            e.printStackTrace();
         }
-
-        Scene settingsScene = new Scene(rootSettings, 1280, 720);
-        windowSettings.setScene(settingsScene);
-        windowSettings.show();
     }
 
     /**
@@ -108,9 +101,7 @@ public class MainController implements Initializable{
      */
     @FXML
     public void exitGame(){
-
-        Stage stage = (Stage)
-                exit.getScene().getWindow();
+        Stage stage = (Stage) exit.getScene().getWindow();
         stage.close();
     }
 }
