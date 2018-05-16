@@ -65,18 +65,27 @@ public class GameInitializer implements Initializable{
                 String.valueOf((int)(assetsHandler.getSoundVolume() * 100))
         );
 
+        musicSlider.setValue(0);
+        musicNbr.setText(
+                String.valueOf(0)
+        );
+        soundSlider.setValue(0);
+        soundNbr.setText(
+                String.valueOf(0)
+        );
+
         // Listener which detects slider value change, and updates both the number next to the slider and the volume of the MediaPlayer
         musicSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             musicNbr.setText(String.valueOf((int)musicSlider.getValue()));
-            assetsHandler.getMediaPlayer().setVolume(musicSlider.getValue() / 100);
+            //assetsHandler.getMediaPlayer().setVolume(musicSlider.getValue() / 100);
         });
 
         // Listener which detects slider value change, and updates both the number next to the slider and the volume of the Game's AudioClips
         soundSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             soundNbr.setText(String.valueOf((int)soundSlider.getValue()));
-            for(int i = 0; i < game.getAllAudioClips().length; i++) {
-                game.getAllAudioClips()[i].setVolume(soundSlider.getValue() / 100);
-            }
+//            for(int i = 0; i < game.getAllAudioClips().length; i++) {
+//                game.getAllAudioClips()[i].setVolume(soundSlider.getValue() / 100);
+//            }
         });
 
         selectDifficulty();

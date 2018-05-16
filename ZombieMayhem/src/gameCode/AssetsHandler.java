@@ -1,5 +1,8 @@
 package gameCode;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
@@ -47,57 +50,56 @@ public class AssetsHandler {
      */
     private void loadAssets() {
 
-        String musicFile = "src/resources/Sound/Soundtrack/Doom2.mp3";
+        String musicFile = "./Resources/Sound/Soundtrack/Doom2.mp3";
         mediaPlayer = loadMusic(musicFile, musicVolume);
-
 
 
         ////////// Create Player's sounds. Turns Strings into usable AudioClips //////////
         String[] playerSounds = {
-                "/resources/Sound/Sound Effects/Player/player_breathing_calm.wav",
-                "/resources/Sound/Sound Effects/Player/2footsteps.wav",
-                "/resources/Sound/Sound Effects/Player/soft_grunt.wav",
-                "/resources/Sound/Sound Effects/Player/rough_grunt.wav",
-                "/resources/Sound/Sound Effects/Player/death_grunt.wav"
+                "./Resources/Sound/Sound Effects/Player/player_breathing_calm.wav",
+                "./Resources/Sound/Sound Effects/Player/2footsteps.wav",
+                "./Resources/Sound/Sound Effects/Player/soft_grunt.wav",
+                "./Resources/Sound/Sound Effects/Player/rough_grunt.wav",
+                "./Resources/Sound/Sound Effects/Player/death_grunt.wav"
         };
 
         String[] weaponSounds = {
-                "/resources/Sound/Sound Effects/Player/Knife/knife_swish.mp3",
-                "/resources/Sound/Sound Effects/Player/Pistol/pistol_shot.wav",
-                "/resources/Sound/Sound Effects/Player/Pistol/pistol_reload.mp3",
-                "/resources/Sound/Sound Effects/Player/Rifle/rifle_shot.wav",
-                "/resources/Sound/Sound Effects/Player/Rifle/rifle_reload.mp3",
-                "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_shot.wav",
-                "/resources/Sound/Sound Effects/Player/Shotgun/shotgun_reload.wav",
-                "/resources/Sound/Sound Effects/Player/weapon_empty.mp3"
+                "./Resources/Sound/Sound Effects/Player/Knife/knife_swish.mp3",
+                "./Resources/Sound/Sound Effects/Player/Pistol/pistol_shot.wav",
+                "./Resources/Sound/Sound Effects/Player/Pistol/pistol_reload.mp3",
+                "./Resources/Sound/Sound Effects/Player/Rifle/rifle_shot.wav",
+                "./Resources/Sound/Sound Effects/Player/Rifle/rifle_reload.mp3",
+                "./Resources/Sound/Sound Effects/Player/Shotgun/shotgun_shot.wav",
+                "./Resources/Sound/Sound Effects/Player/Shotgun/shotgun_reload.wav",
+                "./Resources/Sound/Sound Effects/Player/weapon_empty.mp3"
         };
 
         ////////// Create Player's animations. Combines several arrays into one //////////
         FileParam[] knife = {
-                new FileParam("/resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20),
-                new FileParam("/resources/Art/Player/knife/move/survivor-move_knife_", ".png", 20),
-                new FileParam("/resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_", ".png", 15)
+                new FileParam("./Resources/Art/Player/knife/idle/survivor-idle_knife_", ".png", 20),
+                new FileParam("./Resources/Art/Player/knife/move/survivor-move_knife_", ".png", 20),
+                new FileParam("./Resources/Art/Player/knife/meleeattack/survivor-meleeattack_knife_", ".png", 15)
         };
 
         FileParam[] pistol = {
-                new FileParam("/resources/Art/Player/handgun/idle/survivor-idle_handgun_", ".png", 20),
-                new FileParam("/resources/Art/Player/handgun/move/survivor-move_handgun_", ".png", 20),
-                new FileParam("/resources/Art/Player/handgun/shoot/survivor-shoot_handgun_", ".png", 3),
-                new FileParam("/resources/Art/Player/handgun/reload/survivor-reload_handgun_", ".png", 15)
+                new FileParam("./Resources/Art/Player/handgun/idle/survivor-idle_handgun_", ".png", 20),
+                new FileParam("./Resources/Art/Player/handgun/move/survivor-move_handgun_", ".png", 20),
+                new FileParam("./Resources/Art/Player/handgun/shoot/survivor-shoot_handgun_", ".png", 3),
+                new FileParam("./Resources/Art/Player/handgun/reload/survivor-reload_handgun_", ".png", 15)
         };
 
         FileParam[] rifle = {
-                new FileParam("/resources/Art/Player/rifle/idle/survivor-idle_rifle_", ".png", 20),
-                new FileParam("/resources/Art/Player/rifle/move/survivor-move_rifle_", ".png", 20),
-                new FileParam("/resources/Art/Player/rifle/shoot/survivor-shoot_rifle_", ".png", 3),
-                new FileParam("/resources/Art/Player/rifle/reload/survivor-reload_rifle_", ".png", 20)
+                new FileParam("./Resources/Art/Player/rifle/idle/survivor-idle_rifle_", ".png", 20),
+                new FileParam("./Resources/Art/Player/rifle/move/survivor-move_rifle_", ".png", 20),
+                new FileParam("./Resources/Art/Player/rifle/shoot/survivor-shoot_rifle_", ".png", 3),
+                new FileParam("./Resources/Art/Player/rifle/reload/survivor-reload_rifle_", ".png", 20)
         };
 
         FileParam[] shotgun = {
-                new FileParam("/resources/Art/Player/shotgun/idle/survivor-idle_shotgun_", ".png", 20),
-                new FileParam("/resources/Art/Player/shotgun/move/survivor-move_shotgun_", ".png", 20),
-                new FileParam("/resources/Art/Player/shotgun/shoot/survivor-shoot_shotgun_", ".png", 3),
-                new FileParam("/resources/Art/Player/shotgun/reload/survivor-reload_shotgun_", ".png", 20)
+                new FileParam("./Resources/Art/Player/shotgun/idle/survivor-idle_shotgun_", ".png", 20),
+                new FileParam("./Resources/Art/Player/shotgun/move/survivor-move_shotgun_", ".png", 20),
+                new FileParam("./Resources/Art/Player/shotgun/shoot/survivor-shoot_shotgun_", ".png", 3),
+                new FileParam("./Resources/Art/Player/shotgun/reload/survivor-reload_shotgun_", ".png", 20)
         };
 
         FileParam[][] all = {
@@ -116,45 +118,43 @@ public class AssetsHandler {
         }
 
 
-
         // Create Zombie's animations
         String[] zombieSounds = {
-                "/resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
-                "/resources/Sound/Sound Effects/Zombie/zombie_walk.aiff",
-                "/resources/Sound/Sound Effects/Zombie/zombie_hit_1.wav",
-                "/resources/Sound/Sound Effects/Zombie/zombie_hit_2.wav",
-                "/resources/Sound/Sound Effects/Zombie/zombie_death.mp3"
+                "./Resources/Sound/Sound Effects/Zombie/zombie_grunt1.wav",
+                "./Resources/Sound/Sound Effects/Zombie/zombie_walk.aiff",
+                "./Resources/Sound/Sound Effects/Zombie/zombie_hit_1.wav",
+                "./Resources/Sound/Sound Effects/Zombie/zombie_hit_2.wav",
+                "./Resources/Sound/Sound Effects/Zombie/zombie_death.mp3"
         };
 
         FileParam[] zombieAnimations = {
-                new FileParam("/resources/Art/Zombie/skeleton-idle_", ".png", 17),
-                new FileParam("/resources/Art/Zombie/skeleton-move_", ".png", 17),
-                new FileParam("/resources/Art/Zombie/skeleton-attack_", ".png", 9)
+                new FileParam("./Resources/Art/Zombie/skeleton-idle_", ".png", 17),
+                new FileParam("./Resources/Art/Zombie/skeleton-move_", ".png", 17),
+                new FileParam("./Resources/Art/Zombie/skeleton-attack_", ".png", 9)
         };
 
         zombieAudioClips = loadAudio(zombieSounds, soundVolume);
         zombieImages = loadAnimation(zombieAnimations);
 
 
-
         ////////// Create all of Drop's images and animations //////////
         String[] dropSounds = {
-                "/resources/Sound/Sound Effects/Drop/coin_pickup.wav",
-                "/resources/Sound/Sound Effects/Drop/health_pickup.wav",
-                "/resources/Sound/Sound Effects/Drop/armor_pickup.wav",
-                "/resources/Sound/Sound Effects/Drop/ammo_pickup.wav"
+                "./Resources/Sound/Sound Effects/Drop/coin_pickup.wav",
+                "./Resources/Sound/Sound Effects/Drop/health_pickup.wav",
+                "./Resources/Sound/Sound Effects/Drop/armor_pickup.wav",
+                "./Resources/Sound/Sound Effects/Drop/ammo_pickup.wav"
         };
 
         FileParam scoreDrop = new FileParam(
-                "/resources/Art/Icon/Coin/coin_rotate_", ".png", 6
+                "./Resources/Art/Icon/Coin/coin_rotate_", ".png", 6
         );
 
-        String[] dropImageStrings = new String[] {
-                "/resources/Art/Icon/hp_icon.png",
-                "/resources/Art/Icon/armor_icon.png",
-                "/resources/Art/Icon/pistol_ammo.png",
-                "/resources/Art/Icon/rifle_ammo.png",
-                "/resources/Art/Icon/shotgun_ammo.png"
+        String[] dropImageStrings = new String[]{
+                "./Resources/Art/Icon/hp_icon.png",
+                "./Resources/Art/Icon/armor_icon.png",
+                "./Resources/Art/Icon/pistol_ammo.png",
+                "./Resources/Art/Icon/rifle_ammo.png",
+                "./Resources/Art/Icon/shotgun_ammo.png"
         };
 
         this.dropSounds = loadAudio(dropSounds, soundVolume);
@@ -166,21 +166,19 @@ public class AssetsHandler {
         shotgunDropImages = createImage(dropImageStrings[4], 25, 25);
 
 
-
         ////////// Create all of Bullet's images //////////
         String[] bulletImageStrings = {
-                "/resources/Art/Icon/pistol_bullet.png",
-                "/resources/Art/Icon/single_rifle_bullet.png"
+                "./ResourcesArt/Icon/pistol_bullet.png",
+                "./Resources/Art/Icon/single_rifle_bullet.png"
         };
 
         pistolBulletImaqe = createImage(bulletImageStrings[0], 25, 25);
-        rifleBulletImage = createImage(bulletImageStrings[1], 25 ,25);
-
+        rifleBulletImage = createImage(bulletImageStrings[1], 25, 25);
 
 
         ////////// Create all of Rock's images //////////
         String[] rockImageStrings = {
-                "/resources/Art/Icon/rock.png"
+                "./Resources/Art/Icon/rock.png"
         };
 
         rockImage = createImage(rockImageStrings[0], 50, 50);
@@ -208,8 +206,12 @@ public class AssetsHandler {
     private AudioClip[] loadAudio(String[] audioFiles, double volume) {
         AudioClip[] clips = new AudioClip[audioFiles.length];
         for(int i = 0; i < clips.length; i++) {
-            clips[i] = new AudioClip(this.getClass().getResource(audioFiles[i]).toExternalForm());
-            clips[i].setVolume(volume);
+            try {
+                clips[i] = new AudioClip(this.getClass().getResource(audioFiles[i]).toExternalForm());
+                clips[i].setVolume(volume);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
         return clips;
     }
@@ -270,28 +272,26 @@ public class AssetsHandler {
         return image;
     }
 
-    /**
-     * Method which turns an array of type String into sets of Images, where each Image is put into single arrays of length 1.
-     * @param images Requires an array of type String, and uses each of these Strings to create an Image.
-     */
-    private void createDropImages(String[] images) {
-        this.hpDropImages = new Image[1];
-        this.hpDropImages[0] = new Image(images[0], 25, 25, true, false);
-        this.armorDropImages = new Image[1];
-        this.armorDropImages[0] = new Image(images[1], 25, 25, true, false);
-        this.pistolDropImages = new Image[1];
-        this.pistolDropImages[0] = new Image(images[2], 25, 25, true, false);
-        this.rifleDropImages = new Image[1];
-        this.rifleDropImages[0] = new Image(images[3], 25, 25, true, false);
-        this.shotgunDropImages = new Image[1];
-        this.shotgunDropImages[0] = new Image(images[4], 25, 25, true, false);
+    private void fileAlert() {
+
+        ButtonType resume = new ButtonType("Resume", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.getButtonTypes().setAll(resume);
+        alert.setHeaderText(null);
+
+        alert.setTitle("Assets loading error");
+        alert.contentTextProperty().set("Unable to find assets");
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == resume) {
+            }
+        });
     }
 
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }
-
-
 
     public AudioClip[] getBasicSounds() {
         return basicSounds;
