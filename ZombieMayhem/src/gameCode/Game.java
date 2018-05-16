@@ -54,7 +54,7 @@ public class Game {
     private AssetsHandler assetsHandler;
     private DataHandler dataHandler;
 
-    final private boolean DEBUG = true;
+    final private boolean DEBUG = false;
 
     /**
      * Constructor which sets all starting attributes, and then creates and starts an AnimationTimer.
@@ -220,8 +220,8 @@ public class Game {
             // Damage Player if colliding with zombie attack
             for (Bullet zombieAttack : zombie.getAttackList()) {
                 if(zombieAttack.isColliding(player)) {
-                    player.receivedDamage(zombieAttack.getDamage());
                     player.hitSound(zombieAttack.getDamage());
+                    player.receivedDamage(zombieAttack.getDamage());
                     zombieAttack.setAlive(false);
                 }
             }
@@ -259,9 +259,9 @@ public class Game {
         wholeWorld.addAll(bullets);
         wholeWorld.addAll(drops);
         wholeWorld.addAll(rocks);
-        for (Zombie zombie : zombies) {
-            wholeWorld.addAll(zombie.getAttackList());
-        }
+//        for (Zombie zombie : zombies) {
+//            wholeWorld.addAll(zombie.getAttackList());
+//        }
 
         // Draw all Entities in List
         for (Entity entity : wholeWorld) {
@@ -311,13 +311,13 @@ public class Game {
 
     /***
      * Method which handles user input.
-     * pressEvent() method call in Player handles movement of the Player object itself.
+     * pressedEvent() method call in Player handles movement of the Player object itself.
      */
-    public void getKeyPressed(){
+    void getKeyPressed(){
 
 
         gameWindow.getScene().setOnKeyPressed(e -> {
-            player.pressEvent(e);
+            player.pressedEvent(e);
             if (e.getCode() == KeyCode.BACK_SPACE) {
                 removeZombies();
 
@@ -343,7 +343,7 @@ public class Game {
     }
 
     /**
-     * Method which creates and draws the Player object for use in the Game.
+     * Method which creates the Player object.
      */
     private void createPlayer(Game.Difficulty difficulty) {
         try {
@@ -356,6 +356,7 @@ public class Game {
 
     /**
      * Method which creates and draws the Rock objects for use in the Game.
+     * Information about these rocks are stored in a separate .xml file.
      */
     private void createRocks() {
         DataHandler.GameConfiguration rockCfg = new DataHandler.GameConfiguration();
@@ -393,6 +394,8 @@ public class Game {
 
     /**
      * Method for creating Zombies at random location.
+     * This location is checked twice; first to avoid placing a Zombie on a Rock,
+     * second, through getRandomPosition call, to avoid placing on the Player.
      * Healthpoints of each Zombie is dependent on the Difficulty.
      * @param nbrZombies Requires a number to determine how many Zombies to create.
      */
@@ -421,7 +424,6 @@ public class Game {
                     }
                 }
                 this.zombies.add(zombie);
-
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -505,6 +507,7 @@ public class Game {
 
     /**
      * Method which updates the Game's score value based on the Difficulty.
+     * Method is called when a Zombie dies.
      */
     public void scorePerKill() {
         switch(difficulty) {
@@ -571,7 +574,7 @@ public class Game {
      * and a false return will display an Alert to the user.
      * @param filename Requires a String to represent the name of the file.
      */
-    public boolean saveGame(String filename) {
+    boolean saveGame(String filename) {
         DataHandler.GameConfiguration gameCfg = getGameConfiguration();
 
         if (dataHandler.createSaveFile(filename, gameCfg)) {
@@ -600,7 +603,7 @@ public class Game {
      * display an Alert to the user.
      * @param filename Requires a String which represents the name of the file.
      */
-    public boolean loadGame(String filename) {
+    boolean loadGame(String filename) {
         DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
 
         if (dataHandler.readSaveFile(filename, gameCfg)) {
@@ -752,7 +755,7 @@ public class Game {
     /**
      * Method for removing all Zombies in the Game.
      */
-    void removeZombies() {
+    private void removeZombies() {
         for (Zombie zombie : zombies) {
             gameWindow.getChildren().removeAll(zombie.getNode(), zombie.getAnimationHandler().getImageView());
             zombie.setAlive(false);
@@ -825,6 +828,11 @@ public class Game {
         }
     }
 
+    /**
+     * Method which retrieves all AudioClips in the Game, and combines them to a large one.
+     * This method is called GameInitializer, and during sound volume change in the in-game menu.
+     * @return Requires a combined array with all AudioClips.
+     */
     public AudioClip[] getAllAudioClips() {
         int basicLength = assetsHandler.getBasicSounds().length;
         int weaponLength = assetsHandler.getWeaponSounds().length;
@@ -848,7 +856,7 @@ public class Game {
     /**
      * Method which mutes/unmutes the MediaPlayer each time M key is pressed during Game.getKeyPressed().
      */
-    public void muteMediaPlayer() {
+    private void muteMediaPlayer() {
         if(!muted) {
             assetsHandler.getMediaPlayer().setMute(true);
             muted = true;
@@ -899,7 +907,6 @@ public class Game {
         this.gameOver = gameOver;
     }
 
-
     private void setRoundNumber(int roundNumber) {
         this.roundNumber = roundNumber;
     }
@@ -908,7 +915,7 @@ public class Game {
         return roundNumber;
     }
 
-    public void setRunning(boolean running) {
+    void setRunning(boolean running) {
         this.running = running;
     }
 

@@ -31,6 +31,13 @@ public class Movable extends Entity {
     private AudioClip[] audioClips;
     private Direction direction;
 
+    /**
+     * Constructor which adds the ability to control and use AudioClips to the super class constructor.
+     * @param allAnimation Requires an AnimationHandler object, see AnimationHandler.
+     * @param audioClips Requires an array of type AudioClip, which must contain the desired sounds for the Entity.
+     * @param positionX Requires a desired X-coordinate of where to place the object.
+     * @param positionY Requires a desired Y-coordinate of where to place the object.
+     */
     Movable(AnimationHandler allAnimation, AudioClip[] audioClips, int positionX, int positionY) {
         super(allAnimation, positionX, positionY);
         this.audioClips = audioClips;
@@ -54,6 +61,26 @@ public class Movable extends Entity {
         this.velocityX = 0;
         this.velocityY = 0;
         this.direction = Direction.IDLE;
+    }
+
+    /**
+     * Method which handles animation, and updates the position and rotation of the Entity, and its Node and Image.
+     * @param time Requires the Game's timer.
+     */
+    @Override
+    public void update(double time) {
+        super.update(time);
+        // Update actual position of object
+        setPositionX(newPositionX);
+        setPositionY(newPositionY);
+
+        // Update position of the visible representation of the object (Node and Sprite)
+        getNode().setTranslateX(newPositionX);
+        getNode().setTranslateY(newPositionY);
+        getAnimationHandler().getImageView().setTranslateX(newPositionX);
+        getAnimationHandler().getImageView().setTranslateY(newPositionY);
+        getAnimationHandler().getImageView().setRotate(newRotation);
+        getNode().setRotate(newRotation);
     }
 
     /**
@@ -115,6 +142,11 @@ public class Movable extends Entity {
         direction = Direction.IDLE;
     }
 
+    /**
+     * Method which moves a object back a bit, such as if collision is true.
+     * Currently not used.
+     * @param object Requires a Movable object to adjust.
+     */
     public void moveAway(Movable object) {
         double diffx = (object.getPositionX()) - getPositionX();
         double diffy = (object.getPositionY()) - getPositionY();
@@ -148,28 +180,19 @@ public class Movable extends Entity {
     }
 
     /**
-     * Method which handles animation, and updates the position and rotation of the Entity, and its Node and Image.
-     * @param time Requires the Game's timer.
+     * Method which is run instead of the super class equivalent as not all Movable objects require to update animation.
      */
-    @Override
-    public void update(double time) {
-        super.update(time);
-        // Update actual position of object
-        setPositionX(newPositionX);
-        setPositionY(newPositionY);
-        // Update position of the visible representation of the object (Node and Sprite)
-        getNode().setTranslateX(newPositionX);
-        getNode().setTranslateY(newPositionY);
-        getAnimationHandler().getImageView().setTranslateX(newPositionX);
-        getAnimationHandler().getImageView().setTranslateY(newPositionY);
-        getAnimationHandler().getImageView().setRotate(newRotation);
-        getNode().setRotate(newRotation);
-    }
-
     public void updateAnimation() {
-
     }
 
+    /**
+     * Method which plays a sound every now and then, in order to simulate idle sounds Entities may create.
+     * @param minThreshold Double between 0 and 1 to determine often method will run.
+     *                     Number is compared to a Math.random number.
+     * @param maxSeconds Requires a number to represent the maximum time between
+     *                   each time the sound can be played. minThreshold value times
+     *                   this value equates to minimum time.
+     */
     public void playIdleSound(double minThreshold, int maxSeconds ) {
         long currentTime = System.currentTimeMillis();
         int clipIndex = 0;
@@ -185,6 +208,59 @@ public class Movable extends Entity {
                 idleSoundWait = currentTime + duration;
             }
         }
+    }
+
+    /**
+     * Method for playing a sound every now and then whilst Entity is walking.
+     * Should ideally take in distance moved in order to determine when to play,
+     * especially for Zombie entities.
+     * @param clipLength Requires the length between each time the clip should play.
+     */
+    void walkSound(int clipLength) {
+        long currentTime = System.currentTimeMillis();
+        int i = 1;
+
+        if(!audioClips[i].isPlaying()) {
+            if (currentTime > walkSoundWait) {
+                playSound(i, 1);
+                walkSoundWait = currentTime + clipLength;
+            }
+        }
+    }
+
+    /**
+     * Method for playing a sound when Entity is hit.
+     * Player and Zombie has two hit sounds, and the method randomizes between playing the two.
+     * Plays a death sound if the Entity will die in the given hit.
+     * Checks if the clip is already playing.
+     * @param damage Requires a number to represent the damage received, which then
+     *               is used to determine whether the Entity will die in the next hit or not.
+     */
+    public void hitSound(int damage) {
+        double random = Math.random();
+        int i;
+
+        if (healthPoints > damage) {
+            if (random > 0.5)
+                i = 2;
+            else
+                i = 3;
+        } else
+            i = 4;
+
+        if (!audioClips[i].isPlaying())
+            playSound(i, 1);
+    }
+
+    /**
+     * Method for selecting a AudioClip, settings its playback rate/speed, and playing it.
+     * @param i Requires the index of the clip to play.
+     * @param rate Requires a number to set the rate/speed of which to play the clip.
+     *             A higher number equates to a quicker execution.
+     */
+    void playSound(int i, double rate) {
+        audioClips[i].setRate(rate);
+        audioClips[i].play();
     }
 
     /**
@@ -221,40 +297,17 @@ public class Movable extends Entity {
         setNewRotation(movementCfg.rotation);
     }
 
-    public void walkSound(int clipLength) {
-        long currentTime = System.currentTimeMillis();
-        int i = 1;
-
-        if(!audioClips[i].isPlaying()) {
-            if (currentTime > walkSoundWait) {
-                playSound(i, 1);
-                walkSoundWait = currentTime + clipLength;
-            }
-        }
+    /**
+     * Method which sets velocity in both directions simultaneously.
+     * @param velocityX Requires object's velocity in x-coordinate direction.
+     * @param velocityY Requires object's velocity in y-coordinate direction.
+     */
+    void setVelocity(double velocityX, double velocityY) {
+        this.velocityX = velocityX;
+        this.velocityY = velocityY;
     }
 
-    public void hitSound(int damage) {
-        double random = Math.random();
-        int i;
-
-        if (healthPoints > damage) {
-            if (random > 0.5)
-                i = 2;
-            else
-                i = 3;
-        } else
-            i = 4;
-
-        if (!audioClips[i].isPlaying())
-            playSound(i, 1);
-    }
-
-    public void playSound(int i, double rate) {
-        audioClips[i].setRate(rate);
-        audioClips[i].play();
-    }
-
-    public AudioClip[] getAudioClips() {
+    AudioClip[] getAudioClips() {
         return audioClips;
     }
 
@@ -294,16 +347,11 @@ public class Movable extends Entity {
         this.velocityY += velocityY;
     }
 
-    void setVelocity(double velocityX, double velocityY) {
-        this.velocityX = velocityX;
-        this.velocityY = velocityY;
-    }
-
-    public double getMovementSpeed() {
+    double getMovementSpeed() {
         return movementSpeed;
     }
 
-    public void setMovementSpeed(double movementSpeed) {
+    private void setMovementSpeed(double movementSpeed) {
         this.movementSpeed = movementSpeed;
     }
 
@@ -315,24 +363,25 @@ public class Movable extends Entity {
         this.direction = direction;
     }
 
-    public double getNewRotation() {
+    double getNewRotation() {
         return newRotation;
     }
 
-    public void setNewRotation(double newRotation) {
+    void setNewRotation(double newRotation) {
         this.newRotation = newRotation;
     }
 
     /**
-     * Inner class for handling length of animation
+     * Inner class used for handling animations that need to display a certain amount of time,
+     * before a new animation can be set and displayed.
      */
-    public class AnimationLengthPair {
+    class AnimationLengthPair {
         int animationType;
         int animationAction;
         long time;
         double duration;
 
-        public AnimationLengthPair(int type, int action, long time, double duration) {
+        AnimationLengthPair(int type, int action, long time, double duration) {
             this.animationType = type;
             this.animationAction = action;
             this.time = time;

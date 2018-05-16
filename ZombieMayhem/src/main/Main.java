@@ -8,6 +8,12 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    /**
+     * Main method which starts the application.
+     * MainMenu.fxml is loaded and grants the user control to create or load a game, and view resource credits.
+     * @param primaryStage Requires the stage of the application.
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         primaryStage.setResizable(false);

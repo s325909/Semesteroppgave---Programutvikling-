@@ -21,6 +21,12 @@ public class AnimationHandler {
     // Determines how quickly images should cycle. A value of 0.016 equates to about 60 frames/second.
     private double duration;
 
+    /**
+     * Constructor which turns a one dimensional Image array into a 3-dimensional one.
+     * Standard settings are set, the global width and height are set to the width and height of one of the images within the array,
+     * and that Image is then applied to the ImageView, which further may be used in conjunction with the gameWindow Pane.
+     * @param allImages Requires a one dimensional Image array.
+     */
     public AnimationHandler(Image[] allImages) {
         this.iv = new ImageView();
         this.frames = new Image[1][1][];
@@ -33,6 +39,12 @@ public class AnimationHandler {
         this.iv.setImage(this.frames[this.imageType][this.imageAction][0]);
     }
 
+    /**
+     * Constructor which turns a 2-dimensional Image array into a 3-dimensional one.
+     * Standard settings are set, the global width and height are set to the width and height of one of the images within the array,
+     * and that Image is then applied to the ImageView, which further may be used in conjunction with the gameWindow Pane.
+     * @param allImages Requires a one dimensional Image array.
+     */
     public AnimationHandler(Image[][] allImages) {
         this.iv = new ImageView();
         this.frames = new Image[1][][];
@@ -45,6 +57,12 @@ public class AnimationHandler {
         this.iv.setImage(this.frames[imageType][imageAction][0]);
     }
 
+    /**
+     * Constructor which handles a 3-dimensional array and transfers it to the global frames.
+     * Standard settings are set, the global width and height are set to the width and height of one of the images within the array,
+     * and that Image is then applied to the ImageView, which further may be used in conjunction with the gameWindow Pane.
+     * @param allImages Requires a one dimensional Image array.
+     */
     public AnimationHandler(Image[][][] allImages) {
         this.iv = new ImageView();
         this.frames = allImages;
@@ -56,12 +74,28 @@ public class AnimationHandler {
         this.iv.setImage(this.frames[imageType][imageAction][0]);
     }
 
-    public void setImageType(int index) {
+    /**
+     * Method for deciding which Image type to display; the row in the 3-dimensional array.
+     * This method is used in conjunction with Player, where Image type refers to which type of weapon to display;
+     * knife, pistol, rifle, shotgun.
+     *
+     * Once type and action is set, the appropriate one-dimensional Image array can display.
+     * @param index Requires index number.
+     */
+    void setImageType(int index) {
         if (index < frames.length)
             imageType = index;
     }
 
-    public void setImageAction(int index) {
+    /**
+     * Method for deciding which Image action to display; the column in the 3-dimensional array.
+     * This method is used in conjunction with Player, where Image action refers to which action the weapon Images should display;
+     * idle, melee, fire, reload.
+     *
+     * Once type and action is set, the appropriate one-dimensional Image array can display.
+     * @param index Requires index number.
+     */
+    void setImageAction(int index) {
         if (index < frames[imageType].length)
             this.imageAction = index;
     }

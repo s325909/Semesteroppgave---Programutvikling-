@@ -40,6 +40,23 @@ public class Entity{
     }
 
     /**
+     * Method which handles animation cycling via setFrame() call.
+     * @param time Requires the Game's timer.
+     */
+    public void update(double time) {
+        getAnimationHandler().setFrame(time);
+    }
+
+    /**
+     * Method for checking for collision between two Entity object's by using their given Nodes.
+     * @param otherEntity Requires an Entity object.
+     * @return Returns a boolean based on whether there is collision.
+     */
+    public boolean isColliding(Entity otherEntity) {
+        return this.node.getBoundsInParent().intersects(otherEntity.getNode().getBoundsInParent());
+    }
+
+    /**
      * Method which draws the ImageView and Node of the Entity to the gameWindow Pane.
      * Will draw the ImageView containing the Image to the gameWindow Pane, including the Node if DEBUG is set to true.
      * Sets the boolean drawn to true, as this method is continuously called in the onUpdate() method in Game, to duplicate Exception.
@@ -66,23 +83,6 @@ public class Entity{
                 game.getGameWindow().getChildren().remove(getNode());
             game.getGameWindow().getChildren().remove(getAnimationHandler().getImageView());
         }
-    }
-
-    /**
-     * Method which handles animation cycling via setFrame() call.
-     * @param time Requires the Game's timer.
-     */
-    public void update(double time) {
-        getAnimationHandler().setFrame(time);
-    }
-
-    /**
-     * Method for checking for collision between two Entity object's by using their given Nodes.
-     * @param otherEntity Requires an Entity object.
-     * @return Returns a boolean based on whether there is collision.
-     */
-    public boolean isColliding(Entity otherEntity) {
-        return this.node.getBoundsInParent().intersects(otherEntity.getNode().getBoundsInParent());
     }
 
     /**
@@ -117,6 +117,11 @@ public class Entity{
         this.node.setTranslateY(positionY);
     }
 
+    /**
+     * Method which sets positionX and positionY simultaneously.
+     * @param positionX Requires object's X-coordinate.
+     * @param positionY Requires object's Y-coordinate.
+     */
     void setPosition(int positionX, int positionY) {
         this.positionX = positionX;
         this.positionY = positionY;

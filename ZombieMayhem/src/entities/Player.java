@@ -14,6 +14,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+/**
+ * Class which handles all statistics and data about the Player object.
+ * This includes a number of things, such as health, armor, weapontype, ammunition, animation changes, and so on.
+ * It also handles interaction with a number of other Entities, and user input directed towards interaction with the Player.
+ */
 public class Player extends Movable {
 
     public enum WeaponTypes {
@@ -39,13 +44,30 @@ public class Player extends Movable {
     private long fireWaitTime;
     private List<PlayerDirection> directionButtonPressed;
 
-    private final int secondsInvulnerable = 3;
+    private final int secondsInvulnerable = 1;
 
+    /**
+     * Constructor for creating the Player and all its various data.
+     * Sets all default settings and states.
+     * It utilizes the inner class Magazine.
+     * @param images Requires a 3-dimensional Image array which contains a large number of Images.
+     *               Row index equates to type of weapon to display, and column to action of that type of weapon to display.
+     *               Once these two are set, a inner Image array contains a number of Images to represent this specific animation.
+     * @param basicSounds Requires an array of AudioClips which represent standard sounds such as walking, breathing, and grunting.
+     * @param weaponSounds Requires an array of AudioClips which represent a number of sounds relevant to the weapon type and action,
+     *                     and includes fire, reload, and empty sounds.
+     * @param bulletImages Requires an array of Images in order to create Bullets with difference looks.
+     *                     The Bullets are created when a weapon is fired.
+     * @param positionX Requires X-coordinate of where to place the Player.
+     * @param positionY Requires Y-coordinate of where to place the Player.
+     * @param healthPoints Requires a starting set of health points.
+     * @param armor Requires a starting set of armor points.
+     */
     public Player(Image[][][] images, AudioClip[] basicSounds, AudioClip[] weaponSounds, Image[] bulletImages, int positionX, int positionY, int healthPoints, int armor) {
         super(new AnimationHandler(images), basicSounds, positionX, positionY, healthPoints, 2.5);
         this.weaponSounds = weaponSounds;
         this.bulletImages = bulletImages;
-        this.animationQueue = new LinkedList<AnimationLengthPair>();
+        this.animationQueue = new LinkedList<>();
         this.waitTime = 0;
         setEquippedWeapon(WeaponTypes.KNIFE);
         setAnimation(0,0, 0);
@@ -59,46 +81,12 @@ public class Player extends Movable {
         directionButtonPressed = new ArrayList<>();
     }
 
-    public void action() {
-        setVelocity(0, 0);
-        for (PlayerDirection playerDirection : directionButtonPressed) {
-            switch (playerDirection) {
-                case LEFT:
-                    addVelocityX(-getMovementSpeed());
-                    walkSound(1000);
-                    break;
-                case RIGHT:
-                    addVelocityX(getMovementSpeed());
-                    walkSound(1000);
-                    break;
-                case UP:
-                    addVelocityY(-getMovementSpeed());
-                    walkSound(1000);
-                    break;
-                case DOWN:
-                    addVelocityY(getMovementSpeed());
-                    walkSound(1000);
-                    break;
-                case FIRE:
-                    fire();
-                    break;
-                case RELOAD:
-                    reload();
-                    break;
-            }
-        }
-    }
-
     /***
-     * Method which sets current animation set to be used, together with the required sound clips necessary.
-     * Upon WASD or Arrow Key input, the walking animation of each sprite set is selected.
-     * When pressing E, the melee animation of the knife set is selected.
-     * When pressing Space, the fire or knife animation of the set is selected.
-     * When pressing 1-4, the user may switch between the various sets of animations.
-     * Finally adds the now selected i and j int values as indexes in a 2-dimensional array.
-     * @param keyEvent Handles user input via the pressing of a key.
+     * Method used in conjunction with action() method, and adds which button is being pressed to a List.
+     * It handles simultaneous button pressing in movement directions.
+     * Also allows the user to switch between weapons.
      */
-    public void pressEvent(KeyEvent keyEvent){
+    public void pressedEvent(KeyEvent keyEvent){
         if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
             if (!directionButtonPressed.contains(PlayerDirection.LEFT))
                 directionButtonPressed.add(PlayerDirection.LEFT);
@@ -143,10 +131,9 @@ public class Player extends Movable {
     }
 
     /***
-     * Method which handles key released events of the user input that affects the Player.
-     * The animation set for each Weapon is set to the idle state, and put into the setAnimation().
-     * As for visual bulletDirection, the player stops in the direction they were moving.
-     * @param keyEvent Handles user input via the release of a key.
+     * Method used in conjunction with action() method, and removes the button being released from the List.
+     * It handles simultaneous button pressing in movement directions.
+     * Upon release of fire and reload buttons, it also returns the animation back to idle.
      */
     public void releasedEvent(KeyEvent keyEvent){
         if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
@@ -197,11 +184,47 @@ public class Player extends Movable {
         }
     }
 
+    /**
+     * Method which sets velocity, AudioClip and/or calls method based on input action in the List.
+     * The input actions are added and removed during pressedEvent() and releasedEvent().
+     */
+    public void action() {
+        setVelocity(0, 0);
+        for (PlayerDirection playerDirection : directionButtonPressed) {
+            switch (playerDirection) {
+                case LEFT:
+                    addVelocityX(-getMovementSpeed());
+                    walkSound(1000);
+                    break;
+                case RIGHT:
+                    addVelocityX(getMovementSpeed());
+                    walkSound(1000);
+                    break;
+                case UP:
+                    addVelocityY(-getMovementSpeed());
+                    walkSound(1000);
+                    break;
+                case DOWN:
+                    addVelocityY(getMovementSpeed());
+                    walkSound(1000);
+                    break;
+                case FIRE:
+                    fire();
+                    break;
+                case RELOAD:
+                    reload();
+                    break;
+            }
+        }
+    }
+
     /***
-     * Method for running the changeBulletNumber() method in Magazine, and playing the appropriate sound.
-     * Adds a check to ensure that the magazine isn't empty. This check ensures to correctly perform the
-     * method for changing the number and playing the appropriate sound. If the magazine is empty, the
-     * reloadMagazine() method will be run.
+     * Method which handles a weapon being fired.
+     * It sets a duration time between each time the weapon can be fired, based on the variable fire rate in milliseconds.
+     * It sets where the Bullet should be created, and then creates the Bullet based on which weapon that is equipped.
+     * It sets which animation to display, how long to display it, and the sound to play.
+     *
+     * Where the Bullet is created requires some improvement, and there should be more shotgun pellets and their direction adjusted.
      */
     private void fire() {
         long currentTime = System.currentTimeMillis();
@@ -375,9 +398,10 @@ public class Player extends Movable {
     }
 
     /***
-     * Method for running the reloadMagazine() method in Magazine, and playing the appropriate sound.
-     * Adds a check to ensure that the magazine isn't full and that there is ammunition left in the pool.
-     * This check ensures to correctly perform the method for changing the number and playing the appropriate sound.
+     * Method for reloading the weapon.
+     * Sets a variable fire rate in milliseconds to determine how often a reload may be called.
+     * Checks to make sure there is bullets in the pool, and that the magazine isn't full.
+     * Changes animation to correct one, and plays a sound.
      */
     private void reload() {
         long currentTime = System.currentTimeMillis();
@@ -411,10 +435,11 @@ public class Player extends Movable {
     }
 
     /**
-     *
-     * @param animationType
-     * @param animationAction
-     * @param animationLength
+     * Method for handling animations and queuing them.
+     * Sets the duration of the animation, which affects how quickly each Image should cycle.
+     * @param animationType Requires a number in order to retrieve weapon type.
+     * @param animationAction Requires a number in order to retrieve action type.
+     * @param animationLength Requires a number to determine how long the queue should last.
      */
     private void setAnimation(int animationType, int animationAction, int animationLength) {
         boolean inQueue = false;
@@ -434,7 +459,8 @@ public class Player extends Movable {
     }
 
     /**
-     *
+     * Method for updating the animation and handling the queue order set, so that an animation
+     * can be set to play through before a new one can be set.
      */
     @Override
     public void updateAnimation() {
@@ -452,9 +478,7 @@ public class Player extends Movable {
 
     /**
      * Method which will reset the Player's stats.
-     * These include position, healthpoints, armor, and ammunition of each weaponSounds.
      */
-
     public void resetPlayer(Game.Difficulty difficulty) {
         setPosition(1280/2,720/2);
         setTranslateNode(1280/2, 720/2);
@@ -523,7 +547,7 @@ public class Player extends Movable {
      * @param hpChange Requires a positive integer to represent the amount of
      *                 healthpoints that the Player has picked up.
      */
-    public void healthPickup(int hpChange) {
+    void healthPickup(int hpChange) {
         if (this.getHealthPoints() + hpChange <= 100)
             this.setHealthPoints(this.getHealthPoints() + hpChange);
         else
@@ -536,7 +560,7 @@ public class Player extends Movable {
      * @param armorChange Requires a positive integer to represent the amount of
      *                    armor that the Player has picked up.
      */
-    public void armorPickup(int armorChange) {
+    void armorPickup(int armorChange) {
         if (this.getArmor() + armorChange <= 200)
             this.setArmor(this.getArmor() + armorChange);
         else
@@ -577,11 +601,21 @@ public class Player extends Movable {
         }
     }
 
+    /**
+     * Method for playing a sound when Player is hit.
+     * Functions as super class equivalent, but as the Player also has armor, this amount must also be checked.
+     * @param damage Requires a number to represent the damage received, which then
+     *               is used to determine whether the Player will die in the next hit or not.
+     */
     @Override
     public void hitSound(int damage) {
         int i;
+        int health = getHealthPoints();
 
-        if ((getArmor() + getHealthPoints()/2) > damage) {
+        if (getArmor() > 0)
+            health = getArmor() + getHealthPoints()/2;
+
+        if (health > damage) {
             double random = Math.random();
             if (random > 0.5)
                 i = 2;
@@ -643,17 +677,23 @@ public class Player extends Movable {
             bulletList.add(new Bullet(bulletImages, bulletCfg.movementCfg.entityCfg.posX, bulletCfg.movementCfg.entityCfg.posY, bulletCfg.movementCfg.movementSpeed, bulletCfg.damage, bulletCfg.movementCfg.direction, bulletCfg.remainingTime));
     }
 
+    /**
+     * Method for selecting a weapon sound, settings its playback rate/speed, and playing it.
+     * @param i Requires the index of the clip to play.
+     * @param rate Requires a number to set the rate/speed of which to play the clip.
+     *             A higher number equates to a quicker execution.
+     */
+    private void playWeaponSounds(int i, double rate) {
+        this.weaponSounds[i].setRate(rate);
+        this.weaponSounds[i].play();
+    }
+
     public int getArmor() {
         return armor;
     }
 
     private void setArmor(int armor) {
         this.armor = armor;
-    }
-
-    private void playWeaponSounds(int i, double rate) {
-        this.weaponSounds[i].setRate(rate);
-        this.weaponSounds[i].play();
     }
 
     public List<Bullet> getBulletList() {
@@ -760,19 +800,19 @@ public class Player extends Movable {
             return this.currentPool >= this.maxPool;
         }
 
-        public void setNumberBullets(int numberBullets) {
+        void setNumberBullets(int numberBullets) {
             this.numberBullets = numberBullets;
         }
 
-        public int getNumberBullets() {
+        int getNumberBullets() {
             return this.numberBullets;
         }
 
-        public int getCurrentPool() {
+        int getCurrentPool() {
             return this.currentPool;
         }
 
-        public void setCurrentPool(int currentPool) {
+        void setCurrentPool(int currentPool) {
             this.currentPool = currentPool;
         }
 

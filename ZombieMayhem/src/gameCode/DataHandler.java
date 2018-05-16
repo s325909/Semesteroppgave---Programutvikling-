@@ -27,6 +27,9 @@ import java.util.List;
  */
 public class DataHandler {
 
+    /**
+     * Inner class for handling all data about a Game.
+     */
     public static class GameConfiguration {
         Game.Difficulty difficulty;
         int gameScore;
@@ -37,16 +40,27 @@ public class DataHandler {
         List<EntityConfiguration> rocks;
     }
 
+    /**
+     * Inner class for handling most basic Entity data.
+     */
     public static class EntityConfiguration {
         public int posX;
         public int posY;
     }
 
+    /**
+     * Inner class for handling Drop data.
+     * Contains basic Entity data and unique Drop data.
+     */
     public static class DropConfiguration {
         public EntityConfiguration entityCfg;
         public Drop.DropType dropType;
     }
 
+    /**
+     * Inner class for handling Movable data.
+     * Contains basic Entity data and basic Movable data.
+     */
     public static class MovementConfiguration{
         public EntityConfiguration entityCfg;
         public double velX;
@@ -57,12 +71,20 @@ public class DataHandler {
         public int health;
     }
 
+    /**
+     * Inner class for handling Bullet data.
+     * Contains basic Movable data and unique Bullet data.
+     */
     public static class BulletConfiguration {
         public MovementConfiguration movementCfg;
         public int damage;
         public long remainingTime;
     }
 
+    /**
+     * Inner class for handling Player data.
+     * Contains basic Movable data, data about all Bullets, and unique Player data.
+     */
     public static class PlayerConfiguration {
         public List<BulletConfiguration> bulletListCfg;
         public MovementConfiguration movementCfg;
@@ -76,6 +98,12 @@ public class DataHandler {
         public int poolShotgun;
     }
 
+    /**
+     * Method for saving the starting state of a new Game.
+     * Currently not in use. Usage needs to be evaluated.
+     * @param configuration Requires a GameConfiguration object of which to retrieve data from.
+     * @return Returns a boolean whether the creation of the file was successful.
+     */
     boolean saveEnvironment(GameConfiguration configuration) {
         DocumentBuilderFactory dbf;
         DocumentBuilder db;
@@ -136,6 +164,12 @@ public class DataHandler {
         return true;
     }
 
+    /**
+     * Method for retrieving the starting state for a new Game.
+     * Currently only contains the position of all Rocks.
+     * @param configuration Requires a GameConfiguration object of which to parse information to.
+     * @return Returns a boolean whether the file read was successful.
+     */
     boolean readEnvironment(GameConfiguration configuration) {
         DocumentBuilderFactory dbf;
         DocumentBuilder db;

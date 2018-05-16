@@ -34,7 +34,7 @@ public class CreditsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             creditsText.setEditable(false);
-            Scanner file = new Scanner(new File("./Resources/Credits.txt"));
+            Scanner file = new Scanner(new File("src/resources/Credits.txt"));
             while(file.hasNextLine())
                 creditsText.appendText(file.nextLine() + "\n");
         } catch (FileNotFoundException fnfe) {

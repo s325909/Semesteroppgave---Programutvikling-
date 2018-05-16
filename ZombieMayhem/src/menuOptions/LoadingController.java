@@ -60,15 +60,24 @@ public class LoadingController implements Initializable {
         return dataHandler.readSaveFile(saveGame, gameCfg);
     }
 
+    /**
+     * Method which changes the scene to the GameWindow upon loading a new save file.
+     * If loadGame is set to true, a new game is created and then altered to the file settings.
+     * If loadGame is set to false, GameInitializer controller runs as normal.
+     * @param stage Requires the application's stage.
+     * @param saveGame Requires a String which represents the name of the save file.
+     * @param loadGame Requires a boolean to determine whether it is a load game situation.
+     */
     private void goToGame(Stage stage, String saveGame, boolean loadGame) {
         try{
             URL url = getClass().getResource("/gameCode/GameWindow.fxml");
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
 
-            GameInitializer controller = loader.getController();
-            if (loadGame)
+            if (loadGame) {
+                GameInitializer controller = loader.getController();
                 controller.loadAndCreateGame(saveGame);
+            }
 
             Scene scene = new Scene(root, 1280, 720);
             stage.setScene(scene);
@@ -78,13 +87,19 @@ public class LoadingController implements Initializable {
         }
     }
 
+    /**
+     * Alert displayed to the user if the save file cannot be found during load.
+     * Provides the user with an option to simply resume to menu navigation, or to start a new game instead.
+     * @param stage Requires the current stage, so it may be passed to goToGame() method.
+     * @param saveGame Requires a String to represent the filename of the save file.
+     */
     private void fileAlert(Stage stage, String saveGame) {
 
-        ButtonType resume = new ButtonType("Resume", ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         ButtonType newGame = new ButtonType("New Game", ButtonBar.ButtonData.OK_DONE);
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.getButtonTypes().setAll(resume, newGame);
+        alert.getButtonTypes().setAll(cancel, newGame);
         alert.setHeaderText(null);
 
         alert.setTitle("Loadgame Error");
@@ -92,14 +107,15 @@ public class LoadingController implements Initializable {
                 "\n\nEither it doesn't exist, or it cannot be read.");
 
         alert.showAndWait().ifPresent(response -> {
-            if (response == resume) {
-
-            } else if (response == newGame) {
+            if (response == newGame) {
                 goToGame(stage, saveGame, false);
             }
         });
     }
 
+    /**
+     * Method which returns the user to the MainMenu.
+     */
     @FXML
     public void returnToMenu() {
         try {

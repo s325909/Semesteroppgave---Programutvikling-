@@ -2,7 +2,6 @@ package entities;
 
 import gameCode.DataHandler;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 
 /**
  * Class which handles the creation of bullets when the Player fires a weapon, and is also used for handling
@@ -116,17 +115,16 @@ public class Bullet extends Movable {
         }
     }
 
-
-
-    public void drawImage(Pane pane) {
-        pane.getChildren().add(getNode());
-    }
-
-    public void removeImage(Pane pane) {
-        if(isAlive()){
-            pane.getChildren().remove(getNode());
-        }
-    }
+    // Called for Bullet instead of Entity method, for Bullets that need no Image representation
+//    public void drawImage(Pane pane) {
+//        pane.getChildren().add(getNode());
+//    }
+//
+//    public void removeImage(Pane pane) {
+//        if(isAlive()){
+//            pane.getChildren().remove(getNode());
+//        }
+//    }
 
     /**
      * Method which will retrieve and return requested information about a Bullet object.

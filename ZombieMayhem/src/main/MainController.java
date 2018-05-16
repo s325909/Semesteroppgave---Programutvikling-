@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,7 +26,7 @@ public class MainController implements Initializable{
      * The scene also fetches a style sheet.
      */
     @FXML
-    public void launchGame(){
+    public void launchGame() {
         try{
             Stage stage = (Stage) newGame.getScene().getWindow();
             URL url = getClass().getResource("/gameCode/GameWindow.fxml");
@@ -45,7 +44,7 @@ public class MainController implements Initializable{
      * Method that opens the Loading.fxml when the loadGame Button is clciked.
      */
     @FXML
-    public void openLoadMenu(){
+    public void openLoadMenu() {
         try{
             Stage stage = (Stage) loadGame.getScene().getWindow();
             URL url = getClass().getResource("/menuOptions/Loading.fxml");
@@ -61,7 +60,6 @@ public class MainController implements Initializable{
 
     /**
      * Method that opens the HowToPlay.fxml when the howToPlay Button is clicked.
-     * @throws IOException when loading the fxml.
      */
     @FXML
     public void openHowToPlay() {
@@ -82,7 +80,7 @@ public class MainController implements Initializable{
      * Method that opens Settings.fxml when the options Button is clicked
      */
     @FXML
-    public void openCredits() throws IOException{
+    public void openCredits() {
         try{
             Stage stage = (Stage) credits.getScene().getWindow();
             URL url = getClass().getResource("/menuOptions/Credits.fxml");
@@ -100,7 +98,7 @@ public class MainController implements Initializable{
      * Method used to shut down the program when the exit Button is clicked.
      */
     @FXML
-    public void exitGame(){
+    public void exitGame() {
         Stage stage = (Stage) exit.getScene().getWindow();
         stage.close();
     }

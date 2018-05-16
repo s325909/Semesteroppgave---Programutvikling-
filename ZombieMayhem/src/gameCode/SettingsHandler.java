@@ -22,7 +22,7 @@ import java.io.IOException;
  * Class for handling the Game's settings, so that the user may restart the application with the same settings, and
  * also grant the ability to set settings before the creation of a new Game.
  *
- * This class is currently not in use, but volume can be adjusted while in-game.
+ * This class is currently not in use.
  */
 public class SettingsHandler {
 
@@ -30,12 +30,12 @@ public class SettingsHandler {
      * Inner class used for handling each of the Game's settings.
      */
     public class SettingsParameters {
-        public int horizontalResolution;
-        public int verticalResolution;
-        public double musicVolume;
-        public double soundVolume;
+        int horizontalResolution;
+        int verticalResolution;
+        double musicVolume;
+        double soundVolume;
 
-        public SettingsParameters() {
+        SettingsParameters() {
             this.horizontalResolution = 1280;
             this.verticalResolution = 720;
             this.musicVolume = 5;

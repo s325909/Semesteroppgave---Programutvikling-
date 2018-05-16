@@ -7,8 +7,15 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Arc;
 import javafx.scene.transform.Rotate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
+/**
+ * Class which handles all aspects around the Zombie Entity.
+ * This includes
+ */
 public class Zombie extends Movable {
 
     private final int HUNTDISTANCE = 500;
@@ -32,15 +39,6 @@ public class Zombie extends Movable {
         this.walkDirection = Direction.IDLE;
         this.attackList = new ArrayList<>();
         this.placeHolder = images[0];
-    }
-
-    @Override
-    public void removeImage(Game game) {
-        if (!isAlive()) {
-            super.removeImage(game);
-            game.scorePerKill();
-            game.getDrops().add(game.getRandomDropType(this));
-        }
     }
 
     /***
@@ -95,6 +93,11 @@ public class Zombie extends Movable {
         }
     }
 
+    /**
+     * Method which handles movement and actions of the Zombie. Velocity and animation is set based on
+     * the direction the Zombie is moving, and if state is changed to ATTACK, the attack() method is run.
+     * @param damageMod Requires a number to represent the damage modifier based on set difficulty.
+     */
     public void action(int damageMod) {
         int action;
         int animationLength = 0;
@@ -166,7 +169,15 @@ public class Zombie extends Movable {
         setAnimation(action, animationLength);
     }
 
-    public void attack(int damageMod) {
+    /**
+     * Method which handles what happens a Zombie attacks.
+     * There is a check to set the time between each time the Zombie can attack.
+     * When the Zombie attacks, an invisible bullet which lives 0 seconds is created based on the position of the Zombie and placed in the
+     * vicinity of the object and angled according to the direction of the Zombie.
+     * This attack is then added to a List, which is retrieved in the onUpdate() method in Game for collision check.
+     * @param damageMod Requires a number to represent the damage modifier based on set difficulty.
+     */
+    private void attack(int damageMod) {
         long currentTime = System.currentTimeMillis();
         if (currentTime > this.waitTime) {
             int posX = getPositionX();
@@ -210,7 +221,7 @@ public class Zombie extends Movable {
             int fireRate = 500;
             int damage = 10 * damageMod;
             Bullet zombieSlash = new Bullet(placeHolder, posX, posY, 0, damage, this.getDirection(), 1000);
-            //zombieSlash.setDrawn();
+            zombieSlash.setDrawn();
             zombieSlash.setNewRotation(getNewRotation());
             Arc knifeArc = new Arc(0, 0, 25, 30.0, 90, 180);
             knifeArc.setTranslateX(posX);
@@ -223,8 +234,10 @@ public class Zombie extends Movable {
     }
 
     /**
-     *
-     * @param animationAction
+     * Method for handling animations and queuing them.
+     * Sets the duration of the animation, which affects how quickly each Image should cycle.
+     * @param animationAction Requires a number in order to retrieve action type.
+     * @param animationLength Requires a number to determine how long the queue should last.
      */
     private void setAnimation(int animationAction, int animationLength) {
         double duration = 0.064;
@@ -241,7 +254,8 @@ public class Zombie extends Movable {
     }
 
     /**
-     *
+     * Method for updating the animation and handling the queue order set, so that an animation
+     * can be set to play through before a new one can be set.
      */
     @Override
     public void updateAnimation() {
@@ -254,6 +268,20 @@ public class Zombie extends Movable {
                 getAnimationHandler().setDuration(animationQueue.peek().duration);
                 animationQueue.remove();
             }
+        }
+    }
+
+    /**
+     * Method which calls super method in order to remove Node and ImageView of the Zombie.
+     * It also updates the score when the Zombie dies, and creates a Drop object on its location.
+     * @param game Requires the Game object of which to remove the Image and Node from.
+     */
+    @Override
+    public void removeImage(Game game) {
+        if (!isAlive()) {
+            super.removeImage(game);
+            game.scorePerKill();
+            game.getDrops().add(game.getRandomDropType(this));
         }
     }
 

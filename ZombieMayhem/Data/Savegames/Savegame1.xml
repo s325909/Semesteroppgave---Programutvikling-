@@ -2,22 +2,22 @@
 <Savegame>
     <Game>
         <Difficulty>HARD</Difficulty>
-        <ScorePoints>0</ScorePoints>
+        <ScorePoints>1500</ScorePoints>
         <RoundNumber>1</RoundNumber>
     </Game>
     <Player>
         <HealthPoints>100</HealthPoints>
-        <ArmorPoints>0</ArmorPoints>
-        <PositionX>550</PositionX>
-        <PositionY>462</PositionY>
+        <ArmorPoints>25</ArmorPoints>
+        <PositionX>678</PositionX>
+        <PositionY>500</PositionY>
         <VelocityX>0.0</VelocityX>
         <VelocityY>0.0</VelocityY>
         <MovementSpeed>2.5</MovementSpeed>
         <Direction>EAST</Direction>
         <Rotation>0.0</Rotation>
-        <EquippedWep>KNIFE</EquippedWep>
+        <EquippedWep>PISTOL</EquippedWep>
         <MagPistol>15</MagPistol>
-        <PoolPistol>15</PoolPistol>
+        <PoolPistol>6</PoolPistol>
         <MagRifle>0</MagRifle>
         <PoolRifle>0</PoolRifle>
         <MagShotgun>0</MagShotgun>
@@ -26,18 +26,9 @@
     <Zombies>
         <Zombie>
             <HealthPoints>150</HealthPoints>
-            <PositionX>736</PositionX>
-            <PositionY>451</PositionY>
+            <PositionX>936</PositionX>
+            <PositionY>192</PositionY>
             <VelocityX>-1.0</VelocityX>
-            <VelocityY>0.0</VelocityY>
-            <MovementSpeed>1.0</MovementSpeed>
-            <Direction>IDLE</Direction>
-        </Zombie>
-        <Zombie>
-            <HealthPoints>150</HealthPoints>
-            <PositionX>607</PositionX>
-            <PositionY>262</PositionY>
-            <VelocityX>0.0</VelocityX>
             <VelocityY>1.0</VelocityY>
             <MovementSpeed>1.0</MovementSpeed>
             <Direction>IDLE</Direction>
@@ -46,53 +37,53 @@
     <Bullets/>
     <Drops>
         <Drop>
-            <PositionX>595</PositionX>
-            <PositionY>129</PositionY>
+            <PositionX>758</PositionX>
+            <PositionY>157</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>235</PositionX>
-            <PositionY>314</PositionY>
+            <PositionX>1094</PositionX>
+            <PositionY>528</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>1067</PositionX>
-            <PositionY>119</PositionY>
+            <PositionX>1012</PositionX>
+            <PositionY>162</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>77</PositionX>
-            <PositionY>236</PositionY>
+            <PositionX>435</PositionX>
+            <PositionY>4</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>286</PositionX>
-            <PositionY>438</PositionY>
+            <PositionX>802</PositionX>
+            <PositionY>186</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>776</PositionX>
-            <PositionY>272</PositionY>
+            <PositionX>1102</PositionX>
+            <PositionY>382</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>445</PositionX>
-            <PositionY>565</PositionY>
+            <PositionX>933</PositionX>
+            <PositionY>99</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>334</PositionX>
-            <PositionY>35</PositionY>
+            <PositionX>180</PositionX>
+            <PositionY>120</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>1008</PositionX>
-            <PositionY>98</PositionY>
+            <PositionX>390</PositionX>
+            <PositionY>125</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
         <Drop>
-            <PositionX>915</PositionX>
-            <PositionY>548</PositionY>
+            <PositionX>912</PositionX>
+            <PositionY>410</PositionY>
             <DropType>SCORE</DropType>
         </Drop>
     </Drops>

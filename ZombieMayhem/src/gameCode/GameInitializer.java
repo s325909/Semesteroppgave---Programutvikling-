@@ -65,37 +65,22 @@ public class GameInitializer implements Initializable{
                 String.valueOf((int)(assetsHandler.getSoundVolume() * 100))
         );
 
-        musicSlider.setValue(0);
-        musicNbr.setText(
-                String.valueOf(0)
-        );
-        soundSlider.setValue(0);
-        soundNbr.setText(
-                String.valueOf(0)
-        );
-
         // Listener which detects slider value change, and updates both the number next to the slider and the volume of the MediaPlayer
         musicSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             musicNbr.setText(String.valueOf((int)musicSlider.getValue()));
-            //assetsHandler.getMediaPlayer().setVolume(musicSlider.getValue() / 100);
+            assetsHandler.getMediaPlayer().setVolume(musicSlider.getValue() / 100);
         });
 
         // Listener which detects slider value change, and updates both the number next to the slider and the volume of the Game's AudioClips
         soundSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             soundNbr.setText(String.valueOf((int)soundSlider.getValue()));
-//            for(int i = 0; i < game.getAllAudioClips().length; i++) {
-//                game.getAllAudioClips()[i].setVolume(soundSlider.getValue() / 100);
-//            }
+            for(int i = 0; i < game.getAllAudioClips().length; i++) {
+                game.getAllAudioClips()[i].setVolume(soundSlider.getValue() / 100);
+            }
         });
 
         selectDifficulty();
         showDifficulty(true);
-    }
-
-    private boolean checkFile(String saveGame) {
-        DataHandler dataHandler = new DataHandler();
-        DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
-        return dataHandler.readSaveFile(saveGame, gameCfg);
     }
 
     /**
@@ -163,6 +148,12 @@ public class GameInitializer implements Initializable{
         }
     }
 
+    /**
+     * Method for altering a Label displayed to the user during a Game state change, such as
+     * Game Over or Game Won.
+     * @param labelText Requires a text String to display.
+     * @param textColor Requires a Color to set this text to.
+     */
     private void setAndShowGameStateLabel(String labelText, Color textColor) {
         gamePaused.setVisible(true);
         gameState.setVisible(true);
@@ -195,7 +186,7 @@ public class GameInitializer implements Initializable{
      * Method which will open the in-game menu.
      * It sets a hidden VBox to visible.
      */
-    public void showMenu() {
+    void showMenu() {
         if (!ingameMenu.isVisible()){
             if (!menuElementVisible)
                 ingameMenu.setVisible(true);
@@ -255,14 +246,13 @@ public class GameInitializer implements Initializable{
      * Method that will hide the sub-menu elements.
      * Used in Game's getKeyPressed() to resume game with esc from every sub-menu.
      */
-    public void hideMenuElements() {
+    private void hideMenuElements() {
         ingameSave.setVisible(false);
         ingameLoad.setVisible(false);
         ingameHelp.setVisible(false);
         ingameSettings.setVisible(false);
         menuElementVisible = false;
     }
-
 
     /**
      * Method which will resume the Game.
@@ -336,6 +326,11 @@ public class GameInitializer implements Initializable{
         }
     }
 
+    /**
+     * Alerts the user if the save file couldn't be created, or if it couldn't be found or used for retrieving data.
+     * @param loadGame Requires a boolean to decide if it was during a load call, and display
+     *                 appropriate message to the user based on this.
+     */
     private void fileAlert(boolean loadGame) {
 
         ButtonType resume = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
@@ -357,6 +352,17 @@ public class GameInitializer implements Initializable{
     }
 
     /**
+     * Method for checking whether the save file exists, so it may be loaded.
+     * @param saveGame Requires a String name to represent the save file.
+     * @return Returns a boolean if a file was found or not.
+     */
+    private boolean checkFile(String saveGame) {
+        DataHandler dataHandler = new DataHandler();
+        DataHandler.GameConfiguration gameCfg = new DataHandler.GameConfiguration();
+        return dataHandler.readSaveFile(saveGame, gameCfg);
+    }
+
+    /**
      * Method which will exit the Game.
      * It is run when pressing the exit button in the inGameMenu.
      */
@@ -365,11 +371,7 @@ public class GameInitializer implements Initializable{
         System.exit(0);
     }
 
-    public boolean isDifficultyVisible() {
+    boolean isDifficultyVisible() {
         return difficultyVisisble;
-    }
-
-    public boolean isMenuElementVisible() {
-        return menuElementVisible;
     }
 }
