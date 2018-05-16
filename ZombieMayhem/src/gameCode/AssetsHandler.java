@@ -8,8 +8,6 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-import java.io.File;
-
 /**
  * Class which handles all assets used in the Game.
  * Each asset is listed as Strings and then methods are run to create usable objects of type Image, AudioClip and MediaPlayer.
@@ -58,8 +56,11 @@ class AssetsHandler {
      */
     private void loadAssets() {
 
-        String musicFile = "src/resources/Sound/Soundtrack/Doom2.mp3";
-        mediaPlayer = loadMusic(musicFile, musicVolume);
+        String[] musicFiles = {
+                "/resources/Sound/Soundtrack/Doom2.mp3"
+        };
+
+        mediaPlayer = loadMusic(musicFiles[0], musicVolume);
 
 
         ////////// Create Player's sounds. Turns Strings into usable AudioClips //////////
@@ -205,8 +206,7 @@ class AssetsHandler {
     private MediaPlayer loadMusic(String fileName, double volume) {
         MediaPlayer mp = null;
         try {
-            File file = new File(fileName);
-            Media media = new Media(file.toURI().toString());
+            Media media = new Media(this.getClass().getResource(fileName).toExternalForm());
             mp = new MediaPlayer(media);
             mp.setVolume(volume);
             return mp;
