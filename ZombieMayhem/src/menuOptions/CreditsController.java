@@ -9,11 +9,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 /***
  * This class controls the Credits.fxml,
@@ -34,11 +34,19 @@ public class CreditsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             creditsText.setEditable(false);
-            Scanner file = new Scanner(new File("src/resources/Credits.txt"));
-            while(file.hasNextLine())
-                creditsText.appendText(file.nextLine() + "\n");
-        } catch (FileNotFoundException fnfe) {
-            System.out.println("File not found");
+//            Scanner file = new Scanner(new File(this.getClass().getResource("/resources/Credits.txt").toExternalForm()));
+//            while(file.hasNextLine())
+//                creditsText.appendText(file.nextLine() + "\n");
+
+            FileReader fr = new FileReader(this.getClass().getResource("/resources/Credits.txt").toExternalForm());
+            BufferedReader br = new BufferedReader(fr);
+
+            String str;
+            while((str = br.readLine()) != null) {
+                creditsText.appendText(str + "\n");
+            }
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
             creditsText.appendText("Unable to find credits file");
         }
     }
