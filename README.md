@@ -1,7 +1,7 @@
 # Copyright notice
 All assets (artwork and sound effects) have been retrieved from free, non-copyrighted sources. 
 However, the music playing is from the game Doom from 1993 by Id Software. 
-The files are located in /ZombieMayhem/src/resources/ and a text file Credits.txt contains links to all assets used.  
+The files are located in /ZombieMayhem/src/resources/ and a text file Credits.txt contains links to all assets used. 
 This project is intended for educational purposes. 
 
 # Game info
